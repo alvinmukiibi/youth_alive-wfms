@@ -10,7 +10,17 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'guest'], function() {
+    Route::get('/login', function(){
+        return view('auth.login');
+    });
 });
+
+Route::get('/{any?}', function (){
+    return view('app');
+})->where('any', '^(?!api\/)[\/\w\.-]*');
+
+
+
+
+
