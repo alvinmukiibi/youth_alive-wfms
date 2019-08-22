@@ -11,9 +11,8 @@
 |
 */
 Route::group(['middleware' => 'guest'], function() {
-    Route::get('/login', function(){
-        return view('auth.login');
-    });
+    Route::get('/login', 'AuthController@login');
+    Route::post('/login', 'AuthController@authenticate');
 });
 
 Route::get('/{any?}', function (){

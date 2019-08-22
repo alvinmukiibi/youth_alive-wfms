@@ -11,24 +11,25 @@
 
         <!-- Styles -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="stylesheet" href="{{ asset('dist/css/AdminLTE.min.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('adminlte/plugins/font-awesome/css/font-awesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <script>
             window.authenticated = {{ auth()->check() ? 'true' : 'false' }};
         </script>
     </head>
-    <body>
+    <body class="hold-transition sidebar-mini">
         <div id="app">
-           {{-- <main-header></main-header>
-                <main-sidebar></main-sidebar> --}}
-                <div class="container">
-                    <p class="text-primary">Great is He in me than he that is in the world</p>
-                    {{-- <router-view></router-view> --}}
-                </div>
-            {{-- <main-footer></main-footer> --}}
+            <div class="wrapper">
+                <main-header></main-header>
+                <sidebar></sidebar>
+            </div>
         </div>
-        <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
-        <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+        <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

@@ -8,28 +8,27 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
+        <link rel="stylesheet" href="{{ asset('adminlte/plugins/font-awesome/css/font-awesome.min/css') }}">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
         <!-- Styles -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="stylesheet" href="{{ asset('dist/css/AdminLTE.min.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    </head>
-    <body>
-        <div id="app">
-            @guest
-                @yield('content')
-            @else
-                {{-- <main-header></main-header>
-                <main-sidebar></main-sidebar> --}}
-                    <div class="container">
-                        <p class="text-danger">Yoooo</p>
-                        {{-- <router-view></router-view> --}}
-                    </div>
-                {{-- <main-footer></main-footer> --}}
-            @endguest
-        </div>
-        <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
-        <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+        @guest
+            @yield('content')
+        @else
+        <body>
+            <div id="app">
+                <div class="wrapper">
+                    <main-header></main-header>
+                    <sidebar></sidebar>
+                </div>
+            </div>
+        @endguest
+
+        <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

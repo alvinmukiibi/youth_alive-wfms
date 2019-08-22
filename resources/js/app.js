@@ -9,10 +9,10 @@ Vue.use(VueRouter)
 import store from './store'
 import Vue from 'vue'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap'
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+import MainHeader from './components/MainHeader.vue'
+import Sidebar from './components/Sidebar.vue'
+Vue.component('main-header', MainHeader);
+Vue.component('sidebar', Sidebar);
 
 const router = new VueRouter({
     history: false,

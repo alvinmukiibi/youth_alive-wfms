@@ -1,8 +1,8 @@
-import ExampleComponent from './components/ExampleComponent.vue'
+import MainHeader from './components/MainHeader.vue'
 
 
 const routes = [
-    { path: '/', component: ExampleComponent }
+    { path: '/', component:  MainHeader}
 ]
 
 export default routes;
