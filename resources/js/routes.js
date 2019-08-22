@@ -1,8 +1,8 @@
-import MainHeader from './components/MainHeader.vue'
+import Dashboard from './components/Dashboard.vue'
 
 
 const routes = [
-    { path: '/', component:  MainHeader}
+    { path: '/home', component:  Dashboard}
 ]
 
 export default routes;

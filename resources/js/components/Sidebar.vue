@@ -11,26 +11,26 @@
           <img :src="'/storage/users/' + auth.profile_picture" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ auth.fname + ' ' + auth.lname }}</a>
+          <router-link to="/profile" class="d-block">{{ auth.fname + ' ' + auth.lname }}</router-link>
         </div>
       </div>
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="/profile" class="nav-link">
+            <router-link to="/profile" class="nav-link">
               <i class="nav-icon fa fa-user"></i>
               <p>
                 My Profile
               </p>
-            </a>
+            </router-link>
           </li>
           <li class="nav-item">
-            <a href="/home" class="nav-link active">
+            <router-link to="/home" class="nav-link active">
               <i class="nav-icon fa fa-dashboard"></i>
               <p>
                 Dashboard
               </p>
-            </a>
+            </router-link>
           </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -102,7 +102,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
               <i class="nav-icon fa fa-th"></i>
               <p>
@@ -110,7 +110,7 @@
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
-          </li>
+          </li> -->
         </ul>
       </nav>
     </div>
