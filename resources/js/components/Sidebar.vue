@@ -8,27 +8,96 @@
     <div class="sidebar">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="/images/user.jpg" class="img-circle elevation-2" alt="User Image">
+          <img :src="'/storage/users/' + auth.profile_picture" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{ auth.fname + ' ' + auth.lname }}</a>
         </div>
       </div>
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
+          <li class="nav-item">
+            <a href="/profile" class="nav-link">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                My Profile
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/home" class="nav-link active">
               <i class="nav-icon fa fa-dashboard"></i>
               <p>
                 Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-hand-grab-o"></i>
+              <p>
+                Requests
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
+                <a href="./index.html" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Dashboard v1</p>
+                  <p>New <span class="right badge badge-danger">2</span></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index.html" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Confirmed <span class="right badge badge-danger">8</span></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index.html" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Approved <span class="right badge badge-danger">9</span></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index.html" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Declined <span class="right badge badge-danger">0</span></p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-minus-circle"></i>
+              <p>
+                Leave
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="./index.html" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Pending <span class="right badge badge-danger">2</span></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index.html" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Approved <span class="right badge badge-danger">8</span></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index.html" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Declined <span class="right badge badge-danger">9</span></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index.html" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Canceled <span class="right badge badge-danger">0</span></p>
                 </a>
               </li>
             </ul>
@@ -51,9 +120,19 @@
 <script>
 
 import * as api from '../api/api.js'
-
+import { mapState, mapMutations } from 'vuex'
 export default {
+    data(){
+        return {
 
+        }
+    },
+    computed: {
+        ...mapState({
+            auth: state => state.auth
+        })
+
+    }
 }
 </script>
 

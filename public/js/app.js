@@ -1697,7 +1697,14 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _api_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/api.js */ "./resources/js/api/api.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _api_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api/api.js */ "./resources/js/api/api.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1720,17 +1727,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
   },
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
+    setAuthUser: "setAuthUser"
+  }), {
+    logout: function logout() {
+      _api_api_js__WEBPACK_IMPORTED_MODULE_1__["logout"]().then(function (response) {
+        document.location.href = "/login";
+      });
+    },
     getAuthUser: function getAuthUser() {
-      _api_api_js__WEBPACK_IMPORTED_MODULE_0__["getAuthUser"]().then(function (response) {
-        console.log(response.data);
+      var _this = this;
+
+      _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getAuthUser"]().then(function (response) {
+        _this.setAuthUser(response);
       });
     }
-  },
+  }),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    auth: function auth(state) {
+      return state.auth;
+    }
+  })),
   created: function created() {
     this.getAuthUser();
   }
@@ -1748,6 +1770,82 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/api.js */ "./resources/js/api/api.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1799,7 +1897,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
+    auth: function auth(state) {
+      return state.auth;
+    }
+  }))
+});
 
 /***/ }),
 
@@ -37097,58 +37205,70 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "nav",
+    {
+      staticClass:
+        "main-header navbar navbar-expand bg-primary navbar-light border-bottom"
+    },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+        _c("li", { staticClass: "nav-item " }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.logout($event)
+                }
+              }
+            },
+            [
+              _c("i", { staticClass: "fa fa-sign-out" }),
+              _c("b", [_vm._v("Logout")])
+            ]
+          )
+        ])
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "nav",
-      {
-        staticClass:
-          "main-header navbar navbar-expand bg-primary navbar-light border-bottom"
-      },
-      [
-        _c("ul", { staticClass: "navbar-nav" }, [
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link",
-                attrs: { "data-widget": "pushmenu", href: "#" }
-              },
-              [_c("i", { staticClass: "fa fa-bars" })]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
-            _c(
-              "a",
-              { staticClass: "nav-link", attrs: { href: "index3.html" } },
-              [_vm._v("Home "), _c("i", { staticClass: "fa fa-home" })]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
-            _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-              _vm._v("Ask for Leave "),
-              _c("i", { staticClass: "fa fa-sign-out" })
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "navbar-nav ml-auto" }, [
-          _c("li", { staticClass: "nav-item " }, [
-            _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-sign-out" }),
-              _c("b", [_vm._v("Logout")])
-            ])
-          ])
+    return _c("ul", { staticClass: "navbar-nav" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link",
+            attrs: { "data-widget": "pushmenu", href: "#" }
+          },
+          [_c("i", { staticClass: "fa fa-bars" })]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "/home" } }, [
+          _vm._v("Home "),
+          _c("i", { staticClass: "fa fa-home" })
         ])
-      ]
-    )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+          _vm._v("Ask for Leave "),
+          _c("i", { staticClass: "fa fa-sign-out" })
+        ])
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -37172,7 +37292,35 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "aside",
+    { staticClass: "main-sidebar sidebar-dark-primary elevation-4" },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "sidebar" }, [
+        _c("div", { staticClass: "user-panel mt-3 pb-3 mb-3 d-flex" }, [
+          _c("div", { staticClass: "image" }, [
+            _c("img", {
+              staticClass: "img-circle elevation-2",
+              attrs: {
+                src: "/storage/users/" + _vm.auth.profile_picture,
+                alt: "User Image"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "info" }, [
+            _c("a", { staticClass: "d-block", attrs: { href: "#" } }, [
+              _vm._v(_vm._s(_vm.auth.fname + " " + _vm.auth.lname))
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(1)
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
@@ -37180,109 +37328,242 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "aside",
-      { staticClass: "main-sidebar sidebar-dark-primary elevation-4" },
+      "a",
+      { staticClass: "brand-link", attrs: { href: "index3.html" } },
       [
-        _c("a", { staticClass: "brand-link", attrs: { href: "index3.html" } }, [
-          _c("img", {
-            staticClass: "brand-image img-circle elevation-3",
-            staticStyle: { opacity: ".8" },
-            attrs: { src: "/images/logo.png", alt: "AdminLTE Logo" }
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "brand-text font-weight-light" }, [
-            _c("b", [_vm._v("YOUTH")]),
-            _vm._v("ALIVE ")
-          ])
-        ]),
+        _c("img", {
+          staticClass: "brand-image img-circle elevation-3",
+          staticStyle: { opacity: ".8" },
+          attrs: { src: "/images/logo.png", alt: "AdminLTE Logo" }
+        }),
         _vm._v(" "),
-        _c("div", { staticClass: "sidebar" }, [
-          _c("div", { staticClass: "user-panel mt-3 pb-3 mb-3 d-flex" }, [
-            _c("div", { staticClass: "image" }, [
-              _c("img", {
-                staticClass: "img-circle elevation-2",
-                attrs: { src: "/images/user.jpg", alt: "User Image" }
-              })
+        _c("span", { staticClass: "brand-text font-weight-light" }, [
+          _c("b", [_vm._v("YOUTH")]),
+          _vm._v("ALIVE ")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("nav", { staticClass: "mt-2" }, [
+      _c(
+        "ul",
+        {
+          staticClass: "nav nav-pills nav-sidebar flex-column",
+          attrs: {
+            "data-widget": "treeview",
+            role: "menu",
+            "data-accordion": "false"
+          }
+        },
+        [
+          _c("li", { staticClass: "nav-item" }, [
+            _c("a", { staticClass: "nav-link", attrs: { href: "/profile" } }, [
+              _c("i", { staticClass: "nav-icon fa fa-user" }),
+              _vm._v(" "),
+              _c("p", [_vm._v("\n              My Profile\n            ")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              { staticClass: "nav-link active", attrs: { href: "/home" } },
+              [
+                _c("i", { staticClass: "nav-icon fa fa-dashboard" }),
+                _vm._v(" "),
+                _c("p", [_vm._v("\n              Dashboard\n            ")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item has-treeview" }, [
+            _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "nav-icon fa fa-hand-grab-o" }),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v("\n              Requests\n              "),
+                _c("i", { staticClass: "right fa fa-angle-left" })
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "info" }, [
-              _c("a", { staticClass: "d-block", attrs: { href: "#" } }, [
-                _vm._v("Alexander Pierce")
+            _c("ul", { staticClass: "nav nav-treeview" }, [
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  { staticClass: "nav-link", attrs: { href: "./index.html" } },
+                  [
+                    _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("New "),
+                      _c("span", { staticClass: "right badge badge-danger" }, [
+                        _vm._v("2")
+                      ])
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  { staticClass: "nav-link", attrs: { href: "./index.html" } },
+                  [
+                    _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Confirmed "),
+                      _c("span", { staticClass: "right badge badge-danger" }, [
+                        _vm._v("8")
+                      ])
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  { staticClass: "nav-link", attrs: { href: "./index.html" } },
+                  [
+                    _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Approved "),
+                      _c("span", { staticClass: "right badge badge-danger" }, [
+                        _vm._v("9")
+                      ])
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  { staticClass: "nav-link", attrs: { href: "./index.html" } },
+                  [
+                    _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Declined "),
+                      _c("span", { staticClass: "right badge badge-danger" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ]
+                )
               ])
             ])
           ]),
           _vm._v(" "),
-          _c("nav", { staticClass: "mt-2" }, [
+          _c("li", { staticClass: "nav-item has-treeview" }, [
+            _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "nav-icon fa fa-minus-circle" }),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v("\n              Leave\n              "),
+                _c("i", { staticClass: "right fa fa-angle-left" })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("ul", { staticClass: "nav nav-treeview" }, [
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  { staticClass: "nav-link", attrs: { href: "./index.html" } },
+                  [
+                    _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Pending "),
+                      _c("span", { staticClass: "right badge badge-danger" }, [
+                        _vm._v("2")
+                      ])
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  { staticClass: "nav-link", attrs: { href: "./index.html" } },
+                  [
+                    _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Approved "),
+                      _c("span", { staticClass: "right badge badge-danger" }, [
+                        _vm._v("8")
+                      ])
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  { staticClass: "nav-link", attrs: { href: "./index.html" } },
+                  [
+                    _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Declined "),
+                      _c("span", { staticClass: "right badge badge-danger" }, [
+                        _vm._v("9")
+                      ])
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  { staticClass: "nav-link", attrs: { href: "./index.html" } },
+                  [
+                    _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Canceled "),
+                      _c("span", { staticClass: "right badge badge-danger" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
             _c(
-              "ul",
+              "a",
               {
-                staticClass: "nav nav-pills nav-sidebar flex-column",
-                attrs: {
-                  "data-widget": "treeview",
-                  role: "menu",
-                  "data-accordion": "false"
-                }
+                staticClass: "nav-link",
+                attrs: { href: "pages/widgets.html" }
               },
               [
-                _c("li", { staticClass: "nav-item has-treeview" }, [
-                  _c(
-                    "a",
-                    { staticClass: "nav-link active", attrs: { href: "#" } },
-                    [
-                      _c("i", { staticClass: "nav-icon fa fa-dashboard" }),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v("\n              Dashboard\n              "),
-                        _c("i", { staticClass: "right fa fa-angle-left" })
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("ul", { staticClass: "nav nav-treeview" }, [
-                    _c("li", { staticClass: "nav-item" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "nav-link active",
-                          attrs: { href: "./index.html" }
-                        },
-                        [
-                          _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
-                          _vm._v(" "),
-                          _c("p", [_vm._v("Dashboard v1")])
-                        ]
-                      )
-                    ])
-                  ])
-                ]),
+                _c("i", { staticClass: "nav-icon fa fa-th" }),
                 _vm._v(" "),
-                _c("li", { staticClass: "nav-item" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "nav-link",
-                      attrs: { href: "pages/widgets.html" }
-                    },
-                    [
-                      _c("i", { staticClass: "nav-icon fa fa-th" }),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v("\n              Widgets\n              "),
-                        _c(
-                          "span",
-                          { staticClass: "right badge badge-danger" },
-                          [_vm._v("New")]
-                        )
-                      ])
-                    ]
-                  )
+                _c("p", [
+                  _vm._v("\n              Widgets\n              "),
+                  _c("span", { staticClass: "right badge badge-danger" }, [
+                    _vm._v("New")
+                  ])
                 ])
               ]
             )
           ])
-        ])
-      ]
-    )
+        ]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -53313,17 +53594,24 @@ module.exports = function(module) {
 /*!*********************************!*\
   !*** ./resources/js/api/api.js ***!
   \*********************************/
-/*! exports provided: getAuthUser */
+/*! exports provided: getAuthUser, logout */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAuthUser", function() { return getAuthUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
+var prefix = "/api";
 function getAuthUser() {
-  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api" + '/users/auth').then(function (response) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/users/auth').then(function (response) {
+    return response.data;
+  });
+}
+function logout() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/logout').then(function (response) {
     return response.data;
   });
 }
@@ -53604,11 +53892,13 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
-    greeting: 'Good Morning, Noreen'
+    auth: []
   },
-  mutations: {},
-  getters: {},
-  actions: {}
+  mutations: {
+    setAuthUser: function setAuthUser(state, data) {
+      state.auth = data;
+    }
+  }
 }));
 
 /***/ }),

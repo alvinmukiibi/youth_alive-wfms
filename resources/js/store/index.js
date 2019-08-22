@@ -5,15 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        greeting: 'Good Morning, Noreen'
+        auth: [],
     },
     mutations: {
-
+        setAuthUser: (state, data) => {
+            state.auth = data
+        }
     },
-    getters: {
-
-    },
-    actions: {
-
-    }
 })

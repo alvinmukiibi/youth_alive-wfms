@@ -5,7 +5,7 @@
                 <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="index3.html" class="nav-link">Home <i class="fa fa-home"></i></a>
+                <a href="/home" class="nav-link">Home <i class="fa fa-home"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="#" class="nav-link">Ask for Leave <i class="fa fa-sign-out"></i></a>
@@ -13,13 +13,14 @@
         </ul>
          <ul class="navbar-nav ml-auto">
             <li class="nav-item ">
-                <a class="nav-link" href="#"><i class="fa fa-sign-out"></i><b>Logout</b></a>
+                <a class="nav-link" @click.prevent="logout" href="#"><i class="fa fa-sign-out"></i><b>Logout</b></a>
             </li>
          </ul>
     </nav>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 import * as api from '../api/api.js'
 export default {
     data() {
@@ -28,11 +29,25 @@ export default {
         }
     },
     methods: {
+        ...mapMutations({
+            setAuthUser: "setAuthUser"
+        }),
+        logout(){
+            api.logout()
+            .then(response => {
+                document.location.href = "/login";
+            })
+        },
         getAuthUser () {
             api.getAuthUser().then(response => {
-                console.log(response.data)
+                this.setAuthUser(response)
             })
         }
+    },
+    computed: {
+        ...mapState({
+            auth: state => state.auth
+        }),
     },
     created() {
         this.getAuthUser();

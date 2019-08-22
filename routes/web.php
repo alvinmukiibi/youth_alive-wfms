@@ -15,9 +15,16 @@ Route::group(['middleware' => 'guest'], function() {
     Route::post('/login', 'AuthController@authenticate');
 });
 
-Route::get('/{any?}', function (){
-    return view('app');
-})->where('any', '^(?!api\/)[\/\w\.-]*');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/logout', function () {
+        Auth::logout();
+        return redirect()->to('/login');
+    });
+    Route::get('/{any?}', function (){
+        return view('app');
+    })->where('any', '^(?!api\/)[\/\w\.-]*');
+
+});
 
 
 
