@@ -17,6 +17,14 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
+            <router-link to="/home" class="nav-link" :class="{ 'active': isActive('/home') }">
+              <i class="nav-icon fa fa-dashboard"></i>
+              <p>
+                Dashboard
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item">
             <router-link to="/profile" class="nav-link" :class="{ 'active': isActive('/profile') }">
               <i class="nav-icon fa fa-user"></i>
               <p>
@@ -32,15 +40,8 @@
               </p>
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="/home" class="nav-link" :class="{ 'active': isActive('/home') }">
-              <i class="nav-icon fa fa-dashboard"></i>
-              <p>
-                Dashboard
-              </p>
-            </router-link>
-          </li>
-          <li class="nav-item has-treeview">
+
+          <li class="nav-item has-treeview" v-if="stateLoaded && auth.roles.includes('officer')"   >
             <router-link to="/requests" class="nav-link" :class="{ 'active': isActive('/requests') }">
               <i class="nav-icon fa fa-hand-grab-o"></i>
               <p>
@@ -75,7 +76,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview" v-if="stateLoaded && auth.roles.includes('officer')">
             <router-link to="/leave" class="nav-link" :class="{ 'active': isActive('/leave') }">
               <i class="nav-icon fa fa-minus-circle"></i>
               <p>
@@ -136,19 +137,28 @@ export default {
         }
     },
     methods: {
+        ...mapMutations({
+            setUsersCount: 'setUsersCount',
+        }),
         isActive(route){
             if(this.$route.path == route){
                 return true
             }
             return false
+        },
+        countEmployees(){
+            api.countUsers().then(response => {
+                this.setUsersCount(response)
+            })
         }
     },
     mounted() {
+        this.countEmployees();
 
     },
     computed: {
         ...mapState({
-            auth: state => state.auth
+            auth: state => state.auth,
         }),
         stateLoaded (){
             return Object.keys(this.auth).length > 0 ? true : false;

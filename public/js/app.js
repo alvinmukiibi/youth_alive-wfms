@@ -1789,6 +1789,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
     auth: function auth(state) {
       return state.auth;
+    },
+    usersCount: function usersCount(state) {
+      return state.usersCount;
     }
   }), {
     stateLoaded: function stateLoaded() {
@@ -1816,6 +1819,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -1886,7 +1892,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     auth: function auth(state) {
       return state.auth;
     }
-  })),
+  }), {
+    stateLoaded: function stateLoaded() {
+      return Object.keys(this.auth).length > 0 ? true : false;
+    }
+  }),
   created: function created() {
     this.getAuthUser();
   }
@@ -2267,22 +2277,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
   },
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
+    setUsersCount: 'setUsersCount'
+  }), {
     isActive: function isActive(route) {
       if (this.$route.path == route) {
         return true;
       }
 
       return false;
+    },
+    countEmployees: function countEmployees() {
+      var _this = this;
+
+      _api_api_js__WEBPACK_IMPORTED_MODULE_0__["countUsers"]().then(function (response) {
+        _this.setUsersCount(response);
+      });
     }
+  }),
+  mounted: function mounted() {
+    this.countEmployees();
   },
-  mounted: function mounted() {},
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
     auth: function auth(state) {
       return state.auth;
@@ -38929,9 +38951,13 @@ var render = function() {
               "div",
               { staticClass: "small-box bg-primary" },
               [
-                _vm._m(1),
+                _c("div", { staticClass: "inner" }, [
+                  _c("h3", [_vm._v("My Profile")]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v(_vm._s(_vm.auth.designation))])
+                ]),
                 _vm._v(" "),
-                _vm._m(2),
+                _vm._m(1),
                 _vm._v(" "),
                 _c(
                   "router-link",
@@ -38949,52 +38975,59 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-lg-3 col-6" }, [
-            _c(
-              "div",
-              { staticClass: "small-box bg-success" },
-              [
-                _vm._m(3),
-                _vm._v(" "),
-                _vm._m(4),
-                _vm._v(" "),
+          _vm.stateLoaded && _vm.auth.roles.includes("officer")
+            ? _c("div", { staticClass: "col-lg-3 col-6" }, [
                 _c(
-                  "router-link",
-                  {
-                    staticClass: "small-box-footer",
-                    attrs: { to: "/requests" }
-                  },
+                  "div",
+                  { staticClass: "small-box bg-success" },
                   [
-                    _vm._v("More info "),
-                    _c("i", { staticClass: "fa fa-arrow-circle-right" })
-                  ]
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "small-box-footer",
+                        attrs: { to: "/requests" }
+                      },
+                      [
+                        _vm._v("More info "),
+                        _c("i", { staticClass: "fa fa-arrow-circle-right" })
+                      ]
+                    )
+                  ],
+                  1
                 )
-              ],
-              1
-            )
-          ]),
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("div", { staticClass: "col-lg-3 col-6" }, [
-            _c(
-              "div",
-              { staticClass: "small-box bg-secondary" },
-              [
-                _vm._m(5),
-                _vm._v(" "),
-                _vm._m(6),
-                _vm._v(" "),
+          _vm.stateLoaded && _vm.auth.roles.includes("officer")
+            ? _c("div", { staticClass: "col-lg-3 col-6" }, [
                 _c(
-                  "router-link",
-                  { staticClass: "small-box-footer", attrs: { to: "/leave" } },
+                  "div",
+                  { staticClass: "small-box bg-secondary" },
                   [
-                    _vm._v("More info "),
-                    _c("i", { staticClass: "fa fa-arrow-circle-right" })
-                  ]
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "small-box-footer",
+                        attrs: { to: "/leave" }
+                      },
+                      [
+                        _vm._v("More info "),
+                        _c("i", { staticClass: "fa fa-arrow-circle-right" })
+                      ]
+                    )
+                  ],
+                  1
                 )
-              ],
-              1
-            )
-          ]),
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _vm.stateLoaded &&
           _vm.auth.roles.includes("manager") &&
@@ -39004,9 +39037,13 @@ var render = function() {
                   "div",
                   { staticClass: "small-box bg-secondary" },
                   [
-                    _vm._m(7),
+                    _c("div", { staticClass: "inner" }, [
+                      _c("h3", [_vm._v(_vm._s(_vm.usersCount))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("Employees")])
+                    ]),
                     _vm._v(" "),
-                    _vm._m(8),
+                    _vm._m(6),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -39060,16 +39097,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inner" }, [
-      _c("h3", [_vm._v("200")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Profile")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "icon" }, [
       _c("i", { staticClass: "fa fa-user" })
     ])
@@ -39114,16 +39141,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inner" }, [
-      _c("h3", [_vm._v("2")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Employees")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "icon" }, [
       _c("i", { staticClass: "fa fa-users" })
     ])
@@ -39157,7 +39174,23 @@ var render = function() {
         "main-header navbar navbar-expand bg-primary navbar-light border-bottom"
     },
     [
-      _vm._m(0),
+      _c("ul", { staticClass: "navbar-nav" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _vm.stateLoaded && _vm.auth.roles.includes("officer")
+          ? _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
+              _vm._m(2)
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.stateLoaded && _vm.auth.roles.includes("officer")
+          ? _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
+              _vm._m(3)
+            ])
+          : _vm._e()
+      ]),
       _vm._v(" "),
       _c("ul", { staticClass: "navbar-nav ml-auto" }, [
         _c("li", { staticClass: "nav-item " }, [
@@ -39188,31 +39221,44 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "navbar-nav" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          {
-            staticClass: "nav-link",
-            attrs: { "data-widget": "pushmenu", href: "#" }
-          },
-          [_c("i", { staticClass: "fa fa-bars" })]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "/home" } }, [
-          _vm._v("Home"),
-          _c("i", { staticClass: "fa fa-home" })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-          _vm._v("Ask for Leave"),
-          _c("i", { staticClass: "fa fa-sign-out" })
-        ])
+    return _c("li", { staticClass: "nav-item" }, [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link",
+          attrs: { "data-widget": "pushmenu", href: "#" }
+        },
+        [_c("i", { staticClass: "fa fa-bars" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
+      _c("a", { staticClass: "nav-link", attrs: { href: "/home" } }, [
+        _vm._v("Home "),
+        _c("i", { staticClass: "fa fa-home" })
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+      _vm._v("Ask for Leave "),
+      _c("i", { staticClass: "fa fa-sign-out" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+      _vm._v("Make a Request "),
+      _c("i", { staticClass: "fa fa-hand-grab-o" })
     ])
   }
 ]
@@ -39782,6 +39828,29 @@ var render = function() {
                     "router-link",
                     {
                       staticClass: "nav-link",
+                      class: { active: _vm.isActive("/home") },
+                      attrs: { to: "/home" }
+                    },
+                    [
+                      _c("i", { staticClass: "nav-icon fa fa-dashboard" }),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v("\n              Dashboard\n            ")
+                      ])
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "nav-item" },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "nav-link",
                       class: { active: _vm.isActive("/profile") },
                       attrs: { to: "/profile" }
                     },
@@ -39824,80 +39893,65 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _c(
-                "li",
-                { staticClass: "nav-item" },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link",
-                      class: { active: _vm.isActive("/home") },
-                      attrs: { to: "/home" }
-                    },
+              _vm.stateLoaded && _vm.auth.roles.includes("officer")
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item has-treeview" },
                     [
-                      _c("i", { staticClass: "nav-icon fa fa-dashboard" }),
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.isActive("/requests") },
+                          attrs: { to: "/requests" }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "nav-icon fa fa-hand-grab-o"
+                          }),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v("\n              Requests\n              "),
+                            _c("i", { staticClass: "right fa fa-angle-left" })
+                          ])
+                        ]
+                      ),
                       _vm._v(" "),
-                      _c("p", [
-                        _vm._v("\n              Dashboard\n            ")
-                      ])
-                    ]
+                      _vm._m(1)
+                    ],
+                    1
                   )
-                ],
-                1
-              ),
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "li",
-                { staticClass: "nav-item has-treeview" },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link",
-                      class: { active: _vm.isActive("/requests") },
-                      attrs: { to: "/requests" }
-                    },
+              _vm.stateLoaded && _vm.auth.roles.includes("officer")
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item has-treeview" },
                     [
-                      _c("i", { staticClass: "nav-icon fa fa-hand-grab-o" }),
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.isActive("/leave") },
+                          attrs: { to: "/leave" }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "nav-icon fa fa-minus-circle"
+                          }),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v("\n              Leave\n              "),
+                            _c("i", { staticClass: "right fa fa-angle-left" })
+                          ])
+                        ]
+                      ),
                       _vm._v(" "),
-                      _c("p", [
-                        _vm._v("\n              Requests\n              "),
-                        _c("i", { staticClass: "right fa fa-angle-left" })
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _vm._m(1)
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                { staticClass: "nav-item has-treeview" },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link",
-                      class: { active: _vm.isActive("/leave") },
-                      attrs: { to: "/leave" }
-                    },
-                    [
-                      _c("i", { staticClass: "nav-icon fa fa-minus-circle" }),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v("\n              Leave\n              "),
-                        _c("i", { staticClass: "right fa fa-angle-left" })
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _vm._m(2)
-                ],
-                1
-              )
+                      _vm._m(2)
+                    ],
+                    1
+                  )
+                : _vm._e()
             ]
           )
         ])
@@ -58180,7 +58234,7 @@ module.exports = function(module) {
 /*!*********************************!*\
   !*** ./resources/js/api/api.js ***!
   \*********************************/
-/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, addUser, attachRole, detachRole, attachProject, detachProject */
+/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, addUser, attachRole, detachRole, attachProject, detachProject, countUsers */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -58202,6 +58256,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "detachRole", function() { return detachRole; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attachProject", function() { return attachProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "detachProject", function() { return detachProject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "countUsers", function() { return countUsers; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -58288,6 +58343,11 @@ function attachProject(data) {
 }
 function detachProject(data) {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/users/detach/project', data).then(function (response) {
+    return response.data;
+  });
+}
+function countUsers() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/users/count').then(function (response) {
     return response.data;
   });
 }
@@ -58732,7 +58792,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     designations: [],
     contracts: [],
     roles: [],
-    projects: []
+    projects: [],
+    usersCount: ''
   },
   mutations: {
     setAuthUser: function setAuthUser(state, data) {
@@ -58761,6 +58822,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     setProjects: function setProjects(state, data) {
       state.projects = data;
+    },
+    setUsersCount: function setUsersCount(state, data) {
+      state.usersCount = data;
     }
   }
 }));

@@ -2,7 +2,7 @@
 
 use App\Http\Resources\ProfileResource;
 use Illuminate\Http\Request;
-
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,6 +30,9 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api', ], function ()
         Route::post('/detach/role', 'UsersController@detachRole');
         Route::post('/attach/project', 'UsersController@attachProject');
         Route::post('/detach/project', 'UsersController@detachProject');
+        Route::get('/count', function(){
+            return User::count();
+        });
     });
 
     Route::group(['prefix' => 'departments'], function () {

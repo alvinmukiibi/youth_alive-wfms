@@ -159,6 +159,8 @@ class UsersController extends BaseController
 
         $user = User::create($data);
 
+        $user->roles()->attach(1); // make every user an officer on registration
+
         UserFile::create(['filename' => $biodata, 'description' => 'users biodata form copy', 'user_id' => $user->id]);
 
         $event = new UserCreatedEvent($user);

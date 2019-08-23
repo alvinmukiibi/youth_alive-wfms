@@ -53,3 +53,6 @@ export function attachProject(data){
 export function detachProject(data){
     return axios.post(prefix + '/users/detach/project', data).then(response => response.data);
 }
+export function countUsers(){
+    return axios.get(prefix + '/users/count').then(response => response.data);
+}

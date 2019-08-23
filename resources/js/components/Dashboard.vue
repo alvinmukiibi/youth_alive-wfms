@@ -21,8 +21,8 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-primary">
                         <div class="inner">
-                            <h3>200</h3>
-                            <p>Profile</p>
+                            <h3>My Profile</h3>
+                            <p>{{ auth.designation }}</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-user"></i>
@@ -30,7 +30,7 @@
                         <router-link to="/profile" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('officer')">
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h3>5</h3>
@@ -42,7 +42,7 @@
                         <router-link to="/requests" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('officer')">
                     <div class="small-box bg-secondary">
                         <div class="inner">
                             <h3>2</h3>
@@ -57,7 +57,7 @@
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Human Resource'">
                     <div class="small-box bg-secondary">
                         <div class="inner">
-                            <h3>2</h3>
+                            <h3>{{ usersCount }}</h3>
                             <p>Employees</p>
                         </div>
                         <div class="icon">
@@ -85,6 +85,7 @@ export default {
     computed: {
         ...mapState({
             auth: state => state.auth,
+            usersCount: state => state.usersCount
         }),
         stateLoaded (){
             return Object.keys(this.auth).length > 0 ? true : false;
