@@ -14,7 +14,9 @@
 
         <link rel="stylesheet" href="{{ asset('adminlte/plugins/font-awesome/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('adminlte/plugins/bootstrap-table/dist/bootstrap-table.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('adminlte/plugins/bootstrap/css/bootstrap.min.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
         <script>
             window.authenticated = {{ auth()->check() ? 'true' : 'false' }};
         </script>
@@ -33,7 +35,9 @@
         <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
+        <script src="{{ asset('adminlte/plugins/bootstrap-table/dist/bootstrap-table.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

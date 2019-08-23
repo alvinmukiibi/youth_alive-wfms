@@ -54,6 +54,18 @@
                         <router-link to="/leave" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
+                <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Human Resource'">
+                    <div class="small-box bg-secondary">
+                        <div class="inner">
+                            <h3>2</h3>
+                            <p>Employees</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <router-link to="/employees" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -62,8 +74,22 @@
 </template>
 
 <script>
+import * as api from '../api/api'
+import { mapState, mapMutations } from 'vuex'
 export default {
+    data() {
+        return {
 
+        }
+    },
+    computed: {
+        ...mapState({
+            auth: state => state.auth,
+        }),
+        stateLoaded (){
+            return Object.keys(this.auth).length > 0 ? true : false;
+        }
+    },
 }
 </script>
 

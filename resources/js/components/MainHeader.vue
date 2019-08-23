@@ -30,7 +30,10 @@ export default {
     },
     methods: {
         ...mapMutations({
-            setAuthUser: "setAuthUser"
+            setAuthUser: "setAuthUser",
+            setDepartments: "setDepartments",
+            setDesignations: "setDesignations",
+            setContracts: "setContracts"
         }),
         logout(){
             api.logout()
@@ -41,6 +44,17 @@ export default {
         getAuthUser () {
             api.getAuthUser().then(response => {
                 this.setAuthUser(response.data)
+                if(response.data.roles.includes('manager')){
+                    api.getDepartments().then(response => {
+                        this.setDepartments(response.data)
+                    })
+                    api.getDesignations().then(response => {
+                        this.setDesignations(response.data)
+                    })
+                    api.getContracts().then(response => {
+                        this.setContracts(response.data)
+                    })
+                }
             })
         }
     },

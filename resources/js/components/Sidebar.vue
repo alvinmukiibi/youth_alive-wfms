@@ -24,6 +24,14 @@
               </p>
             </router-link>
           </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Human Resource'">
+            <router-link to="/employees" class="nav-link" :class="{ 'active': isActive('/employees') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                Employees
+              </p>
+            </router-link>
+          </li>
           <li class="nav-item">
             <router-link to="/home" class="nav-link" :class="{ 'active': isActive('/home') }">
               <i class="nav-icon fa fa-dashboard"></i>
@@ -141,7 +149,10 @@ export default {
     computed: {
         ...mapState({
             auth: state => state.auth
-        })
+        }),
+        stateLoaded (){
+            return Object.keys(this.auth).length > 0 ? true : false;
+        }
 
     }
 }

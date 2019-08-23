@@ -52,6 +52,21 @@ class User extends Authenticatable
     }
 
     public function roles(){
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+
+    public function arrayOfRoles(){
+        $roles = [];
+        foreach($this->roles as $role){
+            $roles[] = $role['name'];
+        }
+        return $roles;
+    }
+    public function arrayOfProjects(){
+        $projects = [];
+        foreach($this->projects as $project){
+            $projects[] = $project['name'];
+        }
+        return $projects;
     }
 }

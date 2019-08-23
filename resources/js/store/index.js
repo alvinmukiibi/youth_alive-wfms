@@ -7,6 +7,11 @@ export default new Vuex.Store({
     state: {
         auth: [],
         errors: [],
+        users: [],
+        employee: [],
+        departments: [],
+        designations: [],
+        contracts: [],
     },
     mutations: {
         setAuthUser: (state, data) => {
@@ -14,6 +19,21 @@ export default new Vuex.Store({
         },
         setErrors: (state, data) => {
             state.errors = data
-        }
+        },
+        setUsers: (state, data) => {
+            state.users = data
+        },
+        setCurrentEmployee: (state, data) => {
+            state.employee = data
+        },
+        setDepartments: (state, data) => {
+            state.departments = data
+        },
+        setDesignations: (state, data) => {
+            state.designations = data
+        },
+        setContracts: (state, data) => {
+            state.contracts = data
+        },
     },
 })

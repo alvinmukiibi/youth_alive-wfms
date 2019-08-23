@@ -30,8 +30,12 @@ class ProfileResource extends JsonResource
             'profile_picture' => $this->profile_picture,
             'duty_station' => $this->duty_station,
             'department' => Department::find($this->department_id)->name,
+            'department_acronym' => Department::find($this->department_id)->acronym,
             'designation' => Designation::find($this->designation_id)->name,
+            'roles' => $this->arrayOfRoles(),
+            'projects' => $this->arrayOfProjects(),
             'contract' => Contract::find($this->contract_id)->name,
+            'activity_status' => $this->activity_status,
             'created_at' => date('Y-M-d', strtotime($this->created_at))
         ];
     }
