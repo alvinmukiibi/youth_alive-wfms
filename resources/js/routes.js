@@ -5,6 +5,7 @@ import Employee from './users/hr/Employee.vue'
 
 
 const routes = [
+    { path: '/', component:  Dashboard},
     { path: '/home', component:  Dashboard},
     { path: '/profile', component:  Profile},
     { path: '/employees', component:  Employees},

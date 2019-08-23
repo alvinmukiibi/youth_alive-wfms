@@ -33,7 +33,9 @@ export default {
             setAuthUser: "setAuthUser",
             setDepartments: "setDepartments",
             setDesignations: "setDesignations",
-            setContracts: "setContracts"
+            setContracts: "setContracts",
+            setRoles: "setRoles",
+            setProjects: "setProjects",
         }),
         logout(){
             api.logout()
@@ -53,6 +55,12 @@ export default {
                     })
                     api.getContracts().then(response => {
                         this.setContracts(response.data)
+                    })
+                    api.getRoles().then(response => {
+                        this.setRoles(response.data)
+                    })
+                    api.getProjects().then(response => {
+                        this.setProjects(response.data)
                     })
                 }
             })

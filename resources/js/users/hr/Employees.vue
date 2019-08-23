@@ -43,7 +43,7 @@
                                                     <th>Contract</th>
                                                     <th>Station</th>
                                                     <th>Contact</th>
-                                                    <th>Action</th>
+                                                    <th style="width:100px">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -56,7 +56,7 @@
                                                     <td>{{ user.duty_station }}</td>
                                                     <td>{{ user.mobile_contact }}</td>
                                                     <td>
-                                                        <!-- <router-link to="/view/employee" class="btn btn-sm btn-primary"> <span @click="setEmployee(user.id)"><i  class="fa fa-pencil"></i></span>  </router-link> -->
+                                                        <button type="button" data-toggle="modal" @click="setEmployee(user.id)" data-target="#rolesModal" class="btn btn-sm btn-primary" title="Roles and Projects"> <i  class="fa fa-tasks"></i>  </button>
                                                         <a @click="deactivate(user.id)" title="Deactivate" v-if="user.activity_status"  :class="{'disabled': user.id == auth.id}" to="/deactivate" class="btn btn-sm btn-danger"> <i class="fa fa-times text-white"></i> </a>
                                                         <a @click="activate(user.id)" title="Activate" v-else to="/activate" class="btn btn-sm btn-success"> <i class="fa fa-check text-white"></i> </a>
                                                     </td>
@@ -156,6 +156,73 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="modal fade" id="rolesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Roles and Projects</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card card-primary card-outline">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">
+                                                        Manage <b> {{ employee.fname + ' ' + employee.lname + '`s'  }}</b> roles
+                                                    </h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>{{ employee.fname + '`s' }} current roles <b> [<span v-for="ro in employee.roles" :key="ro">{{ ro + ', ' }}</span> ]</b>  </p>
+                                                    <div class="input-group">
+                                                        <select name="" id="" v-model="user_role" class="form-control">
+                                                            <option disabled value="Select role">Select Role</option>
+                                                            <option v-for="role in raw_roles" :key="role.id" :value="role.id">{{ role.name }}</option>
+                                                        </select>
+                                                        <span class="input-group-append">
+                                                            <button type="button" @click="addRoleToUser(employee.id)" class="btn btn-success btn-flat"> <i class="fa fa-plus"></i> </button>
+                                                        </span>
+                                                        <span class="input-group-append">
+                                                            <button type="button" @click="removeRoleFromUser(employee.id)" class="btn btn-danger btn-flat"> <i class="fa fa-minus-circle"></i> </button>
+                                                        </span>
+                                                        </div>
+                                                        <br>
+
+                                                </div>
+                                            </div>
+                                            <div class="card card-success card-outline">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">
+                                                        Manage <b> {{ employee.fname + ' ' + employee.lname + '`s'  }}</b> projects
+                                                    </h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>{{ employee.fname + '`s' }} current projects <b> [<span v-for="ro in employee.projects" :key="ro">{{ ro + ', ' }}</span> ]</b>  </p>
+                                                    <div class="input-group">
+                                                        <select name="" id="" v-model="user_project" class="form-control">
+                                                            <option disabled value="Select role">Select Project</option>
+                                                            <option v-for="proj in raw_projects" :key="proj.id" :value="proj.id">{{ proj.name }}</option>
+                                                        </select>
+                                                        <span class="input-group-append">
+                                                            <button type="button" @click="addProjectToUser(employee.id)" class="btn btn-success btn-flat"> <i class="fa fa-plus"></i> </button>
+                                                        </span>
+                                                        <span class="input-group-append">
+                                                            <button type="button" @click="removeProjectFromUser(employee.id)" class="btn btn-danger btn-flat"> <i class="fa fa-minus-circle"></i> </button>
+                                                        </span>
+                                                        </div>
+                                                        <br>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -190,7 +257,9 @@ export default {
                 address: '',
                 duty_station: '',
             },
-            data: new FormData
+            data: new FormData,
+            user_role: '',
+            user_project: '',
         }
     },
     methods: {
@@ -199,6 +268,46 @@ export default {
             setCurrentEmployee: 'setCurrentEmployee',
             setErrors: 'setErrors'
         }),
+        removeRoleFromUser(user_id){
+            let data = {
+                user_id: user_id,
+                role_id: this.user_role
+            }
+            api.detachRole(data).then(response => {
+                this.loadUsers()
+                this.setEmployee(user_id)
+            })
+        },
+        removeProjectFromUser(user_id){
+            let data = {
+                user_id: user_id,
+                project_id: this.user_project
+            }
+            api.detachProject(data).then(response => {
+                this.loadUsers()
+                this.setEmployee(user_id)
+            })
+        },
+        addRoleToUser(user_id){
+            let data = {
+                user_id: user_id,
+                role_id: this.user_role
+            }
+            api.attachRole(data).then(response => {
+                this.loadUsers()
+                this.setEmployee(user_id)
+            })
+        },
+        addProjectToUser(user_id){
+            let data = {
+                user_id: user_id,
+                project_id: this.user_project
+            }
+            api.attachProject(data).then(response => {
+                this.loadUsers()
+                this.setEmployee(user_id)
+            })
+        },
         uploadFile(){
             this.user.biodata = this.$refs.biodata.files[0]
         },
@@ -254,6 +363,9 @@ export default {
             designations: state => state.designations,
             contracts: state => state.contracts,
             errors: state => state.errors,
+            raw_roles: state => state.roles,
+            raw_projects: state => state.projects,
+            employee: state => state.employee
         })
     },
     created() {

@@ -32,6 +32,24 @@ export function getDesignations(){
 export function getContracts(){
     return axios.get(prefix + '/contracts').then(response => response.data);
 }
+export function getRoles(){
+    return axios.get(prefix + '/roles').then(response => response.data);
+}
+export function getProjects(){
+    return axios.get(prefix + '/projects').then(response => response.data);
+}
 export function addUser(data){
     return axios.post(prefix + '/users/add', data).then(response => response.data);
+}
+export function attachRole(data){
+    return axios.post(prefix + '/users/attach/role', data).then(response => response.data);
+}
+export function detachRole(data){
+    return axios.post(prefix + '/users/detach/role', data).then(response => response.data);
+}
+export function attachProject(data){
+    return axios.post(prefix + '/users/attach/project', data).then(response => response.data);
+}
+export function detachProject(data){
+    return axios.post(prefix + '/users/detach/project', data).then(response => response.data);
 }

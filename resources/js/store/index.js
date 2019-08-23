@@ -12,6 +12,8 @@ export default new Vuex.Store({
         departments: [],
         designations: [],
         contracts: [],
+        roles: [],
+        projects: [],
     },
     mutations: {
         setAuthUser: (state, data) => {
@@ -34,6 +36,12 @@ export default new Vuex.Store({
         },
         setContracts: (state, data) => {
             state.contracts = data
+        },
+        setRoles: (state, data) => {
+            state.roles = data
+        },
+        setProjects: (state, data) => {
+            state.projects = data
         },
     },
 })

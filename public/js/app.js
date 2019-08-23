@@ -1847,7 +1847,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setAuthUser: "setAuthUser",
     setDepartments: "setDepartments",
     setDesignations: "setDesignations",
-    setContracts: "setContracts"
+    setContracts: "setContracts",
+    setRoles: "setRoles",
+    setProjects: "setProjects"
   }), {
     logout: function logout() {
       _api_api_js__WEBPACK_IMPORTED_MODULE_1__["logout"]().then(function (response) {
@@ -1869,6 +1871,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getContracts"]().then(function (response) {
             _this.setContracts(response.data);
+          });
+          _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getRoles"]().then(function (response) {
+            _this.setRoles(response.data);
+          });
+          _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getProjects"]().then(function (response) {
+            _this.setProjects(response.data);
           });
         }
       });
@@ -2727,6 +2735,73 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2747,7 +2822,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         address: '',
         duty_station: ''
       },
-      data: new FormData()
+      data: new FormData(),
+      user_role: '',
+      user_project: ''
     };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
@@ -2755,11 +2832,63 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setCurrentEmployee: 'setCurrentEmployee',
     setErrors: 'setErrors'
   }), {
+    removeRoleFromUser: function removeRoleFromUser(user_id) {
+      var _this = this;
+
+      var data = {
+        user_id: user_id,
+        role_id: this.user_role
+      };
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["detachRole"](data).then(function (response) {
+        _this.loadUsers();
+
+        _this.setEmployee(user_id);
+      });
+    },
+    removeProjectFromUser: function removeProjectFromUser(user_id) {
+      var _this2 = this;
+
+      var data = {
+        user_id: user_id,
+        project_id: this.user_project
+      };
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["detachProject"](data).then(function (response) {
+        _this2.loadUsers();
+
+        _this2.setEmployee(user_id);
+      });
+    },
+    addRoleToUser: function addRoleToUser(user_id) {
+      var _this3 = this;
+
+      var data = {
+        user_id: user_id,
+        role_id: this.user_role
+      };
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["attachRole"](data).then(function (response) {
+        _this3.loadUsers();
+
+        _this3.setEmployee(user_id);
+      });
+    },
+    addProjectToUser: function addProjectToUser(user_id) {
+      var _this4 = this;
+
+      var data = {
+        user_id: user_id,
+        project_id: this.user_project
+      };
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["attachProject"](data).then(function (response) {
+        _this4.loadUsers();
+
+        _this4.setEmployee(user_id);
+      });
+    },
     uploadFile: function uploadFile() {
       this.user.biodata = this.$refs.biodata.files[0];
     },
     save: function save() {
-      var _this = this;
+      var _this5 = this;
 
       this.data.append('biodata', this.user.biodata);
       this.data.append('fname', this.user.fname);
@@ -2775,15 +2904,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.data.append('duty_station', this.user.duty_station);
       _api_api__WEBPACK_IMPORTED_MODULE_0__["addUser"](this.data).then(function (response) {
         if (!response.success) {
-          _this.setErrors(response.data.error);
+          _this5.setErrors(response.data.error);
 
-          _this.spinner = false;
+          _this5.spinner = false;
           return;
         }
 
-        _this.setErrors([]);
+        _this5.setErrors([]);
 
-        _this.spinner = false;
+        _this5.spinner = false;
       });
     },
     setEmployee: function setEmployee(id) {
@@ -2793,24 +2922,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.setCurrentEmployee(user);
     },
     activate: function activate(id) {
-      var _this2 = this;
+      var _this6 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["activateUser"](id).then(function (response) {
-        _this2.loadUsers();
+        _this6.loadUsers();
       });
     },
     deactivate: function deactivate(id) {
-      var _this3 = this;
+      var _this7 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["deactivateUser"](id).then(function (response) {
-        _this3.loadUsers();
+        _this7.loadUsers();
       });
     },
     loadUsers: function loadUsers() {
-      var _this4 = this;
+      var _this8 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["getUsers"]().then(function (response) {
-        _this4.setUsers(response.data);
+        _this8.setUsers(response.data);
       });
     }
   }),
@@ -2832,6 +2961,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     errors: function errors(state) {
       return state.errors;
+    },
+    raw_roles: function raw_roles(state) {
+      return state.roles;
+    },
+    raw_projects: function raw_projects(state) {
+      return state.projects;
+    },
+    employee: function employee(state) {
+      return state.employee;
     }
   })),
   created: function created() {
@@ -40705,6 +40843,25 @@ var render = function() {
                                 _c("td", [_vm._v(_vm._s(user.mobile_contact))]),
                                 _vm._v(" "),
                                 _c("td", [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-sm btn-primary",
+                                      attrs: {
+                                        type: "button",
+                                        "data-toggle": "modal",
+                                        "data-target": "#rolesModal",
+                                        title: "Roles and Projects"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.setEmployee(user.id)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-tasks" })]
+                                  ),
+                                  _vm._v(" "),
                                   user.activity_status
                                     ? _c(
                                         "a",
@@ -41363,6 +41520,391 @@ var render = function() {
                         ]
                       )
                     ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "modal fade",
+                      attrs: {
+                        id: "rolesModal",
+                        tabindex: "-1",
+                        role: "dialog",
+                        "aria-labelledby": "exampleModalCenterTitle",
+                        "aria-hidden": "true"
+                      }
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "modal-dialog modal-dialog-centered",
+                          attrs: { role: "document" }
+                        },
+                        [
+                          _c("div", { staticClass: "modal-content" }, [
+                            _vm._m(14),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "modal-body" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "card card-primary card-outline"
+                                },
+                                [
+                                  _c("div", { staticClass: "card-header" }, [
+                                    _c("h3", { staticClass: "card-title" }, [
+                                      _vm._v(
+                                        "\n                                                    Manage "
+                                      ),
+                                      _c("b", [
+                                        _vm._v(
+                                          " " +
+                                            _vm._s(
+                                              _vm.employee.fname +
+                                                " " +
+                                                _vm.employee.lname +
+                                                "`s"
+                                            )
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        " roles\n                                                "
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "card-body" }, [
+                                    _c("p", [
+                                      _vm._v(
+                                        _vm._s(_vm.employee.fname + "`s") +
+                                          " current roles "
+                                      ),
+                                      _c(
+                                        "b",
+                                        [
+                                          _vm._v(" ["),
+                                          _vm._l(_vm.employee.roles, function(
+                                            ro
+                                          ) {
+                                            return _c("span", { key: ro }, [
+                                              _vm._v(_vm._s(ro + ", "))
+                                            ])
+                                          }),
+                                          _vm._v(" ]")
+                                        ],
+                                        2
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "input-group" }, [
+                                      _c(
+                                        "select",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.user_role,
+                                              expression: "user_role"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { name: "", id: "" },
+                                          on: {
+                                            change: function($event) {
+                                              var $$selectedVal = Array.prototype.filter
+                                                .call(
+                                                  $event.target.options,
+                                                  function(o) {
+                                                    return o.selected
+                                                  }
+                                                )
+                                                .map(function(o) {
+                                                  var val =
+                                                    "_value" in o
+                                                      ? o._value
+                                                      : o.value
+                                                  return val
+                                                })
+                                              _vm.user_role = $event.target
+                                                .multiple
+                                                ? $$selectedVal
+                                                : $$selectedVal[0]
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "option",
+                                            {
+                                              attrs: {
+                                                disabled: "",
+                                                value: "Select role"
+                                              }
+                                            },
+                                            [_vm._v("Select Role")]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._l(_vm.raw_roles, function(role) {
+                                            return _c(
+                                              "option",
+                                              {
+                                                key: role.id,
+                                                domProps: { value: role.id }
+                                              },
+                                              [_vm._v(_vm._s(role.name))]
+                                            )
+                                          })
+                                        ],
+                                        2
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "input-group-append" },
+                                        [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-success btn-flat",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.addRoleToUser(
+                                                    _vm.employee.id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-plus"
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "input-group-append" },
+                                        [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-danger btn-flat",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.removeRoleFromUser(
+                                                    _vm.employee.id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass:
+                                                  "fa fa-minus-circle"
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("br")
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "card card-success card-outline"
+                                },
+                                [
+                                  _c("div", { staticClass: "card-header" }, [
+                                    _c("h3", { staticClass: "card-title" }, [
+                                      _vm._v(
+                                        "\n                                                    Manage "
+                                      ),
+                                      _c("b", [
+                                        _vm._v(
+                                          " " +
+                                            _vm._s(
+                                              _vm.employee.fname +
+                                                " " +
+                                                _vm.employee.lname +
+                                                "`s"
+                                            )
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        " projects\n                                                "
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "card-body" }, [
+                                    _c("p", [
+                                      _vm._v(
+                                        _vm._s(_vm.employee.fname + "`s") +
+                                          " current projects "
+                                      ),
+                                      _c(
+                                        "b",
+                                        [
+                                          _vm._v(" ["),
+                                          _vm._l(
+                                            _vm.employee.projects,
+                                            function(ro) {
+                                              return _c("span", { key: ro }, [
+                                                _vm._v(_vm._s(ro + ", "))
+                                              ])
+                                            }
+                                          ),
+                                          _vm._v(" ]")
+                                        ],
+                                        2
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "input-group" }, [
+                                      _c(
+                                        "select",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.user_project,
+                                              expression: "user_project"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { name: "", id: "" },
+                                          on: {
+                                            change: function($event) {
+                                              var $$selectedVal = Array.prototype.filter
+                                                .call(
+                                                  $event.target.options,
+                                                  function(o) {
+                                                    return o.selected
+                                                  }
+                                                )
+                                                .map(function(o) {
+                                                  var val =
+                                                    "_value" in o
+                                                      ? o._value
+                                                      : o.value
+                                                  return val
+                                                })
+                                              _vm.user_project = $event.target
+                                                .multiple
+                                                ? $$selectedVal
+                                                : $$selectedVal[0]
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "option",
+                                            {
+                                              attrs: {
+                                                disabled: "",
+                                                value: "Select role"
+                                              }
+                                            },
+                                            [_vm._v("Select Project")]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._l(_vm.raw_projects, function(
+                                            proj
+                                          ) {
+                                            return _c(
+                                              "option",
+                                              {
+                                                key: proj.id,
+                                                domProps: { value: proj.id }
+                                              },
+                                              [_vm._v(_vm._s(proj.name))]
+                                            )
+                                          })
+                                        ],
+                                        2
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "input-group-append" },
+                                        [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-success btn-flat",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.addProjectToUser(
+                                                    _vm.employee.id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-plus"
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "input-group-append" },
+                                        [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-danger btn-flat",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.removeProjectFromUser(
+                                                    _vm.employee.id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass:
+                                                  "fa fa-minus-circle"
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("br")
+                                  ])
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(15)
+                          ])
+                        ]
+                      )
+                    ]
                   )
                 ])
               ])
@@ -41456,7 +41998,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Contact")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Action")])
+        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Action")])
       ])
     ])
   },
@@ -41567,6 +42109,46 @@ var staticRenderFns = [
     return _c("b", [
       _c("i", { staticClass: "fa fa-plus" }),
       _vm._v(" ADD USER")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
+        [_vm._v("Roles and Projects")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      )
     ])
   }
 ]
@@ -57598,7 +58180,7 @@ module.exports = function(module) {
 /*!*********************************!*\
   !*** ./resources/js/api/api.js ***!
   \*********************************/
-/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, addUser */
+/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, addUser, attachRole, detachRole, attachProject, detachProject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57613,7 +58195,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDepartments", function() { return getDepartments; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDesignations", function() { return getDesignations; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getContracts", function() { return getContracts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRoles", function() { return getRoles; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProjects", function() { return getProjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addUser", function() { return addUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attachRole", function() { return attachRole; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "detachRole", function() { return detachRole; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attachProject", function() { return attachProject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "detachProject", function() { return detachProject; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -57668,8 +58256,38 @@ function getContracts() {
     return response.data;
   });
 }
+function getRoles() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/roles').then(function (response) {
+    return response.data;
+  });
+}
+function getProjects() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/projects').then(function (response) {
+    return response.data;
+  });
+}
 function addUser(data) {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/users/add', data).then(function (response) {
+    return response.data;
+  });
+}
+function attachRole(data) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/users/attach/role', data).then(function (response) {
+    return response.data;
+  });
+}
+function detachRole(data) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/users/detach/role', data).then(function (response) {
+    return response.data;
+  });
+}
+function attachProject(data) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/users/attach/project', data).then(function (response) {
+    return response.data;
+  });
+}
+function detachProject(data) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/users/detach/project', data).then(function (response) {
     return response.data;
   });
 }
@@ -58070,6 +58688,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var routes = [{
+  path: '/',
+  component: _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+}, {
   path: '/home',
   component: _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
 }, {
@@ -58109,7 +58730,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     employee: [],
     departments: [],
     designations: [],
-    contracts: []
+    contracts: [],
+    roles: [],
+    projects: []
   },
   mutations: {
     setAuthUser: function setAuthUser(state, data) {
@@ -58132,6 +58755,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     setContracts: function setContracts(state, data) {
       state.contracts = data;
+    },
+    setRoles: function setRoles(state, data) {
+      state.roles = data;
+    },
+    setProjects: function setProjects(state, data) {
+      state.projects = data;
     }
   }
 }));

@@ -6,10 +6,12 @@ use App\Events\UserCreatedEvent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ProfileResource;
+use App\RoleUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\User;
 use App\UserFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class UsersController extends BaseController
@@ -165,4 +167,55 @@ class UsersController extends BaseController
         return $this->sendResponse($user, 'User successfully created');
 
     }
+
+    public function attachRole(Request $request){
+
+        $count = DB::table('role_user')->where(['user_id' => $request->user_id, 'role_id' => $request->role_id])->count();
+        if($count > 0){
+            return $this->sendError('', 'Role already attached to user');
+        }else{
+            $user = User::find($request->user_id);
+            $user->roles()->attach($request->role_id);
+            return $this->sendResponse('', 'Role successfully attached');
+        }
+    }
+    public function attachProject(Request $request){
+
+        $count = DB::table('project_user')->where(['user_id' => $request->user_id, 'project_id' => $request->project_id])->count();
+        if($count > 0){
+            return $this->sendError('', 'Project already attached to user');
+        }else{
+            $user = User::find($request->user_id);
+            $user->projects()->attach($request->project_id);
+            return $this->sendResponse('', 'Project successfully attached');
+        }
+
+    }
+    public function detachProject(Request $request){
+
+        $count = DB::table('project_user')->where(['user_id' => $request->user_id, 'project_id' => $request->project_id])->count();
+        if($count > 0){
+            $user = User::find($request->user_id);
+            $user->projects()->detach($request->project_id);
+            return $this->sendResponse('', 'Project successfully detached');
+
+        }else{
+            return $this->sendError('', 'User doesnot have that project');
+
+        }
+    }
+    public function detachRole(Request $request){
+
+        $count = DB::table('role_user')->where(['user_id' => $request->user_id, 'role_id' => $request->role_id])->count();
+        if($count > 0){
+            $user = User::find($request->user_id);
+            $user->roles()->detach($request->role_id);
+            return $this->sendResponse('', 'Role successfully detached');
+
+        }else{
+            return $this->sendError('', 'User doesnot have that role');
+
+        }
+    }
+
 }

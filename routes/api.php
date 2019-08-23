@@ -26,6 +26,10 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api', ], function ()
         Route::get('/activate/{user}', 'UsersController@activateUser');
         Route::get('/deactivate/{user}', 'UsersController@deactivateUser');
         Route::post('/add', 'UsersController@addUser');
+        Route::post('/attach/role', 'UsersController@attachRole');
+        Route::post('/detach/role', 'UsersController@detachRole');
+        Route::post('/attach/project', 'UsersController@attachProject');
+        Route::post('/detach/project', 'UsersController@detachProject');
     });
 
     Route::group(['prefix' => 'departments'], function () {
@@ -36,5 +40,11 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api', ], function ()
     });
     Route::group(['prefix' => 'contracts'], function () {
         Route::get('/', 'ContractsController@getContracts');
+    });
+    Route::group(['prefix' => 'roles'], function () {
+        Route::get('/', 'RolesController@getRoles');
+    });
+    Route::group(['prefix' => 'projects'], function () {
+        Route::get('/', 'ProjectsController@getProjects');
     });
 });
