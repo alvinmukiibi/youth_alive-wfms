@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Resources\ProfileResource;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,8 +18,9 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api', ], function ()
 
     Route::group(['prefix' => 'users'], function () {
         Route::get('auth', function (Request $request) {
-            return $request->user();
+            return new ProfileResource($request->user());
         });
+        Route::post('/save/profile', 'UsersController@saveProfile');
 
     });
 });

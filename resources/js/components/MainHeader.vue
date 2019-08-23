@@ -40,7 +40,7 @@ export default {
         },
         getAuthUser () {
             api.getAuthUser().then(response => {
-                this.setAuthUser(response)
+                this.setAuthUser(response.data)
             })
         }
     },

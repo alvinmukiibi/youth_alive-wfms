@@ -1,0 +1,198 @@
+<template>
+<div>
+<div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Profile</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+              <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       :src="'storage/users/' + auth.profile_picture"
+                       alt="User profile picture">
+                </div>
+
+                <h3 class="profile-username text-center">{{ auth.fname + ' ' + auth.lname }}</h3>
+
+                <p class="text-muted text-center">{{ auth.designation }}</p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>Followers</b> <a class="float-right">1,322</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Following</b> <a class="float-right">543</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Friends</b> <a class="float-right">13,287</a>
+                  </li>
+                </ul>
+
+                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+              <div class="card card-primary card-outline">
+                  <div class="card-header">
+                      <h3 class="card-title">
+                          Employment Details
+                      </h3>
+                  </div>
+                  <div class="card-body">
+                      <div class="form-group row">
+                          <label for="Deparmtent" class="col-sm-2 col-form-label">Department</label>
+                          <div class="col-md-10">
+                              <input type="text" readonly :value="auth.department" class="form-control">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label for="Designation" class="col-sm-2 col-form-label">Designation</label>
+                          <div class="col-md-10">
+                              <input type="text" readonly :value="auth.designation" class="form-control">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label for="contract" class="col-sm-2 col-form-label">Contract Type</label>
+                          <div class="col-md-10">
+                              <input type="text" readonly :value="auth.contract" class="form-control">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label for="station" class="col-sm-2 col-form-label">Duty Station</label>
+                          <div class="col-md-10">
+                              <input type="text" readonly :value="auth.duty_station" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="card-header">
+                      <h3 class="card-title">
+                          Contact Details
+                      </h3>
+                  </div>
+                  <div class="card-body">
+                      <div class="form-group row">
+                          <label for="email" class="col-sm-2 col-form-label">Email Address</label>
+                          <div class="col-md-4">
+                              <input type="text" readonly :value="auth.email" class="form-control">
+                          </div>
+                          <label for="Phone Number" class="col-sm-2 col-form-label">Phone Number</label>
+                          <div class="col-md-4">
+                              <input type="text" readonly :value="auth.mobile_contact" class="form-control">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                            <label for="" class="col-sm-2 col-form-label">Work Contact</label>
+                            <div class="col-md-4">
+                                <input type="text" readonly :value="auth.work_contact" class="form-control">
+                            </div>
+                            <label for="Phone Number" class="col-sm-2 col-form-label">Home Contact</label>
+                            <div class="col-md-4">
+                                <input type="text" readonly :value="auth.home_contact" class="form-control">
+                            </div>
+                      </div>
+                      <div class="form-group row">
+                            <label for="" class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-md-10">
+                                <input type="text" readonly :value="auth.address" class="form-control">
+                            </div>
+                      </div>
+                  </div>
+                  <div class="card-header">
+                      <h3 class="card-title">
+                          Other Information [Editable]
+                      </h3>
+                  </div>
+                  <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inputEmail4">UserName</label>
+                                <input type="text" class="form-control" v-model="auth.user_name"  id="inputEmail3" placeholder="Email">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputPassword4">Password</label>
+                                <input type="password" class="form-control" v-model="auth.password" id="inputPassword4" min="8" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="row" v-if="errors.length > 0">
+                            <div class="col-md-12">
+                                <p class="text-danger pull-left">{{ errors }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button @click="save" class="btn btn-primary" type="button">
+                                    <span v-if="spinner"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Save Profile
+                                </button>
+                            </div>
+                        </div>
+                  </div>
+              </div>
+          </div>
+          </div>
+          </div>
+    </section>
+    </div>
+</template>
+
+
+<script>
+
+import * as api from '../api/api';
+import { mapState, mapMutations } from 'vuex'
+export default {
+    data() {
+        return {
+            spinner: false
+        }
+    },
+    methods: {
+        ...mapMutations({
+            setErrors: 'setErrors',
+        }),
+        save(){
+            this.spinner = true
+            let data = {
+                user_name: this.auth.user_name,
+                password: this.auth.password,
+            }
+            api.saveProfile(data)
+            .then(response => {
+                if(!response.success){
+                    this.setErrors(response.data.error)
+                    this.spinner = false
+                    return;
+                }
+                this.setErrors([])
+                this.spinner = false;
+            })
+        }
+    },
+    computed: {
+        ...mapState({
+            auth: state => state.auth,
+            errors: state => state.errors
+        })
+    },
+}
+</script>
+
+<style>
+
+</style>

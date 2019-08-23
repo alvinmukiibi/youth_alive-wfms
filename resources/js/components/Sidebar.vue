@@ -17,7 +17,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <router-link to="/profile" class="nav-link">
+            <router-link to="/profile" class="nav-link" :class="{ 'active': isActive('/profile') }">
               <i class="nav-icon fa fa-user"></i>
               <p>
                 My Profile
@@ -25,7 +25,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/home" class="nav-link active">
+            <router-link to="/home" class="nav-link" :class="{ 'active': isActive('/home') }">
               <i class="nav-icon fa fa-dashboard"></i>
               <p>
                 Dashboard
@@ -33,13 +33,13 @@
             </router-link>
           </li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <router-link to="/requests" class="nav-link" :class="{ 'active': isActive('/requests') }">
               <i class="nav-icon fa fa-hand-grab-o"></i>
               <p>
                 Requests
                 <i class="right fa fa-angle-left"></i>
               </p>
-            </a>
+            </router-link>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="./index.html" class="nav-link">
@@ -68,13 +68,13 @@
             </ul>
           </li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <router-link to="/leave" class="nav-link" :class="{ 'active': isActive('/leave') }">
               <i class="nav-icon fa fa-minus-circle"></i>
               <p>
                 Leave
                 <i class="right fa fa-angle-left"></i>
               </p>
-            </a>
+            </router-link>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="./index.html" class="nav-link">
@@ -126,6 +126,17 @@ export default {
         return {
 
         }
+    },
+    methods: {
+        isActive(route){
+            if(this.$route.path == route){
+                return true
+            }
+            return false
+        }
+    },
+    mounted() {
+
     },
     computed: {
         ...mapState({

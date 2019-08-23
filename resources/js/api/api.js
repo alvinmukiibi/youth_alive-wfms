@@ -8,3 +8,6 @@ export function getAuthUser() {
 export function logout(){
     return axios.get('/logout').then(response => response.data);
 }
+export function saveProfile(data){
+    return axios.post(prefix + '/users/save/profile', data).then(response => response.data);
+}

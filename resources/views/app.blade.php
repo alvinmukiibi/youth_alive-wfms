@@ -23,10 +23,11 @@
         <div id="app">
             <div class="wrapper">
                 <main-header></main-header>
+                <sidebar></sidebar>
                 <div class="content-wrapper">
                     <router-view></router-view>
                 </div>
-                <sidebar></sidebar>
+
             </div>
         </div>
         <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
