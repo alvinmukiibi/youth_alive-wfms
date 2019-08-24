@@ -5,6 +5,7 @@ use App\Project;
 use App\Http\Resources\ProfileResource;
 use Illuminate\Http\Request;
 use App\User;
+use App\LeaveType;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,7 +17,7 @@ use App\User;
 |
 */
 
-Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api', ], function () {
+Route::group(['namespace' => 'Api', ], function () {
 
     Route::group(['prefix' => 'users'], function () {
         Route::get('auth', function (Request $request) {
@@ -39,9 +40,14 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api', ], function ()
 
     Route::group(['prefix' => 'departments'], function () {
         Route::get('/', 'DepartmentsController@getDepartments');
+        Route::post('/', 'DepartmentsController@store');
+        Route::post('/update/{department}', 'DepartmentsController@update');
     });
     Route::group(['prefix' => 'designations'], function () {
         Route::get('/', 'DesignationsController@getDesignations');
+        Route::post('/', 'DesignationsController@store');
+        Route::post('/update/{designation}', 'DesignationsController@update');
+        Route::get('/delete/{designation}', 'DesignationsController@delete');
     });
     Route::group(['prefix' => 'contracts'], function () {
         Route::get('/', 'ContractsController@getContracts');
@@ -71,5 +77,37 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api', ], function ()
             $project->delete();
             return response()->json('Success', 200);
         });
+
+        Route::get('/leavetypes', function(Request $request){
+            return response()->json(LeaveType::all(), 202);
+        });
+        Route::get('/leavetypes/delete/{leaveType}', function(LeaveType $leaveType){
+            $leaveType->delete();
+            return response()->json('', 202);
+        });
+        Route::post('/leavetypes', function(Request $request){
+            $leave = [
+                'type' => $request->type,
+                'days' => $request->days
+            ];
+            $leave = LeaveType::create($leave);
+            return response()->json($leave, 202);
+        });
+        Route::post('/leavetypes/update/{leaveType}', function(LeaveType $leaveType, Request $request){
+            $leaveType->type = $request->type;
+            $leaveType->days = $request->days;
+            $leaveType->save();
+            return response()->json($leaveType, 202);
+        });
+
+        Route::get('/assets', 'AdminController@getAssets');
+        Route::post('/assets', 'AdminController@addAsset');
+        Route::post('/assets/update/{asset}', 'AdminController@updateAsset');
+        Route::get('/assets/delete/{asset}', 'AdminController@deleteAsset');
+
+        Route::get('/vendors', 'AdminController@getVendors');
+        Route::post('/vendors', 'AdminController@addVendor');
+        Route::post('/vendors/update/{vendor}', 'AdminController@updateVendor');
+        Route::get('/vendors/delete/{vendor}', 'AdminController@deleteVendor');
     });
 });

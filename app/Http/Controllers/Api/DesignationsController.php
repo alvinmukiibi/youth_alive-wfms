@@ -12,4 +12,31 @@ class DesignationsController extends BaseController
         $designations = Designation::all();
         return $this->sendResponse($designations, 'All designations');
     }
+
+    public function store(Request $request){
+
+        $desi = [
+            'name' => $request->name,
+        ];
+
+        $desi = Designation::create($desi);
+
+        return $this->sendResponse($desi, 'Designation created!');
+
+    }
+    public function update(Designation $designation, Request $request){
+
+        $designation->name = $request->name;
+        $designation->save();
+
+        return $this->sendResponse($designation, 'Designation saved!');
+
+    }
+
+    public function delete(Designation $designation){
+        $designation->delete();
+        return $this->sendResponse($designation, 'Designation deleted!');
+
+    }
+
 }
