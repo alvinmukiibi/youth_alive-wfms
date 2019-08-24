@@ -44,6 +44,9 @@ export function getLeaveTypes(){
 export function getAssets(){
     return axios.get(prefix + '/admin/assets').then(response => response.data);
 }
+export function getVendors(){
+    return axios.get(prefix + '/admin/vendors').then(response => response.data);
+}
 export function addUser(data){
     return axios.post(prefix + '/users/add', data).then(response => response.data);
 }
@@ -70,6 +73,9 @@ export function saveDesignation(data){
 }
 export function saveLeaveType(data){
     return axios.post(prefix + '/admin/leavetypes', data).then(response => response.data);
+}
+export function saveVendor(data){
+    return axios.post(prefix + '/admin/vendors', data).then(response => response.data);
 }
 export function saveDp(data, id){
     return axios.post(prefix + `/users/save/dp/${id}`, data).then(response => response.data);

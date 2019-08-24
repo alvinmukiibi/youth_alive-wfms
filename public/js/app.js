@@ -1929,7 +1929,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setRoles: "setRoles",
     setProjects: "setProjects",
     setLeaveTypes: "setLeaveTypes",
-    setAssets: "setAssets"
+    setAssets: "setAssets",
+    setVendors: "setVendors"
   }), {
     logout: function logout() {
       _api_api_js__WEBPACK_IMPORTED_MODULE_1__["logout"]().then(function (response) {
@@ -1963,6 +1964,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getAssets"]().then(function (response) {
             _this.setAssets(response);
+          });
+          _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getVendors"]().then(function (response) {
+            _this.setVendors(response);
           });
         }
       });
@@ -3863,14 +3867,220 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      edit: false,
+      name: '',
+      prefix: "/api",
+      vendor: {},
+      vend: []
+    };
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({})),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({})),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
+    setVendors: 'setVendors'
+  }), {
+    saveEdit: function saveEdit() {
+      var _this = this;
+
+      if (this.vend.name == '') {
+        return;
+      }
+
+      var data = new FormData();
+      data.append('image', this.vend.image);
+      data.append('name', this.vend.name);
+      data.append('type', this.vend.type);
+      data.append('location', this.vend.location);
+      data.append('contact', this.vend.contact);
+      data.append('email', this.vend.email);
+      data.append('representative', this.vend.representative);
+      axios.post(this.prefix + "/admin/vendors/update/".concat(this.vend.id), data).then(function (response) {
+        _this.loadVendors();
+      });
+    },
+    setVendor: function setVendor(id) {
+      this.vend = this.vendors.filter(function (ve) {
+        return ve.id == id;
+      })[0];
+    },
+    loadVendors: function loadVendors() {
+      var _this2 = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["getVendors"]().then(function (response) {
+        _this2.setVendors(response);
+      });
+    },
+    deleteVendor: function deleteVendor(id) {
+      var _this3 = this;
+
+      axios.get(this.prefix + "/admin/vendors/delete/".concat(id)).then(function (response) {
+        _this3.loadVendors();
+      });
+    },
+    uploadImage: function uploadImage() {
+      this.vendor.image = this.$refs.logm.files[0];
+    },
+    uploadImagem: function uploadImagem() {
+      this.vend.image = this.$refs.log.files[0];
+    },
+    save: function save() {
+      var _this4 = this;
+
+      if (this.vendor.name == '') {
+        return;
+      }
+
+      var data = new FormData();
+      data.append('image', this.vendor.image);
+      data.append('name', this.vendor.name);
+      data.append('type', this.vendor.type);
+      data.append('location', this.vendor.location);
+      data.append('contact', this.vendor.contact);
+      data.append('email', this.vendor.email);
+      data.append('representative', this.vendor.representative);
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["saveVendor"](data).then(function (response) {
+        _this4.loadVendors();
+      });
+    }
+  }),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
+    vendors: function vendors(state) {
+      return state.vendors;
+    }
+  })),
   mounted: function mounted() {}
 });
 
@@ -45160,39 +45370,733 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("section", { staticClass: "content" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("div", { staticClass: "card card-primary card-outline" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                    _vm._v("Vendor's Name")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.vendor.name,
+                        expression: "vendor.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", id: "exampleInputEmail1" },
+                    domProps: { value: _vm.vendor.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.vendor, "name", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                    _vm._v("Vendor Type")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.vendor.type,
+                          expression: "vendor.type"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "", id: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.vendor,
+                            "type",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "Commercial" } }, [
+                        _vm._v("Commercial")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Normal" } }, [
+                        _vm._v("Normal")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                    _vm._v("Vendor's Location")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.vendor.location,
+                        expression: "vendor.location"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", id: "exampleInputEmail1" },
+                    domProps: { value: _vm.vendor.location },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.vendor, "location", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                    _vm._v("Vendor's Contact")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.vendor.contact,
+                        expression: "vendor.contact"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", id: "exampleInputEmail1" },
+                    domProps: { value: _vm.vendor.contact },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.vendor, "contact", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                    _vm._v("Vendor's Email Address")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.vendor.email,
+                        expression: "vendor.email"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "email", id: "exampleInputEmail1" },
+                    domProps: { value: _vm.vendor.email },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.vendor, "email", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                    _vm._v("Representative's Name")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.vendor.representative,
+                        expression: "vendor.representative"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "email", id: "exampleInputEmail1" },
+                    domProps: { value: _vm.vendor.representative },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.vendor,
+                          "representative",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                    _vm._v("Vendor's Logo")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    ref: "logm",
+                    staticClass: "form-control",
+                    attrs: { type: "file", id: "exampleInputEmail1" },
+                    on: { change: _vm.uploadImage }
+                  })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-flat",
+                    attrs: { type: "button" },
+                    on: { click: _vm.save }
+                  },
+                  [_vm._v("Submit")]
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-8" }, [
+            _c("div", { staticClass: "card card-success card-outline" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c(
+                  "table",
+                  {
+                    staticClass:
+                      "table table-striped table-bordered table-hover"
+                  },
+                  [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.vendors, function(ven) {
+                        return _c("tr", { key: ven.id }, [
+                          _c("td", [_vm._v(_vm._s(ven.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(ven.type))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(ven.location))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(ven.contact))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(ven.representative))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            ven.logo
+                              ? _c("img", {
+                                  staticClass:
+                                    "profile-user-img img-fluid img-circle",
+                                  attrs: {
+                                    src: "/storage/vendors/" + ven.logo,
+                                    alt: "Vendor Logo"
+                                  }
+                                })
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-sm btn-outline-danger",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteVendor(ven.id)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-sm btn-outline-primary",
+                                attrs: {
+                                  type: "button",
+                                  "data-toggle": "modal",
+                                  "data-target": "#modal"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.setVendor(ven.id)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-pencil" })]
+                            )
+                          ])
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "modal fade",
+                attrs: {
+                  id: "modal",
+                  tabindex: "-1",
+                  role: "dialog",
+                  "aria-labelledby": "exampleModalCenterTitle",
+                  "aria-hidden": "true"
+                }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "modal-dialog modal-dialog-centered",
+                    attrs: { role: "document" }
+                  },
+                  [
+                    _c("div", { staticClass: "modal-content" }, [
+                      _vm._m(4),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c(
+                          "div",
+                          { staticClass: "card card-secondary card-outline" },
+                          [
+                            _c("div", { staticClass: "card-body" }, [
+                              _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { attrs: { for: "exampleInputEmail1" } },
+                                  [_vm._v("Vendor's Name")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.vend.name,
+                                      expression: "vend.name"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "exampleInputEmail1"
+                                  },
+                                  domProps: { value: _vm.vend.name },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.vend,
+                                        "name",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { attrs: { for: "exampleInputEmail1" } },
+                                  [_vm._v("Vendor Type")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "select",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.vend.type,
+                                        expression: "vend.type"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { name: "", id: "" },
+                                    on: {
+                                      change: function($event) {
+                                        var $$selectedVal = Array.prototype.filter
+                                          .call($event.target.options, function(
+                                            o
+                                          ) {
+                                            return o.selected
+                                          })
+                                          .map(function(o) {
+                                            var val =
+                                              "_value" in o ? o._value : o.value
+                                            return val
+                                          })
+                                        _vm.$set(
+                                          _vm.vend,
+                                          "type",
+                                          $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "Commercial" } },
+                                      [_vm._v("Commercial")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "Normal" } },
+                                      [_vm._v("Normal")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { attrs: { for: "exampleInputEmail1" } },
+                                  [_vm._v("Vendor's Location")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.vend.location,
+                                      expression: "vend.location"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "exampleInputEmail1"
+                                  },
+                                  domProps: { value: _vm.vend.location },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.vend,
+                                        "location",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { attrs: { for: "exampleInputEmail1" } },
+                                  [_vm._v("Vendor's Contact")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.vend.contact,
+                                      expression: "vend.contact"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "exampleInputEmail1"
+                                  },
+                                  domProps: { value: _vm.vend.contact },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.vend,
+                                        "contact",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { attrs: { for: "exampleInputEmail1" } },
+                                  [_vm._v("Vendor's Email Address")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.vend.email,
+                                      expression: "vend.email"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "email",
+                                    id: "exampleInputEmail1"
+                                  },
+                                  domProps: { value: _vm.vend.email },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.vend,
+                                        "email",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { attrs: { for: "exampleInputEmail1" } },
+                                  [_vm._v("Representative's Name")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.vend.representative,
+                                      expression: "vend.representative"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "email",
+                                    id: "exampleInputEmail1"
+                                  },
+                                  domProps: { value: _vm.vend.representative },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.vend,
+                                        "representative",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { attrs: { for: "exampleInputEmail1" } },
+                                  [_vm._v("Vendor's Logo")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  ref: "log",
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "file",
+                                    id: "exampleInputEmail1"
+                                  },
+                                  on: { change: _vm.uploadImagem }
+                                })
+                              ])
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-footer" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-secondary",
+                            attrs: { type: "button", "data-dismiss": "modal" }
+                          },
+                          [_vm._v("Close")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: { type: "button" },
+                            on: { click: _vm.saveEdit }
+                          },
+                          [_vm._v("Save changes")]
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "content-header" }, [
-        _c("div", { staticClass: "container-fluid" }, [
-          _c("div", { staticClass: "row mb-2" }, [
-            _c("div", { staticClass: "col-sm-6" }, [
-              _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("Dashboard")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-6" }, [
-              _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
-                _c("li", { staticClass: "breadcrumb-item" }, [
-                  _c("a", { attrs: { href: "#" } }, [_vm._v("Home")])
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "breadcrumb-item active" }, [
-                  _vm._v("Dashboard")
-                ])
+    return _c("div", { staticClass: "content-header" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row mb-2" }, [
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("Dashboard")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
+              _c("li", { staticClass: "breadcrumb-item" }, [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Home")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "breadcrumb-item active" }, [
+                _vm._v("Dashboard")
               ])
             ])
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _c("section", { staticClass: "content" }, [
-        _c("div", { staticClass: "container-fluid" })
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title " }, [_vm._v("Add Vendor")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Vendors")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Location")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Contact")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Rep")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Logo")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "150px" } }, [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
+        [_vm._v("Edit")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
     ])
   }
 ]
@@ -63341,7 +64245,7 @@ module.exports = function(module) {
 /*!*********************************!*\
   !*** ./resources/js/api/api.js ***!
   \*********************************/
-/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, getLeaveTypes, getAssets, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDesignation, saveLeaveType, saveDp */
+/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, getLeaveTypes, getAssets, getVendors, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDesignation, saveLeaveType, saveVendor, saveDp */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -63360,6 +64264,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProjects", function() { return getProjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLeaveTypes", function() { return getLeaveTypes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAssets", function() { return getAssets; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getVendors", function() { return getVendors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addUser", function() { return addUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attachRole", function() { return attachRole; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "detachRole", function() { return detachRole; });
@@ -63369,6 +64274,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveContract", function() { return saveContract; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveDesignation", function() { return saveDesignation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveLeaveType", function() { return saveLeaveType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveVendor", function() { return saveVendor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveDp", function() { return saveDp; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -63444,6 +64350,11 @@ function getAssets() {
     return response.data;
   });
 }
+function getVendors() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/admin/vendors').then(function (response) {
+    return response.data;
+  });
+}
 function addUser(data) {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/users/add', data).then(function (response) {
     return response.data;
@@ -63486,6 +64397,11 @@ function saveDesignation(data) {
 }
 function saveLeaveType(data) {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/admin/leavetypes', data).then(function (response) {
+    return response.data;
+  });
+}
+function saveVendor(data) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/admin/vendors', data).then(function (response) {
     return response.data;
   });
 }
@@ -63973,6 +64889,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     projects: [],
     leaveTypes: [],
     assets: [],
+    vendors: [],
     usersCount: ''
   },
   mutations: {
@@ -64011,6 +64928,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     setAssets: function setAssets(state, data) {
       state.assets = data;
+    },
+    setVendors: function setVendors(state, data) {
+      state.vendors = data;
     }
   }
 }));

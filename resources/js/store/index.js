@@ -16,6 +16,7 @@ export default new Vuex.Store({
         projects: [],
         leaveTypes: [],
         assets: [],
+        vendors: [],
         usersCount: ''
     },
     mutations: {
@@ -54,6 +55,9 @@ export default new Vuex.Store({
         },
         setAssets: (state, data) => {
             state.assets = data
+        },
+        setVendors: (state, data) => {
+            state.vendors = data
         },
     },
 })

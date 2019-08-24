@@ -40,7 +40,8 @@ export default {
             setRoles: "setRoles",
             setProjects: "setProjects",
             setLeaveTypes: "setLeaveTypes",
-            setAssets: "setAssets"
+            setAssets: "setAssets",
+            setVendors: "setVendors",
         }),
         logout(){
             api.logout()
@@ -72,6 +73,9 @@ export default {
                     })
                     api.getAssets().then(response => {
                         this.setAssets(response)
+                    })
+                    api.getVendors().then(response => {
+                        this.setVendors(response)
                     })
                 }
             })

@@ -71,12 +71,12 @@ class AdminController extends BaseController
 
         return response()->json($assets, 202);
     }
-    public function processAndStoreImage(Request $request){
+    public function processAndStoreImage(Request $request, $location = "assets"){
         $file = $request->file('image');
         $image = Image::make($request->file('image'));
         $image->fit(150, 150, null, 'top');
         $image_name = str_replace(' ', '_', $request->firstname).time().'.'.$file->getClientOriginalExtension();
-        $destination = public_path().DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.$image_name;
+        $destination = public_path().DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.$location.DIRECTORY_SEPARATOR.$image_name;
         $image->save($destination);
         return $image_name;
     }
@@ -137,7 +137,7 @@ class AdminController extends BaseController
             if($validator->fails()){
                 return $this->sendError('Validation errors', $validator->errors(), 422);
             }
-            $logo = $this->processAndStoreImage($request);
+            $logo = $this->processAndStoreImage($request, 'vendors');
         }
 
         $vendor = [
@@ -175,7 +175,7 @@ class AdminController extends BaseController
             if($validator->fails()){
                 return $this->sendError('Validation errors', $validator->errors(), 422);
             }
-            $logo = $this->processAndStoreImage($request);
+            $logo = $this->processAndStoreImage($request, 'vendors');
         }else{
             $logo = $vendor->logo;
         }
