@@ -56,3 +56,6 @@ export function detachProject(data){
 export function countUsers(){
     return axios.get(prefix + '/users/count').then(response => response.data);
 }
+export function saveContract(data){
+    return axios.post(prefix + '/admin/contracts', data).then(response => response.data);
+}

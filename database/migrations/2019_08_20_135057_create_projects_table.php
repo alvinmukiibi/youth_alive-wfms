@@ -16,7 +16,10 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->unsignedBigInteger('supervisor')->nullable();
             $table->text('description')->nullable();
+
+            $table->foreign('supervisor')->references('id')->on('users');
             $table->timestamps();
         });
     }

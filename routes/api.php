@@ -1,5 +1,7 @@
 <?php
 
+use App\Contract;
+use App\Project;
 use App\Http\Resources\ProfileResource;
 use Illuminate\Http\Request;
 use App\User;
@@ -49,5 +51,25 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api', ], function ()
     });
     Route::group(['prefix' => 'projects'], function () {
         Route::get('/', 'ProjectsController@getProjects');
+    });
+    Route::group(['prefix' => 'admin'], function () {
+        Route::post('/contracts', function(Request $request){
+            return response()->json(Contract::create(['name' => $request->name]), 200);
+        });
+        Route::post('/contracts/update/{contract}', function(Contract $contract, Request $request){
+            $contract->name = $request->name;
+            $contract->save();
+            return response()->json('Success', 200);
+        });
+        Route::post('/projects/update/{project}', 'AdminController@editProject');
+        Route::get('/contracts/delete/{contract}', function(Contract $contract){
+            $contract->delete();
+            return response()->json('Success', 200);
+        });
+        Route::post('/projects', 'AdminController@addProject');
+        Route::get('/projects/delete/{project}', function(Project $project){
+            $project->delete();
+            return response()->json('Success', 200);
+        });
     });
 });

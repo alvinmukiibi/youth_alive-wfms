@@ -40,6 +40,22 @@
               </p>
             </router-link>
           </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <router-link to="/contracts" class="nav-link" :class="{ 'active': isActive('/contracts') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                Contract Types
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <router-link to="/projects" class="nav-link" :class="{ 'active': isActive('/projects') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                  Projects
+              </p>
+            </router-link>
+          </li>
 
           <li class="nav-item has-treeview" v-if="stateLoaded && auth.roles.includes('officer')"   >
             <router-link to="/requests" class="nav-link" :class="{ 'active': isActive('/requests') }">
@@ -111,15 +127,6 @@
               </li>
             </ul>
           </li>
-          <!-- <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fa fa-th"></i>
-              <p>
-                Widgets
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li> -->
         </ul>
       </nav>
     </div>

@@ -49,7 +49,7 @@ export default {
         getAuthUser () {
             api.getAuthUser().then(response => {
                 this.setAuthUser(response.data)
-                if(response.data.roles.includes('manager')){
+                if(response.data.roles.includes('manager') || response.data.roles.includes('administrator')){
                     api.getDepartments().then(response => {
                         this.setDepartments(response.data)
                     })
