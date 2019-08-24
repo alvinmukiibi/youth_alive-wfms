@@ -8,7 +8,7 @@
                 <a href="/home" class="nav-link">Home <i class="fa fa-home"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block" v-if="stateLoaded && auth.roles.includes('officer')">
-                <a href="#" class="nav-link">Ask for Leave <i class="fa fa-sign-out"></i></a>
+                <router-link to="leave" class="nav-link">Ask for Leave <i class="fa fa-sign-out"></i></router-link>
             </li>
             <li class="nav-item d-none d-sm-inline-block" v-if="stateLoaded && auth.roles.includes('officer')">
                 <a href="#" class="nav-link">Make a Request <i class="fa fa-hand-grab-o"></i></a>

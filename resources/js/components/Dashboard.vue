@@ -43,10 +43,10 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('officer')">
-                    <div class="small-box bg-secondary">
+                    <div class="small-box bg-danger">
                         <div class="inner">
                             <h3>2</h3>
-                            <p>Leave</p>
+                            <p>Leaves</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-minus-circle"></i>
@@ -55,15 +55,87 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Human Resource'">
-                    <div class="small-box bg-secondary">
+                    <div class="small-box bg-success">
                         <div class="inner">
                             <h3>{{ usersCount }}</h3>
-                            <p>Employees</p>
+                            <p>Manage Employees</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-users"></i>
                         </div>
                         <router-link to="/employees" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>{{ 5 }}</h3>
+                            <p>Manage departments</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <router-link to="/departments" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{ 5 }}</h3>
+                            <p>Manage projects</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <router-link to="/projects" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+                    <div class="small-box bg-secondary">
+                        <div class="inner">
+                            <h3>{{ 5 }}</h3>
+                            <p>Manage vendors</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <router-link to="/vendors" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+                    <div class="small-box bg-dark">
+                        <div class="inner">
+                            <h3>{{ 5 }}</h3>
+                            <p>Assets</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <router-link to="/assets" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>{{ 5 }}</h3>
+                            <p>Leave Types</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <router-link to="/leavetypes" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <h3>{{ 5 }}</h3>
+                            <p>Designations</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <router-link to="/designations" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
             </div>

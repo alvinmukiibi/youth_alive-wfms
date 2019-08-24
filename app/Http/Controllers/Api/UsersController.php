@@ -114,7 +114,6 @@ class UsersController extends BaseController
             'mobile_contact' => 'required',
             'address' => 'required|max:200',
             'email' => 'required | email',
-            // 'biodata' => 'nullable | mimes:docx,doc,pdf,xls,xlsx,txt | max:10240'
         ]);
 
         return $validator;
@@ -218,6 +217,24 @@ class UsersController extends BaseController
             return $this->sendError('', 'User doesnot have that role');
 
         }
+    }
+
+    public function saveDp(User $user, Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'profile_picture' => ['mimes:jpeg,jpg,png,webp,gif']
+        ]);
+        if($validator->fails()){
+            return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
+        }
+
+        $dp = Storage::disk('public')->putFile('users', $request->file('profile_picture'));
+        $user->profile_picture = $dp;
+        $user->save();
+
+        return $this->sendResponse('Saved', 'Dp saved!!');
+
+
     }
 
 }

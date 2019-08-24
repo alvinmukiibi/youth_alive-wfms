@@ -23,7 +23,7 @@
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle"
-                       :src="'storage/users/' + auth.profile_picture"
+                       :src="'storage/' + auth.profile_picture"
                        alt="User profile picture">
                 </div>
 
@@ -42,8 +42,13 @@
                     <b>Friends</b> <a class="float-right">13,287</a>
                   </li>
                 </ul>
-
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                <form >
+                <div class="custom-file">
+                    <input type="file" ref="dp" @change="uploadDp" class="custom-file-input is-valid" id="validatedCustomFile" required>
+                    <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                    <div class="valid-feedback">Upload Profile Picture!!</div>
+                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -178,7 +183,28 @@ export default {
     methods: {
         ...mapMutations({
             setErrors: 'setErrors',
+            setAuthUser: 'setAuthUser'
         }),
+        uploadDp(){
+            let dp = this.$refs.dp.files[0];
+            let data = new FormData
+            data.append('profile_picture', dp);
+            api.saveDp(data, this.auth.id).then(response => {
+                if(!response.success){
+                    this.setErrors(response.data.error)
+                    this.spinner = false
+                    return;
+                }
+                this.setErrors([])
+                this.loadAuthUser();
+                this.spinner = false;
+            })
+        },
+        loadAuthUser(){
+            api.getAuthUser().then(response => {
+                this.setAuthUser(response.data)
+            });
+        },
         save(){
             this.spinner = true
             let data = {

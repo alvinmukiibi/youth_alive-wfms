@@ -40,9 +40,9 @@
                                                     <th>Email</th>
                                                     <th>Designation</th>
                                                     <th>Dept</th>
-                                                    <th>Contract</th>
                                                     <th>Station</th>
                                                     <th>Contact</th>
+                                                    <th>Identity</th>
                                                     <th style="width:100px">Action</th>
                                                 </tr>
                                             </thead>
@@ -52,9 +52,14 @@
                                                     <td>{{ user.email }}</td>
                                                     <td>{{ user.designation }}</td>
                                                     <td>{{ user.department_acronym }}</td>
-                                                    <td>{{ user.contract }}</td>
+
                                                     <td>{{ user.duty_station }}</td>
                                                     <td>{{ user.mobile_contact }}</td>
+                                                    <td>
+                                                        <img class="profile-user-img img-fluid img-circle"
+                                                            :src="'/storage/' + user.profile_picture"
+                                                            alt="User profile picture">
+                                                    </td>
                                                     <td>
                                                         <button type="button" data-toggle="modal" @click="setEmployee(user.id)" data-target="#rolesModal" class="btn btn-sm btn-primary" title="Roles and Projects"> <i  class="fa fa-tasks"></i>  </button>
                                                         <a @click="deactivate(user.id)" title="Deactivate" v-if="user.activity_status"  :class="{'disabled': user.id == auth.id}" to="/deactivate" class="btn btn-sm btn-danger"> <i class="fa fa-times text-white"></i> </a>

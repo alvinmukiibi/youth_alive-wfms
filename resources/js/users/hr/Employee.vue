@@ -23,7 +23,7 @@
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle"
-                       :src="'/storage/users/' + employee.profile_picture"
+                       :src="'/storage/' + employee.profile_picture"
                        alt="User profile picture">
                 </div>
 

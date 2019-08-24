@@ -1780,6 +1780,78 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2088,6 +2160,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2097,17 +2174,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
-    setErrors: 'setErrors'
+    setErrors: 'setErrors',
+    setAuthUser: 'setAuthUser'
   }), {
-    save: function save() {
+    uploadDp: function uploadDp() {
       var _this = this;
 
-      this.spinner = true;
-      var data = {
-        user_name: this.auth.user_name,
-        password: this.auth.password
-      };
-      _api_api__WEBPACK_IMPORTED_MODULE_0__["saveProfile"](data).then(function (response) {
+      var dp = this.$refs.dp.files[0];
+      var data = new FormData();
+      data.append('profile_picture', dp);
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["saveDp"](data, this.auth.id).then(function (response) {
         if (!response.success) {
           _this.setErrors(response.data.error);
 
@@ -2117,7 +2193,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this.setErrors([]);
 
+        _this.loadAuthUser();
+
         _this.spinner = false;
+      });
+    },
+    loadAuthUser: function loadAuthUser() {
+      var _this2 = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["getAuthUser"]().then(function (response) {
+        _this2.setAuthUser(response.data);
+      });
+    },
+    save: function save() {
+      var _this3 = this;
+
+      this.spinner = true;
+      var data = {
+        user_name: this.auth.user_name,
+        password: this.auth.password
+      };
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["saveProfile"](data).then(function (response) {
+        if (!response.success) {
+          _this3.setErrors(response.data.error);
+
+          _this3.spinner = false;
+          return;
+        }
+
+        _this3.setErrors([]);
+
+        _this3.spinner = false;
       });
     }
   }),
@@ -2150,6 +2256,47 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3352,6 +3499,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -39772,7 +39924,7 @@ var render = function() {
             ? _c("div", { staticClass: "col-lg-3 col-6" }, [
                 _c(
                   "div",
-                  { staticClass: "small-box bg-secondary" },
+                  { staticClass: "small-box bg-danger" },
                   [
                     _vm._m(4),
                     _vm._v(" "),
@@ -39801,12 +39953,12 @@ var render = function() {
             ? _c("div", { staticClass: "col-lg-3 col-6" }, [
                 _c(
                   "div",
-                  { staticClass: "small-box bg-secondary" },
+                  { staticClass: "small-box bg-success" },
                   [
                     _c("div", { staticClass: "inner" }, [
                       _c("h3", [_vm._v(_vm._s(_vm.usersCount))]),
                       _vm._v(" "),
-                      _c("p", [_vm._v("Employees")])
+                      _c("p", [_vm._v("Manage Employees")])
                     ]),
                     _vm._v(" "),
                     _vm._m(6),
@@ -39816,6 +39968,192 @@ var render = function() {
                       {
                         staticClass: "small-box-footer",
                         attrs: { to: "/employees" }
+                      },
+                      [
+                        _vm._v("More info "),
+                        _c("i", { staticClass: "fa fa-arrow-circle-right" })
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.stateLoaded && _vm.auth.roles.includes("administrator")
+            ? _c("div", { staticClass: "col-lg-3 col-6" }, [
+                _c(
+                  "div",
+                  { staticClass: "small-box bg-danger" },
+                  [
+                    _c("div", { staticClass: "inner" }, [
+                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("Manage departments")])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "small-box-footer",
+                        attrs: { to: "/departments" }
+                      },
+                      [
+                        _vm._v("More info "),
+                        _c("i", { staticClass: "fa fa-arrow-circle-right" })
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.stateLoaded && _vm.auth.roles.includes("administrator")
+            ? _c("div", { staticClass: "col-lg-3 col-6" }, [
+                _c(
+                  "div",
+                  { staticClass: "small-box bg-info" },
+                  [
+                    _c("div", { staticClass: "inner" }, [
+                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("Manage projects")])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "small-box-footer",
+                        attrs: { to: "/projects" }
+                      },
+                      [
+                        _vm._v("More info "),
+                        _c("i", { staticClass: "fa fa-arrow-circle-right" })
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.stateLoaded && _vm.auth.roles.includes("administrator")
+            ? _c("div", { staticClass: "col-lg-3 col-6" }, [
+                _c(
+                  "div",
+                  { staticClass: "small-box bg-secondary" },
+                  [
+                    _c("div", { staticClass: "inner" }, [
+                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("Manage vendors")])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(9),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "small-box-footer",
+                        attrs: { to: "/vendors" }
+                      },
+                      [
+                        _vm._v("More info "),
+                        _c("i", { staticClass: "fa fa-arrow-circle-right" })
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.stateLoaded && _vm.auth.roles.includes("administrator")
+            ? _c("div", { staticClass: "col-lg-3 col-6" }, [
+                _c(
+                  "div",
+                  { staticClass: "small-box bg-dark" },
+                  [
+                    _c("div", { staticClass: "inner" }, [
+                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("Assets")])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(10),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "small-box-footer",
+                        attrs: { to: "/assets" }
+                      },
+                      [
+                        _vm._v("More info "),
+                        _c("i", { staticClass: "fa fa-arrow-circle-right" })
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.stateLoaded && _vm.auth.roles.includes("administrator")
+            ? _c("div", { staticClass: "col-lg-3 col-6" }, [
+                _c(
+                  "div",
+                  { staticClass: "small-box bg-warning" },
+                  [
+                    _c("div", { staticClass: "inner" }, [
+                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("Leave Types")])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(11),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "small-box-footer",
+                        attrs: { to: "/leavetypes" }
+                      },
+                      [
+                        _vm._v("More info "),
+                        _c("i", { staticClass: "fa fa-arrow-circle-right" })
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.stateLoaded && _vm.auth.roles.includes("administrator")
+            ? _c("div", { staticClass: "col-lg-3 col-6" }, [
+                _c(
+                  "div",
+                  { staticClass: "small-box bg-primary" },
+                  [
+                    _c("div", { staticClass: "inner" }, [
+                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("Designations")])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(12),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "small-box-footer",
+                        attrs: { to: "/designations" }
                       },
                       [
                         _vm._v("More info "),
@@ -39892,7 +40230,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "inner" }, [
       _c("h3", [_vm._v("2")]),
       _vm._v(" "),
-      _c("p", [_vm._v("Leave")])
+      _c("p", [_vm._v("Leaves")])
     ])
   },
   function() {
@@ -39901,6 +40239,54 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "icon" }, [
       _c("i", { staticClass: "fa fa-minus-circle" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-users" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-users" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-users" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-users" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-users" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-users" })
     ])
   },
   function() {
@@ -39946,14 +40332,26 @@ var render = function() {
         _vm._m(1),
         _vm._v(" "),
         _vm.stateLoaded && _vm.auth.roles.includes("officer")
-          ? _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
-              _vm._m(2)
-            ])
+          ? _c(
+              "li",
+              { staticClass: "nav-item d-none d-sm-inline-block" },
+              [
+                _c(
+                  "router-link",
+                  { staticClass: "nav-link", attrs: { to: "leave" } },
+                  [
+                    _vm._v("Ask for Leave "),
+                    _c("i", { staticClass: "fa fa-sign-out" })
+                  ]
+                )
+              ],
+              1
+            )
           : _vm._e(),
         _vm._v(" "),
         _vm.stateLoaded && _vm.auth.roles.includes("officer")
           ? _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
-              _vm._m(3)
+              _vm._m(2)
             ])
           : _vm._e()
       ]),
@@ -40014,15 +40412,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-      _vm._v("Ask for Leave "),
-      _c("i", { staticClass: "fa fa-sign-out" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
       _vm._v("Make a Request "),
       _c("i", { staticClass: "fa fa-hand-grab-o" })
     ])
@@ -40062,7 +40451,7 @@ var render = function() {
                   _c("img", {
                     staticClass: "profile-user-img img-fluid img-circle",
                     attrs: {
-                      src: "storage/users/" + _vm.auth.profile_picture,
+                      src: "storage/" + _vm.auth.profile_picture,
                       alt: "User profile picture"
                     }
                   })
@@ -40078,14 +40467,40 @@ var render = function() {
                 _vm._v(" "),
                 _vm._m(1),
                 _vm._v(" "),
-                _vm._m(2)
+                _c("form", [
+                  _c("div", { staticClass: "custom-file" }, [
+                    _c("input", {
+                      ref: "dp",
+                      staticClass: "custom-file-input is-valid",
+                      attrs: {
+                        type: "file",
+                        id: "validatedCustomFile",
+                        required: ""
+                      },
+                      on: { change: _vm.uploadDp }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      {
+                        staticClass: "custom-file-label",
+                        attrs: { for: "validatedCustomFile" }
+                      },
+                      [_vm._v("Choose file...")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "valid-feedback" }, [
+                      _vm._v("Upload Profile Picture!!")
+                    ])
+                  ])
+                ])
               ])
             ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-9" }, [
             _c("div", { staticClass: "card card-primary card-outline" }, [
-              _vm._m(3),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-group row" }, [
@@ -40217,7 +40632,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(4),
+              _vm._m(3),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-group row" }, [
@@ -40312,7 +40727,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(5),
+              _vm._m(4),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-row" }, [
@@ -40478,16 +40893,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "btn btn-primary btn-block", attrs: { href: "#" } },
-      [_c("b", [_vm._v("Follow")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [
         _vm._v(
@@ -40554,7 +40959,7 @@ var render = function() {
             _c("img", {
               staticClass: "img-circle elevation-2",
               attrs: {
-                src: "/storage/users/" + _vm.auth.profile_picture,
+                src: "/storage/" + _vm.auth.profile_picture,
                 alt: "User Image"
               }
             })
@@ -40631,6 +41036,66 @@ var render = function() {
                 ],
                 1
               ),
+              _vm._v(" "),
+              _vm.stateLoaded && _vm.auth.roles.includes("officer")
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item has-treeview" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.isActive("/requests") },
+                          attrs: { to: "/requests" }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "nav-icon fa fa-hand-grab-o"
+                          }),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v("\n              Requests\n              "),
+                            _c("i", { staticClass: "right fa fa-angle-left" })
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm._m(1)
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.stateLoaded && _vm.auth.roles.includes("officer")
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item has-treeview" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.isActive("/leave") },
+                          attrs: { to: "/leave" }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "nav-icon fa fa-minus-circle"
+                          }),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v("\n              Leave\n              "),
+                            _c("i", { staticClass: "right fa fa-angle-left" })
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm._m(2)
+                    ],
+                    1
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _vm.stateLoaded &&
               _vm.auth.roles.includes("manager") &&
@@ -40711,61 +41176,132 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _vm.stateLoaded && _vm.auth.roles.includes("officer")
+              _vm.stateLoaded && _vm.auth.roles.includes("administrator")
                 ? _c(
                     "li",
-                    { staticClass: "nav-item has-treeview" },
+                    { staticClass: "nav-item" },
                     [
                       _c(
                         "router-link",
                         {
                           staticClass: "nav-link",
-                          class: { active: _vm.isActive("/requests") },
-                          attrs: { to: "/requests" }
+                          class: { active: _vm.isActive("/departments") },
+                          attrs: { to: "/departments" }
                         },
                         [
-                          _c("i", {
-                            staticClass: "nav-icon fa fa-hand-grab-o"
-                          }),
+                          _c("i", { staticClass: "nav-icon fa fa-user" }),
                           _vm._v(" "),
                           _c("p", [
-                            _vm._v("\n              Requests\n              "),
-                            _c("i", { staticClass: "right fa fa-angle-left" })
+                            _vm._v(
+                              "\n                Departments\n            "
+                            )
                           ])
                         ]
-                      ),
-                      _vm._v(" "),
-                      _vm._m(1)
+                      )
                     ],
                     1
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _vm.stateLoaded && _vm.auth.roles.includes("officer")
+              _vm.stateLoaded && _vm.auth.roles.includes("administrator")
                 ? _c(
                     "li",
-                    { staticClass: "nav-item has-treeview" },
+                    { staticClass: "nav-item" },
                     [
                       _c(
                         "router-link",
                         {
                           staticClass: "nav-link",
-                          class: { active: _vm.isActive("/leave") },
-                          attrs: { to: "/leave" }
+                          class: { active: _vm.isActive("/designations") },
+                          attrs: { to: "/designations" }
                         },
                         [
-                          _c("i", {
-                            staticClass: "nav-icon fa fa-minus-circle"
-                          }),
+                          _c("i", { staticClass: "nav-icon fa fa-user" }),
                           _vm._v(" "),
                           _c("p", [
-                            _vm._v("\n              Leave\n              "),
-                            _c("i", { staticClass: "right fa fa-angle-left" })
+                            _vm._v(
+                              "\n                Designations\n            "
+                            )
                           ])
                         ]
-                      ),
-                      _vm._v(" "),
-                      _vm._m(2)
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.stateLoaded && _vm.auth.roles.includes("administrator")
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.isActive("/assets") },
+                          attrs: { to: "/assets" }
+                        },
+                        [
+                          _c("i", { staticClass: "nav-icon fa fa-user" }),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v("\n                Assets\n            ")
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.stateLoaded && _vm.auth.roles.includes("administrator")
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.isActive("/vendors") },
+                          attrs: { to: "/vendors" }
+                        },
+                        [
+                          _c("i", { staticClass: "nav-icon fa fa-user" }),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v("\n                Vendors\n            ")
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.stateLoaded && _vm.auth.roles.includes("administrator")
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.isActive("/leavetypes") },
+                          attrs: { to: "/leavetypes" }
+                        },
+                        [
+                          _c("i", { staticClass: "nav-icon fa fa-user" }),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "\n                Leave Types\n            "
+                            )
+                          ])
+                        ]
+                      )
                     ],
                     1
                   )
@@ -42235,7 +42771,7 @@ var render = function() {
                     _c("img", {
                       staticClass: "profile-user-img img-fluid img-circle",
                       attrs: {
-                        src: "/storage/users/" + _vm.employee.profile_picture,
+                        src: "/storage/" + _vm.employee.profile_picture,
                         alt: "User profile picture"
                       }
                     })
@@ -42990,11 +43526,20 @@ var render = function() {
                                   _vm._v(_vm._s(user.department_acronym))
                                 ]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(user.contract))]),
-                                _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(user.duty_station))]),
                                 _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(user.mobile_contact))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("img", {
+                                    staticClass:
+                                      "profile-user-img img-fluid img-circle",
+                                    attrs: {
+                                      src: "/storage/" + user.profile_picture,
+                                      alt: "User profile picture"
+                                    }
+                                  })
+                                ]),
                                 _vm._v(" "),
                                 _c("td", [
                                   _c(
@@ -44146,11 +44691,11 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Dept")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Contract")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Station")]),
         _vm._v(" "),
         _c("th", [_vm._v("Contact")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Identity")]),
         _vm._v(" "),
         _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Action")])
       ])
@@ -60334,7 +60879,7 @@ module.exports = function(module) {
 /*!*********************************!*\
   !*** ./resources/js/api/api.js ***!
   \*********************************/
-/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract */
+/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDp */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -60358,6 +60903,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "detachProject", function() { return detachProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "countUsers", function() { return countUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveContract", function() { return saveContract; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveDp", function() { return saveDp; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -60454,6 +61000,11 @@ function countUsers() {
 }
 function saveContract(data) {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/admin/contracts', data).then(function (response) {
+    return response.data;
+  });
+}
+function saveDp(data, id) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + "/users/save/dp/".concat(id), data).then(function (response) {
     return response.data;
   });
 }

@@ -17,13 +17,14 @@ use App\LeaveType;
 |
 */
 
-Route::group(['namespace' => 'Api', ], function () {
+Route::group(['middleware' => 'auth:api', 'namespace' => 'Api', ], function () {
 
     Route::group(['prefix' => 'users'], function () {
         Route::get('auth', function (Request $request) {
             return new ProfileResource($request->user());
         });
         Route::post('/save/profile', 'UsersController@saveProfile');
+        Route::post('/save/dp/{user}', 'UsersController@saveDp');
         Route::post('/save/edit/{user}', 'UsersController@saveUserEdit');
         Route::get('/', 'UsersController@getUsers');
         Route::get('/activate/{user}', 'UsersController@activateUser');

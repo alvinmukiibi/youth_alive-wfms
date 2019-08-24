@@ -8,7 +8,7 @@
     <div class="sidebar">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img :src="'/storage/users/' + auth.profile_picture" class="img-circle elevation-2" alt="User Image">
+          <img :src="'/storage/' + auth.profile_picture" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <router-link to="/profile" class="d-block">{{ auth.fname + ' ' + auth.lname }}</router-link>
@@ -32,31 +32,6 @@
               </p>
             </router-link>
           </li>
-          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Human Resource'">
-            <router-link to="/employees" class="nav-link" :class="{ 'active': isActive('/employees') }">
-              <i class="nav-icon fa fa-user"></i>
-              <p>
-                Employees
-              </p>
-            </router-link>
-          </li>
-          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
-            <router-link to="/contracts" class="nav-link" :class="{ 'active': isActive('/contracts') }">
-              <i class="nav-icon fa fa-user"></i>
-              <p>
-                Contract Types
-              </p>
-            </router-link>
-          </li>
-          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
-            <router-link to="/projects" class="nav-link" :class="{ 'active': isActive('/projects') }">
-              <i class="nav-icon fa fa-user"></i>
-              <p>
-                  Projects
-              </p>
-            </router-link>
-          </li>
-
           <li class="nav-item has-treeview" v-if="stateLoaded && auth.roles.includes('officer')"   >
             <router-link to="/requests" class="nav-link" :class="{ 'active': isActive('/requests') }">
               <i class="nav-icon fa fa-hand-grab-o"></i>
@@ -127,6 +102,72 @@
               </li>
             </ul>
           </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Human Resource'">
+            <router-link to="/employees" class="nav-link" :class="{ 'active': isActive('/employees') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                Employees
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <router-link to="/contracts" class="nav-link" :class="{ 'active': isActive('/contracts') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                Contract Types
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <router-link to="/projects" class="nav-link" :class="{ 'active': isActive('/projects') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                  Projects
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <router-link to="/departments" class="nav-link" :class="{ 'active': isActive('/departments') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                  Departments
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <router-link to="/designations" class="nav-link" :class="{ 'active': isActive('/designations') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                  Designations
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <router-link to="/assets" class="nav-link" :class="{ 'active': isActive('/assets') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                  Assets
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <router-link to="/vendors" class="nav-link" :class="{ 'active': isActive('/vendors') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                  Vendors
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <router-link to="/leavetypes" class="nav-link" :class="{ 'active': isActive('/leavetypes') }">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                  Leave Types
+              </p>
+            </router-link>
+          </li>
+
+
         </ul>
       </nav>
     </div>
