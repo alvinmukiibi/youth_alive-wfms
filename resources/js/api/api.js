@@ -38,6 +38,12 @@ export function getRoles(){
 export function getProjects(){
     return axios.get(prefix + '/projects').then(response => response.data);
 }
+export function getLeaveTypes(){
+    return axios.get(prefix + '/admin/leavetypes').then(response => response.data);
+}
+export function getAssets(){
+    return axios.get(prefix + '/admin/assets').then(response => response.data);
+}
 export function addUser(data){
     return axios.post(prefix + '/users/add', data).then(response => response.data);
 }
@@ -58,6 +64,12 @@ export function countUsers(){
 }
 export function saveContract(data){
     return axios.post(prefix + '/admin/contracts', data).then(response => response.data);
+}
+export function saveDesignation(data){
+    return axios.post(prefix + '/designations', data).then(response => response.data);
+}
+export function saveLeaveType(data){
+    return axios.post(prefix + '/admin/leavetypes', data).then(response => response.data);
 }
 export function saveDp(data, id){
     return axios.post(prefix + `/users/save/dp/${id}`, data).then(response => response.data);

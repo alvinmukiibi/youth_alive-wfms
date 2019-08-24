@@ -14,6 +14,8 @@ export default new Vuex.Store({
         contracts: [],
         roles: [],
         projects: [],
+        leaveTypes: [],
+        assets: [],
         usersCount: ''
     },
     mutations: {
@@ -46,6 +48,12 @@ export default new Vuex.Store({
         },
         setUsersCount: (state, data) => {
             state.usersCount = data
+        },
+        setLeaveTypes: (state, data) => {
+            state.leaveTypes = data
+        },
+        setAssets: (state, data) => {
+            state.assets = data
         },
     },
 })

@@ -39,6 +39,8 @@ export default {
             setContracts: "setContracts",
             setRoles: "setRoles",
             setProjects: "setProjects",
+            setLeaveTypes: "setLeaveTypes",
+            setAssets: "setAssets"
         }),
         logout(){
             api.logout()
@@ -64,6 +66,12 @@ export default {
                     })
                     api.getProjects().then(response => {
                         this.setProjects(response.data)
+                    })
+                    api.getLeaveTypes().then(response => {
+                        this.setLeaveTypes(response)
+                    })
+                    api.getAssets().then(response => {
+                        this.setAssets(response)
                     })
                 }
             })
