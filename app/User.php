@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Designation;
 use App\Role;
-
+use App\Request;
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
@@ -53,6 +53,10 @@ class User extends Authenticatable
 
     public function roles(){
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+
+    public function requests(){
+        return $this->hasMany(Request::class, 'user_id');
     }
 
     public function arrayOfRoles(){

@@ -1862,8 +1862,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     auth: function auth(state) {
       return state.auth;
     },
-    usersCount: function usersCount(state) {
-      return state.usersCount;
+    departments: function departments(state) {
+      return state.departments;
+    },
+    projects: function projects(state) {
+      return state.projects;
+    },
+    users: function users(state) {
+      return state.users;
+    },
+    assets: function assets(state) {
+      return state.assets;
+    },
+    vendors: function vendors(state) {
+      return state.vendors;
+    },
+    leaveTypes: function leaveTypes(state) {
+      return state.leaveTypes;
+    },
+    designations: function designations(state) {
+      return state.designations;
     }
   }), {
     stateLoaded: function stateLoaded() {
@@ -1930,7 +1948,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setProjects: "setProjects",
     setLeaveTypes: "setLeaveTypes",
     setAssets: "setAssets",
-    setVendors: "setVendors"
+    setVendors: "setVendors",
+    setUsers: "setUsers"
   }), {
     logout: function logout() {
       _api_api_js__WEBPACK_IMPORTED_MODULE_1__["logout"]().then(function (response) {
@@ -1949,6 +1968,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getDesignations"]().then(function (response) {
             _this.setDesignations(response.data);
+          });
+          _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getUsers"]().then(function (response) {
+            _this.setUsers(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getContracts"]().then(function (response) {
             _this.setContracts(response.data);
@@ -40811,7 +40833,9 @@ var render = function() {
                   { staticClass: "small-box bg-success" },
                   [
                     _c("div", { staticClass: "inner" }, [
-                      _c("h3", [_vm._v(_vm._s(_vm.usersCount))]),
+                      _c("h3", [
+                        _vm._v(" " + _vm._s(Object.keys(_vm.users).length))
+                      ]),
                       _vm._v(" "),
                       _c("p", [_vm._v("Manage Employees")])
                     ]),
@@ -40842,7 +40866,9 @@ var render = function() {
                   { staticClass: "small-box bg-danger" },
                   [
                     _c("div", { staticClass: "inner" }, [
-                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _c("h3", [
+                        _vm._v(_vm._s(Object.keys(_vm.departments).length))
+                      ]),
                       _vm._v(" "),
                       _c("p", [_vm._v("Manage departments")])
                     ]),
@@ -40873,7 +40899,9 @@ var render = function() {
                   { staticClass: "small-box bg-info" },
                   [
                     _c("div", { staticClass: "inner" }, [
-                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _c("h3", [
+                        _vm._v(_vm._s(Object.keys(_vm.projects).length))
+                      ]),
                       _vm._v(" "),
                       _c("p", [_vm._v("Manage projects")])
                     ]),
@@ -40904,7 +40932,9 @@ var render = function() {
                   { staticClass: "small-box bg-secondary" },
                   [
                     _c("div", { staticClass: "inner" }, [
-                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _c("h3", [
+                        _vm._v(_vm._s(Object.keys(_vm.vendors).length))
+                      ]),
                       _vm._v(" "),
                       _c("p", [_vm._v("Manage vendors")])
                     ]),
@@ -40935,7 +40965,9 @@ var render = function() {
                   { staticClass: "small-box bg-dark" },
                   [
                     _c("div", { staticClass: "inner" }, [
-                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _c("h3", [
+                        _vm._v(_vm._s(Object.keys(_vm.assets).length))
+                      ]),
                       _vm._v(" "),
                       _c("p", [_vm._v("Assets")])
                     ]),
@@ -40966,7 +40998,9 @@ var render = function() {
                   { staticClass: "small-box bg-warning" },
                   [
                     _c("div", { staticClass: "inner" }, [
-                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _c("h3", [
+                        _vm._v(_vm._s(Object.keys(_vm.leaveTypes).length))
+                      ]),
                       _vm._v(" "),
                       _c("p", [_vm._v("Leave Types")])
                     ]),
@@ -40997,7 +41031,9 @@ var render = function() {
                   { staticClass: "small-box bg-primary" },
                   [
                     _c("div", { staticClass: "inner" }, [
-                      _c("h3", [_vm._v(_vm._s(5))]),
+                      _c("h3", [
+                        _vm._v(_vm._s(Object.keys(_vm.designations).length))
+                      ]),
                       _vm._v(" "),
                       _c("p", [_vm._v("Designations")])
                     ]),
@@ -65286,15 +65322,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************!*\
   !*** ./resources/js/users/admin/Projects.vue ***!
   \***********************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Projects_vue_vue_type_template_id_fcc76182___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Projects.vue?vue&type=template&id=fcc76182& */ "./resources/js/users/admin/Projects.vue?vue&type=template&id=fcc76182&");
 /* harmony import */ var _Projects_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Projects.vue?vue&type=script&lang=js& */ "./resources/js/users/admin/Projects.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Projects_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Projects_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -65324,7 +65359,7 @@ component.options.__file = "resources/js/users/admin/Projects.vue"
 /*!************************************************************************!*\
   !*** ./resources/js/users/admin/Projects.vue?vue&type=script&lang=js& ***!
   \************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

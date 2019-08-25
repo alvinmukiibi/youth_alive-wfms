@@ -57,7 +57,7 @@
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Human Resource'">
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>{{ usersCount }}</h3>
+                            <h3> {{ Object.keys(users).length }}</h3>
                             <p>Manage Employees</p>
                         </div>
                         <div class="icon">
@@ -69,7 +69,7 @@
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>{{ 5 }}</h3>
+                            <h3>{{ Object.keys(departments).length }}</h3>
                             <p>Manage departments</p>
                         </div>
                         <div class="icon">
@@ -81,7 +81,7 @@
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>{{ 5 }}</h3>
+                            <h3>{{ Object.keys(projects).length }}</h3>
                             <p>Manage projects</p>
                         </div>
                         <div class="icon">
@@ -93,7 +93,7 @@
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
                     <div class="small-box bg-secondary">
                         <div class="inner">
-                            <h3>{{ 5 }}</h3>
+                            <h3>{{ Object.keys(vendors).length }}</h3>
                             <p>Manage vendors</p>
                         </div>
                         <div class="icon">
@@ -105,7 +105,7 @@
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
                     <div class="small-box bg-dark">
                         <div class="inner">
-                            <h3>{{ 5 }}</h3>
+                            <h3>{{ Object.keys(assets).length }}</h3>
                             <p>Assets</p>
                         </div>
                         <div class="icon">
@@ -117,7 +117,7 @@
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>{{ 5 }}</h3>
+                            <h3>{{ Object.keys(leaveTypes).length }}</h3>
                             <p>Leave Types</p>
                         </div>
                         <div class="icon">
@@ -129,7 +129,7 @@
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
                     <div class="small-box bg-primary">
                         <div class="inner">
-                            <h3>{{ 5 }}</h3>
+                            <h3>{{ Object.keys(designations).length }}</h3>
                             <p>Designations</p>
                         </div>
                         <div class="icon">
@@ -157,7 +157,13 @@ export default {
     computed: {
         ...mapState({
             auth: state => state.auth,
-            usersCount: state => state.usersCount
+            departments: state => state.departments,
+            projects: state => state.projects,
+            users: state => state.users,
+            assets: state => state.assets,
+            vendors: state => state.vendors,
+            leaveTypes: state => state.leaveTypes,
+            designations: state => state.designations,
         }),
         stateLoaded (){
             return Object.keys(this.auth).length > 0 ? true : false;

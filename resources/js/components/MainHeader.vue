@@ -42,6 +42,7 @@ export default {
             setLeaveTypes: "setLeaveTypes",
             setAssets: "setAssets",
             setVendors: "setVendors",
+            setUsers: "setUsers"
         }),
         logout(){
             api.logout()
@@ -58,6 +59,9 @@ export default {
                     })
                     api.getDesignations().then(response => {
                         this.setDesignations(response.data)
+                    })
+                    api.getUsers().then(response => {
+                        this.setUsers(response.data)
                     })
                     api.getContracts().then(response => {
                         this.setContracts(response.data)

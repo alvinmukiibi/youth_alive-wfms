@@ -59,6 +59,13 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api', ], function () {
     Route::group(['prefix' => 'projects'], function () {
         Route::get('/', 'ProjectsController@getProjects');
     });
+
+    Route::group(['prefix' => 'requests'], function () {
+        Route::post('/', 'RequestsController@addRequest');
+    });
+
+
+
     Route::group(['prefix' => 'admin'], function () {
         Route::post('/contracts', function(Request $request){
             return response()->json(Contract::create(['name' => $request->name]), 200);
