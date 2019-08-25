@@ -33,6 +33,8 @@
                                         <th>Name</th>
                                         <th>Description</th>
                                         <th>Supervisor</th>
+                                        <th>Accountant</th>
+                                        <th>Manager</th>
                                         <th style="width:100px">Action</th>
                                     </tr>
                                 </thead>
@@ -41,6 +43,8 @@
                                         <td >{{ project.name }}</td>
                                         <td >{{ project.description }}</td>
                                         <td >{{ project.supervisor }}</td>
+                                        <td >{{ project.accountant }}</td>
+                                        <td >{{ project.manager }}</td>
                                         <td>
                                             <button @click="deleteProject(project.id)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
                                             <button @click="setProject(project.id)" type="button" data-toggle="modal" data-target="#editModal" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil"></i></button>
@@ -76,7 +80,22 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="col-form-label">Assign Supervisor</label>
+
                                     <select name="" id="" class="form-control" v-model="project.supervisor">
+                                        <option disabled  value="">Select User</option>
+                                        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-form-label">Assign Accountant</label>
+                                    <select name="" id="" class="form-control" v-model="project.accountant">
+                                        <option disabled  value="">Select User</option>
+                                        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-form-label">Assign Manager</label>
+                                    <select name="" id="" class="form-control" v-model="project.manager">
                                         <option disabled  value="">Select User</option>
                                         <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
                                     </select>
@@ -118,8 +137,22 @@
                                     <textarea name="" id="" cols="5" rows="3" v-model="proj.description" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="col-form-label">Assign Supervisor</label>
+                                    <label for="" class="col-form-label">Assign Supervisor  <span v-if="typeof proj.supervisor != 'number'">[ {{ proj.supervisor  }}]</span>  </label>
                                     <select name="" id="" class="form-control" v-model="proj.supervisor">
+                                        <option disabled  value="">Select User</option>
+                                        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-form-label">Assign Accountant <span v-if="typeof proj.accountant != 'number'"> [ {{ proj.accountant  }}] </span></label>
+                                    <select name="" id="" class="form-control" v-model="proj.accountant">
+                                        <option disabled  value="">Select User</option>
+                                        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-form-label">Assign Manager <span v-if="typeof proj.manager != 'number'"> [ {{ proj.manager  }}] </span></label>
+                                    <select name="" id="" class="form-control" v-model="proj.manager">
                                         <option disabled  value="">Select User</option>
                                         <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
                                     </select>

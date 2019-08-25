@@ -28,6 +28,9 @@ class Request extends Model
     public function assets(){
         return $this->hasMany(RequestedAsset::class, 'request_id');
     }
+    public function attachments(){
+        return $this->hasMany(Attachment::class, 'request_id');
+    }
     public function trail(){
         return $this->hasOne(Trail::class);
     }

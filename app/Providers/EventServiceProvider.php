@@ -20,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\UserCreatedEvent' => [
             'App\Listeners\UserCreatedListener'
+        ],
+        'App\Events\RequestCreatedEvent' => [
+            'App\Listeners\RequestCreatedListener'
         ]
     ];
 

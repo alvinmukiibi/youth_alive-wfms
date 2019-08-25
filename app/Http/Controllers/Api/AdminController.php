@@ -19,6 +19,8 @@ class AdminController extends BaseController
         $validator = Validator::make($request->all(), [
             'name' => ['required'],
             'supervisor' => ['nullable', 'exists:users,id'],
+            'accountant' => ['nullable', 'exists:users,id'],
+            'manager' => ['nullable', 'exists:users,id'],
             'description' => ['nullable', 'max:1000'],
         ]);
 
@@ -30,12 +32,20 @@ class AdminController extends BaseController
             'name' => $request->name,
             'description' => $request->description ? $request->description : null,
             'supervisor' => $request->supervisor ? $request->supervisor : null,
+            'accountant' => $request->accountant ? $request->accountant : null,
+            'manager' => $request->manager ? $request->manager : null,
         ];
 
         $project = Project::create($project);
 
         if($request->supervisor){
             User::find($request->supervisor)->projects()->attach($project->id);
+        }
+        if($request->accountant){
+            User::find($request->accountant)->projects()->attach($project->id);
+        }
+        if($request->manager){
+            User::find($request->manager)->projects()->attach($project->id);
         }
 
         return $this->sendResponse($project, 'New project saved!');
@@ -47,7 +57,9 @@ class AdminController extends BaseController
 
         $project->name = $request->name;
         $project->description = $request->description;
-        $project->supervisor = $request->supervisor;
+        $project->accountant = $request->accountant ? $request->accountant : $project->accountant;
+        $project->supervisor = $request->supervisor ? $request->supervisor : $project->supervisor;
+        $project->manager = $request->manager ? $request->manager : $project->manager;
         $project->save();
 
         $count = DB::table('project_user')->where(['user_id' => $request->supervisor, 'project_id' => $request->id])->count();
@@ -55,6 +67,20 @@ class AdminController extends BaseController
             return $this->sendError('', 'Project already attached to user');
         }else{
             $user = User::find($request->supervisor);
+            $user->projects()->attach($request->id);
+        }
+        $count = DB::table('project_user')->where(['user_id' => $request->accountant, 'project_id' => $request->id])->count();
+        if($count > 0){
+            return $this->sendError('', 'Project already attached to user');
+        }else{
+            $user = User::find($request->accountant);
+            $user->projects()->attach($request->id);
+        }
+        $count = DB::table('project_user')->where(['user_id' => $request->manager, 'project_id' => $request->id])->count();
+        if($count > 0){
+            return $this->sendError('', 'Project already attached to user');
+        }else{
+            $user = User::find($request->manager);
             $user->projects()->attach($request->id);
         }
         return response()->json('Success', 200);

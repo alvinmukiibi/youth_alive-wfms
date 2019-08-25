@@ -19,30 +19,30 @@ class CreateTrailsTable extends Migration
             $table->unsignedBigInteger('request_id');
 
             $table->unsignedBigInteger('requestor_id');
-            $table->text('requestor_comments');
+            $table->text('requestor_comments')->nullable();
             $table->string('requested_date');
 
-            $table->boolean('accountant_approval')->nullable();
+            $table->boolean('accountant_approval')->default(false)->nullable();
             $table->unsignedBigInteger('accountant_id')->nullable();
             $table->text('accountant_comments')->nullable();
             $table->string('accountant_approval_date')->nullable();
 
-            $table->boolean('level_one_approval');
+            $table->boolean('level_one_approval')->default(false)->nullable();
             $table->unsignedBigInteger('level_one_approver_id')->nullable();
             $table->text('level_one_approver_comments')->nullable();
             $table->string('level_one_approval_date')->nullable();
 
-            $table->boolean('finance_approval')->nullable();
+            $table->boolean('finance_approval')->default(false)->nullable();
             $table->unsignedBigInteger('finance_approver_id')->nullable();
             $table->text('finance_approver_comments')->nullable();
             $table->string('finance_approval_date')->nullable();
 
-            $table->boolean('level_two_approval')->nullable();
+            $table->boolean('level_two_approval')->default(false)->nullable();
             $table->unsignedBigInteger('level_two_approver_id')->nullable();
             $table->text('level_two_approver_comments')->nullable();
             $table->string('level_two_approval_date')->nullable();
 
-            $table->boolean('level_three_approval')->nullable();
+            $table->boolean('level_three_approval')->default(false)->nullable();
             $table->unsignedBigInteger('level_three_approver_id')->nullable();
             $table->text('level_three_approver_comments')->nullable();
             $table->string('level_three_approval_date')->nullable();

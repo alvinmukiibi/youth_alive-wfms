@@ -3755,6 +3755,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -44767,6 +44800,10 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(project.supervisor))]),
                           _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(project.accountant))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(project.manager))]),
+                          _vm._v(" "),
                           _c("td", [
                             _c(
                               "button",
@@ -44982,6 +45019,150 @@ var render = function() {
                                 ],
                                 2
                               )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "col-form-label",
+                                  attrs: { for: "" }
+                                },
+                                [_vm._v("Assign Accountant")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.project.accountant,
+                                      expression: "project.accountant"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { name: "", id: "" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.project,
+                                        "accountant",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "option",
+                                    { attrs: { disabled: "", value: "" } },
+                                    [_vm._v("Select User")]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.users, function(user) {
+                                    return _c(
+                                      "option",
+                                      {
+                                        key: user.id,
+                                        domProps: { value: user.id }
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(user.fname + " " + user.lname)
+                                        )
+                                      ]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "col-form-label",
+                                  attrs: { for: "" }
+                                },
+                                [_vm._v("Assign Manager")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.project.manager,
+                                      expression: "project.manager"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { name: "", id: "" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.project,
+                                        "manager",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "option",
+                                    { attrs: { disabled: "", value: "" } },
+                                    [_vm._v("Select User")]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.users, function(user) {
+                                    return _c(
+                                      "option",
+                                      {
+                                        key: user.id,
+                                        domProps: { value: user.id }
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(user.fname + " " + user.lname)
+                                        )
+                                      ]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
                             ])
                           ])
                         ]
@@ -45127,7 +45308,18 @@ var render = function() {
                                   staticClass: "col-form-label",
                                   attrs: { for: "" }
                                 },
-                                [_vm._v("Assign Supervisor")]
+                                [
+                                  _vm._v("Assign Supervisor  "),
+                                  typeof _vm.proj.supervisor != "number"
+                                    ? _c("span", [
+                                        _vm._v(
+                                          "[ " +
+                                            _vm._s(_vm.proj.supervisor) +
+                                            "]"
+                                        )
+                                      ])
+                                    : _vm._e()
+                                ]
                               ),
                               _vm._v(" "),
                               _c(
@@ -45159,6 +45351,172 @@ var render = function() {
                                       _vm.$set(
                                         _vm.proj,
                                         "supervisor",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "option",
+                                    { attrs: { disabled: "", value: "" } },
+                                    [_vm._v("Select User")]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.users, function(user) {
+                                    return _c(
+                                      "option",
+                                      {
+                                        key: user.id,
+                                        domProps: { value: user.id }
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(user.fname + " " + user.lname)
+                                        )
+                                      ]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "col-form-label",
+                                  attrs: { for: "" }
+                                },
+                                [
+                                  _vm._v("Assign Accountant "),
+                                  typeof _vm.proj.accountant != "number"
+                                    ? _c("span", [
+                                        _vm._v(
+                                          " [ " +
+                                            _vm._s(_vm.proj.accountant) +
+                                            "] "
+                                        )
+                                      ])
+                                    : _vm._e()
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.proj.accountant,
+                                      expression: "proj.accountant"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { name: "", id: "" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.proj,
+                                        "accountant",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "option",
+                                    { attrs: { disabled: "", value: "" } },
+                                    [_vm._v("Select User")]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.users, function(user) {
+                                    return _c(
+                                      "option",
+                                      {
+                                        key: user.id,
+                                        domProps: { value: user.id }
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(user.fname + " " + user.lname)
+                                        )
+                                      ]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "col-form-label",
+                                  attrs: { for: "" }
+                                },
+                                [
+                                  _vm._v("Assign Manager "),
+                                  typeof _vm.proj.manager != "number"
+                                    ? _c("span", [
+                                        _vm._v(
+                                          " [ " +
+                                            _vm._s(_vm.proj.manager) +
+                                            "] "
+                                        )
+                                      ])
+                                    : _vm._e()
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.proj.manager,
+                                      expression: "proj.manager"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { name: "", id: "" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.proj,
+                                        "manager",
                                         $event.target.multiple
                                           ? $$selectedVal
                                           : $$selectedVal[0]
@@ -45295,6 +45653,10 @@ var staticRenderFns = [
         _c("th", [_vm._v("Description")]),
         _vm._v(" "),
         _c("th", [_vm._v("Supervisor")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Accountant")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Manager")]),
         _vm._v(" "),
         _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Action")])
       ])

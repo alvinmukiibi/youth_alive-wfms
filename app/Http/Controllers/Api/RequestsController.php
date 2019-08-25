@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Attachment;
+use App\Events\RequestCreatedEvent;
 use Illuminate\Http\Request;
 use App\Request as Req;
 use App\Http\Resources\RequestsResource;
 use App\Http\Controllers\BaseController;
+use App\Project;
+use App\RequestedAsset;
+use App\Trail;
+use App\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class RequestsController extends BaseController
@@ -23,10 +30,7 @@ class RequestsController extends BaseController
             'department_id' => ['required','numeric', 'exists:departments,id'],
             'project_id' => ['required','numeric', 'exists:projects,id'],
             'activity_type' => ['required'],
-            'asset_id' => ['nullable', 'exists:assets,id'],
-            'quantity' => ['nullable', 'numeric'],
-            'unit_cost' => ['nullable', 'numeric'],
-            'comments' => ['nullable', 'max:200'],
+            'requestor_comments' => ['nullable', 'max:200'],
         ]);
 
         return $validator;
@@ -45,6 +49,102 @@ class RequestsController extends BaseController
             return $this->sendError('Permission errors', ['error' => 'Permission denied, please make sure you have the rights of an officer role']);
         }
 
+        $req = [
+            'delivery_date' => $request->delivery_date,
+            'activity_type' => $request->activity_type,
+            'vendor_id' => $request->vendor_id,
+            'department_id' => $request->department_id,
+            'project_id' => $request->project_id,
+        ];
 
+        $req['identity'] = $this->generateRequestIdentity($request);
+
+        $req = Req::create($req);
+
+        $trail = [
+            'request_id' => $req->id,
+            'requestor_id' => $requestor->id,
+            'requestor_comments' => $request->requestor_comments ? $request->requestor_comments : null,
+            'requested_date' => date('Y-m-d H:i')
+        ];
+
+        $trail = Trail::create($trail);
+
+        if($request->has('asset_id')){
+
+            $validator = Validator::make($request->all(), [
+                'asset_id' => ['required', 'exists:assets,id'],
+                'quantity' => ['required', 'numeric'],
+                'unit_cost' => ['required', 'numeric'],
+                'comments' => ['nullable', 'max:200'],
+            ]);
+
+            if($validator->fails()){
+                return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
+            }
+
+            $asset = [
+                'asset_id' => $request->asset_id,
+                'quantity' => $request->quantity,
+                'request_id' => $req->id,
+                'unit_cost' => $request->unit_cost,
+                'comments' => $request->comments ? $request->comments : null,
+            ];
+
+            $asset['total_cost'] = $asset['quantity'] * $asset['unit_cost'];
+
+            RequestedAsset::create($asset);
+        }
+
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->attachments as $file) {
+                $ref = Storage::disk('public')->put('attachments', $file);
+                Attachment::create(['request_id' => $req->id, 'reference' => $ref]);
+            }
+        }
+
+        // notifications
+        // request upwards, approve downwards
+        if(count($requestor->arrayOfRoles()) == 1 && in_array('officer', $requestor->arrayOfRoles())) {
+            // you are solely an officer
+            // notify your project accountant
+            $accountant = User::find(Project::find($req->project_id)->accountant);
+            event(new RequestCreatedEvent($accountant));
+        }
+
+        if(in_array('manager', $requestor->arrayOfRoles())){
+            // you are a manager
+            // notify project manager
+        }
+
+        if(in_array('director', $requestor->arrayOfRoles())){
+            // you are a director
+            // not now
+        }
+
+        return $this->sendResponse($req, 'Request created!');
+
+    }
+
+    public function generateRequestIdentity($request){
+
+        $activity_type = $request->activity_type;
+        $activity_type = \strtoupper($activity_type);
+        $activity = \substr($activity_type, 0, 2);
+
+        $project = Project::find($request->project_id)->value('name');
+        $project = \strtoupper($project);
+        $project = \substr($project, 0, 3);
+
+        $identity = $activity.'/'.$project.'/'.$this->random_strings(4);
+
+        return $identity;
+    }
+
+    public function random_strings($length_of_string)
+    {
+        $str_result = '0123456789YOUTHALIVEUGANDA';
+        return substr(str_shuffle($str_result),  0, $length_of_string);
     }
 }

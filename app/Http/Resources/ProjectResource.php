@@ -19,7 +19,9 @@ class ProjectResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'supervisor' => $this->supervisor ? User::find($this->supervisor)->fname . ' ' . User::find($this->supervisor)->lname : null
+            'supervisor' => $this->supervisor ? User::find($this->supervisor)->fname . ' ' . User::find($this->supervisor)->lname : null,
+            'accountant' => $this->accountant ? User::find($this->accountant)->fname . ' ' . User::find($this->accountant)->lname : null,
+            'manager' => $this->manager ? User::find($this->manager)->fname . ' ' . User::find($this->manager)->lname : null
        ];
     }
 }
