@@ -80,6 +80,10 @@
                                             <div class="card-body">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
+                                                        <label for="inputEmail4">Staff ID </label>
+                                                        <input type="text" v-model="user.staff_id" class="form-control" id="inputEmail4" placeholder="Company Staff ID">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
                                                         <label for="inputEmail4">First Name <span class="text-danger">*</span> </label>
                                                         <input type="text" v-model="user.fname" class="form-control" id="inputEmail4" placeholder="First Name">
                                                     </div>
@@ -87,12 +91,13 @@
                                                         <label for="inputPassword4">Last Name <span class="text-danger">*</span></label>
                                                         <input type="text" v-model="user.lname" class="form-control" id="inputPassword4" placeholder="Last Name">
                                                     </div>
+                                                    
+                                                </div>
+                                                <div class="form-row">
                                                     <div class="form-group col-md-4">
                                                         <label for="inputPassword4">Email Address <span class="text-danger">*</span></label>
                                                         <input type="email" v-model="user.email" class="form-control" id="inputPassword4" placeholder="Email address">
                                                     </div>
-                                                </div>
-                                                <div class="form-row">
                                                     <div class="form-group col-md-4">
                                                         <label for="inputEmail4">Mobile Contact <span class="text-danger">*</span></label>
                                                         <input type="text" v-model="user.mobile_contact" class="form-control" id="inputEmail4" placeholder="Mobile">
@@ -101,10 +106,7 @@
                                                         <label for="inputPassword4">Work Contact</label>
                                                         <input type="text" v-model="user.work_contact" class="form-control" id="inputPassword4" placeholder="Work">
                                                     </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="inputPassword4">Home Contact</label>
-                                                        <input type="email" v-model="user.home_contact" class="form-control" id="inputPassword4" placeholder="Home">
-                                                    </div>
+                                                    
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12">
@@ -255,7 +257,7 @@ export default {
                 email: '',
                 mobile_contact: '',
                 work_contact: '',
-                home_contact: '',
+                staff_id: '',
                 department_id: '',
                 designation_id: '',
                 contract_id: '',
@@ -323,7 +325,7 @@ export default {
             this.data.append('email', this.user.email)
             this.data.append('mobile_contact', this.user.mobile_contact)
             this.data.append('work_contact', this.user.work_contact)
-            this.data.append('home_contact', this.user.home_contact)
+            this.data.append('staff_id', this.user.staff_id)
             this.data.append('address', this.user.address)
             this.data.append('department_id', this.user.department_id)
             this.data.append('designation_id', this.user.designation_id)

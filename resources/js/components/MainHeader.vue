@@ -11,7 +11,7 @@
                 <router-link to="leave" class="nav-link">Ask for Leave <i class="fa fa-sign-out"></i></router-link>
             </li>
             <li class="nav-item d-none d-sm-inline-block" v-if="stateLoaded && auth.roles.includes('officer')">
-                <a href="#" class="nav-link">Make a Request <i class="fa fa-hand-grab-o"></i></a>
+                <router-link to="/requests" class="nav-link">Make a Request <i class="fa fa-hand-grab-o"></i></router-link>
             </li>
         </ul>
          <ul class="navbar-nav ml-auto">
@@ -80,6 +80,20 @@ export default {
                     })
                     api.getVendors().then(response => {
                         this.setVendors(response)
+                    })
+                }
+                if(response.data.roles.includes('officer') && response.data.roles.length == 1){
+                    api.getProjects().then(response => {
+                        this.setProjects(response.data)
+                    })
+                    api.getVendors().then(response => {
+                        this.setVendors(response)
+                    })
+                    api.getDepartments().then(response => {
+                        this.setDepartments(response.data)
+                    })
+                    api.getAssets().then(response => {
+                        this.setAssets(response)
                     })
                 }
             })

@@ -25,7 +25,7 @@ class ProfileResource extends JsonResource
             'email' => $this->email,
             'work_contact' => $this->work_contact,
             'mobile_contact' => $this->mobile_contact,
-            'home_contact' => $this->home_contact,
+            'staff_id' => $this->staff_id,
             'address' => $this->address,
             'profile_picture' => $this->profile_picture,
             'duty_station' => $this->duty_station,

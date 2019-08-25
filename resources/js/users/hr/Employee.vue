@@ -56,6 +56,12 @@
                   </div>
                   <div class="card-body">
                       <div class="form-group row">
+                          <label for="Deparmtent" class="col-sm-2 col-form-label">Staff ID</label>
+                          <div class="col-md-10">
+                              <input type="text" readonly :value="employee.staff_id" class="form-control">
+                          </div>
+                      </div>
+                      <div class="form-group row">
                           <label for="Deparmtent" class="col-sm-2 col-form-label">Department</label>
                           <div class="col-md-10">
                                 <input type="text" v-if="!dropDown" @click="dropDown = true"  :value="employee.department" class="form-control">
@@ -111,28 +117,26 @@
                   </div>
                   <div class="card-body">
                       <div class="form-group row">
-                          <label for="email" class="col-sm-2 col-form-label">Email Address</label>
-                          <div class="col-md-4">
-                              <input type="text"  v-model="employee.email" class="form-control">
+                          <label for="" class="col-sm-3 col-form-label">Work Contact</label>
+                            <div class="col-md-3">
+                            <input type="text"  v-model="employee.work_contact" class="form-control">
                           </div>
-                          <label for="Phone Number" class="col-sm-2 col-form-label">Phone Number</label>
-                          <div class="col-md-4">
+                          <label for="Phone Number" class="col-sm-3 col-form-label">Mobile Contact</label>
+                          <div class="col-md-3">
                               <input type="text"  v-model="employee.mobile_contact" class="form-control">
                           </div>
                       </div>
                       <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label">Work Contact</label>
-                            <div class="col-md-4">
-                                <input type="text"  v-model="employee.work_contact" class="form-control">
+                            <label for="email" class="col-sm-3 col-form-label">Email Address</label>
+                            <div class="col-md-9">
+                                <input type="text"  v-model="employee.email" class="form-control">
                             </div>
-                            <label for="Phone Number" class="col-sm-2 col-form-label">Home Contact</label>
-                            <div class="col-md-4">
-                                <input type="text"  v-model="employee.home_contact" class="form-control">
-                            </div>
+                            
+                            
                       </div>
                       <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label">Address</label>
-                            <div class="col-md-10">
+                            <label for="" class="col-sm-3 col-form-label">Address</label>
+                            <div class="col-md-9">
                                 <input type="text"  v-model="employee.address" class="form-control">
                             </div>
                       </div>
@@ -196,7 +200,6 @@ export default {
                 email: this.employee.email,
                 work_contact: this.employee.work_contact,
                 mobile_contact: this.employee.mobile_contact,
-                home_contact: this.employee.home_contact,
                 address: this.employee.address,
             }
             api.saveUserEdit(data, id).then(response => {

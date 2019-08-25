@@ -61,6 +61,12 @@
                   </div>
                   <div class="card-body">
                       <div class="form-group row">
+                          <label for="Deparmtent" class="col-sm-2 col-form-label">Staff ID</label>
+                          <div class="col-md-10">
+                              <input type="text" readonly :value="auth.staff_id" class="form-control">
+                          </div>
+                      </div>
+                      <div class="form-group row">
                           <label for="Deparmtent" class="col-sm-2 col-form-label">Department</label>
                           <div class="col-md-10">
                               <input type="text" readonly :value="auth.department" class="form-control">
@@ -104,28 +110,24 @@
                   </div>
                   <div class="card-body">
                       <div class="form-group row">
-                          <label for="email" class="col-sm-2 col-form-label">Email Address</label>
-                          <div class="col-md-4">
-                              <input type="text" readonly :value="auth.email" class="form-control">
-                          </div>
-                          <label for="Phone Number" class="col-sm-2 col-form-label">Phone Number</label>
-                          <div class="col-md-4">
+                          <label for="" class="col-sm-3 col-form-label">Work Contact</label>
+                            <div class="col-md-3">
+                                <input type="text" readonly :value="auth.work_contact" class="form-control">
+                            </div>
+                          <label for="Phone Number" class="col-sm-3 col-form-label">Mobile Contact</label>
+                          <div class="col-md-3">
                               <input type="text" readonly :value="auth.mobile_contact" class="form-control">
                           </div>
                       </div>
                       <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label">Work Contact</label>
-                            <div class="col-md-4">
-                                <input type="text" readonly :value="auth.work_contact" class="form-control">
-                            </div>
-                            <label for="Phone Number" class="col-sm-2 col-form-label">Home Contact</label>
-                            <div class="col-md-4">
-                                <input type="text" readonly :value="auth.home_contact" class="form-control">
-                            </div>
+                          <label for="email" class="col-sm-3 col-form-label">Email Address</label>
+                          <div class="col-md-9">
+                              <input type="text" readonly :value="auth.email" class="form-control">
+                          </div>
                       </div>
                       <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label">Address</label>
-                            <div class="col-md-10">
+                            <label for="" class="col-sm-3 col-form-label">Address</label>
+                            <div class="col-md-9">
                                 <input type="text" readonly :value="auth.address" class="form-control">
                             </div>
                       </div>

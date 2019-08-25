@@ -9,6 +9,7 @@ import Assets from './users/admin/Assets.vue'
 import Projects from './users/admin/Projects.vue'
 import LeaveTypes from './users/admin/LeaveTypes.vue'
 import Vendors from './users/admin/Vendors.vue'
+import Request from './users/officer/Request.vue'
 
 const routes = [
     { path: '/', component:  Dashboard},
@@ -23,6 +24,7 @@ const routes = [
     { path: '/projects', component:  Projects},
     { path: '/leavetypes', component:  LeaveTypes},
     { path: '/vendors', component:  Vendors},
+    { path: '/requests', component:  Request},
 ]
 
 export default routes;

@@ -80,3 +80,6 @@ export function saveVendor(data){
 export function saveDp(data, id){
     return axios.post(prefix + `/users/save/dp/${id}`, data).then(response => response.data);
 }
+export function addRequest(data){
+    return axios.post(prefix + '/requests', data).then(response => response.data);
+}

@@ -73,7 +73,6 @@ class UsersController extends BaseController
             'duty_station' => 'required',
             'mobile_contact' => 'required',
             'work_contact' => 'required',
-            'home_contact' => 'required',
             'address' => 'required',
             'email' => 'required | email',
         ]);
@@ -95,7 +94,6 @@ class UsersController extends BaseController
         $user->email = $request->email;
         $user->work_contact = $request->work_contact;
         $user->mobile_contact = $request->mobile_contact;
-        $user->home_contact = $request->home_contact;
         $user->address = $request->address;
 
         $user->save();
@@ -144,7 +142,7 @@ class UsersController extends BaseController
             'email' => $request->email,
             'mobile_contact' => $request->mobile_contact,
             'work_contact' => $request->work_contact == null ? null : $request->work_contact,
-            'home_contact' => $request->home_contact == null ? null : $request->home_contact,
+            'staff_id' => $request->staff_id == null ? null : $request->staff_id,
             'address' => $request->address,
             'department_id' => $request->department_id,
             'designation_id' => $request->designation_id,
