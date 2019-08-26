@@ -91,7 +91,7 @@
                                                         <label for="inputPassword4">Last Name <span class="text-danger">*</span></label>
                                                         <input type="text" v-model="user.lname" class="form-control" id="inputPassword4" placeholder="Last Name">
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
@@ -106,7 +106,7 @@
                                                         <label for="inputPassword4">Work Contact</label>
                                                         <input type="text" v-model="user.work_contact" class="form-control" id="inputPassword4" placeholder="Work">
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12">

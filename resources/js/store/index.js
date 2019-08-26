@@ -18,7 +18,8 @@ export default new Vuex.Store({
         assets: [],
         vendors: [],
         myRequests: [],
-        usersCount: ''
+        request: [],
+        usersCount: '',
     },
     mutations: {
         setAuthUser: (state, data) => {
@@ -62,6 +63,9 @@ export default new Vuex.Store({
         },
         setMyRequests: (state, data) => {
             state.myRequests = data
+        },
+        setRequest: (state, data) => {
+            state.request = data
         },
     },
 })

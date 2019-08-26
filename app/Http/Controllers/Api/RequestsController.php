@@ -35,6 +35,61 @@ class RequestsController extends BaseController
 
         return $validator;
     }
+    public function validationEdit($request){
+        $validator = Validator::make($request->all(),
+        [
+            // 'delivery_date' => ['nullable', 'date', 'after_or_equal:today'],
+            // 'vendor_id' => ['nullable', 'numeric', 'exists:vendors,id'],
+            // 'activity_type' => ['nullable'],
+            'requestor_comments' => ['nullable', 'max:200'],
+        ]);
+
+        return $validator;
+    }
+
+    public function updateRequest(Request $request){
+        $requestor = $request->user();
+
+        $req = Req::find($request->segment(4));
+
+        $validator = $this->validationEdit($request);
+
+        if($validator->fails()){
+            return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
+        }
+        $data = [
+            'activity_type' => $request->activity_type != 'null' ?  $request->activity_type : $req->activity_type,
+            'vendor_id' => $request->vendor_id != 'null' ?  $request->vendor_id : $req->vendor_id,
+            'delivery_date' => $request->delivery_date != 'null' ?  $request->delivery_date : $req->delivery_date,
+
+        ];
+        $req->update($data);
+
+        $trail = $req->trail;
+        $trail->requestor_comments = $request->filled('requestor_comments') ?  $request->requestor_comments : $req->requestor_comments;
+        $trail->save();
+
+
+        if($request->filled('asset_id')){
+            $asset = $req->assets()->first();
+            $asset->quantity = $request->quantity ? $request->quantity : $asset->quantity;
+            $asset->unit_cost = $request->unit_cost ? $request->unit_cost : $asset->unit_cost;
+            $asset->comments = $request->comments ? $request->comments : $asset->comments;
+            $asset->total_cost  = $asset->unit_cost * $asset->quantity;
+            $asset->save();
+        }
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->attachments as $file) {
+                $ref = Storage::disk('public')->put('attachments', $file);
+                Attachment::create(['request_id' => $req->id, 'reference' => $ref]);
+            }
+        }
+
+
+        return $this->sendResponse($req, 'Saved successfully');
+
+    }
 
     public function addRequest(Request $request){
         $requestor = $request->user();
@@ -71,7 +126,7 @@ class RequestsController extends BaseController
 
         $trail = Trail::create($trail);
 
-        if($request->has('asset_id')){
+        if($request->filled('asset_id')){
 
             $validator = Validator::make($request->all(), [
                 'asset_id' => ['required', 'exists:assets,id'],

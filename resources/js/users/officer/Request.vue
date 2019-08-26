@@ -39,7 +39,7 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="tab-content">
-                                                    <div class="tab-pane" id="new">
+                                                    <div class="tab-pane active" id="new">
                                                         <table class="table table-striped table-bordered">
                                                             <thead>
                                                                 <tr>
@@ -58,7 +58,7 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr v-for="req in myRequests" :key="req.id">
-                                                                    <td><router-link to="/view/request"><b>{{ req.identity }}</b></router-link></td>
+                                                                    <td><router-link to="/view/request"><span @click="loadRequest(req.id)" ><b> {{ req.identity  }}</b></span></router-link></td>
                                                                     <td>{{ req.activity_type }}</td>
                                                                     <td>{{ req.project.name }}</td>
                                                                     <td>
@@ -123,7 +123,7 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    <div class="tab-pane active" id="approved">
+                                                    <div class="tab-pane" id="approved">
                                                         <table class="table table-striped table-bordered">
                                                             <thead>
                                                                 <tr>
@@ -135,7 +135,7 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr v-for="reqq in myRequests" :key="reqq.id">
-                                                                    <td><router-link to="/view/request"><b>{{ reqq.identity }}</b></router-link></td>
+                                                                    <td><router-link to="/view/request"><span @click="loadRequest(reqq.id)" ><b> {{ reqq.identity  }}</b></span></router-link></td>
                                                                     <td>{{ reqq.activity_type }}</td>
                                                                     <td>{{ reqq.project.name }}</td>
                                                                     <td>
@@ -334,8 +334,12 @@ export default {
     },
     methods: {
          ...mapMutations({
-
+             setRequest: "setRequest"
         }),
+        loadRequest(id){
+            let request = this.myRequests.filter(req => req.id == id)[0]
+            this.setRequest(request)
+        },
         downloadFile(id){
             api.downloadFile(id).then(response => {
                 console.log('file downloaded')

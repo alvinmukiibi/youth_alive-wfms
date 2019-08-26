@@ -81,7 +81,14 @@ export function saveDp(data, id){
     return axios.post(prefix + `/users/save/dp/${id}`, data).then(response => response.data);
 }
 export function addRequest(data){
-    return axios.post(prefix + '/requests', data).then(response => response.data);
+    return axios.post(prefix + '/requests', data, {
+        headers: { 'Content-Type': 'multipart/form-data'}
+    }).then(response => response.data);
+}
+export function saveRequest(data, id){
+    return axios.post(prefix + `/requests/update/${id}`, data, {
+        headers: { 'Content-Type': 'multipart/form-data'}
+    }).then(response => response.data);
 }
 export function getMyRequests(){
     return axios.get(prefix + '/requests/mine').then(response => response.data);

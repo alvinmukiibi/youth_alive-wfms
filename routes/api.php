@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api', ], function () {
 
     Route::group(['prefix' => 'requests'], function () {
         Route::post('/', 'RequestsController@addRequest');
+        Route::post('/update/{request}', 'RequestsController@updateRequest');
         Route::get('/mine', 'RequestsController@getMyRequests');
     });
 

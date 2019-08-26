@@ -131,8 +131,8 @@
                             <div class="col-md-9">
                                 <input type="text"  v-model="employee.email" class="form-control">
                             </div>
-                            
-                            
+
+
                       </div>
                       <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Address</label>
