@@ -2,6 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\ReqAssetResource;
+use App\Vendor;
+use App\Department;
+use App\Project;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class RequestsResource extends JsonResource
@@ -14,6 +18,18 @@ class RequestsResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'identity' => $this->identity,
+            'delivery_date' => $this->delivery_date,
+            'activity_type' => $this->activity_type,
+            'vendor' => Vendor::find($this->vendor_id),
+            'department' => Department::find($this->department_id),
+            'project' => Project::find($this->project_id),
+            'date_of_request' => date('d-M', strtotime($this->created_at)),
+            'trail' => $this->trail,
+            'assets' => ReqAssetResource::collection($this->assets),
+            'attachments' => $this->attachments,
+        ];
     }
 }

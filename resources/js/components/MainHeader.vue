@@ -42,7 +42,8 @@ export default {
             setLeaveTypes: "setLeaveTypes",
             setAssets: "setAssets",
             setVendors: "setVendors",
-            setUsers: "setUsers"
+            setUsers: "setUsers",
+            setMyRequests: "setMyRequests",
         }),
         logout(){
             api.logout()
@@ -94,6 +95,9 @@ export default {
                     })
                     api.getAssets().then(response => {
                         this.setAssets(response)
+                    })
+                    api.getMyRequests().then(response => {
+                        this.setMyRequests(response.data)
                     })
                 }
             })

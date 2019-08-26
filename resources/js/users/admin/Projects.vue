@@ -90,7 +90,7 @@
                                     <label for="" class="col-form-label">Assign Accountant</label>
                                     <select name="" id="" class="form-control" v-model="project.accountant">
                                         <option disabled  value="">Select User</option>
-                                        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
+                                        <option v-for="account in accountants" :key="account.id" :value="account.id">{{ account.fname + ' ' + account.lname }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -147,7 +147,7 @@
                                     <label for="" class="col-form-label">Assign Accountant <span v-if="typeof proj.accountant != 'number'"> [ {{ proj.accountant  }}] </span></label>
                                     <select name="" id="" class="form-control" v-model="proj.accountant">
                                         <option disabled  value="">Select User</option>
-                                        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
+                                        <option v-for="account in accountants" :key="account.id" :value="account.id">{{ account.fname + ' ' + account.lname }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -237,7 +237,11 @@ export default {
         ...mapState({
             projects: state => state.projects,
             users: state => state.users
-        })
+        }),
+        accountants(){
+            let role = "Project Accountant"
+            return this.users.filter(user => user.designation == role)
+        }
     },
     mounted() {
         this.loadUsers()

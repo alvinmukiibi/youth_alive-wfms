@@ -83,3 +83,9 @@ export function saveDp(data, id){
 export function addRequest(data){
     return axios.post(prefix + '/requests', data).then(response => response.data);
 }
+export function getMyRequests(){
+    return axios.get(prefix + '/requests/mine').then(response => response.data);
+}
+export function downloadFile(id){
+    return axios.get(prefix + `/download/file/${id}`).then(response => response.data);
+}

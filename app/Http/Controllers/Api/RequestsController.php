@@ -55,6 +55,7 @@ class RequestsController extends BaseController
             'vendor_id' => $request->vendor_id,
             'department_id' => $request->department_id,
             'project_id' => $request->project_id,
+            'user_id' => $requestor->id
         ];
 
         $req['identity'] = $this->generateRequestIdentity($request);
@@ -124,6 +125,17 @@ class RequestsController extends BaseController
         }
 
         return $this->sendResponse($req, 'Request created!');
+
+    }
+
+    public function getMyRequests(Request $request){
+
+        $user = $request->user();
+
+        $requests = $user->requests;
+        $requests = RequestsResource::collection($requests);
+
+        return $this->sendResponse($requests, 'All my requests');
 
     }
 

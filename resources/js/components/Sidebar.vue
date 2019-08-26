@@ -42,29 +42,42 @@
             </router-link>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a @click.prevent class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>New <span class="right badge badge-danger">2</span></p>
+                  <p>New <span class="right badge badge-warning">{{ n }}</span></p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a @click.prevent class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Confirmed <span class="right badge badge-danger">8</span></p>
+                  <p>Approval PA <span class="right badge badge-warning">{{ n2('accountant_approval', 'level_one_approval') }}</span></p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a @click.prevent class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Approved <span class="right badge badge-danger">9</span></p>
+                  <p>Approval SP <span class="right badge badge-warning">{{ n1('level_one_approval', 'accountant_approval', 'finance_approval') }}</span></p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a @click.prevent class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Declined <span class="right badge badge-danger">0</span></p>
+                  <p>Approval FM <span class="right badge badge-warning">{{ n1('finance_approval', 'level_one_approval', 'level_two_approval') }}</span></p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a @click.prevent class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Approval L2 <span class="right badge badge-warning">{{ n1('level_two_approval', 'finance_approval', 'level_three_approval') }}</span></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a @click.prevent class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Approval L3 <span class="right badge badge-warning">{{ n3('level_three_approval', 'level_two_approval') }}</span></p>
+                </a>
+              </li>
+
             </ul>
           </li>
           <li class="nav-item has-treeview" v-if="stateLoaded && auth.roles.includes('officer')">
@@ -188,6 +201,27 @@ export default {
         ...mapMutations({
             setUsersCount: 'setUsersCount',
         }),
+        n3(approval1, approval2){
+            return this.myRequests.filter(req => {
+                if(req.trail[approval1] == 1 && req.trail[approval2] == 1){
+                    return req
+                }
+            }).length
+        },
+        n1(approval1, approval2, approval3){
+            return this.myRequests.filter(req => {
+                if(req.trail[approval1] == 1 && req.trail[approval2] == 1 && req.trail[approval3] == 0){
+                    return req
+                }
+            }).length
+        },
+        n2(approval, approval1){
+            return this.myRequests.filter(req => {
+                if(req.trail[approval] == 1 && req.trail[approval1] == 0){
+                    return req
+                }
+            }).length
+        },
         isActive(route){
             if(this.$route.path == route){
                 return true
@@ -203,14 +237,24 @@ export default {
     mounted() {
         this.countEmployees();
 
+
     },
     computed: {
         ...mapState({
             auth: state => state.auth,
+            myRequests: state => state.myRequests,
         }),
         stateLoaded (){
             return Object.keys(this.auth).length > 0 ? true : false;
-        }
+        },
+        n(){
+            return this.myRequests.filter(req => {
+                if(req.trail['accountant_approval'] == 0){
+                    return req
+                }
+            }).length
+        },
+
 
     }
 }

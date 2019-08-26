@@ -1,5 +1,6 @@
 <?php
 
+use App\Attachment;
 use App\Contract;
 use App\Project;
 use App\Http\Resources\ProfileResource;
@@ -62,9 +63,15 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api', ], function () {
 
     Route::group(['prefix' => 'requests'], function () {
         Route::post('/', 'RequestsController@addRequest');
+        Route::get('/mine', 'RequestsController@getMyRequests');
     });
 
+    Route::get('/download/file/{attachment}', function(Attachment $attachment){
+        // return Storage
+        $ref = $attachment->reference;
+        return response()->download(public_path().DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.$ref, 'Attachment.pdf', ['Content-Type' => 'application/pdf']);
 
+    });
 
     Route::group(['prefix' => 'admin'], function () {
         Route::post('/contracts', function(Request $request){

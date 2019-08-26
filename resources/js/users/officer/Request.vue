@@ -22,16 +22,159 @@
                         <div class="card">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
-                                    <li class="nav-item"><a class="nav-link" href="#requests" data-toggle="tab"> <i class="fa fa-list-alt"></i>  Requests</a></li>
-                                    <li class="nav-item"><a class="nav-link active" href="#make" data-toggle="tab"> <i class="fa fa-plus-circle"></i> Make Request</a></li>
+                                    <li class="nav-item"><a class="nav-link active" href="#requests" data-toggle="tab"> <i class="fa fa-list-alt"></i>  Requests</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#make" data-toggle="tab"> <i class="fa fa-plus-circle"></i> Make Request</a></li>
                                 </ul>
                             </div>
                             <div class="card-body">
                                 <div class="tab-content">
-                                    <div class="tab-pane" id="requests">
+                                    <div class="active tab-pane" id="requests">
+                                        <div class="card card-primary card-outline">
+                                            <div class="card-header">
+                                                <ul class="nav nav-pills">
+                                                    <li class="nav-item"><a class="nav-link active" href="#new" data-toggle="tab">Requests</a></li>
+                                                    <li class="nav-item"><a class="nav-link" href="#approved" data-toggle="tab">Approval Trail</a></li>
+                                                    <li class="nav-item"><a class="nav-link" href="#declined" data-toggle="tab">Declined</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane" id="new">
+                                                        <table class="table table-striped table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID #</th>
+                                                                    <th>Activity</th>
+                                                                    <th>Project</th>
+                                                                    <th>Vendor</th>
+                                                                    <th>Dept</th>
+                                                                    <th>Date of Req</th>
+                                                                    <th>Target Date</th>
+                                                                    <th>Assets</th>
+                                                                    <th> <i class="fa fa-files-o"></i></th>
+                                                                    <!-- <th >Status</th> -->
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr v-for="req in myRequests" :key="req.id">
+                                                                    <td><router-link to="/view/request"><b>{{ req.identity }}</b></router-link></td>
+                                                                    <td>{{ req.activity_type }}</td>
+                                                                    <td>{{ req.project.name }}</td>
+                                                                    <td>
+                                                                        <b-button  :id="'popq' + req.id" variant="primary btn-sm"><i class="fa fa-eye"></i></b-button>
+                                                                        <b-popover placement="top" :target="'popq' + req.id" triggers="hover focus">
+                                                                            <template slot="title">Vendor Info</template>
+                                                                            <p><b>Name: </b> {{ req.vendor.name }}</p>
+                                                                            <p><b>Type: </b> {{ req.vendor.type }}</p>
+                                                                            <p v-if="req.vendor.location"><b>Location: </b> {{ req.vendor.location }}</p>
+                                                                            <p v-if="req.vendor.email"><b>Email: </b> {{ req.vendor.email }}</p>
+                                                                            <p v-if="req.vendor.mobile"><b>Contact: </b> {{ req.vendor.mobile }}</p>
+                                                                            <p v-if="req.vendor.representative"><b>Rep: </b> {{ req.vendor.representative }}</p>
+                                                                        </b-popover>
+                                                                    </td>
+                                                                    <td>{{ req.department.acronym }}</td>
+                                                                    <td>{{ req.date_of_request }}</td>
+                                                                    <td>{{ req.delivery_date }}</td>
+                                                                    <td> <b-button  :id="'pop' + req.id" variant="primary btn-sm"><i class="fa fa-eye"></i></b-button>
+                                                                         <b-popover placement="top" :target="'pop' + req.id" triggers="hover focus">
+                                                                            <template slot="title">Assets on request</template>
+                                                                            <table v-if="req.assets.length > 0" class="table table-bordered" style="width:100%">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Name</th>
+                                                                                        <th>Qty</th>
+                                                                                        <th>Unit</th>
+                                                                                        <th>Total</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr v-for="ass in req.assets" :key="ass.id">
+                                                                                        <td>{{ ass.name }}</td>
+                                                                                        <td>{{ ass.quantity }}</td>
+                                                                                        <td>{{ ass.unit_cost }}</td>
+                                                                                        <td>{{ ass.total_cost }}</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <p class="text-danger" v-else>
+                                                                                None
+                                                                            </p>
+                                                                            <div v-if="req.trail.requestor_comments" class="callout callout-success">
+                                                                                <h6>Comments</h6>
+                                                                                <p>{{ req.trail.requestor_comments }}</p>
+                                                                            </div>
+                                                                        </b-popover>
+                                                                     </td>
+                                                                    <td>
+                                                                        <b-button  :id="'fil' + req.id" variant="primary btn-sm"><i class="fa fa-download"></i></b-button>
+                                                                         <b-popover placement="top" :target="'fil' + req.id" triggers="hover focus">
+                                                                            <template slot="title">Request Attachments</template>
+                                                                            <a v-for="atta in req.attachments" :key="atta.id" @click.prevent="downloadFile(atta.id)" > File <br>  </a>
+                                                                         </b-popover>
+                                                                    </td>
+                                                                    <!-- <td>
+                                                                        <button v-if="req.trail.accountant_approval == " class="btn btn-sm btn-outline-danger"><i class="fa fa-clock-o">PA</i></button>
+                                                                    </td> -->
+                                                                    <td>
 
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="tab-pane active" id="approved">
+                                                        <table class="table table-striped table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID #</th>
+                                                                    <th>Activity</th>
+                                                                    <th>Project</th>
+                                                                    <th style="width:28%">Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr v-for="reqq in myRequests" :key="reqq.id">
+                                                                    <td><router-link to="/view/request"><b>{{ reqq.identity }}</b></router-link></td>
+                                                                    <td>{{ reqq.activity_type }}</td>
+                                                                    <td>{{ reqq.project.name }}</td>
+                                                                    <td>
+                                                                        <button title="Approved" v-if="reqq.trail.accountant_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>PA</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.accountant_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>PA</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.accountant_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>PA</b></i></button>
+
+                                                                        <button title="Approved" v-if="reqq.trail.level_one_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>SP</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_one_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>SP</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_one_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>SP</b></i></button>
+
+                                                                        <button title="Approved" v-if="reqq.trail.finance_approval == 1" class="btn btn-success btn-sm btn-flat"><i class="fa fa-check"><b>FM</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.finance_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>FM</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.finance_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>FM</b></i></button>
+
+                                                                        <button title="Approved" v-if="reqq.trail.level_two_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>2</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_two_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>2</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_two_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>2</b></i></button>
+
+                                                                        <button title="Approved" v-if="reqq.trail.level_three_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>3</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_three_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>3</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>3</b></i></button>
+
+
+
+
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="tab-pane" id="declined">
+                                                        d
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="active tab-pane" id="make">
+                                    <div class="tab-pane" id="make">
                                         <div class="card card-primary card-outline" v-if="load == false">
                                             <div class="card-header">
                                                 <h3 class="card-title">
@@ -193,6 +336,11 @@ export default {
          ...mapMutations({
 
         }),
+        downloadFile(id){
+            api.downloadFile(id).then(response => {
+                console.log('file downloaded')
+            })
+        },
         loadForm(){
             if(this.activity_type == '' || this.project_id == null){
                 this.disabled = true
@@ -230,10 +378,11 @@ export default {
     computed: {
          ...mapState({
              auth: state => state.auth,
+             myRequests: state => state.myRequests,
              projects: state => state.projects,
              vendors: state => state.vendors,
              departments: state => state.departments,
-             assets: state => state.assets
+             assets: state => state.assets,
          }),
          currentDate() {
             let currentDate = new Date();
@@ -282,7 +431,7 @@ export default {
             }else{
                 this.total_cost = parseInt(this.quantity) * parseInt(newVal)
             }
-            
+
         },
 
     },
