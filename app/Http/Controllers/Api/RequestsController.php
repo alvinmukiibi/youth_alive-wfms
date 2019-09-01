@@ -13,6 +13,7 @@ use App\Project;
 use App\RequestedAsset;
 use App\Trail;
 use App\User;
+use App\Designation;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
