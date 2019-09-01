@@ -25,10 +25,10 @@ class CreateUsersTable extends Migration
             $table->string('home_contact')->nullable();
             $table->text('address')->nullable();
             $table->text('profile_picture')->nullable();
-            $table->unsignedBigInteger('department_id');
-            $table->unsignedBigInteger('designation_id');
-            $table->unsignedBigInteger('contract_id');
-            $table->text('duty_station');
+            $table->unsignedBigInteger('department_id')->nullable();
+            $table->unsignedBigInteger('designation_id')->nullable();
+            $table->unsignedBigInteger('contract_id')->nullable();
+            $table->text('duty_station')->nullable();
             $table->boolean('activity_status')->default(false);
             $table->boolean('email_verified_status')->default(false);
             $table->timestamps();
