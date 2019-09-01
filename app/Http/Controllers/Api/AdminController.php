@@ -110,8 +110,8 @@ class AdminController extends BaseController
 
         $validator = Validator::make($request->all(), [
             'name' => ['required'],
-            'quantity' => ['nullable', 'numeric'],
-            'cost' => ['nullable', 'numeric'],
+            // 'quantity' => ['nullable', 'numeric'],
+            // 'cost' => ['nullable', 'numeric'],
         ]);
 
         if($validator->fails()){

@@ -18,7 +18,7 @@ use App\LeaveType;
 |
 */
 
-Route::group(['middleware' => 'auth:api', 'namespace' => 'Api', ], function () {
+Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
 
     Route::group(['prefix' => 'users'], function () {
         Route::get('auth', function (Request $request) {
@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api', ], function () {
         Route::post('/detach/role', 'UsersController@detachRole');
         Route::post('/attach/project', 'UsersController@attachProject');
         Route::post('/detach/project', 'UsersController@detachProject');
-        Route::get('/count', function(){
+        Route::get('/count', function () {
             return User::count();
         });
     });
@@ -65,43 +65,47 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api', ], function () {
         Route::post('/', 'RequestsController@addRequest');
         Route::post('/update/{request}', 'RequestsController@updateRequest');
         Route::get('/mine', 'RequestsController@getMyRequests');
+        Route::get('/accountant', 'RequestsController@getProjectRequests');
+        Route::get('/firstlevel', 'RequestsController@getLevel1Requests');
+        Route::get('/fmrequests', 'RequestsController@getFMRequests');
+        Route::post('/firstlevel', 'RequestsController@approveRequest');
+        Route::post('/accountant', 'RequestsController@approveRequest');
     });
 
-    Route::get('/download/file/{attachment}', function(Attachment $attachment){
+    Route::get('/download/file/{attachment}', function (Attachment $attachment) {
         // return Storage
         $ref = $attachment->reference;
-        return response()->download(public_path().DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.$ref, 'Attachment.pdf', ['Content-Type' => 'application/pdf']);
-
+        return response()->download(public_path() . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . $ref, 'Attachment.pdf', ['Content-Type' => 'application/pdf']);
     });
 
     Route::group(['prefix' => 'admin'], function () {
-        Route::post('/contracts', function(Request $request){
+        Route::post('/contracts', function (Request $request) {
             return response()->json(Contract::create(['name' => $request->name]), 200);
         });
-        Route::post('/contracts/update/{contract}', function(Contract $contract, Request $request){
+        Route::post('/contracts/update/{contract}', function (Contract $contract, Request $request) {
             $contract->name = $request->name;
             $contract->save();
             return response()->json('Success', 200);
         });
         Route::post('/projects/update/{project}', 'AdminController@editProject');
-        Route::get('/contracts/delete/{contract}', function(Contract $contract){
+        Route::get('/contracts/delete/{contract}', function (Contract $contract) {
             $contract->delete();
             return response()->json('Success', 200);
         });
         Route::post('/projects', 'AdminController@addProject');
-        Route::get('/projects/delete/{project}', function(Project $project){
+        Route::get('/projects/delete/{project}', function (Project $project) {
             $project->delete();
             return response()->json('Success', 200);
         });
 
-        Route::get('/leavetypes', function(Request $request){
+        Route::get('/leavetypes', function (Request $request) {
             return response()->json(LeaveType::all(), 202);
         });
-        Route::get('/leavetypes/delete/{leaveType}', function(LeaveType $leaveType){
+        Route::get('/leavetypes/delete/{leaveType}', function (LeaveType $leaveType) {
             $leaveType->delete();
             return response()->json('', 202);
         });
-        Route::post('/leavetypes', function(Request $request){
+        Route::post('/leavetypes', function (Request $request) {
             $leave = [
                 'type' => $request->type,
                 'days' => $request->days
@@ -109,7 +113,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api', ], function () {
             $leave = LeaveType::create($leave);
             return response()->json($leave, 202);
         });
-        Route::post('/leavetypes/update/{leaveType}', function(LeaveType $leaveType, Request $request){
+        Route::post('/leavetypes/update/{leaveType}', function (LeaveType $leaveType, Request $request) {
             $leaveType->type = $request->type;
             $leaveType->days = $request->days;
             $leaveType->save();

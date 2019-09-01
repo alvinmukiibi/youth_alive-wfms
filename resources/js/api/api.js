@@ -5,94 +5,119 @@ let prefix = process.env.MIX_API_URL
 export function getAuthUser() {
     return axios.get(prefix + '/users/auth').then(response => response.data);
 }
-export function logout(){
+export function logout() {
     return axios.get('/logout').then(response => response.data);
 }
-export function saveProfile(data){
+export function saveProfile(data) {
     return axios.post(prefix + '/users/save/profile', data).then(response => response.data);
 }
-export function saveUserEdit(data, id){
+export function saveUserEdit(data, id) {
     return axios.post(prefix + `/users/save/edit/${id}`, data).then(response => response.data);
 }
-export function getUsers(){
+export function getUsers() {
     return axios.get(prefix + '/users').then(response => response.data);
 }
-export function activateUser(id){
+export function activateUser(id) {
     return axios.get(prefix + `/users/activate/${id}`).then(response => response.data);
 }
-export function deactivateUser(id){
+export function deactivateUser(id) {
     return axios.get(prefix + `/users/deactivate/${id}`).then(response => response.data);
 }
-export function getDepartments(){
+export function getDepartments() {
     return axios.get(prefix + '/departments').then(response => response.data);
 }
-export function getDesignations(){
+export function getDesignations() {
     return axios.get(prefix + '/designations').then(response => response.data);
 }
-export function getContracts(){
+export function getContracts() {
     return axios.get(prefix + '/contracts').then(response => response.data);
 }
-export function getRoles(){
+export function getRoles() {
     return axios.get(prefix + '/roles').then(response => response.data);
 }
-export function getProjects(){
+export function getProjects() {
     return axios.get(prefix + '/projects').then(response => response.data);
 }
-export function getLeaveTypes(){
+export function getLeaveTypes() {
     return axios.get(prefix + '/admin/leavetypes').then(response => response.data);
 }
-export function getAssets(){
+export function getAssets() {
     return axios.get(prefix + '/admin/assets').then(response => response.data);
 }
-export function getVendors(){
+export function getVendors() {
     return axios.get(prefix + '/admin/vendors').then(response => response.data);
 }
-export function addUser(data){
+export function addUser(data) {
     return axios.post(prefix + '/users/add', data).then(response => response.data);
 }
-export function attachRole(data){
+export function attachRole(data) {
     return axios.post(prefix + '/users/attach/role', data).then(response => response.data);
 }
-export function detachRole(data){
+export function detachRole(data) {
     return axios.post(prefix + '/users/detach/role', data).then(response => response.data);
 }
-export function attachProject(data){
+export function attachProject(data) {
     return axios.post(prefix + '/users/attach/project', data).then(response => response.data);
 }
-export function detachProject(data){
+export function detachProject(data) {
     return axios.post(prefix + '/users/detach/project', data).then(response => response.data);
 }
-export function countUsers(){
+export function countUsers() {
     return axios.get(prefix + '/users/count').then(response => response.data);
 }
-export function saveContract(data){
+export function saveContract(data) {
     return axios.post(prefix + '/admin/contracts', data).then(response => response.data);
 }
-export function saveDesignation(data){
+export function saveDesignation(data) {
     return axios.post(prefix + '/designations', data).then(response => response.data);
 }
-export function saveLeaveType(data){
+export function saveLeaveType(data) {
     return axios.post(prefix + '/admin/leavetypes', data).then(response => response.data);
 }
-export function saveVendor(data){
+export function saveVendor(data) {
     return axios.post(prefix + '/admin/vendors', data).then(response => response.data);
 }
-export function saveDp(data, id){
+export function saveDp(data, id) {
     return axios.post(prefix + `/users/save/dp/${id}`, data).then(response => response.data);
 }
-export function addRequest(data){
+export function addRequest(data) {
     return axios.post(prefix + '/requests', data, {
-        headers: { 'Content-Type': 'multipart/form-data'}
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
     }).then(response => response.data);
 }
-export function saveRequest(data, id){
+export function saveRequest(data, id) {
     return axios.post(prefix + `/requests/update/${id}`, data, {
-        headers: { 'Content-Type': 'multipart/form-data'}
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
     }).then(response => response.data);
 }
-export function getMyRequests(){
+export function getMyRequests() {
     return axios.get(prefix + '/requests/mine').then(response => response.data);
 }
-export function downloadFile(id){
+export function downloadFile(id) {
     return axios.get(prefix + `/download/file/${id}`).then(response => response.data);
+}
+export function getProjectRequests() {
+    return axios.get(prefix + '/requests/accountant').then(response => response.data);
+}
+export function getLevel1Requests() {
+    return axios.get(prefix + '/requests/firstlevel').then(response => response.data);
+}
+export function getFMRequests() {
+    return axios.get(prefix + '/requests/fmrequests').then(response => response.data);
+}
+export function giveAccountantApproval(req) {
+    return axios.post(prefix + '/requests/accountant', {
+        request_id: req,
+        field: 'accountant_approval'
+    }).then(response => response.data);
+}
+export function giveLevel1Approval(req) {
+    return axios.post(prefix + '/requests/firstlevel', {
+        request_id: req,
+        field: 'level_one_approval'
+    }).then(response => response.data);
 }

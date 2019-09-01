@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Attachment;
+use App\Department;
 use App\Events\RequestCreatedEvent;
 use Illuminate\Http\Request;
 use App\Request as Req;
@@ -18,43 +19,48 @@ use Illuminate\Support\Facades\Validator;
 class RequestsController extends BaseController
 {
     public function __construct()
+    { }
+
+    public function validation($request)
     {
-
-    }
-
-    public function validation($request){
-        $validator = Validator::make($request->all(),
-        [
-            'delivery_date' => ['required', 'date', 'after_or_equal:today'],
-            'vendor_id' => ['required', 'numeric', 'exists:vendors,id'],
-            'department_id' => ['required','numeric', 'exists:departments,id'],
-            'project_id' => ['required','numeric', 'exists:projects,id'],
-            'activity_type' => ['required'],
-            'requestor_comments' => ['nullable', 'max:200'],
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'delivery_date' => ['required', 'date', 'after_or_equal:today'],
+                'vendor_id' => ['required', 'numeric', 'exists:vendors,id'],
+                'department_id' => ['required', 'numeric', 'exists:departments,id'],
+                'project_id' => ['required', 'numeric', 'exists:projects,id'],
+                'activity_type' => ['required'],
+                'requestor_comments' => ['nullable', 'max:200'],
+            ]
+        );
 
         return $validator;
     }
-    public function validationEdit($request){
-        $validator = Validator::make($request->all(),
-        [
-            // 'delivery_date' => ['nullable', 'date', 'after_or_equal:today'],
-            // 'vendor_id' => ['nullable', 'numeric', 'exists:vendors,id'],
-            // 'activity_type' => ['nullable'],
-            'requestor_comments' => ['nullable', 'max:200'],
-        ]);
+    public function validationEdit($request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                // 'delivery_date' => ['nullable', 'date', 'after_or_equal:today'],
+                // 'vendor_id' => ['nullable', 'numeric', 'exists:vendors,id'],
+                // 'activity_type' => ['nullable'],
+                'requestor_comments' => ['nullable', 'max:200'],
+            ]
+        );
 
         return $validator;
     }
 
-    public function updateRequest(Request $request){
+    public function updateRequest(Request $request)
+    {
         $requestor = $request->user();
 
         $req = Req::find($request->segment(4));
 
         $validator = $this->validationEdit($request);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
         }
         $data = [
@@ -70,7 +76,7 @@ class RequestsController extends BaseController
         $trail->save();
 
 
-        if($request->filled('asset_id')){
+        if ($request->filled('asset_id')) {
             $asset = $req->assets()->first();
             $asset->quantity = $request->quantity ? $request->quantity : $asset->quantity;
             $asset->unit_cost = $request->unit_cost ? $request->unit_cost : $asset->unit_cost;
@@ -88,19 +94,19 @@ class RequestsController extends BaseController
 
 
         return $this->sendResponse($req, 'Saved successfully');
-
     }
 
-    public function addRequest(Request $request){
+    public function addRequest(Request $request)
+    {
         $requestor = $request->user();
 
         $validator = $this->validation($request);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
         }
 
-        if(!in_array('officer', $requestor->arrayOfRoles())){
+        if (!in_array('officer', $requestor->arrayOfRoles())) {
             return $this->sendError('Permission errors', ['error' => 'Permission denied, please make sure you have the rights of an officer role']);
         }
 
@@ -126,7 +132,7 @@ class RequestsController extends BaseController
 
         $trail = Trail::create($trail);
 
-        if($request->filled('asset_id')){
+        if ($request->filled('asset_id')) {
 
             $validator = Validator::make($request->all(), [
                 'asset_id' => ['required', 'exists:assets,id'],
@@ -135,7 +141,7 @@ class RequestsController extends BaseController
                 'comments' => ['nullable', 'max:200'],
             ]);
 
-            if($validator->fails()){
+            if ($validator->fails()) {
                 return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
             }
 
@@ -162,28 +168,32 @@ class RequestsController extends BaseController
 
         // notifications
         // request upwards, approve downwards
-        if(count($requestor->arrayOfRoles()) == 1 && in_array('officer', $requestor->arrayOfRoles())) {
-            // you are solely an officer
-            // notify your project accountant
-            $accountant = User::find(Project::find($req->project_id)->accountant);
-            event(new RequestCreatedEvent($accountant));
-        }
+        // project accountant approved all requests on their projects
 
-        if(in_array('manager', $requestor->arrayOfRoles())){
-            // you are a manager
-            // notify project manager
-        }
+        $accountant = User::find(Project::find($req->project_id)->accountant);
+        event(new RequestCreatedEvent($accountant));
 
-        if(in_array('director', $requestor->arrayOfRoles())){
-            // you are a director
-            // not now
-        }
+        // if (count($requestor->arrayOfRoles()) == 1 && in_array('officer', $requestor->arrayOfRoles())) {
+        //     // you are solely an officer
+        //     // notify your project accountant
+
+        // }
+
+        // if (in_array('manager', $requestor->arrayOfRoles())) {
+        //     // you are a manager
+        //     // notify project manager
+        // }
+
+        // if (in_array('director', $requestor->arrayOfRoles())) {
+        //     // you are a director
+        //     // not now
+        // }
 
         return $this->sendResponse($req, 'Request created!');
-
     }
 
-    public function getMyRequests(Request $request){
+    public function getMyRequests(Request $request)
+    {
 
         $user = $request->user();
 
@@ -191,10 +201,10 @@ class RequestsController extends BaseController
         $requests = RequestsResource::collection($requests);
 
         return $this->sendResponse($requests, 'All my requests');
-
     }
 
-    public function generateRequestIdentity($request){
+    public function generateRequestIdentity($request)
+    {
 
         $activity_type = $request->activity_type;
         $activity_type = \strtoupper($activity_type);
@@ -204,7 +214,7 @@ class RequestsController extends BaseController
         $project = \strtoupper($project);
         $project = \substr($project, 0, 3);
 
-        $identity = $activity.'/'.$project.'/'.$this->random_strings(4);
+        $identity = $activity . '/' . $project . '/' . $this->random_strings(4);
 
         return $identity;
     }
@@ -213,5 +223,116 @@ class RequestsController extends BaseController
     {
         $str_result = '0123456789YOUTHALIVEUGANDA';
         return substr(str_shuffle($str_result),  0, $length_of_string);
+    }
+
+    public function getProjectRequests(Request $request)
+    {
+
+        $user = $request->user();
+
+        $project_id = Project::where('accountant', $user->id)->value('id');
+        $requests = Project::find($project_id)->requests;
+        $requests = RequestsResource::collection($requests);
+
+        return $this->sendResponse($requests, 'Project requests for the accountant');
+    }
+    public function getLevel1Requests(Request $request)
+    {
+        $user = $request->user();
+
+        $department = Department::find($user->department_id);
+        $requests = $department->requests;
+        $requests = RequestsResource::collection($requests);
+
+        return $this->sendResponse($requests, 'Requests for level 1 approval');
+    }
+    public function getFMRequests(Request $request)
+    {
+        $requests = collect();
+        foreach(Req::all() as $req){
+            if($req->trail->level_one_approval == 1 && $req->trail->finance_approval == 0){
+                $requests->push($req);
+            }
+        }
+        $requests = RequestsResource::collection($requests);
+        return $this->sendResponse($requests, 'Requests for finance approval');
+    }
+
+    public function approveRequest(Request $request)
+    {
+        $req = Req::find($request->request_id);
+        $field = $request->field;
+        if($field == 'accountant_approval'){
+            $traceability_id = 'accountant_id';
+            $traceability_date = 'accountant_approval_date';
+            $this->moveRequestUpFromAccountant($req);
+        }
+        if($field == 'level_one_approval'){
+            $traceability_id = 'level_one_approver_id';
+            $traceability_date = 'level_one_approval_date';
+            // for an officer
+            $this->moveRequestUpFromLevel1($req);
+        }
+
+        $trail = $req->trail;
+        $trail[$field] = true;
+        $trail[$traceability_id] = $request->user()->id;
+        $trail[$traceability_date] = date('d-M-Y H:i');
+        $trail->save();
+
+        return $this->sendResponse('success', 'success');
+    }
+
+    public function moveRequestUpFromLevel1($request){
+
+        // send these to finance manager for approval
+
+        foreach(Department::where('name', 'Finance and Operations')->first()->users as $user){
+
+            if(in_array('manager', $user->arrayOfRoles())){
+                $finance_manager = $user;
+            }
+
+        }
+
+        event(new RequestCreatedEvent($finance_manager));
+
+    }
+
+    public function moveRequestUpFromAccountant($request){
+
+        $requestor = User::find($request->user_id);
+        $dept = $requestor->department_id;
+        $requestor_roles = $requestor->arrayOfRoles();
+
+        if (count($requestor_roles) == 1 && in_array('officer', $requestor_roles)) {
+            // you are solely an officer
+            // notify your dept manager who is your supervisor
+            foreach(Department::find($dept)->users as $user){
+                if(in_array('manager', $user->arrayOfRoles())){
+                    $supervisor = $user;
+                }
+            }
+            event(new RequestCreatedEvent($supervisor));
+        }
+
+        if (in_array('manager', $requestor_roles)) {
+            // you are a manager
+            // notify your line director
+            foreach(Department::find($dept)->users as $user){
+                if(in_array('director', $user->arrayOfRoles())){
+                    $director = $user;
+                }
+            }
+            event(new RequestCreatedEvent($director));
+        }
+
+        if (in_array('director', $requestor_roles)) {
+            // you are a director
+            // not now
+        }
+
+
+
     }
 }
