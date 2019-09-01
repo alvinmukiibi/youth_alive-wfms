@@ -13,20 +13,22 @@ class DepartmentsTableSeeder extends Seeder
     public function run()
     {
         $department_names = [
-            'Youth and Gender',
-            'Human Resources',
-            'Strategic Information',
-            'Information and Communications Technology',
-            'Monitoring, Learning and Evaluation',
-            'Communications'
+            'Project Management',
+            'Business Development',
+            'Training and Development',
+            'Human Resource',
+            'Finance and Operations',
+            'Monitoring, Evaluation, Research and Learning',
+            'Communications',
         ];
         $departments_acronyms = [
-            'Y & G',
+            'PM',
+            'BD',
+            'T & D',
             'HR',
-            'SI',
-            'ICT',
+            'FIN',
             'MLE',
-            'Comm',
+            'COMM',
         ];
 
         for($i = 0; $i < count($department_names); $i++){
