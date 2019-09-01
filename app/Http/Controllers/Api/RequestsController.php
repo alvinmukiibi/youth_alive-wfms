@@ -250,12 +250,47 @@ class RequestsController extends BaseController
     {
         $requests = collect();
         foreach(Req::all() as $req){
-            if($req->trail->level_one_approval == 1 && $req->trail->finance_approval == 0){
+            if($req->trail->level_one_approval == 1){
                 $requests->push($req);
             }
         }
         $requests = RequestsResource::collection($requests);
         return $this->sendResponse($requests, 'Requests for finance approval');
+    }
+
+
+    public function getEDRequests(Request $request){
+
+        $reqs = collect();
+        $requests = Req::all();
+        foreach($requests as $req){
+            if($req->trail->level_two_approval == 1){
+                $reqs->push($req);
+            }
+        }
+
+        $reqs = RequestsResource::collection($reqs);
+        return $this->sendResponse($reqs, 'Requests for ED approval');
+
+    }
+
+    public function getDirectorRequests(Request $request)
+    {
+        $reqs = collect();
+
+        $user = $request->user();
+
+        // requests in directors line of department
+        $requests = Department::find($user->department_id)->requests;
+
+        foreach($requests as $req){
+            if($req->trail->finance_approval == 1){
+                $reqs->push($req);
+            }
+        }
+
+        $reqs = RequestsResource::collection($reqs);
+        return $this->sendResponse($reqs, 'Requests for directors approval');
     }
 
     public function approveRequest(Request $request)
@@ -265,13 +300,31 @@ class RequestsController extends BaseController
         if($field == 'accountant_approval'){
             $traceability_id = 'accountant_id';
             $traceability_date = 'accountant_approval_date';
-            $this->moveRequestUpFromAccountant($req);
+            $this->notifySuperviser($req);
         }
         if($field == 'level_one_approval'){
             $traceability_id = 'level_one_approver_id';
             $traceability_date = 'level_one_approval_date';
             // for an officer
-            $this->moveRequestUpFromLevel1($req);
+            $this->notifyFinanceManager($req);
+        }
+        if($field == 'finance_approval'){
+            $traceability_id = 'finance_approver_id';
+            $traceability_date = 'finance_approval_date';
+            // for an officer
+            $this->notifyDirector1($req);
+        }
+        if($field == 'level_two_approval'){
+            $traceability_id = 'level_two_approver_id';
+            $traceability_date = 'level_two_approval_date';
+            // for an officer
+            $this->notifyLastDirector($req);
+        }
+        if($field == 'level_three_approval'){
+            $traceability_id = 'level_three_approver_id';
+            $traceability_date = 'level_three_approval_date';
+            // for an officer
+            // $this->notifyLastDirector($req);
         }
 
         $trail = $req->trail;
@@ -283,7 +336,7 @@ class RequestsController extends BaseController
         return $this->sendResponse('success', 'success');
     }
 
-    public function moveRequestUpFromLevel1($request){
+    public function notifyFinanceManager($request){
 
         // send these to finance manager for approval
 
@@ -298,8 +351,29 @@ class RequestsController extends BaseController
         event(new RequestCreatedEvent($finance_manager));
 
     }
+    public function notifyDirector1($request){
 
-    public function moveRequestUpFromAccountant($request){
+        // send these to finance manager for approval
+        foreach(Department::find($request->department_id)->users as $user){
+            if(in_array('director', $user->arrayOfRoles())){
+                $director = $user;
+            }
+        }
+
+        event(new RequestCreatedEvent($director));
+
+    }
+    public function notifyLastDirector(){
+
+        // send these to finance manager for approval
+
+        $desi = Designation::where('name', 'Executive Director')->value('id');
+
+        event(new RequestCreatedEvent(User::where('designation_id', $desi)->first()));
+
+    }
+
+    public function notifySuperviser($request){
 
         $requestor = User::find($request->user_id);
         $dept = $requestor->department_id;

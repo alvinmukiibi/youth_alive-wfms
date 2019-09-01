@@ -109,6 +109,12 @@ export function getLevel1Requests() {
 export function getFMRequests() {
     return axios.get(prefix + '/requests/fmrequests').then(response => response.data);
 }
+export function getDirectorRequests() {
+    return axios.get(prefix + '/requests/directorreqeuests').then(response => response.data);
+}
+export function getEDRequests() {
+    return axios.get(prefix + '/requests/edrequests').then(response => response.data);
+}
 export function giveAccountantApproval(req) {
     return axios.post(prefix + '/requests/accountant', {
         request_id: req,
@@ -119,5 +125,23 @@ export function giveLevel1Approval(req) {
     return axios.post(prefix + '/requests/firstlevel', {
         request_id: req,
         field: 'level_one_approval'
+    }).then(response => response.data);
+}
+export function givefMApproval(req) {
+    return axios.post(prefix + '/requests/fmrequests', {
+        request_id: req,
+        field: 'finance_approval'
+    }).then(response => response.data);
+}
+export function giveEDApproval(req) {
+    return axios.post(prefix + '/requests/edrequests', {
+        request_id: req,
+        field: 'level_three_approval'
+    }).then(response => response.data);
+}
+export function giveDirectorApproval(req) {
+    return axios.post(prefix + '/requests/directorreqeuests', {
+        request_id: req,
+        field: 'level_two_approval'
     }).then(response => response.data);
 }

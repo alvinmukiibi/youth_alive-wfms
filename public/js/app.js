@@ -5517,11 +5517,187 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      edRequests: [],
+      directorRequests: [],
       fMRequests: [],
       pendingRequests: [],
       level1Requests: [],
@@ -5554,32 +5730,67 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.loadLevel1Requests();
       });
     },
-    approveProjectrequest: function approveProjectrequest(req) {
+    approveDirectorRequest: function approveDirectorRequest(req) {
       var _this2 = this;
 
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["giveDirectorApproval"](req).then(function (response) {
+        _this2.loadDirectorRequests();
+      });
+    },
+    approveEDRequest: function approveEDRequest(req) {
+      var _this3 = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["giveEDApproval"](req).then(function (response) {
+        _this3.loadEDRequests();
+      });
+    },
+    approveFMRequest: function approveFMRequest(req) {
+      var _this4 = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["givefMApproval"](req).then(function (response) {
+        _this4.loadFMRequests();
+      });
+    },
+    approveProjectrequest: function approveProjectrequest(req) {
+      var _this5 = this;
+
       _api_api__WEBPACK_IMPORTED_MODULE_0__["giveAccountantApproval"](req).then(function (response) {
-        _this2.loadProjectRequests();
+        _this5.loadProjectRequests();
+      });
+    },
+    loadEDRequests: function loadEDRequests() {
+      var _this6 = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["getEDRequests"]().then(function (response) {
+        _this6.edRequests = response.data;
+      });
+    },
+    loadDirectorRequests: function loadDirectorRequests() {
+      var _this7 = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["getDirectorRequests"]().then(function (response) {
+        _this7.directorRequests = response.data;
       });
     },
     loadLevel1Requests: function loadLevel1Requests() {
-      var _this3 = this;
+      var _this8 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["getLevel1Requests"]().then(function (response) {
-        _this3.level1Requests = response.data;
+        _this8.level1Requests = response.data;
       });
     },
     loadFMRequests: function loadFMRequests() {
-      var _this4 = this;
+      var _this9 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["getFMRequests"]().then(function (response) {
-        _this4.fMRequests = response.data;
+        _this9.fMRequests = response.data;
       });
     },
     loadProjectRequests: function loadProjectRequests() {
-      var _this5 = this;
+      var _this10 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["getProjectRequests"]().then(function (response) {
-        _this5.pendingRequests = response.data;
+        _this10.pendingRequests = response.data;
       });
     },
     loadRequest: function loadRequest(id) {
@@ -5610,7 +5821,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     save: function save() {
-      var _this6 = this;
+      var _this11 = this;
 
       this.data.append('vendor_id', this.vendor_id);
       this.data.append('activity_type', this.activity_type);
@@ -5631,7 +5842,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["addRequest"](this.data).then(function (response) {
         _api_api__WEBPACK_IMPORTED_MODULE_0__["getMyRequests"]().then(function (response) {
-          _this6.setMyRequests(response.data);
+          _this11.setMyRequests(response.data);
         });
       });
     }
@@ -78758,6 +78969,54 @@ var render = function() {
                                       )
                                     ]
                                   )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.stateLoaded &&
+                              _vm.auth.roles.includes("director")
+                                ? _c(
+                                    "li",
+                                    {
+                                      staticClass: "nav-item",
+                                      on: { click: _vm.loadDirectorRequests }
+                                    },
+                                    [
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "nav-link",
+                                          attrs: {
+                                            href: "#directorrequests",
+                                            "data-toggle": "tab"
+                                          }
+                                        },
+                                        [_vm._v("Pending Director Approval")]
+                                      )
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.stateLoaded &&
+                              _vm.auth.designation == "Executive Director"
+                                ? _c(
+                                    "li",
+                                    {
+                                      staticClass: "nav-item",
+                                      on: { click: _vm.loadEDRequests }
+                                    },
+                                    [
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "nav-link",
+                                          attrs: {
+                                            href: "#edrequests",
+                                            "data-toggle": "tab"
+                                          }
+                                        },
+                                        [_vm._v("Pending ED Approval")]
+                                      )
+                                    ]
+                                  )
                                 : _vm._e()
                             ])
                           ]),
@@ -80855,7 +81114,7 @@ var render = function() {
                                                         click: function(
                                                           $event
                                                         ) {
-                                                          return _vm.approveLevel1Request(
+                                                          return _vm.approveFMRequest(
                                                             req.id
                                                           )
                                                         }
@@ -80889,6 +81148,911 @@ var render = function() {
                                     ]
                                   )
                                 ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "tab-pane",
+                                  attrs: { id: "directorrequests" }
+                                },
+                                [
+                                  _c(
+                                    "table",
+                                    {
+                                      staticClass:
+                                        "table table-striped table-bordered"
+                                    },
+                                    [
+                                      _vm._m(31),
+                                      _vm._v(" "),
+                                      _c(
+                                        "tbody",
+                                        _vm._l(_vm.directorRequests, function(
+                                          req
+                                        ) {
+                                          return _c("tr", { key: req.id }, [
+                                            _c("td", [
+                                              _vm._v(_vm._s(req.identity))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(req.activity_type))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(req.date_of_request)
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(req.delivery_date))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              [
+                                                _c(
+                                                  "b-button",
+                                                  {
+                                                    attrs: {
+                                                      id: "popqocd" + req.id,
+                                                      variant: "primary btn-sm"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass: "fa fa-eye"
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target:
+                                                        "popqocd" + req.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [_vm._v("Vendor Info")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("p", [
+                                                      _c("b", [
+                                                        _vm._v("Name: ")
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(
+                                                            req.vendor.name
+                                                          )
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c("p", [
+                                                      _c("b", [
+                                                        _vm._v("Type: ")
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(
+                                                            req.vendor.type
+                                                          )
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    req.vendor.location
+                                                      ? _c("p", [
+                                                          _c("b", [
+                                                            _vm._v("Location: ")
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                req.vendor
+                                                                  .location
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    req.vendor.email
+                                                      ? _c("p", [
+                                                          _c("b", [
+                                                            _vm._v("Email: ")
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                req.vendor.email
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    req.vendor.mobile
+                                                      ? _c("p", [
+                                                          _c("b", [
+                                                            _vm._v("Contact: ")
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                req.vendor
+                                                                  .mobile
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    req.vendor.representative
+                                                      ? _c("p", [
+                                                          _c("b", [
+                                                            _vm._v("Rep: ")
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                req.vendor
+                                                                  .representative
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e()
+                                                  ],
+                                                  2
+                                                )
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              [
+                                                _c(
+                                                  "b-button",
+                                                  {
+                                                    attrs: {
+                                                      id: "popicd" + req.id,
+                                                      variant: "primary btn-sm"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass: "fa fa-eye"
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target: "popicd" + req.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [
+                                                        _vm._v(
+                                                          "Assets on request"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    req.assets.length > 0
+                                                      ? _c(
+                                                          "table",
+                                                          {
+                                                            staticClass:
+                                                              "table table-bordered",
+                                                            staticStyle: {
+                                                              width: "100%"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("thead", [
+                                                              _c("tr", [
+                                                                _c("th", [
+                                                                  _vm._v("Name")
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c("th", [
+                                                                  _vm._v("Qty")
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c("th", [
+                                                                  _vm._v("Unit")
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c("th", [
+                                                                  _vm._v(
+                                                                    "Total"
+                                                                  )
+                                                                ])
+                                                              ])
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "tbody",
+                                                              _vm._l(
+                                                                req.assets,
+                                                                function(ass) {
+                                                                  return _c(
+                                                                    "tr",
+                                                                    {
+                                                                      key:
+                                                                        ass.id
+                                                                    },
+                                                                    [
+                                                                      _c("td", [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            ass.name
+                                                                          )
+                                                                        )
+                                                                      ]),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c("td", [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            ass.quantity
+                                                                          )
+                                                                        )
+                                                                      ]),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c("td", [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            ass.unit_cost
+                                                                          )
+                                                                        )
+                                                                      ]),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c("td", [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            ass.total_cost
+                                                                          )
+                                                                        )
+                                                                      ])
+                                                                    ]
+                                                                  )
+                                                                }
+                                                              ),
+                                                              0
+                                                            )
+                                                          ]
+                                                        )
+                                                      : _c(
+                                                          "p",
+                                                          {
+                                                            staticClass:
+                                                              "text-danger"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                                                            None\n                                                                        "
+                                                            )
+                                                          ]
+                                                        ),
+                                                    _vm._v(" "),
+                                                    req.trail.requestor_comments
+                                                      ? _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "callout callout-success"
+                                                          },
+                                                          [
+                                                            _c("h6", [
+                                                              _vm._v("Comments")
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("p", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  req.trail
+                                                                    .requestor_comments
+                                                                )
+                                                              )
+                                                            ])
+                                                          ]
+                                                        )
+                                                      : _vm._e()
+                                                  ],
+                                                  2
+                                                )
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              [
+                                                _c(
+                                                  "b-button",
+                                                  {
+                                                    attrs: {
+                                                      id: "fillcd" + req.id,
+                                                      variant: "primary btn-sm"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass:
+                                                        "fa fa-download"
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target: "fillcd" + req.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [
+                                                        _vm._v(
+                                                          "Request Attachments"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _vm._l(
+                                                      req.attachments,
+                                                      function(atta) {
+                                                        return _c(
+                                                          "a",
+                                                          {
+                                                            key: atta.id,
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                return _vm.downloadFile(
+                                                                  atta.id
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(" File "),
+                                                            _c("br")
+                                                          ]
+                                                        )
+                                                      }
+                                                    )
+                                                  ],
+                                                  2
+                                                )
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            req.trail.level_two_approval == 0
+                                              ? _c("td", [
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-outline-success btn-sm",
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.approveDirectorRequest(
+                                                            req.id
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v("Approve")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-outline-danger btn-sm"
+                                                    },
+                                                    [_vm._v("Decline")]
+                                                  )
+                                                ])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            req.trail.level_two_approval == 1
+                                              ? _c("td", [_vm._m(32, true)])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            req.trail.level_two_approval == 2
+                                              ? _c("td", [_vm._m(33, true)])
+                                              : _vm._e()
+                                          ])
+                                        }),
+                                        0
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "tab-pane",
+                                  attrs: { id: "edrequests" }
+                                },
+                                [
+                                  _c(
+                                    "table",
+                                    {
+                                      staticClass:
+                                        "table table-striped table-bordered"
+                                    },
+                                    [
+                                      _vm._m(34),
+                                      _vm._v(" "),
+                                      _c(
+                                        "tbody",
+                                        _vm._l(_vm.edRequests, function(req) {
+                                          return _c("tr", { key: req.id }, [
+                                            _c("td", [
+                                              _vm._v(_vm._s(req.identity))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(req.activity_type))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(req.date_of_request)
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(req.delivery_date))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              [
+                                                _c(
+                                                  "b-button",
+                                                  {
+                                                    attrs: {
+                                                      id: "popqocdc" + req.id,
+                                                      variant: "primary btn-sm"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass: "fa fa-eye"
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target:
+                                                        "popqocdc" + req.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [_vm._v("Vendor Info")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("p", [
+                                                      _c("b", [
+                                                        _vm._v("Name: ")
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(
+                                                            req.vendor.name
+                                                          )
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c("p", [
+                                                      _c("b", [
+                                                        _vm._v("Type: ")
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(
+                                                            req.vendor.type
+                                                          )
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    req.vendor.location
+                                                      ? _c("p", [
+                                                          _c("b", [
+                                                            _vm._v("Location: ")
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                req.vendor
+                                                                  .location
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    req.vendor.email
+                                                      ? _c("p", [
+                                                          _c("b", [
+                                                            _vm._v("Email: ")
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                req.vendor.email
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    req.vendor.mobile
+                                                      ? _c("p", [
+                                                          _c("b", [
+                                                            _vm._v("Contact: ")
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                req.vendor
+                                                                  .mobile
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    req.vendor.representative
+                                                      ? _c("p", [
+                                                          _c("b", [
+                                                            _vm._v("Rep: ")
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                req.vendor
+                                                                  .representative
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e()
+                                                  ],
+                                                  2
+                                                )
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              [
+                                                _c(
+                                                  "b-button",
+                                                  {
+                                                    attrs: {
+                                                      id: "popicdc" + req.id,
+                                                      variant: "primary btn-sm"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass: "fa fa-eye"
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target: "popicd" + req.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [
+                                                        _vm._v(
+                                                          "Assets on request"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    req.assets.length > 0
+                                                      ? _c(
+                                                          "table",
+                                                          {
+                                                            staticClass:
+                                                              "table table-bordered",
+                                                            staticStyle: {
+                                                              width: "100%"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("thead", [
+                                                              _c("tr", [
+                                                                _c("th", [
+                                                                  _vm._v("Name")
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c("th", [
+                                                                  _vm._v("Qty")
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c("th", [
+                                                                  _vm._v("Unit")
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c("th", [
+                                                                  _vm._v(
+                                                                    "Total"
+                                                                  )
+                                                                ])
+                                                              ])
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "tbody",
+                                                              _vm._l(
+                                                                req.assets,
+                                                                function(ass) {
+                                                                  return _c(
+                                                                    "tr",
+                                                                    {
+                                                                      key:
+                                                                        ass.id
+                                                                    },
+                                                                    [
+                                                                      _c("td", [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            ass.name
+                                                                          )
+                                                                        )
+                                                                      ]),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c("td", [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            ass.quantity
+                                                                          )
+                                                                        )
+                                                                      ]),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c("td", [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            ass.unit_cost
+                                                                          )
+                                                                        )
+                                                                      ]),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c("td", [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            ass.total_cost
+                                                                          )
+                                                                        )
+                                                                      ])
+                                                                    ]
+                                                                  )
+                                                                }
+                                                              ),
+                                                              0
+                                                            )
+                                                          ]
+                                                        )
+                                                      : _c(
+                                                          "p",
+                                                          {
+                                                            staticClass:
+                                                              "text-danger"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                                                            None\n                                                                        "
+                                                            )
+                                                          ]
+                                                        ),
+                                                    _vm._v(" "),
+                                                    req.trail.requestor_comments
+                                                      ? _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "callout callout-success"
+                                                          },
+                                                          [
+                                                            _c("h6", [
+                                                              _vm._v("Comments")
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("p", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  req.trail
+                                                                    .requestor_comments
+                                                                )
+                                                              )
+                                                            ])
+                                                          ]
+                                                        )
+                                                      : _vm._e()
+                                                  ],
+                                                  2
+                                                )
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              [
+                                                _c(
+                                                  "b-button",
+                                                  {
+                                                    attrs: {
+                                                      id: "fillcdc" + req.id,
+                                                      variant: "primary btn-sm"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass:
+                                                        "fa fa-download"
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target:
+                                                        "fillcdc" + req.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [
+                                                        _vm._v(
+                                                          "Request Attachments"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _vm._l(
+                                                      req.attachments,
+                                                      function(atta) {
+                                                        return _c(
+                                                          "a",
+                                                          {
+                                                            key: atta.id,
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                return _vm.downloadFile(
+                                                                  atta.id
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(" File "),
+                                                            _c("br")
+                                                          ]
+                                                        )
+                                                      }
+                                                    )
+                                                  ],
+                                                  2
+                                                )
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            req.trail.level_three_approval == 0
+                                              ? _c("td", [
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-outline-success btn-sm",
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.approveEDRequest(
+                                                            req.id
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v("Approve")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-outline-danger btn-sm"
+                                                    },
+                                                    [_vm._v("Decline")]
+                                                  )
+                                                ])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            req.trail.level_three_approval == 1
+                                              ? _c("td", [_vm._m(35, true)])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            req.trail.level_three_approval == 2
+                                              ? _c("td", [_vm._m(36, true)])
+                                              : _vm._e()
+                                          ])
+                                        }),
+                                        0
+                                      )
+                                    ]
+                                  )
+                                ]
                               )
                             ])
                           ])
@@ -80906,7 +82070,7 @@ var render = function() {
                             "div",
                             { staticClass: "card card-primary card-outline" },
                             [
-                              _vm._m(31),
+                              _vm._m(37),
                               _vm._v(" "),
                               _c("div", { staticClass: "card-body" }, [
                                 _c("div", { staticClass: "form-group row" }, [
@@ -81086,7 +82250,7 @@ var render = function() {
                             "div",
                             { staticClass: "card card-success card-outline" },
                             [
-                              _vm._m(32),
+                              _vm._m(38),
                               _vm._v(" "),
                               _c("div", { staticClass: "card-body" }, [
                                 _c("div", { staticClass: "form-row" }, [
@@ -81094,7 +82258,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-4" },
                                     [
-                                      _vm._m(33),
+                                      _vm._m(39),
                                       _vm._v(" "),
                                       _c(
                                         "select",
@@ -81192,7 +82356,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-4" },
                                     [
-                                      _vm._m(34),
+                                      _vm._m(40),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -81228,7 +82392,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-4" },
                                     [
-                                      _vm._m(35),
+                                      _vm._m(41),
                                       _vm._v(" "),
                                       _c(
                                         "select",
@@ -81310,7 +82474,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-3" },
                                     [
-                                      _vm._m(36),
+                                      _vm._m(42),
                                       _vm._v(" "),
                                       _c(
                                         "select",
@@ -81367,7 +82531,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-2" },
                                     [
-                                      _vm._m(37),
+                                      _vm._m(43),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -81401,7 +82565,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-2" },
                                     [
-                                      _vm._m(38),
+                                      _vm._m(44),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -81596,7 +82760,7 @@ var render = function() {
                                 ]),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "form-row" }, [
-                                  _vm._m(39),
+                                  _vm._m(45),
                                   _vm._v(" "),
                                   _c(
                                     "div",
@@ -81866,6 +83030,90 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("i", { staticClass: "fa fa-times" }, [_c("b", [_vm._v("3")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID #")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Activity")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Date of Req")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Required Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Vendor")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Assets")]),
+        _vm._v(" "),
+        _c("th", [_c("i", { staticClass: "fa fa-files-o" })]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-success btn-sm btn-flat" }, [
+      _c("i", { staticClass: "fa fa-check" }),
+      _vm._v(" Approved")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-danger btn-sm btn-flat" }, [
+      _c("i", { staticClass: "fa fa-times" }),
+      _vm._v(" Declined")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID #")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Activity")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Date of Req")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Required Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Vendor")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Assets")]),
+        _vm._v(" "),
+        _c("th", [_c("i", { staticClass: "fa fa-files-o" })]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-success btn-sm btn-flat" }, [
+      _c("i", { staticClass: "fa fa-check" }),
+      _vm._v(" Approved")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-danger btn-sm btn-flat" }, [
+      _c("i", { staticClass: "fa fa-times" }),
+      _vm._v(" Declined")
+    ])
   },
   function() {
     var _vm = this
@@ -98805,7 +100053,7 @@ module.exports = function(module) {
 /*!*********************************!*\
   !*** ./resources/js/api/api.js ***!
   \*********************************/
-/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, getLeaveTypes, getAssets, getVendors, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDesignation, saveLeaveType, saveVendor, saveDp, addRequest, saveRequest, getMyRequests, downloadFile, getProjectRequests, getLevel1Requests, getFMRequests, giveAccountantApproval, giveLevel1Approval */
+/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, getLeaveTypes, getAssets, getVendors, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDesignation, saveLeaveType, saveVendor, saveDp, addRequest, saveRequest, getMyRequests, downloadFile, getProjectRequests, getLevel1Requests, getFMRequests, getDirectorRequests, getEDRequests, giveAccountantApproval, giveLevel1Approval, givefMApproval, giveEDApproval, giveDirectorApproval */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98843,8 +100091,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProjectRequests", function() { return getProjectRequests; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLevel1Requests", function() { return getLevel1Requests; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFMRequests", function() { return getFMRequests; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDirectorRequests", function() { return getDirectorRequests; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEDRequests", function() { return getEDRequests; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "giveAccountantApproval", function() { return giveAccountantApproval; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "giveLevel1Approval", function() { return giveLevel1Approval; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "givefMApproval", function() { return givefMApproval; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "giveEDApproval", function() { return giveEDApproval; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "giveDirectorApproval", function() { return giveDirectorApproval; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -99022,6 +100275,16 @@ function getFMRequests() {
     return response.data;
   });
 }
+function getDirectorRequests() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/requests/directorreqeuests').then(function (response) {
+    return response.data;
+  });
+}
+function getEDRequests() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/requests/edrequests').then(function (response) {
+    return response.data;
+  });
+}
 function giveAccountantApproval(req) {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/requests/accountant', {
     request_id: req,
@@ -99034,6 +100297,30 @@ function giveLevel1Approval(req) {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/requests/firstlevel', {
     request_id: req,
     field: 'level_one_approval'
+  }).then(function (response) {
+    return response.data;
+  });
+}
+function givefMApproval(req) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/requests/fmrequests', {
+    request_id: req,
+    field: 'finance_approval'
+  }).then(function (response) {
+    return response.data;
+  });
+}
+function giveEDApproval(req) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/requests/edrequests', {
+    request_id: req,
+    field: 'level_three_approval'
+  }).then(function (response) {
+    return response.data;
+  });
+}
+function giveDirectorApproval(req) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/requests/directorreqeuests', {
+    request_id: req,
+    field: 'level_two_approval'
   }).then(function (response) {
     return response.data;
   });
@@ -100241,14 +101528,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./resources/js/users/officer/Request.vue ***!
   \************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Request_vue_vue_type_template_id_3ff05581___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Request.vue?vue&type=template&id=3ff05581& */ "./resources/js/users/officer/Request.vue?vue&type=template&id=3ff05581&");
 /* harmony import */ var _Request_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Request.vue?vue&type=script&lang=js& */ "./resources/js/users/officer/Request.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Request_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Request_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -100278,7 +101566,7 @@ component.options.__file = "resources/js/users/officer/Request.vue"
 /*!*************************************************************************!*\
   !*** ./resources/js/users/officer/Request.vue?vue&type=script&lang=js& ***!
   \*************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

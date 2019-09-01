@@ -38,6 +38,8 @@
                                                     <li @click="loadProjectRequests" v-if="auth.designation == 'Project Accountant'" class="nav-item"><a class="nav-link" href="#projectrequests" data-toggle="tab">Project Requests</a></li>
                                                     <li @click="loadLevel1Requests" v-if="stateLoaded && auth.roles.includes('manager')" class="nav-item"><a class="nav-link" href="#level1requests" data-toggle="tab">Level 1 Approvals</a></li>
                                                     <li @click="loadFMRequests" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Finance and Operations'" class="nav-item"><a class="nav-link" href="#fmrequests" data-toggle="tab">Pending Requests</a></li>
+                                                    <li @click="loadDirectorRequests" v-if="stateLoaded && auth.roles.includes('director')" class="nav-item"><a class="nav-link" href="#directorrequests" data-toggle="tab">Pending Director Approval</a></li>
+                                                    <li @click="loadEDRequests" v-if="stateLoaded && auth.designation == 'Executive Director'" class="nav-item"><a class="nav-link" href="#edrequests" data-toggle="tab">Pending ED Approval</a></li>
                                                 </ul>
                                             </div>
                                             <div class="card-body">
@@ -417,13 +419,185 @@
                                                                          </b-popover>
                                                                     </td>
                                                                     <td v-if="req.trail.finance_approval == 0">
-                                                                        <button @click="approveLevel1Request(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button @click="approveFMRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
                                                                         <button class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.trail.finance_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
                                                                     </td>
                                                                     <td v-if="req.trail.finance_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                         </table>
+
+                                                    </div>
+                                                    <div class="tab-pane" id="directorrequests">
+                                                         <table class="table table-striped table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID #</th>
+                                                                    <th>Activity</th>
+                                                                    <th>Date of Req</th>
+                                                                    <th>Required Date</th>
+                                                                    <th>Vendor</th>
+                                                                    <th>Assets</th>
+                                                                    <th> <i class="fa fa-files-o"></i></th>
+                                                                    <!-- <th >Status</th> -->
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                 <tr v-for="req in directorRequests" :key="req.id">
+                                                                     <td>{{ req.identity }}</td>
+                                                                    <!-- <td><router-link to="/view/request"><span @click="loadRequest(req.id)" ><b> {{ req.identity  }}</b></span></router-link></td> -->
+                                                                    <td>{{ req.activity_type }}</td>
+                                                                    <td>{{ req.date_of_request }}</td>
+                                                                    <td>{{ req.delivery_date }}</td>
+                                                                    <td>
+                                                                        <b-button  :id="'popqocd' + req.id" variant="primary btn-sm"><i class="fa fa-eye"></i></b-button>
+                                                                        <b-popover placement="top" :target="'popqocd' + req.id" triggers="hover focus">
+                                                                            <template slot="title">Vendor Info</template>
+                                                                            <p><b>Name: </b> {{ req.vendor.name }}</p>
+                                                                            <p><b>Type: </b> {{ req.vendor.type }}</p>
+                                                                            <p v-if="req.vendor.location"><b>Location: </b> {{ req.vendor.location }}</p>
+                                                                            <p v-if="req.vendor.email"><b>Email: </b> {{ req.vendor.email }}</p>
+                                                                            <p v-if="req.vendor.mobile"><b>Contact: </b> {{ req.vendor.mobile }}</p>
+                                                                            <p v-if="req.vendor.representative"><b>Rep: </b> {{ req.vendor.representative }}</p>
+                                                                        </b-popover>
+                                                                    </td>
+                                                                    <td> <b-button  :id="'popicd' + req.id" variant="primary btn-sm"><i class="fa fa-eye"></i></b-button>
+                                                                         <b-popover placement="top" :target="'popicd' + req.id" triggers="hover focus">
+                                                                            <template slot="title">Assets on request</template>
+                                                                            <table v-if="req.assets.length > 0" class="table table-bordered" style="width:100%">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Name</th>
+                                                                                        <th>Qty</th>
+                                                                                        <th>Unit</th>
+                                                                                        <th>Total</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr v-for="ass in req.assets" :key="ass.id">
+                                                                                        <td>{{ ass.name }}</td>
+                                                                                        <td>{{ ass.quantity }}</td>
+                                                                                        <td>{{ ass.unit_cost }}</td>
+                                                                                        <td>{{ ass.total_cost }}</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <p class="text-danger" v-else>
+                                                                                None
+                                                                            </p>
+                                                                            <div v-if="req.trail.requestor_comments" class="callout callout-success">
+                                                                                <h6>Comments</h6>
+                                                                                <p>{{ req.trail.requestor_comments }}</p>
+                                                                            </div>
+                                                                        </b-popover>
+                                                                     </td>
+                                                                    <td>
+                                                                        <b-button  :id="'fillcd' + req.id" variant="primary btn-sm"><i class="fa fa-download"></i></b-button>
+                                                                         <b-popover placement="top" :target="'fillcd' + req.id" triggers="hover focus">
+                                                                            <template slot="title">Request Attachments</template>
+                                                                            <a v-for="atta in req.attachments" :key="atta.id" @click.prevent="downloadFile(atta.id)" > File <br>  </a>
+                                                                         </b-popover>
+                                                                    </td>
+                                                                    <td v-if="req.trail.level_two_approval == 0">
+                                                                        <button @click="approveDirectorRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                    </td>
+                                                                    <td v-if="req.trail.level_two_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </td>
+                                                                    <td v-if="req.trail.level_two_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                         </table>
+
+                                                    </div>
+                                                    <div class="tab-pane" id="edrequests">
+                                                         <table class="table table-striped table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID #</th>
+                                                                    <th>Activity</th>
+                                                                    <th>Date of Req</th>
+                                                                    <th>Required Date</th>
+                                                                    <th>Vendor</th>
+                                                                    <th>Assets</th>
+                                                                    <th> <i class="fa fa-files-o"></i></th>
+                                                                    <!-- <th >Status</th> -->
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                 <tr v-for="req in edRequests" :key="req.id">
+                                                                     <td>{{ req.identity }}</td>
+                                                                    <!-- <td><router-link to="/view/request"><span @click="loadRequest(req.id)" ><b> {{ req.identity  }}</b></span></router-link></td> -->
+                                                                    <td>{{ req.activity_type }}</td>
+                                                                    <td>{{ req.date_of_request }}</td>
+                                                                    <td>{{ req.delivery_date }}</td>
+                                                                    <td>
+                                                                        <b-button  :id="'popqocdc' + req.id" variant="primary btn-sm"><i class="fa fa-eye"></i></b-button>
+                                                                        <b-popover placement="top" :target="'popqocdc' + req.id" triggers="hover focus">
+                                                                            <template slot="title">Vendor Info</template>
+                                                                            <p><b>Name: </b> {{ req.vendor.name }}</p>
+                                                                            <p><b>Type: </b> {{ req.vendor.type }}</p>
+                                                                            <p v-if="req.vendor.location"><b>Location: </b> {{ req.vendor.location }}</p>
+                                                                            <p v-if="req.vendor.email"><b>Email: </b> {{ req.vendor.email }}</p>
+                                                                            <p v-if="req.vendor.mobile"><b>Contact: </b> {{ req.vendor.mobile }}</p>
+                                                                            <p v-if="req.vendor.representative"><b>Rep: </b> {{ req.vendor.representative }}</p>
+                                                                        </b-popover>
+                                                                    </td>
+                                                                    <td> <b-button  :id="'popicdc' + req.id" variant="primary btn-sm"><i class="fa fa-eye"></i></b-button>
+                                                                         <b-popover placement="top" :target="'popicd' + req.id" triggers="hover focus">
+                                                                            <template slot="title">Assets on request</template>
+                                                                            <table v-if="req.assets.length > 0" class="table table-bordered" style="width:100%">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Name</th>
+                                                                                        <th>Qty</th>
+                                                                                        <th>Unit</th>
+                                                                                        <th>Total</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr v-for="ass in req.assets" :key="ass.id">
+                                                                                        <td>{{ ass.name }}</td>
+                                                                                        <td>{{ ass.quantity }}</td>
+                                                                                        <td>{{ ass.unit_cost }}</td>
+                                                                                        <td>{{ ass.total_cost }}</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <p class="text-danger" v-else>
+                                                                                None
+                                                                            </p>
+                                                                            <div v-if="req.trail.requestor_comments" class="callout callout-success">
+                                                                                <h6>Comments</h6>
+                                                                                <p>{{ req.trail.requestor_comments }}</p>
+                                                                            </div>
+                                                                        </b-popover>
+                                                                     </td>
+                                                                    <td>
+                                                                        <b-button  :id="'fillcdc' + req.id" variant="primary btn-sm"><i class="fa fa-download"></i></b-button>
+                                                                         <b-popover placement="top" :target="'fillcdc' + req.id" triggers="hover focus">
+                                                                            <template slot="title">Request Attachments</template>
+                                                                            <a v-for="atta in req.attachments" :key="atta.id" @click.prevent="downloadFile(atta.id)" > File <br>  </a>
+                                                                         </b-popover>
+                                                                    </td>
+                                                                    <td v-if="req.trail.level_three_approval == 0">
+                                                                        <button @click="approveEDRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                    </td>
+                                                                    <td v-if="req.trail.level_three_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </td>
+                                                                    <td v-if="req.trail.level_three_approval == 2">
                                                                         <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
                                                                     </td>
                                                                 </tr>
@@ -575,6 +749,8 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data() {
         return {
+            edRequests: [],
+            directorRequests: [],
             fMRequests: [],
             pendingRequests: [],
             level1Requests: [],
@@ -606,9 +782,34 @@ export default {
                 this.loadLevel1Requests();
             })
         },
+        approveDirectorRequest(req){
+            api.giveDirectorApproval(req).then(response => {
+                this.loadDirectorRequests();
+            })
+        },
+        approveEDRequest(req){
+            api.giveEDApproval(req).then(response => {
+                this.loadEDRequests();
+            })
+        },
+        approveFMRequest(req){
+            api.givefMApproval(req).then(response => {
+                this.loadFMRequests();
+            })
+        },
         approveProjectrequest(req){
             api.giveAccountantApproval(req).then(response => {
                 this.loadProjectRequests();
+            })
+        },
+        loadEDRequests(){
+            api.getEDRequests().then(response => {
+                this.edRequests = response.data
+            })
+        },
+        loadDirectorRequests(){
+            api.getDirectorRequests().then(response => {
+                this.directorRequests = response.data
             })
         },
         loadLevel1Requests(){

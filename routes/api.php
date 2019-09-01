@@ -68,6 +68,11 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::get('/accountant', 'RequestsController@getProjectRequests');
         Route::get('/firstlevel', 'RequestsController@getLevel1Requests');
         Route::get('/fmrequests', 'RequestsController@getFMRequests');
+        Route::get('/directorreqeuests', 'RequestsController@getDirectorRequests');
+        Route::get('/edrequests', 'RequestsController@getEDRequests');
+        Route::post('/edrequests', 'RequestsController@approveRequest');
+        Route::post('/directorrequests', 'RequestsController@approveRequest');
+        Route::post('/fmrequests', 'RequestsController@approveRequest');
         Route::post('/firstlevel', 'RequestsController@approveRequest');
         Route::post('/accountant', 'RequestsController@approveRequest');
     });
