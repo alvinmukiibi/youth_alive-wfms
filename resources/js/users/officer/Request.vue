@@ -371,6 +371,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>ID #</th>
+                                                                    <th>Requestor</th>
                                                                     <th>Activity</th>
                                                                     <th>Date of Req</th>
                                                                     <th>Required Date</th>
@@ -384,6 +385,7 @@
                                                             <tbody>
                                                                  <tr v-for="req in fMRequests" :key="req.id">
                                                                      <td>{{ req.identity }}</td>
+                                                                     <td>{{ req.requested_by }}</td>
                                                                     <!-- <td><router-link to="/view/request"><span @click="loadRequest(req.id)" ><b> {{ req.identity  }}</b></span></router-link></td> -->
                                                                     <td>{{ req.activity_type }}</td>
                                                                     <td>{{ req.date_of_request }}</td>
@@ -437,14 +439,24 @@
                                                                             <a v-for="atta in req.attachments" :key="atta.id" @click.prevent="downloadFile(atta.id)" > File <br>  </a>
                                                                          </b-popover>
                                                                     </td>
-                                                                    <td v-if="req.trail.finance_approval == 0">
+                                                                    <td v-if="req.requestor_type == 'officer' && req.trail.finance_approval == 0">
                                                                         <button @click="approveFMRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
                                                                         <button class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
-                                                                    <td v-if="req.trail.finance_approval == 1">
+                                                                    <td v-if="req.requestor_type == 'officer' && req.trail.finance_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
                                                                     </td>
-                                                                    <td v-if="req.trail.finance_approval == 2">
+                                                                    <td v-if="req.requestor_type == 'officer' && req.trail.finance_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
+                                                                    </td>
+                                                                    <td v-if="req.requestor_type == 'manager' && req.trail.level_two_approval == 0">
+                                                                        <button @click="approveFMRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                    </td>
+                                                                    <td v-if="req.requestor_type == 'manager' && req.trail.level_two_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </td>
+                                                                    <td v-if="req.requestor_type == 'manager' && req.trail.level_two_approval == 2">
                                                                         <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
                                                                     </td>
                                                                 </tr>
@@ -457,6 +469,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>ID #</th>
+                                                                    <th>Requestor</th>
                                                                     <th>Activity</th>
                                                                     <th>Date of Req</th>
                                                                     <th>Required Date</th>
@@ -470,6 +483,7 @@
                                                             <tbody>
                                                                  <tr v-for="req in directorRequests" :key="req.id">
                                                                      <td>{{ req.identity }}</td>
+                                                                     <td>{{ req.requested_by }}</td>
                                                                     <!-- <td><router-link to="/view/request"><span @click="loadRequest(req.id)" ><b> {{ req.identity  }}</b></span></router-link></td> -->
                                                                     <td>{{ req.activity_type }}</td>
                                                                     <td>{{ req.date_of_request }}</td>
@@ -523,14 +537,24 @@
                                                                             <a v-for="atta in req.attachments" :key="atta.id" @click.prevent="downloadFile(atta.id)" > File <br>  </a>
                                                                          </b-popover>
                                                                     </td>
-                                                                    <td v-if="req.trail.level_two_approval == 0">
+                                                                    <td v-if="req.requestor_type == 'officer' && req.trail.level_two_approval == 0">
                                                                         <button @click="approveDirectorRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
                                                                         <button class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
-                                                                    <td v-if="req.trail.level_two_approval == 1">
+                                                                    <td v-if="req.requestor_type == 'officer' && req.trail.level_two_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
                                                                     </td>
-                                                                    <td v-if="req.trail.level_two_approval == 2">
+                                                                    <td v-if="req.requestor_type == 'officer' && req.trail.level_two_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
+                                                                    </td>
+                                                                    <td v-if="req.requestor_type == 'manager' && req.trail.level_one_approval == 0">
+                                                                        <button @click="approveDirectorRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                    </td>
+                                                                    <td v-if="req.requestor_type == 'manager' && req.trail.level_one_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </td>
+                                                                    <td v-if="req.requestor_type == 'manager' && req.trail.level_one_approval == 2">
                                                                         <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
                                                                     </td>
                                                                 </tr>

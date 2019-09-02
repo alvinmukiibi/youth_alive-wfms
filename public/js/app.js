@@ -5811,6 +5811,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -81002,6 +81026,10 @@ var render = function() {
                                             ]),
                                             _vm._v(" "),
                                             _c("td", [
+                                              _vm._v(_vm._s(req.requested_by))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
                                               _vm._v(_vm._s(req.activity_type))
                                             ]),
                                             _vm._v(" "),
@@ -81380,6 +81408,7 @@ var render = function() {
                                               1
                                             ),
                                             _vm._v(" "),
+                                            req.requestor_type == "officer" &&
                                             req.trail.finance_approval == 0
                                               ? _c("td", [
                                                   _c(
@@ -81411,12 +81440,56 @@ var render = function() {
                                                 ])
                                               : _vm._e(),
                                             _vm._v(" "),
+                                            req.requestor_type == "officer" &&
                                             req.trail.finance_approval == 1
                                               ? _c("td", [_vm._m(41, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
+                                            req.requestor_type == "officer" &&
                                             req.trail.finance_approval == 2
                                               ? _c("td", [_vm._m(42, true)])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            req.requestor_type == "manager" &&
+                                            req.trail.level_two_approval == 0
+                                              ? _c("td", [
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-outline-success btn-sm",
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.approveFMRequest(
+                                                            req.id
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v("Approve")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-outline-danger btn-sm"
+                                                    },
+                                                    [_vm._v("Decline")]
+                                                  )
+                                                ])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            req.requestor_type == "manager" &&
+                                            req.trail.level_two_approval == 1
+                                              ? _c("td", [_vm._m(43, true)])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            req.requestor_type == "manager" &&
+                                            req.trail.level_two_approval == 2
+                                              ? _c("td", [_vm._m(44, true)])
                                               : _vm._e()
                                           ])
                                         }),
@@ -81441,7 +81514,7 @@ var render = function() {
                                         "table table-striped table-bordered"
                                     },
                                     [
-                                      _vm._m(43),
+                                      _vm._m(45),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -81451,6 +81524,10 @@ var render = function() {
                                           return _c("tr", { key: req.id }, [
                                             _c("td", [
                                               _vm._v(_vm._s(req.identity))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(req.requested_by))
                                             ]),
                                             _vm._v(" "),
                                             _c("td", [
@@ -81833,6 +81910,7 @@ var render = function() {
                                               1
                                             ),
                                             _vm._v(" "),
+                                            req.requestor_type == "officer" &&
                                             req.trail.level_two_approval == 0
                                               ? _c("td", [
                                                   _c(
@@ -81864,12 +81942,56 @@ var render = function() {
                                                 ])
                                               : _vm._e(),
                                             _vm._v(" "),
+                                            req.requestor_type == "officer" &&
                                             req.trail.level_two_approval == 1
-                                              ? _c("td", [_vm._m(44, true)])
+                                              ? _c("td", [_vm._m(46, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
+                                            req.requestor_type == "officer" &&
                                             req.trail.level_two_approval == 2
-                                              ? _c("td", [_vm._m(45, true)])
+                                              ? _c("td", [_vm._m(47, true)])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            req.requestor_type == "manager" &&
+                                            req.trail.level_one_approval == 0
+                                              ? _c("td", [
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-outline-success btn-sm",
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.approveDirectorRequest(
+                                                            req.id
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v("Approve")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-outline-danger btn-sm"
+                                                    },
+                                                    [_vm._v("Decline")]
+                                                  )
+                                                ])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            req.requestor_type == "manager" &&
+                                            req.trail.level_one_approval == 1
+                                              ? _c("td", [_vm._m(48, true)])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            req.requestor_type == "manager" &&
+                                            req.trail.level_one_approval == 2
+                                              ? _c("td", [_vm._m(49, true)])
                                               : _vm._e()
                                           ])
                                         }),
@@ -81894,7 +82016,7 @@ var render = function() {
                                         "table table-striped table-bordered"
                                     },
                                     [
-                                      _vm._m(46),
+                                      _vm._m(50),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -82317,11 +82439,11 @@ var render = function() {
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.trail.level_three_approval == 1
-                                              ? _c("td", [_vm._m(47, true)])
+                                              ? _c("td", [_vm._m(51, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.trail.level_three_approval == 2
-                                              ? _c("td", [_vm._m(48, true)])
+                                              ? _c("td", [_vm._m(52, true)])
                                               : _vm._e()
                                           ])
                                         }),
@@ -82347,7 +82469,7 @@ var render = function() {
                             "div",
                             { staticClass: "card card-primary card-outline" },
                             [
-                              _vm._m(49),
+                              _vm._m(53),
                               _vm._v(" "),
                               _c("div", { staticClass: "card-body" }, [
                                 _c("div", { staticClass: "form-group row" }, [
@@ -82527,7 +82649,7 @@ var render = function() {
                             "div",
                             { staticClass: "card card-success card-outline" },
                             [
-                              _vm._m(50),
+                              _vm._m(54),
                               _vm._v(" "),
                               _c("div", { staticClass: "card-body" }, [
                                 _c("div", { staticClass: "form-row" }, [
@@ -82535,7 +82657,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-4" },
                                     [
-                                      _vm._m(51),
+                                      _vm._m(55),
                                       _vm._v(" "),
                                       _c(
                                         "select",
@@ -82633,7 +82755,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-4" },
                                     [
-                                      _vm._m(52),
+                                      _vm._m(56),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -82669,7 +82791,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-4" },
                                     [
-                                      _vm._m(53),
+                                      _vm._m(57),
                                       _vm._v(" "),
                                       _c(
                                         "select",
@@ -82751,7 +82873,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-3" },
                                     [
-                                      _vm._m(54),
+                                      _vm._m(58),
                                       _vm._v(" "),
                                       _c(
                                         "select",
@@ -82808,7 +82930,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-2" },
                                     [
-                                      _vm._m(55),
+                                      _vm._m(59),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -82842,7 +82964,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-2" },
                                     [
-                                      _vm._m(56),
+                                      _vm._m(60),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -83051,7 +83173,7 @@ var render = function() {
                                   : _vm._e(),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "form-row" }, [
-                                  _vm._m(57),
+                                  _vm._m(61),
                                   _vm._v(" "),
                                   _c(
                                     "div",
@@ -83504,6 +83626,8 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("ID #")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Requestor")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Activity")]),
         _vm._v(" "),
         _c("th", [_vm._v("Date of Req")]),
@@ -83542,9 +83666,29 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-success btn-sm btn-flat" }, [
+      _c("i", { staticClass: "fa fa-check" }),
+      _vm._v(" Approved")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-danger btn-sm btn-flat" }, [
+      _c("i", { staticClass: "fa fa-times" }),
+      _vm._v(" Declined")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("ID #")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Requestor")]),
         _vm._v(" "),
         _c("th", [_vm._v("Activity")]),
         _vm._v(" "),
@@ -83560,6 +83704,24 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-success btn-sm btn-flat" }, [
+      _c("i", { staticClass: "fa fa-check" }),
+      _vm._v(" Approved")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-danger btn-sm btn-flat" }, [
+      _c("i", { staticClass: "fa fa-times" }),
+      _vm._v(" Declined")
     ])
   },
   function() {
