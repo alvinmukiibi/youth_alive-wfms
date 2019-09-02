@@ -42,7 +42,7 @@
                                                     <th>Dept</th>
                                                     <th>Station</th>
                                                     <th>Contact</th>
-                                                    <th>Identity</th>
+                                                    <th>DP</th>
                                                     <th style="width:100px">Action</th>
                                                 </tr>
                                             </thead>

@@ -172,23 +172,7 @@ class RequestsController extends BaseController
         // project accountant approved all requests on their projects
 
         $accountant = User::find(Project::find($req->project_id)->accountant);
-        event(new RequestCreatedEvent($accountant));
-
-        // if (count($requestor->arrayOfRoles()) == 1 && in_array('officer', $requestor->arrayOfRoles())) {
-        //     // you are solely an officer
-        //     // notify your project accountant
-
-        // }
-
-        // if (in_array('manager', $requestor->arrayOfRoles())) {
-        //     // you are a manager
-        //     // notify project manager
-        // }
-
-        // if (in_array('director', $requestor->arrayOfRoles())) {
-        //     // you are a director
-        //     // not now
-        // }
+        event(new RequestCreatedEvent($accountant, $requestor));
 
         return $this->sendResponse($req, 'Request created!');
     }
@@ -239,19 +223,31 @@ class RequestsController extends BaseController
     }
     public function getLevel1Requests(Request $request)
     {
+        // get requests that the accountant has approved but manager/supervisor has not yet approved and the request was instituted by an officer
+
         $user = $request->user();
 
         $department = Department::find($user->department_id);
         $requests = $department->requests;
-        $requests = RequestsResource::collection($requests);
+        $reqs = collect();
+        foreach($requests as $req){
+            if($req->getRequestorType() == 'officer' && $req->trail->accountant_approval == 1){
+                $reqs->push($req);
+            }
+        }
+        $reque = RequestsResource::collection($reqs);
 
-        return $this->sendResponse($requests, 'Requests for level 1 approval');
+        return $this->sendResponse($reque, 'Requests for level 1 approval');
     }
     public function getFMRequests(Request $request)
     {
+        // requests from an officer and a manager and has level one approval for each
         $requests = collect();
         foreach(Req::all() as $req){
-            if($req->trail->level_one_approval == 1){
+            if($req->trail->level_one_approval == 1 && $req->getRequestorType() == 'officer'){
+                $requests->push($req);
+            }
+            if($req->trail->level_one_approval == 1 && $req->getRequestorType() == 'manager'){
                 $requests->push($req);
             }
         }
@@ -301,7 +297,7 @@ class RequestsController extends BaseController
         if($field == 'accountant_approval'){
             $traceability_id = 'accountant_id';
             $traceability_date = 'accountant_approval_date';
-            $this->notifySuperviser($req);
+            $this->notifyLevelOne($req);
         }
         if($field == 'level_one_approval'){
             $traceability_id = 'level_one_approver_id';
@@ -334,6 +330,8 @@ class RequestsController extends BaseController
         $trail[$traceability_date] = date('d-M-Y H:i');
         $trail->save();
 
+        // event(new RequestUpdateEvent($req->requestor));
+
         return $this->sendResponse('success', 'success');
     }
 
@@ -349,7 +347,7 @@ class RequestsController extends BaseController
 
         }
 
-        event(new RequestCreatedEvent($finance_manager));
+        event(new RequestCreatedEvent($finance_manager, $request->requestor));
 
     }
     public function notifyDirector1($request){
@@ -361,7 +359,7 @@ class RequestsController extends BaseController
             }
         }
 
-        event(new RequestCreatedEvent($director));
+        event(new RequestCreatedEvent($director, $request->requestor));
 
     }
     public function notifyLastDirector(){
@@ -370,28 +368,27 @@ class RequestsController extends BaseController
 
         $desi = Designation::where('name', 'Executive Director')->value('id');
 
-        event(new RequestCreatedEvent(User::where('designation_id', $desi)->first()));
+        // event(new RequestCreatedEvent(User::where('designation_id', $desi)->first()));
 
     }
 
-    public function notifySuperviser($request){
+    public function notifyLevelOne($request){
 
         $requestor = User::find($request->user_id);
         $dept = $requestor->department_id;
-        $requestor_roles = $requestor->arrayOfRoles();
+        $requestor_type = $request->getRequestorType();
 
-        if (count($requestor_roles) == 1 && in_array('officer', $requestor_roles)) {
-            // you are solely an officer
-            // notify your dept manager who is your supervisor
+        if ($requestor_type == 'officer') {
+            // notify your line manager who is your supervisor
             foreach(Department::find($dept)->users as $user){
                 if(in_array('manager', $user->arrayOfRoles())){
                     $supervisor = $user;
                 }
             }
-            event(new RequestCreatedEvent($supervisor));
+            event(new RequestCreatedEvent($supervisor, $requestor));
         }
 
-        if (in_array('manager', $requestor_roles)) {
+        if ($requestor_type == 'manager') {
             // you are a manager
             // notify your line director
             foreach(Department::find($dept)->users as $user){
@@ -399,15 +396,20 @@ class RequestsController extends BaseController
                     $director = $user;
                 }
             }
-            event(new RequestCreatedEvent($director));
+            event(new RequestCreatedEvent($director, $requestor));
         }
 
-        if (in_array('director', $requestor_roles)) {
+        if ($requestor_type == 'director') {
             // you are a director
-            // not now
+            // notify finance director, a user in finance dept and has director role
+            $dept = Department::where('name', 'Finance and Operations')->value('id');
+            foreach(Department::find($dept)->users as $user){
+                if(in_array('director', $user->arrayOfRoles())){
+                    $director = $user;
+                }
+            }
+            event(new RequestCreatedEvent($director, $requestor));
         }
-
-
 
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Resources\ReqAssetResource;
 use App\Vendor;
 use App\Department;
 use App\Project;
+use App\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class RequestsResource extends JsonResource
@@ -29,6 +30,8 @@ class RequestsResource extends JsonResource
             'date_of_request' => date('d-M', strtotime($this->created_at)),
             'trail' => $this->trail,
             'assets' => ReqAssetResource::collection($this->assets),
+            'requested_by' => \ucwords(User::find($this->user_id)->fname . ' ' . User::find($this->user_id)->lname),
+            'requestor_type' => $this->getRequestorType(),
             'attachments' => $this->attachments,
         ];
     }

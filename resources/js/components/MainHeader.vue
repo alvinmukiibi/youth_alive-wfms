@@ -33,6 +33,12 @@
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
+        <a class="nav-link" @click.prevent href="#">
+          <i class="fa fa-user"></i>
+          <b>{{ auth.designation }}</b>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" @click.prevent="logout" href="#">
           <i class="fa fa-sign-out"></i>
           <b>Logout</b>
@@ -110,6 +116,23 @@ export default {
           response.data.roles.includes("officer") &&
           response.data.roles.length == 1
         ) {
+          api.getProjects().then(response => {
+            this.setProjects(response.data);
+          });
+          api.getVendors().then(response => {
+            this.setVendors(response);
+          });
+          api.getDepartments().then(response => {
+            this.setDepartments(response.data);
+          });
+          api.getAssets().then(response => {
+            this.setAssets(response);
+          });
+          api.getMyRequests().then(response => {
+            this.setMyRequests(response.data);
+          });
+        }
+        if (response.data.roles.includes("director")) {
           api.getProjects().then(response => {
             this.setProjects(response.data);
           });

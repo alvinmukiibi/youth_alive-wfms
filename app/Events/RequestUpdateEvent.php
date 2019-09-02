@@ -10,7 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class RequestCreatedEvent
+class RequestUpdateEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,12 +19,9 @@ class RequestCreatedEvent
      *
      * @return void
      */
-    public $user;
-    public $requestor;
-    public function __construct($user, $requestor)
+    public function __construct()
     {
-        $this->user = $user;
-        $this->requestor = $requestor;
+        //
     }
 
     /**

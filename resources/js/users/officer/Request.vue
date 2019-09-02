@@ -37,7 +37,7 @@
                                                     <li class="nav-item"><a class="nav-link" href="#declined" data-toggle="tab">Declined</a></li>
                                                     <li @click="loadProjectRequests" v-if="auth.designation == 'Project Accountant'" class="nav-item"><a class="nav-link" href="#projectrequests" data-toggle="tab">Project Requests</a></li>
                                                     <li @click="loadLevel1Requests" v-if="stateLoaded && auth.roles.includes('manager')" class="nav-item"><a class="nav-link" href="#level1requests" data-toggle="tab">Level 1 Approvals</a></li>
-                                                    <li @click="loadFMRequests" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Finance and Operations'" class="nav-item"><a class="nav-link" href="#fmrequests" data-toggle="tab">Pending Requests</a></li>
+                                                    <li @click="loadFMRequests" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Finance and Operations'" class="nav-item"><a class="nav-link" href="#fmrequests" data-toggle="tab">Pending Financial Approval</a></li>
                                                     <li @click="loadDirectorRequests" v-if="stateLoaded && auth.roles.includes('director')" class="nav-item"><a class="nav-link" href="#directorrequests" data-toggle="tab">Pending Director Approval</a></li>
                                                     <li @click="loadEDRequests" v-if="stateLoaded && auth.designation == 'Executive Director'" class="nav-item"><a class="nav-link" href="#edrequests" data-toggle="tab">Pending ED Approval</a></li>
                                                 </ul>
@@ -143,30 +143,45 @@
                                                                     <td><router-link to="/view/request"><span @click="loadRequest(reqq.id)" ><b> {{ reqq.identity  }}</b></span></router-link></td>
                                                                     <td>{{ reqq.activity_type }}</td>
                                                                     <td>{{ reqq.project.name }}</td>
-                                                                    <td>
+                                                                    <td v-if="reqq.requestor_type == 'officer'">
                                                                         <button title="Approved" v-if="reqq.trail.accountant_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>PA</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.accountant_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>PA</b></i></button>
                                                                         <button title="Declined" v-if="reqq.trail.accountant_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>PA</b></i></button>
 
-                                                                        <button title="Approved" v-if="reqq.trail.level_one_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>SP</b></i></button>
-                                                                        <button title="Not yet approved" v-if="reqq.trail.level_one_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>SP</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.level_one_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>SP</b></i></button>
+                                                                        <button title="Approved" v-if="reqq.trail.level_one_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L1</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_one_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L1</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_one_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L1</b></i></button>
 
                                                                         <button title="Approved" v-if="reqq.trail.finance_approval == 1" class="btn btn-success btn-sm btn-flat"><i class="fa fa-check"><b>FM</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.finance_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>FM</b></i></button>
                                                                         <button title="Declined" v-if="reqq.trail.finance_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>FM</b></i></button>
 
-                                                                        <button title="Approved" v-if="reqq.trail.level_two_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>2</b></i></button>
-                                                                        <button title="Not yet approved" v-if="reqq.trail.level_two_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>2</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.level_two_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>2</b></i></button>
+                                                                        <button title="Approved" v-if="reqq.trail.level_two_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L2</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_two_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L2</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_two_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L2</b></i></button>
 
-                                                                        <button title="Approved" v-if="reqq.trail.level_three_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>3</b></i></button>
-                                                                        <button title="Not yet approved" v-if="reqq.trail.level_three_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>3</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>3</b></i></button>
+                                                                        <button title="Approved" v-if="reqq.trail.level_three_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L3</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_three_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L3</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L3</b></i></button>
 
+                                                                    </td>
+                                                                    <td v-if="reqq.requestor_type == 'manager'">
+                                                                        <button title="Approved" v-if="reqq.trail.accountant_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>PA</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.accountant_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>PA</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.accountant_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>PA</b></i></button>
 
+                                                                        <button title="Approved" v-if="reqq.trail.level_one_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L1</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_one_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L1</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_one_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L1</b></i></button>
 
+                                                                        <button title="Approved" v-if="reqq.trail.finance_approval == 1" class="btn btn-success btn-sm btn-flat"><i class="fa fa-check"><b>L2</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.finance_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L2</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.finance_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>L2</b></i></button>
 
+                                                                        <button title="Approved" v-if="reqq.trail.level_three_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L3</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_three_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L3</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L3</b></i></button>
+ 
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -180,6 +195,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>ID #</th>
+                                                                    <th>Requestor</th>
                                                                     <th>Activity</th>
                                                                     <th>Date of Req</th>
                                                                     <th>Required Date</th>
@@ -193,6 +209,7 @@
                                                             <tbody>
                                                                  <tr v-for="req in pendingRequests" :key="req.id">
                                                                      <td>{{ req.identity }}</td>
+                                                                     <td>{{ req.requested_by }}</td>
                                                                     <!-- <td><router-link to="/view/request"><span @click="loadRequest(req.id)" ><b> {{ req.identity  }}</b></span></router-link></td> -->
                                                                     <td>{{ req.activity_type }}</td>
                                                                     <td>{{ req.date_of_request }}</td>
@@ -266,6 +283,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>ID #</th>
+                                                                    <th>Requestor #</th>
                                                                     <th>Activity</th>
                                                                     <th>Date of Req</th>
                                                                     <th>Required Date</th>
@@ -279,6 +297,7 @@
                                                             <tbody>
                                                                  <tr v-for="req in level1Requests" :key="req.id">
                                                                      <td>{{ req.identity }}</td>
+                                                                     <td>{{ req.requested_by }}</td>
                                                                     <!-- <td><router-link to="/view/request"><span @click="loadRequest(req.id)" ><b> {{ req.identity  }}</b></span></router-link></td> -->
                                                                     <td>{{ req.activity_type }}</td>
                                                                     <td>{{ req.date_of_request }}</td>
@@ -666,7 +685,7 @@
                                                         <input type="text" readonly v-model="vendor_location" class="form-control" id="inputPassword4" >
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="inputPassword4">Date Required <span class="text-danger">*</span></label>
+                                                        <label for="inputPassword4">Delivery Date <span class="text-danger">*</span></label>
                                                         <input type="date" class="form-control" v-model="delivery_date" id="inputPassword4" >
                                                     </div>
                                                 </div>
@@ -722,12 +741,21 @@
                                                         <input type="text" readonly :value="currentDate.date" class="form-control"  multiple="multiple" id="inputPassword4" >
                                                     </div>
                                                 </div>
+                                                <div class="row" v-if="errors.length > 0">
+                                                    <div class="col-md-12">
+                                                        <p class="text-danger pull-left">{{ errors }}</p>
+                                                    </div>
+                                                </div>
                                                  <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <button class="btn btn-success btn-block"> <b> SCHEDULE REQUEST</b> <i class="fa fa-clock-o"></i> </button>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                      <button @click="save" class="btn btn-primary btn-block"> <b>REQUEST NOW</b> </button>
+                                                        <button @click="save" class="btn btn-primary btn-block" type="button">
+                                                            <span v-if="loading == true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                        <b>REQUEST NOW</b>
+                                                        </button>
+                                                      
                                                     </div>
                                                 </div>
                                             </div>
@@ -749,6 +777,7 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data() {
         return {
+            loading: false,
             edRequests: [],
             directorRequests: [],
             fMRequests: [],
@@ -775,7 +804,8 @@ export default {
     methods: {
          ...mapMutations({
              setRequest: "setRequest",
-             setMyRequests: "setMyRequests"
+             setMyRequests: "setMyRequests",
+             setErrors: "setErrors"
         }),
         approveLevel1Request(req){
             api.giveLevel1Approval(req).then(response => {
@@ -851,6 +881,7 @@ export default {
             }
         },
         save(){
+            this.loading = true
             this.data.append('vendor_id', this.vendor_id)
             this.data.append('activity_type', this.activity_type)
             this.data.append('delivery_date', this.delivery_date)
@@ -866,8 +897,16 @@ export default {
                 this.data.append('requestor_comments', this.requestor_comments)
             }
             api.addRequest(this.data).then(response => {
+                if(!response.success){
+                    this.setErrors(response.data.error)
+                    this.loading = false;
+                    return;
+                }
+                this.setErrors([])
                 api.getMyRequests().then(response => {
                         this.setMyRequests(response.data)
+                        this.loading = false;
+                        this.$router.push('/requests')
                     })
             })
         }
@@ -880,6 +919,7 @@ export default {
              vendors: state => state.vendors,
              departments: state => state.departments,
              assets: state => state.assets,
+             errors: state => state.errors,
          }),
          currentDate() {
             let currentDate = new Date();

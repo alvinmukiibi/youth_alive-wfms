@@ -34,4 +34,17 @@ class Request extends Model
     public function trail(){
         return $this->hasOne(Trail::class);
     }
+
+    public function getRequestorType(){
+        $roles = $this->requestor->arrayOfRoles();
+        if(in_array('officer', $roles) && count($roles) == 1){
+            return 'officer';
+        }
+        if(in_array('manager', $roles)){
+            return 'manager';
+        }
+        if(in_array('director', $roles)){
+            return 'director';
+        }
+    }
 }
