@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\LoggedInJobs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,11 @@ class AuthController extends Controller
                 Auth::logout();
                 return redirect()->back()->with('info', 'Please verify your email first');
             }
+
+            $job = new LoggedInJobs;
+            $job->user = $user;
+            $job->ip = $request->ip();
+            dispatch($job);
 
             return redirect()->to('/home');
 
