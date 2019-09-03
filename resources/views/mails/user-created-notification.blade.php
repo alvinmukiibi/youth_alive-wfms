@@ -7,7 +7,7 @@ You are expected to change your password to one of your choice {{ __('on') }} fi
 {{ __('Use the link below to login') }}
 
 
-@component('mail::button', ['url' => '127.0.0.1:8000/login'])
+@component('mail::button', ['url' => 'http://127.0.0.1:8000/login'])
 <b>LOGIN</b>
 @endcomponent
 

@@ -2267,6 +2267,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2276,28 +2311,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
-    setErrors: 'setErrors',
-    setAuthUser: 'setAuthUser'
+    setErrors: "setErrors",
+    setAuthUser: "setAuthUser"
   }), {
     uploadDp: function uploadDp() {
       var _this = this;
 
       var dp = this.$refs.dp.files[0];
       var data = new FormData();
-      data.append('profile_picture', dp);
+      data.append("profile_picture", dp);
       _api_api__WEBPACK_IMPORTED_MODULE_0__["saveDp"](data, this.auth.id).then(function (response) {
         if (!response.success) {
-          _this.setErrors(response.data.error);
+          _this.setErrors(response.data.error); //   this.spinner = false;
 
-          _this.spinner = false;
+
           return;
         }
 
         _this.setErrors([]);
 
-        _this.loadAuthUser();
+        _this.loadAuthUser(); // this.spinner = false;
 
-        _this.spinner = false;
       });
     },
     loadAuthUser: function loadAuthUser() {
@@ -4513,6 +4547,63 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4523,14 +4614,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       dropDown3: false,
       spinner: false,
       user: {
-        department_id: '',
-        designation_id: '',
-        contract_id: ''
+        department_id: "",
+        designation_id: "",
+        contract_id: ""
       }
     };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
-    setErrors: 'setErrors'
+    setErrors: "setErrors",
+    setCurrentEmployee: "setCurrentEmployee"
   }), {
     save: function save() {
       var _this = this;
@@ -4558,6 +4650,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.setErrors([]);
 
         _this.spinner = false;
+
+        _this.setCurrentEmployee(response.data);
       });
     }
   }),
@@ -4844,11 +4938,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      autocomplete: '',
       spinner: false,
       user: {
         biodata: '',
@@ -4874,6 +4979,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setCurrentEmployee: 'setCurrentEmployee',
     setErrors: 'setErrors'
   }), {
+    available: function available(bool) {
+      if (bool) {
+        return 'text-success';
+      } else {
+        return 'text-danger';
+      }
+    },
     removeRoleFromUser: function removeRoleFromUser(user_id) {
       var _this = this;
 
@@ -4932,6 +5044,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     save: function save() {
       var _this5 = this;
 
+      this.spinner = true;
+      this.setErrors([]);
       this.data.append('biodata', this.user.biodata);
       this.data.append('fname', this.user.fname);
       this.data.append('lname', this.user.lname);
@@ -4954,7 +5068,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this5.setErrors([]);
 
-        _this5.spinner = false;
+        _this5.spinner = false; // this.$router.push('/employees')
+
+        window.location.href = '/employees';
       });
     },
     setEmployee: function setEmployee(id) {
@@ -5014,6 +5130,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return state.employee;
     }
   })),
+  mounted: function mounted() {
+    var _this9 = this;
+
+    this.autocomplete = new google.maps.places.Autocomplete(this.$refs.autocomplete, {
+      types: ['geocode']
+    });
+    this.autocomplete.addListener('place_changed', function () {
+      var place = _this9.autocomplete.getPlace();
+
+      if (place != undefined) {
+        var ac = place.address_components;
+        var towns = ac[0]['short_name'] + ', ' + ac[1]['short_name'] + ', ' + ac[2]['short_name'];
+        _this9.user.address = towns;
+      }
+    });
+    this.autocompleted = new google.maps.places.Autocomplete(this.$refs.autocompleted, {
+      types: ['geocode']
+    });
+    this.autocompleted.addListener('place_changed', function () {
+      var place = _this9.autocompleted.getPlace();
+
+      if (place != undefined) {
+        var ac = place.address_components;
+        var town = ac[0]['short_name'] + ', ' + ac[1]['short_name'] + ', ' + ac[2]['short_name'];
+        _this9.user.duty_station = town;
+      }
+    });
+  },
   created: function created() {
     this.loadUsers();
   }
@@ -38897,7 +39041,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.disabled {\n    pointer-events: none;\n    cursor: default;\n}\n", ""]);
+exports.push([module.i, "\n.disabled {\n    pointer-events: none;\n    cursor: default;\n}\n.upload-btn-wrapper {\n    position: relative;\n    overflow: hidden;\n    display: inline-block;\n}\n.btnw {\n    border: 2px solid gray;\n    color: gray;\n    background-color: white;\n    padding: 8px 20px;\n    border-radius: 8px;\n    font-size: 20px;\n    font-weight: bold;\n}\n.upload-btn-wrapper input[type=file] {\n    font-size: 100px;\n    position: absolute;\n    left: 0;\n    top: 0;\n    opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -71680,8 +71824,6 @@ var render = function() {
                   _vm._v(_vm._s(_vm.auth.designation))
                 ]),
                 _vm._v(" "),
-                _vm._m(1),
-                _vm._v(" "),
                 _c("form", [
                   _c("div", { staticClass: "custom-file" }, [
                     _c("input", {
@@ -71715,7 +71857,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-9" }, [
             _c("div", { staticClass: "card card-primary card-outline" }, [
-              _vm._m(2),
+              _vm._m(1),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-group row" }, [
@@ -71820,6 +71962,31 @@ var render = function() {
                       staticClass: "col-sm-2 col-form-label",
                       attrs: { for: "station" }
                     },
+                    [_vm._v("Availability")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-10" }, [
+                    _vm.auth.availability_status
+                      ? _c("span", [
+                          _c("b", { staticClass: "text-success" }, [
+                            _vm._v("ON DUTY")
+                          ])
+                        ])
+                      : _c("span", [
+                          _c("b", { staticClass: "text-danger" }, [
+                            _vm._v("ON LEAVE")
+                          ])
+                        ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-2 col-form-label",
+                      attrs: { for: "station" }
+                    },
                     [_vm._v("System Roles")]
                   ),
                   _vm._v(" "),
@@ -71827,13 +71994,13 @@ var render = function() {
                     "div",
                     { staticClass: "col-md-10" },
                     [
-                      _vm._v("\n                              [ "),
+                      _vm._v("\n                  [\n                  "),
                       _vm._l(_vm.auth.roles, function(role) {
                         return _c("span", { key: role }, [
-                          _vm._v(" " + _vm._s(role) + ", ")
+                          _vm._v(_vm._s(role) + ",")
                         ])
                       }),
-                      _vm._v("  ]\n                          ")
+                      _vm._v(" ]\n                ")
                     ],
                     2
                   )
@@ -71853,20 +72020,20 @@ var render = function() {
                     "div",
                     { staticClass: "col-md-8" },
                     [
-                      _vm._v("\n                              [ "),
+                      _vm._v("\n                  [\n                  "),
                       _vm._l(_vm.auth.projects, function(project) {
                         return _c("span", { key: project }, [
-                          _vm._v(" " + _vm._s(project) + ", ")
+                          _vm._v(_vm._s(project) + ",")
                         ])
                       }),
-                      _vm._v("  ]\n                          ")
+                      _vm._v(" ]\n                ")
                     ],
                     2
                   )
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(3),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-group row" }, [
@@ -71944,7 +72111,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(4),
+              _vm._m(3),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-row" }, [
@@ -72034,14 +72201,14 @@ var render = function() {
                         on: { click: _vm.save }
                       },
                       [
-                        true
+                        _vm.spinner
                           ? _c("span", {
                               staticClass: "spinner-border spinner-border-sm",
                               attrs: { role: "status", "aria-hidden": "true" }
                             })
-                          : undefined,
+                          : _vm._e(),
                         _vm._v(
-                          "\n                                Save Profile\n                                "
+                          "\n                    Save Profile\n                  "
                         )
                       ]
                     )
@@ -72086,24 +72253,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "list-group list-group-unbordered mb-3" }, [
-      _c("li", { staticClass: "list-group-item" }, [
-        _c("b", [_vm._v("Followers")]),
-        _vm._v(" "),
-        _c("a", { staticClass: "float-right" }, [_vm._v("1,322")])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "list-group-item" }, [
-        _c("b", [_vm._v("Following")]),
-        _vm._v(" "),
-        _c("a", { staticClass: "float-right" }, [_vm._v("543")])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "list-group-item" }, [
-        _c("b", [_vm._v("Friends")]),
-        _vm._v(" "),
-        _c("a", { staticClass: "float-right" }, [_vm._v("13,287")])
-      ])
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Employment Details")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Contact Details")])
     ])
   },
   function() {
@@ -72112,33 +72271,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [
-        _vm._v(
-          "\n                          Employment Details\n                      "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [
-        _vm._v(
-          "\n                          Contact Details\n                      "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [
-        _vm._v(
-          "\n                          Other Information [Editable]\n                      "
-        )
+        _vm._v("Other Information [Editable]")
       ])
     ])
   }
@@ -76917,8 +77050,6 @@ var render = function() {
                     _vm._v(_vm._s(_vm.employee.designation))
                   ]),
                   _vm._v(" "),
-                  _vm._m(1),
-                  _vm._v(" "),
                   _c(
                     "router-link",
                     {
@@ -76929,7 +77060,7 @@ var render = function() {
                     [
                       _c("b", [
                         _c("i", { staticClass: "fa fa-backward" }),
-                        _vm._v(" Back ")
+                        _vm._v(" Back\n                ")
                       ])
                     ]
                   )
@@ -76941,7 +77072,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-9" }, [
             _c("div", { staticClass: "card card-primary card-outline" }, [
-              _vm._m(2),
+              _vm._m(1),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-group row" }, [
@@ -77027,7 +77158,7 @@ var render = function() {
                               return _c(
                                 "option",
                                 { key: dept.id, domProps: { value: dept.id } },
-                                [_vm._v(" " + _vm._s(dept.name))]
+                                [_vm._v(_vm._s(dept.name))]
                               )
                             })
                           ],
@@ -77100,7 +77231,7 @@ var render = function() {
                               return _c(
                                 "option",
                                 { key: desi.id, domProps: { value: desi.id } },
-                                [_vm._v(" " + _vm._s(desi.name))]
+                                [_vm._v(_vm._s(desi.name))]
                               )
                             })
                           ],
@@ -77173,7 +77304,7 @@ var render = function() {
                               return _c(
                                 "option",
                                 { key: cont.id, domProps: { value: cont.id } },
-                                [_vm._v(" " + _vm._s(cont.name))]
+                                [_vm._v(_vm._s(cont.name))]
                               )
                             })
                           ],
@@ -77228,6 +77359,31 @@ var render = function() {
                       staticClass: "col-sm-2 col-form-label",
                       attrs: { for: "station" }
                     },
+                    [_vm._v("Availability")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-10" }, [
+                    _vm.employee.availability_status
+                      ? _c("span", [
+                          _c("b", { staticClass: "text-success" }, [
+                            _vm._v("ON DUTY")
+                          ])
+                        ])
+                      : _c("span", [
+                          _c("b", { staticClass: "text-danger" }, [
+                            _vm._v("ON LEAVE")
+                          ])
+                        ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-2 col-form-label",
+                      attrs: { for: "station" }
+                    },
                     [_vm._v("System Roles")]
                   ),
                   _vm._v(" "),
@@ -77235,13 +77391,13 @@ var render = function() {
                     "div",
                     { staticClass: "col-md-10" },
                     [
-                      _vm._v("\n                              [ "),
+                      _vm._v("\n                  [\n                  "),
                       _vm._l(_vm.employee.roles, function(role) {
                         return _c("span", { key: role }, [
-                          _vm._v(" " + _vm._s(role) + ", ")
+                          _vm._v(_vm._s(role) + ",")
                         ])
                       }),
-                      _vm._v("  ]\n                          ")
+                      _vm._v(" ]\n                ")
                     ],
                     2
                   )
@@ -77261,20 +77417,20 @@ var render = function() {
                     "div",
                     { staticClass: "col-md-8" },
                     [
-                      _vm._v("\n                              [ "),
+                      _vm._v("\n                  [\n                  "),
                       _vm._l(_vm.employee.projects, function(project) {
                         return _c("span", { key: project }, [
-                          _vm._v(" " + _vm._s(project) + ", ")
+                          _vm._v(_vm._s(project) + ",")
                         ])
                       }),
-                      _vm._v("  ]\n                          ")
+                      _vm._v(" ]\n                ")
                     ],
                     2
                   )
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(3),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-group row" }, [
@@ -77496,35 +77652,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "list-group list-group-unbordered mb-3" }, [
-      _c("li", { staticClass: "list-group-item" }, [
-        _c("b", [_vm._v("Followers")]),
-        _vm._v(" "),
-        _c("a", { staticClass: "float-right" }, [_vm._v("1,322")])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "list-group-item" }, [
-        _c("b", [_vm._v("Following")]),
-        _vm._v(" "),
-        _c("a", { staticClass: "float-right" }, [_vm._v("543")])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "list-group-item" }, [
-        _c("b", [_vm._v("Friends")]),
-        _vm._v(" "),
-        _c("a", { staticClass: "float-right" }, [_vm._v("13,287")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [
-        _vm._v("\n                          Employment Details "),
+        _vm._v("\n                Employment Details\n                "),
         _c("small", { staticClass: "text-primary" }, [
-          _vm._v("**  To edit, please click in the field and type **")
+          _vm._v("** To edit, please click in the field and type **")
         ])
       ])
     ])
@@ -77534,11 +77666,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [
-        _vm._v(
-          "\n                          Contact Details\n                      "
-        )
-      ])
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Contact Details")])
     ])
   }
 ]
@@ -77605,6 +77733,9 @@ var render = function() {
                                         _c(
                                           "span",
                                           {
+                                            class: _vm.available(
+                                              user.availability_status
+                                            ),
                                             on: {
                                               click: function($event) {
                                                 return _vm.setEmployee(user.id)
@@ -77998,6 +78129,7 @@ var render = function() {
                                         expression: "user.address"
                                       }
                                     ],
+                                    ref: "autocomplete",
                                     staticClass: "form-control",
                                     attrs: {
                                       name: "",
@@ -78007,6 +78139,9 @@ var render = function() {
                                     },
                                     domProps: { value: _vm.user.address },
                                     on: {
+                                      focus: function($event) {
+                                        _vm.value = ""
+                                      },
                                       input: function($event) {
                                         if ($event.target.composing) {
                                           return
@@ -78072,7 +78207,7 @@ var render = function() {
                                     [
                                       _c(
                                         "option",
-                                        { attrs: { disabled: "" } },
+                                        { attrs: { disabled: "", value: "" } },
                                         [_vm._v("Select Department")]
                                       ),
                                       _vm._v(" "),
@@ -78140,7 +78275,7 @@ var render = function() {
                                     [
                                       _c(
                                         "option",
-                                        { attrs: { disabled: "" } },
+                                        { attrs: { disabled: "", value: "" } },
                                         [_vm._v("Select Designation")]
                                       ),
                                       _vm._v(" "),
@@ -78206,9 +78341,11 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _c("option", [
-                                        _vm._v("Select Contract Type")
-                                      ]),
+                                      _c(
+                                        "option",
+                                        { attrs: { disabled: "", value: "" } },
+                                        [_vm._v("Select Contract Type")]
+                                      ),
                                       _vm._v(" "),
                                       _vm._l(_vm.contracts, function(cont) {
                                         return _c(
@@ -78230,7 +78367,7 @@ var render = function() {
                             _c("div", { staticClass: "form-row" }, [
                               _c(
                                 "div",
-                                { staticClass: "form-group col-md-4" },
+                                { staticClass: "form-group col-md-8" },
                                 [
                                   _vm._m(12),
                                   _vm._v(" "),
@@ -78243,6 +78380,7 @@ var render = function() {
                                         expression: "user.duty_station"
                                       }
                                     ],
+                                    ref: "autocompleted",
                                     staticClass: "form-control",
                                     attrs: {
                                       type: "text",
@@ -78251,6 +78389,9 @@ var render = function() {
                                     },
                                     domProps: { value: _vm.user.duty_station },
                                     on: {
+                                      focus: function($event) {
+                                        _vm.value = ""
+                                      },
                                       input: function($event) {
                                         if ($event.target.composing) {
                                           return
@@ -78268,7 +78409,7 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "div",
-                                { staticClass: "form-group col-md-8" },
+                                { staticClass: "form-group col-md-4" },
                                 [
                                   _c("label", { attrs: { for: "" } }, [
                                     _vm._v("Bio Data Form Copy")
@@ -78320,9 +78461,23 @@ var render = function() {
                                     {
                                       staticClass:
                                         "btn btn-primary pull-right btn-block",
+                                      attrs: { type: "button" },
                                       on: { click: _vm.save }
                                     },
-                                    [_vm._m(13)]
+                                    [
+                                      _vm.spinner
+                                        ? _c("span", {
+                                            staticClass:
+                                              "spinner-border spinner-border-sm",
+                                            attrs: {
+                                              role: "status",
+                                              "aria-hidden": "true"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm._m(13)
+                                    ]
                                   )
                                 ]
                               )

@@ -48,7 +48,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr v-for="user in users" :key="user.id">
-                                                    <td> <router-link to="/view/employee"><span @click="setEmployee(user.id)" ><b> {{ user.fname + ' ' + user.lname  }}</b></span></router-link></td>
+                                                    <td> <router-link to="/view/employee"><span :class="available(user.availability_status)" @click="setEmployee(user.id)" ><b> {{ user.fname + ' ' + user.lname  }}</b></span></router-link></td>
                                                     <td>{{ user.email }}</td>
                                                     <td>{{ user.designation }}</td>
                                                     <td>{{ user.department_acronym }}</td>
@@ -111,44 +111,49 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12">
                                                         <label for="">Address <span class="text-danger">*</span></label>
-                                                        <textarea name="" v-model="user.address" id="" cols="5" rows="3" class="form-control"></textarea>
+                                                        <!-- <input type="text"  @focus="value = ''" v-model="user.address" class="form-control" id="autocomplete-input" placeholder="Work"> -->
+                                                        <textarea ref="autocomplete" @focus="value = ''" name="" v-model="user.address" id="" cols="5" rows="3" class="form-control"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
                                                         <label for="inputEmail4">Department <span class="text-danger">*</span></label>
                                                         <select v-model="user.department_id" name="" id="" class="form-control">
-                                                            <option disabled >Select Department</option>
+                                                            <option disabled value=""  >Select Department</option>
                                                             <option v-for="dept in departments" :value="dept.id" :key="dept.id"> {{ dept.name }}</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="inputPassword4">Designation <span class="text-danger">*</span></label>
                                                         <select v-model="user.designation_id" name="" id="" class="form-control">
-                                                            <option disabled >Select Designation</option>
+                                                            <option disabled value=""  >Select Designation</option>
                                                             <option v-for="desi in designations" :value="desi.id" :key="desi.id"> {{ desi.name }}</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="inputPassword4">Contract Type <span class="text-danger">*</span></label>
                                                         <select v-model="user.contract_id" name="" id="" class="form-control">
-                                                            <option >Select Contract Type</option>
+                                                            <option disabled value="" >Select Contract Type</option>
                                                             <option v-for="cont in contracts" :value="cont.id" :key="cont.id"> {{ cont.name }}</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-4">
-                                                        <label for="inputEmail4">Duty Station <span class="text-danger">*</span></label>
-                                                        <input type="text" v-model="user.duty_station" class="form-control" id="inputEmail4" placeholder="Duty Station">
-                                                    </div>
                                                     <div class="form-group col-md-8">
+                                                        <label for="inputEmail4">Duty Station <span class="text-danger">*</span></label>
+                                                        <input type="text" ref="autocompleted" @focus="value = ''" v-model="user.duty_station" class="form-control" id="inputEmail4" placeholder="Duty Station">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
                                                         <label for="">Bio Data Form Copy</label>
                                                          <div class="input-group">
                                                         <div class="custom-file">
                                                             <input type="file" ref="biodata" @change="uploadFile" class="custom-file-input" id="exampleInputFile">
                                                             <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                         </div>
+                                                        <!-- <div class="upload-btn-wrapper">
+                                                            <button class="btnw">Upload a file</button>
+                                                            <input type="file" name="myfile" />
+                                                        </div> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -156,8 +161,13 @@
                                                         <div class="col-md-12" v-if="errors.length > 0">
                                                             <p class="text-danger pull-left">{{ errors }}</p>
                                                         </div>
+                                                        
                                                         <div class="form-group col-md-6">
-                                                            <button @click="save" class="btn btn-primary pull-right btn-block"> <b> <i class="fa fa-plus"></i> ADD USER</b> </button>
+                                                            <button @click="save" class="btn btn-primary pull-right btn-block" type="button">
+                                                                <span v-if="spinner"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                <b> <i class="fa fa-plus"></i> ADD USER</b>
+                                                            </button>
+                                                           
                                                         </div>
                                                 </div>
                                             </div>
@@ -249,6 +259,7 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data() {
         return {
+            autocomplete: '',
             spinner: false,
             user: {
                 biodata: '',
@@ -275,6 +286,13 @@ export default {
             setCurrentEmployee: 'setCurrentEmployee',
             setErrors: 'setErrors'
         }),
+        available(bool){
+            if(bool){
+                return 'text-success'
+            }else{
+                return 'text-danger'
+            }
+        },
         removeRoleFromUser(user_id){
             let data = {
                 user_id: user_id,
@@ -319,6 +337,8 @@ export default {
             this.user.biodata = this.$refs.biodata.files[0]
         },
         save(){
+            this.spinner = true;
+            this.setErrors([])
             this.data.append('biodata', this.user.biodata);
             this.data.append('fname', this.user.fname)
             this.data.append('lname', this.user.lname)
@@ -339,6 +359,8 @@ export default {
                 }
                 this.setErrors([])
                 this.spinner = false;
+                // this.$router.push('/employees')
+                window.location.href = '/employees'
             })
 
         },
@@ -362,6 +384,7 @@ export default {
             })
         }
     },
+    
     computed: {
         ...mapState({
             auth: state => state.auth,
@@ -373,7 +396,28 @@ export default {
             raw_roles: state => state.roles,
             raw_projects: state => state.projects,
             employee: state => state.employee
-        })
+        }),
+      
+    },
+    mounted() {
+        this.autocomplete = new google.maps.places.Autocomplete((this.$refs.autocomplete),{types: ['geocode']});
+        this.autocomplete.addListener('place_changed', () => {
+            let place = this.autocomplete.getPlace();
+            if(place != undefined){
+                let ac = place.address_components;
+                let towns = ac[0]['short_name'] + ', ' + ac[1]['short_name'] + ', ' + ac[2]['short_name']
+                this.user.address = towns
+            }
+        });
+        this.autocompleted = new google.maps.places.Autocomplete((this.$refs.autocompleted),{types: ['geocode']});
+        this.autocompleted.addListener('place_changed', () => {
+            let place = this.autocompleted.getPlace();
+            if(place != undefined){
+                let ac = place.address_components;
+                let town = ac[0]['short_name'] + ', ' + ac[1]['short_name'] + ', ' + ac[2]['short_name']
+                this.user.duty_station = town
+            }
+        });
     },
     created() {
         this.loadUsers();
@@ -385,5 +429,26 @@ export default {
     .disabled {
         pointer-events: none;
         cursor: default;
+    }
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+    .btnw {
+        border: 2px solid gray;
+        color: gray;
+        background-color: white;
+        padding: 8px 20px;
+        border-radius: 8px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .upload-btn-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
     }
 </style>

@@ -28,7 +28,7 @@ class ProfileResource extends JsonResource
             'staff_id' => $this->staff_id,
             'address' => $this->address,
             'profile_picture' => $this->profile_picture,
-            'duty_station' => $this->duty_station,
+            'duty_station' => explode(', ', $this->duty_station)[0],
             'department' => Department::find($this->department_id)->name,
             'department_acronym' => Department::find($this->department_id)->acronym,
             'designation' => Designation::find($this->designation_id)->name,
@@ -36,6 +36,7 @@ class ProfileResource extends JsonResource
             'projects' => $this->arrayOfProjects(),
             'contract' => Contract::find($this->contract_id)->name,
             'activity_status' => $this->activity_status,
+            'availability_status' => $this->availability_status,
             'created_at' => date('Y-M-d', strtotime($this->created_at))
         ];
     }

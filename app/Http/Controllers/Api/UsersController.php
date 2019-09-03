@@ -67,14 +67,24 @@ class UsersController extends BaseController
 
     public function validation($request){
         $validator = Validator::make($request->all(), [
-            'department_id' => 'required',
-            'designation_id' => 'required',
-            'contract_id' => 'required',
+            // 'department_id' => 'required',
+            // 'designation_id' => 'required',
+            // 'contract_id' => 'required',
             'duty_station' => 'required',
             'mobile_contact' => 'required',
             'work_contact' => 'required',
             'address' => 'required',
             'email' => 'required | email',
+        ], [
+            'duty_station.required' => 'The duty station field is required',
+            'mobile_contact.required' => 'The mobile contact field is required',
+            'work_contact.required' => 'The work contact field is required',
+            // 'department_id.required' => 'Please choose a department for the user',
+            // 'designation_id.required' => 'Please choose a designation for the user',
+            // 'contract_id.required' => 'Please choose a contract type for the user',
+            'email.required' => 'The email address field is required',
+            'address.required' => 'The address field is required',
+
         ]);
 
         return $validator;
@@ -98,7 +108,9 @@ class UsersController extends BaseController
 
         $user->save();
 
-        return $this->sendResponse('', 'Edited successfully');
+        $user = new ProfileResource($user);
+
+        return $this->sendResponse($user, 'Edited successfully');
     }
 
     public function validationAdd($request){
@@ -111,7 +123,15 @@ class UsersController extends BaseController
             'duty_station' => 'required',
             'mobile_contact' => 'required',
             'address' => 'required|max:200',
-            'email' => 'required | email',
+            'email' => 'required|email|unique:users',
+        ], [
+            'fname.required' => 'The first name field is required',
+            'lname.required' => 'The last name field is required',
+            'department_id.required' => 'Please choose a department for the user',
+            'designation_id.required' => 'Please choose a designation for the user',
+            'contract_id.required' => 'Please choose a contract type for the user',
+            'email.required' => 'The email address field is required',
+
         ]);
 
         return $validator;
@@ -150,6 +170,7 @@ class UsersController extends BaseController
             'duty_station' => $request->duty_station,
             'password' => Hash::make($this->defaultPassword),
             'activity_status' => true,
+            'availability_status' => true,
             'email_verified_status' => false,
             'profile_picture' => $this->defaultAvatar,
         ];
@@ -162,8 +183,8 @@ class UsersController extends BaseController
             UserFile::create(['filename' => $biodata, 'description' => 'users biodata form copy', 'user_id' => $user->id]);
 
         }
-        // $event = new UserCreatedEvent($user);
-        // event($event);
+        $event = new UserCreatedEvent($user);
+        event($event);
 
         return $this->sendResponse($user, 'User successfully created');
 
