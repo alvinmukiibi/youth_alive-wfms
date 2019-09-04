@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/fmrequests', 'RequestsController@approveRequest');
         Route::post('/firstlevel', 'RequestsController@approveRequest');
         Route::post('/accountant', 'RequestsController@approveRequest');
+        Route::post('/decline', 'RequestsController@declineRequest');
     });
 
     Route::get('/download/file/{attachment}', function (Attachment $attachment) {

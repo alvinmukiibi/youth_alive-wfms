@@ -145,3 +145,10 @@ export function giveDirectorApproval(req) {
         field: 'level_two_approval'
     }).then(response => response.data);
 }
+export function declineRequest(data) {
+    return axios.post(prefix + '/requests/decline', {
+        request_id: data.req_id,
+        field: data.field,
+        comments: data.comments,
+    }).then(response => response.data);
+}

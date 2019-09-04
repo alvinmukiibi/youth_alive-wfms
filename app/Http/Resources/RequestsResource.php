@@ -28,7 +28,7 @@ class RequestsResource extends JsonResource
             'department' => Department::find($this->department_id),
             'project' => Project::find($this->project_id),
             'date_of_request' => date('d-M', strtotime($this->created_at)),
-            'trail' => $this->trail,
+            'trail' => new TrailResource($this->trail),
             'assets' => ReqAssetResource::collection($this->assets),
             'requested_by' => \ucwords(User::find($this->user_id)->fname . ' ' . User::find($this->user_id)->lname),
             'requestor_type' => $this->getRequestorType(),

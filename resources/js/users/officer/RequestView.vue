@@ -88,7 +88,12 @@
                                                         <textarea class="form-control" v-model="request.trail.requestor_comments"  cols="5" rows="2"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="form-row">
+                                                <div v-if="addAttachments == false" class="form-row">
+                                                    <div class="form-group col-md-12">
+                                                        <button @click="addAttachments = true" class="btn btn-outline-secondary"> <b>Add More attachments</b> <i class="fa fa-file"></i> </button>
+                                                    </div>
+                                                </div>
+                                                <div v-if="addAttachments" class="form-row">
                                                     <div class="form-group col-md-12">
                                                         <label for="inputEmail4">Add Attachments</label>
                                                         <input multiple="multiple" type="file" ref="att" @change="uploadFiles" class="form-control">
@@ -113,16 +118,64 @@
 
 
                                                 </div>
-                                                 <!-- <div class="form-row">
-                                                    <div class="form-group col-md-8">
-                                                        <label for="inputEmail4">Signature </label>
-                                                        <input type="text" :value="signature" readonly class="form-control">
+                                                 <div class="form-row">
+                                                    <div class="form-group col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Approval Type</th>
+                                                                    <th>Status</th>
+                                                                    <th>Date</th>
+                                                                    <th>Done by</th>
+                                                                    <th>Comments</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr v-if="request.trail.accountant_approval != 0">
+                                                                    <td >Project Accountant</td>
+                                                                    <td v-if="request.trail.accountant_approval == 1"> <button class="btn btn-sm btn-success"><i class="fa fa-check"></i></button>  </td>
+                                                                    <td v-else><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                                                                    <td>{{ request.trail.acc_appro_date }}</td>
+                                                                    <td>{{ request.trail.accountant }}</td>
+                                                                    <td>{{ request.trail.acc_comments }}</td>
+                                                                </tr>
+                                                                <tr v-if="request.trail.level_one_approval != 0">
+                                                                    <td >L1</td>
+                                                                    <td v-if="request.trail.level_one_approval == 1"> <button class="btn btn-sm btn-success"><i class="fa fa-check"></i></button>  </td>
+                                                                    <td v-else><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                                                                    <td>{{ request.trail.level_one_date }}</td>
+                                                                    <td>{{ request.trail.level_one_approver }}</td>
+                                                                    <td>{{ request.trail.level_one_comments }}</td>
+                                                                </tr>
+                                                                <tr v-if="request.trail.finance_approval != 0 && request.trail.finance_approval != null">
+                                                                    <td >FM</td>
+                                                                    <td v-if="request.trail.finance_approval == 1"> <button class="btn btn-sm btn-success"><i class="fa fa-check"></i></button>  </td>
+                                                                    <td v-else><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                                                                    <td>{{ request.trail.finance_approval_date }}</td>
+                                                                    <td>{{ request.trail.finance_approver }}</td>
+                                                                    <td>{{ request.trail.finance_appro_comments }}</td>
+                                                                </tr>
+                                                                <tr v-if="request.trail.level_two_approval != 0 && request.trail.level_two_approval != null">
+                                                                    <td >L2</td>
+                                                                    <td v-if="request.trail.level_two_approval == 1"> <button class="btn btn-sm btn-success"><i class="fa fa-check"></i></button>  </td>
+                                                                    <td v-else><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                                                                    <td>{{ request.trail.level_two_date }}</td>
+                                                                    <td>{{ request.trail.level_two_approver }}</td>
+                                                                    <td>{{ request.trail.level_two_comments }}</td>
+                                                                </tr>
+                                                                <tr v-if="request.trail.level_three_approval != 0 && request.trail.level_three_approval != null">
+                                                                    <td >L3</td>
+                                                                    <td v-if="request.trail.level_three_approval == 1"> <button class="btn btn-sm btn-success"><i class="fa fa-check"></i></button>  </td>
+                                                                    <td v-else><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                                                                    <td>{{ request.trail.level_three_date }}</td>
+                                                                    <td>{{ request.trail.level_three_approver }}</td>
+                                                                    <td>{{ request.trail.level_three_comments }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                      
                                                     </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="inputPassword4">Date of Request</label>
-                                                        <input type="text" readonly :value="currentDate.date" class="form-control"  multiple="multiple" id="inputPassword4" >
-                                                    </div>
-                                                </div> -->
+                                                </div>
                                                  <div class="form-row">
 
                                                     <div class="form-group col-md-6">
@@ -144,6 +197,7 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data() {
         return {
+            addAttachments: false,
             dropDown: false,
             dropDown1: false,
             dropDown2: false,
@@ -173,7 +227,7 @@ export default {
             this.data.append('vendor_id', this.editRequest.vendor_id)
             this.data.append('delivery_date', this.editRequest.delivery_date)
             this.data.append('asset_id', this.editRequest.asset_id)
-            if(this.request.assets > 0){
+            if(this.request.assets.length > 0){
                 this.data.append('quantity', this.request.assets[0].quantity)
                 this.data.append('unit_cost', this.request.assets[0].unit_cost)
                 this.data.append('comments', this.request.assets[0].comments)

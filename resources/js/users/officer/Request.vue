@@ -135,7 +135,7 @@
                                                                     <th>ID #</th>
                                                                     <th>Activity</th>
                                                                     <th>Project</th>
-                                                                    <th style="width:28%">Status</th>
+                                                                    <th style="width:35%">Status</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -143,29 +143,29 @@
                                                                     <td><router-link to="/view/request"><span @click="loadRequest(reqq.id)" ><b> {{ reqq.identity  }}</b></span></router-link></td>
                                                                     <td>{{ reqq.activity_type }}</td>
                                                                     <td>{{ reqq.project.name }}</td>
-                                                                    <td v-if="reqq.requestor_type == 'officer'">
-                                                                        <button title="Approved" v-if="reqq.trail.accountant_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>PA</b></i></button>
-                                                                        <button title="Not yet approved" v-if="reqq.trail.accountant_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>PA</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.accountant_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>PA</b></i></button>
+                                                                    <td >
+                                                                        <button title="Approved" v-if="reqq.trail.accountant_approval != null && reqq.trail.accountant_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>PA</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.accountant_approval != null && reqq.trail.accountant_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>PA</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.accountant_approval != null && reqq.trail.accountant_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>PA</b></i></button>
 
-                                                                        <button title="Approved" v-if="reqq.trail.level_one_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L1</b></i></button>
-                                                                        <button title="Not yet approved" v-if="reqq.trail.level_one_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L1</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.level_one_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L1</b></i></button>
+                                                                        <button title="Approved" v-if="reqq.trail.level_one_approval != null && reqq.trail.level_one_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L1</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_one_approval != null && reqq.trail.level_one_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L1</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_one_approval != null && reqq.trail.level_one_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L1</b></i></button>
 
-                                                                        <button title="Approved" v-if="reqq.trail.finance_approval == 1" class="btn btn-success btn-sm btn-flat"><i class="fa fa-check"><b>FM</b></i></button>
-                                                                        <button title="Not yet approved" v-if="reqq.trail.finance_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>FM</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.finance_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>FM</b></i></button>
+                                                                        <button title="Approved" v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 1" class="btn btn-success btn-sm btn-flat"><i class="fa fa-check"><b>FM</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>FM</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>FM</b></i></button>
 
-                                                                        <button title="Approved" v-if="reqq.trail.level_two_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L2</b></i></button>
-                                                                        <button title="Not yet approved" v-if="reqq.trail.level_two_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L2</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.level_two_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L2</b></i></button>
+                                                                        <button title="Approved" v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L2</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L2</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L2</b></i></button>
 
-                                                                        <button title="Approved" v-if="reqq.trail.level_three_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L3</b></i></button>
-                                                                        <button title="Not yet approved" v-if="reqq.trail.level_three_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L3</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L3</b></i></button>
+                                                                        <button title="Approved" v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L3</b></i></button>
+                                                                        <button title="Not yet approved" v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L3</b></i></button>
+                                                                        <button title="Declined" v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L3</b></i></button>
 
                                                                     </td>
-                                                                    <td v-if="reqq.requestor_type == 'manager'">
+                                                                    <!-- <td v-if="reqq.requestor_type == 'manager'">
                                                                         <button title="Approved" v-if="reqq.trail.accountant_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>PA</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.accountant_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>PA</b></i></button>
                                                                         <button title="Declined" v-if="reqq.trail.accountant_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>PA</b></i></button>
@@ -182,7 +182,7 @@
                                                                         <button title="Not yet approved" v-if="reqq.trail.level_three_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L3</b></i></button>
                                                                         <button title="Declined" v-if="reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L3</b></i></button>
  
-                                                                    </td>
+                                                                    </td> -->
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -265,7 +265,7 @@
                                                                     </td>
                                                                     <td v-if="req.trail.accountant_approval == 0">
                                                                         <button @click="approveProjectrequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
-                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                        <button data-toggle="modal" data-target="#projectRequestModal" class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.trail.accountant_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
@@ -277,6 +277,38 @@
                                                             </tbody>
                                                          </table>
 
+                                                    </div>
+                                                    <div class="modal fade" :key="'exampleModal' + id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLongTitle">Comments</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="card card-outline-primary">
+                                                                <div class="card-header">
+                                                                    <h3 class="card-title">
+                                                                        Comments
+                                                                    </h3>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <textarea name="" v-model="data.comments" id="" cols="3" rows="3" class="form-control"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button @click="declineProjectrequest" type="button" class="btn btn-primary">Continue</button>
+                                                        </div>
+                                                        </div>
+                                                    </div>
                                                     </div>
                                                     <div class="tab-pane" id="level1requests">
                                                          <table class="table table-striped table-bordered">
@@ -823,6 +855,11 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data() {
         return {
+            data: {
+                request_id: null,
+                field: null,
+                comments: null,
+            },
             loading: false,
             edRequests: [],
             directorRequests: [],
@@ -875,6 +912,11 @@ export default {
         },
         approveProjectrequest(req){
             api.giveAccountantApproval(req).then(response => {
+                this.loadProjectRequests();
+            })
+        },
+        declineProjectrequest(req){
+            api.declineRequest(this.data).then(response => {
                 this.loadProjectRequests();
             })
         },
