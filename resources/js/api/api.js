@@ -147,7 +147,7 @@ export function giveDirectorApproval(req) {
 }
 export function declineRequest(data) {
     return axios.post(prefix + '/requests/decline', {
-        request_id: data.req_id,
+        request_id: data.request_id,
         field: data.field,
         comments: data.comments,
     }).then(response => response.data);

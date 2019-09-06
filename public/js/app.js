@@ -5174,7 +5174,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _api_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api/api */ "./resources/js/api/api.js");
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _api_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api/api */ "./resources/js/api/api.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -6033,12 +6033,71 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
-      data: {
+    return {
+      bag: {
         request_id: null,
         field: null,
         comments: null
@@ -6063,14 +6122,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       total_cost: null,
       comments: null,
       requestor_comments: null,
-      vendor_id: 0
-    }, "data", new FormData());
+      vendor_id: 0,
+      data: new FormData()
+    };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
     setRequest: "setRequest",
     setMyRequests: "setMyRequests",
     setErrors: "setErrors"
   }), {
+    setDataBag: function setDataBag(id, type) {
+      this.bag.request_id = id;
+      this.bag.field = type;
+    },
     approveLevel1Request: function approveLevel1Request(req) {
       var _this = this;
 
@@ -6106,46 +6170,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this5.loadProjectRequests();
       });
     },
-    declineProjectrequest: function declineProjectrequest(req) {
-      var _this6 = this;
-
-      _api_api__WEBPACK_IMPORTED_MODULE_0__["declineRequest"](this.data).then(function (response) {
-        _this6.loadProjectRequests();
+    declineProjectrequest: function declineProjectrequest() {
+      console.log(this.bag);
+      _api_api__WEBPACK_IMPORTED_MODULE_0__["declineRequest"](this.bag).then(function (response) {
+        $('#exampleModal').modal('toggle'); // let trail = response.data
+        // this.updateRequest()
+        // if(auth.designation == 'Project Accountant' ){
+        //     this.loadProjectRequests();
+        // }
+        // if(auth.roles.includes('manager') ){
+        //     this.loadProjectRequests();
+        // }
       });
     },
     loadEDRequests: function loadEDRequests() {
-      var _this7 = this;
+      var _this6 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["getEDRequests"]().then(function (response) {
-        _this7.edRequests = response.data;
+        _this6.edRequests = response.data;
       });
     },
     loadDirectorRequests: function loadDirectorRequests() {
-      var _this8 = this;
+      var _this7 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["getDirectorRequests"]().then(function (response) {
-        _this8.directorRequests = response.data;
+        _this7.directorRequests = response.data;
       });
     },
     loadLevel1Requests: function loadLevel1Requests() {
-      var _this9 = this;
+      var _this8 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["getLevel1Requests"]().then(function (response) {
-        _this9.level1Requests = response.data;
+        _this8.level1Requests = response.data;
       });
     },
     loadFMRequests: function loadFMRequests() {
-      var _this10 = this;
+      var _this9 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["getFMRequests"]().then(function (response) {
-        _this10.fMRequests = response.data;
+        _this9.fMRequests = response.data;
       });
     },
     loadProjectRequests: function loadProjectRequests() {
-      var _this11 = this;
+      var _this10 = this;
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["getProjectRequests"]().then(function (response) {
-        _this11.pendingRequests = response.data;
+        _this10.pendingRequests = response.data;
       });
     },
     loadRequest: function loadRequest(id) {
@@ -6176,7 +6246,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     save: function save() {
-      var _this12 = this;
+      var _this11 = this;
 
       this.loading = true;
       this.data.append('vendor_id', this.vendor_id);
@@ -6198,20 +6268,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["addRequest"](this.data).then(function (response) {
         if (!response.success) {
-          _this12.setErrors(response.data.error);
+          _this11.setErrors(response.data.error);
 
-          _this12.loading = false;
+          _this11.loading = false;
           return;
         }
 
-        _this12.setErrors([]);
+        _this11.setErrors([]);
 
         _api_api__WEBPACK_IMPORTED_MODULE_0__["getMyRequests"]().then(function (response) {
-          _this12.setMyRequests(response.data);
+          _this11.setMyRequests(response.data);
 
-          _this12.loading = false;
+          _this11.loading = false;
 
-          _this12.$router.push('/requests');
+          _this11.$router.push('/requests');
         });
       });
     }
@@ -6291,6 +6361,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }
 });
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -79265,8 +79336,6 @@ var render = function() {
                               _vm._v(" "),
                               _vm._m(3),
                               _vm._v(" "),
-                              _vm._m(4),
-                              _vm._v(" "),
                               _vm.auth.designation == "Project Accountant"
                                 ? _c(
                                     "li",
@@ -79405,7 +79474,7 @@ var render = function() {
                                         "table table-striped table-bordered"
                                     },
                                     [
-                                      _vm._m(5),
+                                      _vm._m(4),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -79865,7 +79934,7 @@ var render = function() {
                                         "table table-striped table-bordered"
                                     },
                                     [
-                                      _vm._m(6),
+                                      _vm._m(5),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -79920,276 +79989,491 @@ var render = function() {
                                               _vm._v(_vm._s(reqq.project.name))
                                             ]),
                                             _vm._v(" "),
-                                            _c("td", [
-                                              reqq.trail.accountant_approval !=
-                                                null &&
-                                              reqq.trail.accountant_approval ==
-                                                1
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-success btn-flat",
-                                                      attrs: {
-                                                        title: "Approved"
-                                                      }
-                                                    },
-                                                    [_vm._m(7, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.accountant_approval !=
-                                                null &&
-                                              reqq.trail.accountant_approval ==
-                                                0
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-outline-warning btn-flat",
-                                                      attrs: {
-                                                        title:
-                                                          "Not yet approved"
-                                                      }
-                                                    },
-                                                    [_vm._m(8, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.accountant_approval !=
-                                                null &&
-                                              reqq.trail.accountant_approval ==
-                                                2
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-danger btn-flat",
-                                                      attrs: {
-                                                        title: "Declined"
-                                                      }
-                                                    },
-                                                    [_vm._m(9, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.level_one_approval !=
-                                                null &&
-                                              reqq.trail.level_one_approval == 1
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-success btn-flat",
-                                                      attrs: {
-                                                        title: "Approved"
-                                                      }
-                                                    },
-                                                    [_vm._m(10, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.level_one_approval !=
-                                                null &&
-                                              reqq.trail.level_one_approval == 0
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-outline-warning btn-flat",
-                                                      attrs: {
-                                                        title:
-                                                          "Not yet approved"
-                                                      }
-                                                    },
-                                                    [_vm._m(11, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.level_one_approval !=
-                                                null &&
-                                              reqq.trail.level_one_approval == 2
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-danger btn-sm btn-flat",
-                                                      attrs: {
-                                                        title: "Declined"
-                                                      }
-                                                    },
-                                                    [_vm._m(12, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.finance_approval !=
-                                                null &&
-                                              reqq.trail.finance_approval == 1
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-success btn-sm btn-flat",
-                                                      attrs: {
-                                                        title: "Approved"
-                                                      }
-                                                    },
-                                                    [_vm._m(13, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.finance_approval !=
-                                                null &&
-                                              reqq.trail.finance_approval == 0
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-outline-warning btn-flat",
-                                                      attrs: {
-                                                        title:
-                                                          "Not yet approved"
-                                                      }
-                                                    },
-                                                    [_vm._m(14, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.finance_approval !=
-                                                null &&
-                                              reqq.trail.finance_approval == 2
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-danger btn-flat",
-                                                      attrs: {
-                                                        title: "Declined"
-                                                      }
-                                                    },
-                                                    [_vm._m(15, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.level_two_approval !=
-                                                null &&
-                                              reqq.trail.level_two_approval == 1
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-success btn-flat",
-                                                      attrs: {
-                                                        title: "Approved"
-                                                      }
-                                                    },
-                                                    [_vm._m(16, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.level_two_approval !=
-                                                null &&
-                                              reqq.trail.level_two_approval == 0
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-outline-warning btn-flat",
-                                                      attrs: {
-                                                        title:
-                                                          "Not yet approved"
-                                                      }
-                                                    },
-                                                    [_vm._m(17, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.level_two_approval !=
-                                                null &&
-                                              reqq.trail.level_two_approval == 2
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-danger btn-sm btn-flat",
-                                                      attrs: {
-                                                        title: "Declined"
-                                                      }
-                                                    },
-                                                    [_vm._m(18, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.level_three_approval !=
-                                                null &&
-                                              reqq.trail.level_three_approval ==
-                                                1
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-success btn-flat",
-                                                      attrs: {
-                                                        title: "Approved"
-                                                      }
-                                                    },
-                                                    [_vm._m(19, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.level_three_approval !=
-                                                null &&
-                                              reqq.trail.level_three_approval ==
-                                                0
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-sm btn-outline-warning btn-flat",
-                                                      attrs: {
-                                                        title:
-                                                          "Not yet approved"
-                                                      }
-                                                    },
-                                                    [_vm._m(20, true)]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              reqq.trail.level_three_approval !=
-                                                null &&
-                                              reqq.trail.level_three_approval ==
-                                                2
-                                                ? _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-danger btn-sm btn-flat",
-                                                      attrs: {
-                                                        title: "Declined"
-                                                      }
-                                                    },
-                                                    [_vm._m(21, true)]
-                                                  )
-                                                : _vm._e()
-                                            ])
+                                            _c(
+                                              "td",
+                                              [
+                                                reqq.trail
+                                                  .accountant_approval !=
+                                                  null &&
+                                                reqq.trail
+                                                  .accountant_approval == 1
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-sm btn-success btn-flat",
+                                                        attrs: {
+                                                          title: "Approved"
+                                                        }
+                                                      },
+                                                      [_vm._m(6, true)]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                reqq.trail
+                                                  .accountant_approval !=
+                                                  null &&
+                                                reqq.trail
+                                                  .accountant_approval == 0
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-sm btn-outline-warning btn-flat",
+                                                        attrs: {
+                                                          title:
+                                                            "Not yet approved"
+                                                        }
+                                                      },
+                                                      [_vm._m(7, true)]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                reqq.trail
+                                                  .accountant_approval !=
+                                                  null &&
+                                                reqq.trail
+                                                  .accountant_approval == 2
+                                                  ? _c(
+                                                      "b-button",
+                                                      {
+                                                        attrs: {
+                                                          title: "Declined",
+                                                          id: "dec" + reqq.id,
+                                                          variant:
+                                                            "btn btn-sm btn-danger btn-flat"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "i",
+                                                          {
+                                                            staticClass:
+                                                              "fa fa-times"
+                                                          },
+                                                          [
+                                                            _c("b", [
+                                                              _vm._v("PA")
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target: "dec" + reqq.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [_vm._v("Reason")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("p", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          reqq.trail
+                                                            .acc_comments
+                                                        ) + " "
+                                                      )
+                                                    ])
+                                                  ],
+                                                  2
+                                                ),
+                                                _vm._v(" "),
+                                                reqq.trail.level_one_approval !=
+                                                  null &&
+                                                reqq.trail.level_one_approval ==
+                                                  1
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-sm btn-success btn-flat",
+                                                        attrs: {
+                                                          title: "Approved"
+                                                        }
+                                                      },
+                                                      [_vm._m(8, true)]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                reqq.trail.level_one_approval !=
+                                                  null &&
+                                                reqq.trail.level_one_approval ==
+                                                  0
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-sm btn-outline-warning btn-flat",
+                                                        attrs: {
+                                                          title:
+                                                            "Not yet approved"
+                                                        }
+                                                      },
+                                                      [_vm._m(9, true)]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                reqq.trail.level_one_approval !=
+                                                  null &&
+                                                reqq.trail.level_one_approval ==
+                                                  2
+                                                  ? _c(
+                                                      "b-button",
+                                                      {
+                                                        attrs: {
+                                                          title: "Declined",
+                                                          id: "decq" + reqq.id,
+                                                          variant:
+                                                            "btn btn-sm btn-danger btn-flat"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "i",
+                                                          {
+                                                            staticClass:
+                                                              "fa fa-times"
+                                                          },
+                                                          [
+                                                            _c("b", [
+                                                              _vm._v("L1")
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target: "decq" + reqq.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [_vm._v("Reason")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("p", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          reqq.trail
+                                                            .level_one_comments
+                                                        ) + " "
+                                                      )
+                                                    ])
+                                                  ],
+                                                  2
+                                                ),
+                                                _vm._v(" "),
+                                                reqq.trail.finance_approval !=
+                                                  null &&
+                                                reqq.trail.finance_approval == 1
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-success btn-sm btn-flat",
+                                                        attrs: {
+                                                          title: "Approved"
+                                                        }
+                                                      },
+                                                      [_vm._m(10, true)]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                reqq.trail.finance_approval !=
+                                                  null &&
+                                                reqq.trail.finance_approval == 0
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-sm btn-outline-warning btn-flat",
+                                                        attrs: {
+                                                          title:
+                                                            "Not yet approved"
+                                                        }
+                                                      },
+                                                      [_vm._m(11, true)]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                reqq.trail.finance_approval !=
+                                                  null &&
+                                                reqq.trail.finance_approval == 2
+                                                  ? _c(
+                                                      "b-button",
+                                                      {
+                                                        attrs: {
+                                                          title: "Declined",
+                                                          id: "decqq" + reqq.id,
+                                                          variant:
+                                                            "btn btn-sm btn-danger btn-flat"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "i",
+                                                          {
+                                                            staticClass:
+                                                              "fa fa-times"
+                                                          },
+                                                          [
+                                                            _c("b", [
+                                                              _vm._v("FM")
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target: "decqq" + reqq.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [_vm._v("Reason")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("p", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          reqq.trail
+                                                            .finance_appro_comments
+                                                        ) + " "
+                                                      )
+                                                    ])
+                                                  ],
+                                                  2
+                                                ),
+                                                _vm._v(" "),
+                                                reqq.trail.level_two_approval !=
+                                                  null &&
+                                                reqq.trail.level_two_approval ==
+                                                  1
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-sm btn-success btn-flat",
+                                                        attrs: {
+                                                          title: "Approved"
+                                                        }
+                                                      },
+                                                      [_vm._m(12, true)]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                reqq.trail.level_two_approval !=
+                                                  null &&
+                                                reqq.trail.level_two_approval ==
+                                                  0
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-sm btn-outline-warning btn-flat",
+                                                        attrs: {
+                                                          title:
+                                                            "Not yet approved"
+                                                        }
+                                                      },
+                                                      [_vm._m(13, true)]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                reqq.trail.level_two_approval !=
+                                                  null &&
+                                                reqq.trail.level_two_approval ==
+                                                  2
+                                                  ? _c(
+                                                      "b-button",
+                                                      {
+                                                        attrs: {
+                                                          title: "Declined",
+                                                          id: "decqz" + reqq.id,
+                                                          variant:
+                                                            "btn btn-sm btn-danger btn-flat"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "i",
+                                                          {
+                                                            staticClass:
+                                                              "fa fa-times"
+                                                          },
+                                                          [
+                                                            _c("b", [
+                                                              _vm._v("L2")
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target: "decqz" + reqq.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [_vm._v("Reason")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("p", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          reqq.trail
+                                                            .level_two_comments
+                                                        ) + " "
+                                                      )
+                                                    ])
+                                                  ],
+                                                  2
+                                                ),
+                                                _vm._v(" "),
+                                                reqq.trail
+                                                  .level_three_approval !=
+                                                  null &&
+                                                reqq.trail
+                                                  .level_three_approval == 1
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-sm btn-success btn-flat",
+                                                        attrs: {
+                                                          title: "Approved"
+                                                        }
+                                                      },
+                                                      [_vm._m(14, true)]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                reqq.trail
+                                                  .level_three_approval !=
+                                                  null &&
+                                                reqq.trail
+                                                  .level_three_approval == 0
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-sm btn-outline-warning btn-flat",
+                                                        attrs: {
+                                                          title:
+                                                            "Not yet approved"
+                                                        }
+                                                      },
+                                                      [_vm._m(15, true)]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                reqq.trail
+                                                  .level_three_approval !=
+                                                  null &&
+                                                reqq.trail
+                                                  .level_three_approval == 2
+                                                  ? _c(
+                                                      "b-button",
+                                                      {
+                                                        attrs: {
+                                                          title: "Declined",
+                                                          id:
+                                                            "decqzc" + reqq.id,
+                                                          variant:
+                                                            "btn btn-sm btn-danger btn-flat"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "i",
+                                                          {
+                                                            staticClass:
+                                                              "fa fa-times"
+                                                          },
+                                                          [
+                                                            _c("b", [
+                                                              _vm._v("L3")
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-popover",
+                                                  {
+                                                    attrs: {
+                                                      placement: "top",
+                                                      target:
+                                                        "decqzc" + reqq.id,
+                                                      triggers: "hover focus"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "template",
+                                                      { slot: "title" },
+                                                      [_vm._v("Reason")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("p", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          reqq.trail
+                                                            .level_three_comments
+                                                        ) + " "
+                                                      )
+                                                    ])
+                                                  ],
+                                                  2
+                                                )
+                                              ],
+                                              1
+                                            )
                                           ])
                                         }),
                                         0
                                       )
                                     ]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "tab-pane",
-                                  attrs: { id: "declined" }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                                    d\n                                                "
                                   )
                                 ]
                               ),
@@ -80208,7 +80492,7 @@ var render = function() {
                                         "table table-striped table-bordered"
                                     },
                                     [
-                                      _vm._m(22),
+                                      _vm._m(16),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -80630,8 +80914,21 @@ var render = function() {
                                                         "btn btn-outline-danger btn-sm",
                                                       attrs: {
                                                         "data-toggle": "modal",
+                                                        "data-backdrop":
+                                                          "false",
+                                                        "data-dismiss": "modal",
                                                         "data-target":
-                                                          "#projectRequestModal"
+                                                          "#exampleModal"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.setDataBag(
+                                                            req.id,
+                                                            "accountant_approval"
+                                                          )
+                                                        }
                                                       }
                                                     },
                                                     [_vm._v("Decline")]
@@ -80640,11 +80937,11 @@ var render = function() {
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.trail.accountant_approval == 1
-                                              ? _c("td", [_vm._m(23, true)])
+                                              ? _c("td", [_vm._m(17, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.trail.accountant_approval == 2
-                                              ? _c("td", [_vm._m(24, true)])
+                                              ? _c("td", [_vm._m(18, true)])
                                               : _vm._e()
                                           ])
                                         }),
@@ -80658,9 +80955,9 @@ var render = function() {
                               _c(
                                 "div",
                                 {
-                                  key: "exampleModal" + _vm.id,
                                   staticClass: "modal fade",
                                   attrs: {
+                                    id: "exampleModal",
                                     tabindex: "-1",
                                     role: "dialog",
                                     "aria-labelledby":
@@ -80681,7 +80978,7 @@ var render = function() {
                                         "div",
                                         { staticClass: "modal-content" },
                                         [
-                                          _vm._m(25),
+                                          _vm._m(19),
                                           _vm._v(" "),
                                           _c(
                                             "div",
@@ -80694,7 +80991,7 @@ var render = function() {
                                                     "card card-outline-primary"
                                                 },
                                                 [
-                                                  _vm._m(26),
+                                                  _vm._m(20),
                                                   _vm._v(" "),
                                                   _c(
                                                     "div",
@@ -80721,10 +81018,10 @@ var render = function() {
                                                                     rawName:
                                                                       "v-model",
                                                                     value:
-                                                                      _vm.data
+                                                                      _vm.bag
                                                                         .comments,
                                                                     expression:
-                                                                      "data.comments"
+                                                                      "bag.comments"
                                                                   }
                                                                 ],
                                                                 staticClass:
@@ -80737,7 +81034,7 @@ var render = function() {
                                                                 },
                                                                 domProps: {
                                                                   value:
-                                                                    _vm.data
+                                                                    _vm.bag
                                                                       .comments
                                                                 },
                                                                 on: {
@@ -80752,7 +81049,7 @@ var render = function() {
                                                                       return
                                                                     }
                                                                     _vm.$set(
-                                                                      _vm.data,
+                                                                      _vm.bag,
                                                                       "comments",
                                                                       $event
                                                                         .target
@@ -80825,7 +81122,7 @@ var render = function() {
                                         "table table-striped table-bordered"
                                     },
                                     [
-                                      _vm._m(27),
+                                      _vm._m(21),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -81244,7 +81541,25 @@ var render = function() {
                                                     "button",
                                                     {
                                                       staticClass:
-                                                        "btn btn-outline-danger btn-sm"
+                                                        "btn btn-outline-danger btn-sm",
+                                                      attrs: {
+                                                        "data-toggle": "modal",
+                                                        "data-backdrop":
+                                                          "false",
+                                                        "data-dismiss": "modal",
+                                                        "data-target":
+                                                          "#exampleModal"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.setDataBag(
+                                                            req.id,
+                                                            "level_one_approval"
+                                                          )
+                                                        }
+                                                      }
                                                     },
                                                     [_vm._v("Decline")]
                                                   )
@@ -81252,11 +81567,11 @@ var render = function() {
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.trail.level_one_approval == 1
-                                              ? _c("td", [_vm._m(28, true)])
+                                              ? _c("td", [_vm._m(22, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.trail.level_one_approval == 2
-                                              ? _c("td", [_vm._m(29, true)])
+                                              ? _c("td", [_vm._m(23, true)])
                                               : _vm._e()
                                           ])
                                         }),
@@ -81281,7 +81596,7 @@ var render = function() {
                                         "table table-striped table-bordered"
                                     },
                                     [
-                                      _vm._m(30),
+                                      _vm._m(24),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -81699,7 +82014,25 @@ var render = function() {
                                                     "button",
                                                     {
                                                       staticClass:
-                                                        "btn btn-outline-danger btn-sm"
+                                                        "btn btn-outline-danger btn-sm",
+                                                      attrs: {
+                                                        "data-toggle": "modal",
+                                                        "data-backdrop":
+                                                          "false",
+                                                        "data-dismiss": "modal",
+                                                        "data-target":
+                                                          "#exampleModal"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.setDataBag(
+                                                            req.id,
+                                                            "finance_approval"
+                                                          )
+                                                        }
+                                                      }
                                                     },
                                                     [_vm._v("Decline")]
                                                   )
@@ -81708,12 +82041,12 @@ var render = function() {
                                             _vm._v(" "),
                                             req.requestor_type == "officer" &&
                                             req.trail.finance_approval == 1
-                                              ? _c("td", [_vm._m(31, true)])
+                                              ? _c("td", [_vm._m(25, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type == "officer" &&
                                             req.trail.finance_approval == 2
-                                              ? _c("td", [_vm._m(32, true)])
+                                              ? _c("td", [_vm._m(26, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type == "manager" &&
@@ -81741,7 +82074,25 @@ var render = function() {
                                                     "button",
                                                     {
                                                       staticClass:
-                                                        "btn btn-outline-danger btn-sm"
+                                                        "btn btn-outline-danger btn-sm",
+                                                      attrs: {
+                                                        "data-toggle": "modal",
+                                                        "data-backdrop":
+                                                          "false",
+                                                        "data-dismiss": "modal",
+                                                        "data-target":
+                                                          "#exampleModal"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.setDataBag(
+                                                            req.id,
+                                                            "finance_approval"
+                                                          )
+                                                        }
+                                                      }
                                                     },
                                                     [_vm._v("Decline")]
                                                   )
@@ -81750,12 +82101,12 @@ var render = function() {
                                             _vm._v(" "),
                                             req.requestor_type == "manager" &&
                                             req.trail.level_two_approval == 1
-                                              ? _c("td", [_vm._m(33, true)])
+                                              ? _c("td", [_vm._m(27, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type == "manager" &&
                                             req.trail.level_two_approval == 2
-                                              ? _c("td", [_vm._m(34, true)])
+                                              ? _c("td", [_vm._m(28, true)])
                                               : _vm._e()
                                           ])
                                         }),
@@ -81780,7 +82131,7 @@ var render = function() {
                                         "table table-striped table-bordered"
                                     },
                                     [
-                                      _vm._m(35),
+                                      _vm._m(29),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -82201,7 +82552,25 @@ var render = function() {
                                                     "button",
                                                     {
                                                       staticClass:
-                                                        "btn btn-outline-danger btn-sm"
+                                                        "btn btn-outline-danger btn-sm",
+                                                      attrs: {
+                                                        "data-toggle": "modal",
+                                                        "data-backdrop":
+                                                          "false",
+                                                        "data-dismiss": "modal",
+                                                        "data-target":
+                                                          "#exampleModal"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.setDataBag(
+                                                            req.id,
+                                                            "level_two_approval"
+                                                          )
+                                                        }
+                                                      }
                                                     },
                                                     [_vm._v("Decline")]
                                                   )
@@ -82210,12 +82579,12 @@ var render = function() {
                                             _vm._v(" "),
                                             req.requestor_type == "officer" &&
                                             req.trail.level_two_approval == 1
-                                              ? _c("td", [_vm._m(36, true)])
+                                              ? _c("td", [_vm._m(30, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type == "officer" &&
                                             req.trail.level_two_approval == 2
-                                              ? _c("td", [_vm._m(37, true)])
+                                              ? _c("td", [_vm._m(31, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type == "manager" &&
@@ -82243,7 +82612,25 @@ var render = function() {
                                                     "button",
                                                     {
                                                       staticClass:
-                                                        "btn btn-outline-danger btn-sm"
+                                                        "btn btn-outline-danger btn-sm",
+                                                      attrs: {
+                                                        "data-toggle": "modal",
+                                                        "data-backdrop":
+                                                          "false",
+                                                        "data-dismiss": "modal",
+                                                        "data-target":
+                                                          "#exampleModal"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.setDataBag(
+                                                            req.id,
+                                                            "level_two_approval"
+                                                          )
+                                                        }
+                                                      }
                                                     },
                                                     [_vm._v("Decline")]
                                                   )
@@ -82252,12 +82639,12 @@ var render = function() {
                                             _vm._v(" "),
                                             req.requestor_type == "manager" &&
                                             req.trail.level_one_approval == 1
-                                              ? _c("td", [_vm._m(38, true)])
+                                              ? _c("td", [_vm._m(32, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type == "manager" &&
                                             req.trail.level_one_approval == 2
-                                              ? _c("td", [_vm._m(39, true)])
+                                              ? _c("td", [_vm._m(33, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type == "director" &&
@@ -82285,7 +82672,25 @@ var render = function() {
                                                     "button",
                                                     {
                                                       staticClass:
-                                                        "btn btn-outline-danger btn-sm"
+                                                        "btn btn-outline-danger btn-sm",
+                                                      attrs: {
+                                                        "data-toggle": "modal",
+                                                        "data-backdrop":
+                                                          "false",
+                                                        "data-dismiss": "modal",
+                                                        "data-target":
+                                                          "#exampleModal"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.setDataBag(
+                                                            req.id,
+                                                            "level_one_approval"
+                                                          )
+                                                        }
+                                                      }
                                                     },
                                                     [_vm._v("Decline")]
                                                   )
@@ -82294,12 +82699,12 @@ var render = function() {
                                             _vm._v(" "),
                                             req.requestor_type == "director" &&
                                             req.trail.level_one_approval == 1
-                                              ? _c("td", [_vm._m(40, true)])
+                                              ? _c("td", [_vm._m(34, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type == "director" &&
                                             req.trail.level_one_approval == 2
-                                              ? _c("td", [_vm._m(41, true)])
+                                              ? _c("td", [_vm._m(35, true)])
                                               : _vm._e()
                                           ])
                                         }),
@@ -82324,7 +82729,7 @@ var render = function() {
                                         "table table-striped table-bordered"
                                     },
                                     [
-                                      _vm._m(42),
+                                      _vm._m(36),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -82744,7 +83149,25 @@ var render = function() {
                                                     "button",
                                                     {
                                                       staticClass:
-                                                        "btn btn-outline-danger btn-sm"
+                                                        "btn btn-outline-danger btn-sm",
+                                                      attrs: {
+                                                        "data-toggle": "modal",
+                                                        "data-backdrop":
+                                                          "false",
+                                                        "data-dismiss": "modal",
+                                                        "data-target":
+                                                          "#exampleModal"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.setDataBag(
+                                                            req.id,
+                                                            "level_three_approval"
+                                                          )
+                                                        }
+                                                      }
                                                     },
                                                     [_vm._v("Decline")]
                                                   )
@@ -82753,12 +83176,12 @@ var render = function() {
                                             _vm._v(" "),
                                             req.requestor_type != "director" &&
                                             req.trail.level_three_approval == 1
-                                              ? _c("td", [_vm._m(43, true)])
+                                              ? _c("td", [_vm._m(37, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type != "director" &&
                                             req.trail.level_three_approval == 2
-                                              ? _c("td", [_vm._m(44, true)])
+                                              ? _c("td", [_vm._m(38, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type == "director" &&
@@ -82786,7 +83209,25 @@ var render = function() {
                                                     "button",
                                                     {
                                                       staticClass:
-                                                        "btn btn-outline-danger btn-sm"
+                                                        "btn btn-outline-danger btn-sm",
+                                                      attrs: {
+                                                        "data-toggle": "modal",
+                                                        "data-backdrop":
+                                                          "false",
+                                                        "data-dismiss": "modal",
+                                                        "data-target":
+                                                          "#exampleModal"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.setDataBag(
+                                                            req.id,
+                                                            "level_three_approval"
+                                                          )
+                                                        }
+                                                      }
                                                     },
                                                     [_vm._v("Decline")]
                                                   )
@@ -82795,12 +83236,12 @@ var render = function() {
                                             _vm._v(" "),
                                             req.requestor_type == "director" &&
                                             req.trail.level_two_approval == 1
-                                              ? _c("td", [_vm._m(45, true)])
+                                              ? _c("td", [_vm._m(39, true)])
                                               : _vm._e(),
                                             _vm._v(" "),
                                             req.requestor_type == "director" &&
-                                            req.trail.level_twp_approval == 2
-                                              ? _c("td", [_vm._m(46, true)])
+                                            req.trail.level_two_approval == 2
+                                              ? _c("td", [_vm._m(40, true)])
                                               : _vm._e()
                                           ])
                                         }),
@@ -82826,7 +83267,7 @@ var render = function() {
                             "div",
                             { staticClass: "card card-primary card-outline" },
                             [
-                              _vm._m(47),
+                              _vm._m(41),
                               _vm._v(" "),
                               _c("div", { staticClass: "card-body" }, [
                                 _c("div", { staticClass: "form-group row" }, [
@@ -83006,7 +83447,7 @@ var render = function() {
                             "div",
                             { staticClass: "card card-success card-outline" },
                             [
-                              _vm._m(48),
+                              _vm._m(42),
                               _vm._v(" "),
                               _c("div", { staticClass: "card-body" }, [
                                 _c("div", { staticClass: "form-row" }, [
@@ -83014,7 +83455,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-4" },
                                     [
-                                      _vm._m(49),
+                                      _vm._m(43),
                                       _vm._v(" "),
                                       _c(
                                         "select",
@@ -83112,7 +83553,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-4" },
                                     [
-                                      _vm._m(50),
+                                      _vm._m(44),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -83148,7 +83589,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-4" },
                                     [
-                                      _vm._m(51),
+                                      _vm._m(45),
                                       _vm._v(" "),
                                       _c(
                                         "select",
@@ -83230,7 +83671,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-3" },
                                     [
-                                      _vm._m(52),
+                                      _vm._m(46),
                                       _vm._v(" "),
                                       _c(
                                         "select",
@@ -83287,7 +83728,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-2" },
                                     [
-                                      _vm._m(53),
+                                      _vm._m(47),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -83321,7 +83762,7 @@ var render = function() {
                                     "div",
                                     { staticClass: "form-group col-md-2" },
                                     [
-                                      _vm._m(54),
+                                      _vm._m(48),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -83530,7 +83971,7 @@ var render = function() {
                                   : _vm._e(),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "form-row" }, [
-                                  _vm._m(55),
+                                  _vm._m(49),
                                   _vm._v(" "),
                                   _c(
                                     "div",
@@ -83670,21 +84111,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link",
-          attrs: { href: "#declined", "data-toggle": "tab" }
-        },
-        [_vm._v("Declined")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("ID #")]),
@@ -83741,12 +84167,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("i", { staticClass: "fa fa-times" }, [_c("b", [_vm._v("PA")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("i", { staticClass: "fa fa-check" }, [_c("b", [_vm._v("L1")])])
   },
   function() {
@@ -83754,12 +84174,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("i", { staticClass: "fa fa-clock-o" }, [_c("b", [_vm._v("L1")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("i", { staticClass: "fa fa-times" }, [_c("b", [_vm._v("L1")])])
   },
   function() {
     var _vm = this
@@ -83777,12 +84191,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("i", { staticClass: "fa fa-times" }, [_c("b", [_vm._v("FM")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("i", { staticClass: "fa fa-check" }, [_c("b", [_vm._v("L2")])])
   },
   function() {
@@ -83795,12 +84203,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("i", { staticClass: "fa fa-times" }, [_c("b", [_vm._v("L2")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("i", { staticClass: "fa fa-check" }, [_c("b", [_vm._v("L3")])])
   },
   function() {
@@ -83808,12 +84210,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("i", { staticClass: "fa fa-clock-o" }, [_c("b", [_vm._v("L3")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("i", { staticClass: "fa fa-times" }, [_c("b", [_vm._v("L3")])])
   },
   function() {
     var _vm = this
@@ -101501,7 +101897,7 @@ function giveDirectorApproval(req) {
 }
 function declineRequest(data) {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/requests/decline', {
-    request_id: data.req_id,
+    request_id: data.request_id,
     field: data.field,
     comments: data.comments
   }).then(function (response) {

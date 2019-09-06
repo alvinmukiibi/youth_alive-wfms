@@ -34,7 +34,7 @@
                                                 <ul class="nav nav-pills">
                                                     <li class="nav-item"><a class="nav-link active" href="#new" data-toggle="tab">Requests</a></li>
                                                     <li class="nav-item"><a class="nav-link" href="#approved" data-toggle="tab">Approval Trail</a></li>
-                                                    <li class="nav-item"><a class="nav-link" href="#declined" data-toggle="tab">Declined</a></li>
+                                                    <!-- <li class="nav-item"><a class="nav-link" href="#declined" data-toggle="tab">Declined</a></li> -->
                                                     <li @click="loadProjectRequests" v-if="auth.designation == 'Project Accountant'" class="nav-item"><a class="nav-link" href="#projectrequests" data-toggle="tab">Project Requests</a></li>
                                                     <li @click="loadLevel1Requests" v-if="stateLoaded && auth.roles.includes('manager')" class="nav-item"><a class="nav-link" href="#level1requests" data-toggle="tab">Level 1 Approvals</a></li>
                                                     <li @click="loadFMRequests" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Finance and Operations'" class="nav-item"><a class="nav-link" href="#fmrequests" data-toggle="tab">Pending Financial Approval</a></li>
@@ -146,23 +146,82 @@
                                                                     <td >
                                                                         <button title="Approved" v-if="reqq.trail.accountant_approval != null && reqq.trail.accountant_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>PA</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.accountant_approval != null && reqq.trail.accountant_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>PA</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.accountant_approval != null && reqq.trail.accountant_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>PA</b></i></button>
+                                                                        
+                                                                        <b-button v-if="reqq.trail.accountant_approval != null && reqq.trail.accountant_approval == 2" title="Declined" :id="'dec' + reqq.id" variant="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>PA</b></i></b-button>
+                                                                         <b-popover placement="top" :target="'dec' + reqq.id" triggers="hover focus">
+                                                                            <template slot="title">Reason</template>
+                                                                            <p>{{ reqq.trail.acc_comments }} </p>
+                                                                         </b-popover>
+                                                                        
+                                                                        
+                                                                        <!-- <button   class="btn btn-sm btn-danger btn-flat"></button> -->
 
                                                                         <button title="Approved" v-if="reqq.trail.level_one_approval != null && reqq.trail.level_one_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L1</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.level_one_approval != null && reqq.trail.level_one_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L1</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.level_one_approval != null && reqq.trail.level_one_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L1</b></i></button>
+                                                                        
+                                                                        <b-button v-if="reqq.trail.level_one_approval != null && reqq.trail.level_one_approval == 2" title="Declined" :id="'decq' + reqq.id" variant="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>L1</b></i></b-button>
+                                                                         <b-popover placement="top" :target="'decq' + reqq.id" triggers="hover focus">
+                                                                            <template slot="title">Reason</template>
+                                                                            <p>{{ reqq.trail.level_one_comments }} </p>
+                                                                         </b-popover>
+                                                                        
+                                                                        <!-- <button title="Declined"  class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L1</b></i></button> -->
 
                                                                         <button title="Approved" v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 1" class="btn btn-success btn-sm btn-flat"><i class="fa fa-check"><b>FM</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>FM</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>FM</b></i></button>
-
+                                                                        
+                                                                        <b-button 
+                                                                            v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 2"
+                                                                            title="Declined" 
+                                                                            :id="'decqq' + reqq.id" 
+                                                                            variant="btn btn-sm btn-danger btn-flat">
+                                                                                <i class="fa fa-times"><b>FM</b></i>
+                                                                        </b-button>
+                                                                         <b-popover placement="top" :target="'decqq' + reqq.id" triggers="hover focus">
+                                                                            <template slot="title">Reason</template>
+                                                                            <p>{{ reqq.trail.finance_appro_comments }} </p>
+                                                                        </b-popover>
+                                                                        
+                                                                        
+                                                                        <!-- <button title="Declined" 
+                                                                        v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>FM</b></i></button> -->
+                                                                
                                                                         <button title="Approved" v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L2</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L2</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L2</b></i></button>
+                                                                        
+                                                                        <b-button 
+                                                                            v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 2"
+                                                                            title="Declined" 
+                                                                            :id="'decqz' + reqq.id" 
+                                                                            variant="btn btn-sm btn-danger btn-flat">
+                                                                                <i class="fa fa-times"><b>L2</b></i>
+                                                                        </b-button>
+                                                                         <b-popover placement="top" :target="'decqz' + reqq.id" triggers="hover focus">
+                                                                            <template slot="title">Reason</template>
+                                                                            <p>{{ reqq.trail.level_two_comments }} </p>
+                                                                        </b-popover>
+                                                                        
+                                                                        
+                                                                        <!-- <button title="Declined" 
+                                                                        v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L2</b></i></button> -->
 
                                                                         <button title="Approved" v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L3</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L3</b></i></button>
-                                                                        <button title="Declined" v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L3</b></i></button>
+                                                                        
+                                                                        <b-button 
+                                                                            v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 2"
+                                                                            title="Declined" 
+                                                                            :id="'decqzc' + reqq.id" 
+                                                                            variant="btn btn-sm btn-danger btn-flat">
+                                                                                <i class="fa fa-times"><b>L3</b></i>
+                                                                        </b-button>
+                                                                         <b-popover placement="top" :target="'decqzc' + reqq.id" triggers="hover focus">
+                                                                            <template slot="title">Reason</template>
+                                                                            <p>{{ reqq.trail.level_three_comments }} </p>
+                                                                        </b-popover>
+
+                                                                        <!-- <button title="Declined" 
+                                                                        v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L3</b></i></button> -->
 
                                                                     </td>
                                                                     <!-- <td v-if="reqq.requestor_type == 'manager'">
@@ -187,9 +246,9 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    <div class="tab-pane" id="declined">
+                                                    <!-- <div class="tab-pane" id="declined">
                                                         d
-                                                    </div>
+                                                    </div> -->
                                                     <div class="tab-pane" id="projectrequests">
                                                          <table class="table table-striped table-bordered">
                                                             <thead>
@@ -265,7 +324,7 @@
                                                                     </td>
                                                                     <td v-if="req.trail.accountant_approval == 0">
                                                                         <button @click="approveProjectrequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
-                                                                        <button data-toggle="modal" data-target="#projectRequestModal" class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                        <button @click="setDataBag(req.id, 'accountant_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal"  class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.trail.accountant_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
@@ -278,7 +337,7 @@
                                                          </table>
 
                                                     </div>
-                                                    <div class="modal fade" :key="'exampleModal' + id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                         <div class="modal-header">
@@ -297,7 +356,7 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-md-12">
-                                                                            <textarea name="" v-model="data.comments" id="" cols="3" rows="3" class="form-control"></textarea>
+                                                                            <textarea name="" v-model="bag.comments" id="" cols="3" rows="3" class="form-control"></textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -385,7 +444,7 @@
                                                                     </td>
                                                                     <td v-if="req.trail.level_one_approval == 0">
                                                                         <button @click="approveLevel1Request(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
-                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                        <button @click="setDataBag(req.id, 'level_one_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.trail.level_one_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
@@ -473,7 +532,7 @@
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'officer' && req.trail.finance_approval == 0">
                                                                         <button @click="approveFMRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
-                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                        <button @click="setDataBag(req.id, 'finance_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'officer' && req.trail.finance_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
@@ -483,7 +542,7 @@
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'manager' && req.trail.level_two_approval == 0">
                                                                         <button @click="approveFMRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
-                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                        <button @click="setDataBag(req.id, 'finance_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'manager' && req.trail.level_two_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
@@ -571,7 +630,7 @@
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'officer' && req.trail.level_two_approval == 0">
                                                                         <button @click="approveDirectorRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
-                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                        <button @click="setDataBag(req.id, 'level_two_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'officer' && req.trail.level_two_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
@@ -581,7 +640,7 @@
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'manager' && req.trail.level_one_approval == 0">
                                                                         <button @click="approveDirectorRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
-                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                        <button @click="setDataBag(req.id, 'level_two_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'manager' && req.trail.level_one_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
@@ -591,7 +650,7 @@
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'director' && req.trail.level_one_approval == 0">
                                                                         <button @click="approveDirectorRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
-                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                        <button @click="setDataBag(req.id, 'level_one_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'director' && req.trail.level_one_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
@@ -679,7 +738,7 @@
                                                                     </td>
                                                                     <td v-if="req.requestor_type != 'director' && req.trail.level_three_approval == 0">
                                                                         <button @click="approveEDRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
-                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                        <button @click="setDataBag(req.id, 'level_three_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.requestor_type != 'director' && req.trail.level_three_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
@@ -689,12 +748,12 @@
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'director' && req.trail.level_two_approval == 0">
                                                                         <button @click="approveEDRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
-                                                                        <button class="btn btn-outline-danger btn-sm">Decline</button>
+                                                                        <button @click="setDataBag(req.id, 'level_three_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button>
                                                                     </td>
                                                                     <td v-if="req.requestor_type == 'director' && req.trail.level_two_approval == 1">
                                                                         <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
                                                                     </td>
-                                                                    <td v-if="req.requestor_type == 'director' && req.trail.level_twp_approval == 2">
+                                                                    <td v-if="req.requestor_type == 'director' && req.trail.level_two_approval == 2">
                                                                         <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
                                                                     </td>
                                                                 </tr>
@@ -855,7 +914,7 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data() {
         return {
-            data: {
+            bag: {
                 request_id: null,
                 field: null,
                 comments: null,
@@ -890,6 +949,10 @@ export default {
              setMyRequests: "setMyRequests",
              setErrors: "setErrors"
         }),
+        setDataBag(id, type){
+            this.bag.request_id = id
+            this.bag.field = type
+        },
         approveLevel1Request(req){
             api.giveLevel1Approval(req).then(response => {
                 this.loadLevel1Requests();
@@ -915,9 +978,19 @@ export default {
                 this.loadProjectRequests();
             })
         },
-        declineProjectrequest(req){
-            api.declineRequest(this.data).then(response => {
-                this.loadProjectRequests();
+        declineProjectrequest(){
+            console.log(this.bag)
+            api.declineRequest(this.bag).then(response => {
+                $('#exampleModal').modal('toggle');
+                // let trail = response.data
+                // this.updateRequest()
+                // if(auth.designation == 'Project Accountant' ){
+                //     this.loadProjectRequests();
+                // }
+                // if(auth.roles.includes('manager') ){
+                //     this.loadProjectRequests();
+                // }
+                    
             })
         },
         loadEDRequests(){

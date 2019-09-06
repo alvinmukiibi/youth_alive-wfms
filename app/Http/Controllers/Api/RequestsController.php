@@ -275,7 +275,7 @@ class RequestsController extends BaseController
                 $reqs->push($req);
             }
             // get requests made by directors, for level 2 which is the last approval
-            if ($req->getRequestorType() == 'director' && $req->trail->level_one_approval == 1 && $req->trail->level_two_approval == 0) {
+            if ($req->getRequestorType() == 'director' && $req->trail->level_one_approval == 1 /* && $req->trail->level_two_approval == 0 */) {
                 $reqs->push($req);
             }
         }
@@ -342,6 +342,14 @@ class RequestsController extends BaseController
         }
 
         if ($field == 'level_two_approval') {
+
+            if($req->getRequestorType() != 'manager' && $req->getRequestorType() != 'director') {
+                $traceability_id = 'level_two_approver_id';
+                $traceability_date = 'level_two_approval_date';
+                // for an officer
+                $this->notifyLastDirector($req);
+            }
+
             if ($req->getRequestorType() == 'manager') {
                 $field = 'level_one_approval';
                 $traceability_id = 'level_one_approver_id';
@@ -375,12 +383,7 @@ class RequestsController extends BaseController
                 }
 
             }
-            else {
-                $traceability_id = 'level_two_approver_id';
-                $traceability_date = 'level_two_approval_date';
-                // for an officer
-                $this->notifyLastDirector($req);
-            }
+
         }
         if ($field == 'finance_approval') {
             if ($req->getRequestorType() == 'manager') {
@@ -440,12 +443,22 @@ class RequestsController extends BaseController
         }
 
         if ($field == 'level_two_approval') {
+
+            if($req->getRequestorType() != 'manager' && $req->getRequestorType() != 'director') {
+
+                $traceability_id = 'level_two_approver_id';
+                $traceability_date = 'level_two_approval_date';
+                $traceability_comments = 'level_two_approver_comments';
+                // for an officer
+                $this->notifyLastDirector($req);
+
+            }
             if ($req->getRequestorType() == 'manager') {
                 $field = 'level_one_approval';
                 $traceability_id = 'level_one_approver_id';
                 $traceability_date = 'level_one_approval_date';
                 $traceability_comments = 'level_one_approver_comments';
-                $this->notifyFinanceManager($req); // for level two approval
+                // $this->notifyFinanceManager($req); // for level two approval
 
             }
             if ($req->getRequestorType() == 'director') {
@@ -475,13 +488,7 @@ class RequestsController extends BaseController
                 }
 
             }
-            else {
-                $traceability_id = 'level_two_approver_id';
-                $traceability_date = 'level_two_approval_date';
-                $traceability_comments = 'level_two_approver_comments';
-                // for an officer
-                $this->notifyLastDirector($req);
-            }
+
         }
         if ($field == 'finance_approval') {
             if ($req->getRequestorType() == 'manager') {
@@ -516,7 +523,7 @@ class RequestsController extends BaseController
         }
 
         $trail = $req->trail;
-        $trail[$field] = true;
+        $trail[$field] = 2;
         $trail[$traceability_id] = $request->user()->id;
         $trail[$traceability_date] = date('d-M-Y H:i');
         $trail[$traceability_comments] = $comments;
@@ -524,7 +531,7 @@ class RequestsController extends BaseController
 
         // event(new RequestUpdateEvent($req->requestor));
 
-        return $this->sendResponse('success', 'success');
+        return $this->sendResponse($trail, 'success');
     }
 
     public function notifyFinanceManager($request)
