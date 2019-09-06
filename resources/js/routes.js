@@ -11,6 +11,7 @@ import LeaveTypes from './users/admin/LeaveTypes.vue'
 import Vendors from './users/admin/Vendors.vue'
 import Request from './users/officer/Request.vue'
 import RequestView from './users/officer/RequestView.vue'
+import Leaves from './users/officer/Leaves.vue'
 
 const routes = [{
         path: '/',
@@ -67,6 +68,10 @@ const routes = [{
     {
         path: '/view/request',
         component: RequestView
+    },
+    {
+        path: '/leave',
+        component: Leaves
     },
 ]
 

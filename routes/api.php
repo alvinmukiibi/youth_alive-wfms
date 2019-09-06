@@ -45,6 +45,11 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/', 'DepartmentsController@store');
         Route::post('/update/{department}', 'DepartmentsController@update');
     });
+    Route::group(['prefix' => 'leaves'], function () {
+        Route::get('/{user}', 'LeavesController@getMyLeaves');
+        Route::get('/', 'LeavesController@getAllLeaves');
+        Route::post('/', 'LeavesController@askForLeave');
+    });
     Route::group(['prefix' => 'designations'], function () {
         Route::get('/', 'DesignationsController@getDesignations');
         Route::post('/', 'DesignationsController@store');

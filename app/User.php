@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Designation;
 use App\Role;
 use App\Request;
+use App\Leave;
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
@@ -57,6 +58,9 @@ class User extends Authenticatable
 
     public function requests(){
         return $this->hasMany(Request::class, 'user_id');
+    }
+    public function leaves(){
+        return $this->hasMany(Leave::class, 'user_id');
     }
 
     public function arrayOfRoles(){
