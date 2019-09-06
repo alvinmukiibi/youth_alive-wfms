@@ -1882,6 +1882,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     designations: function designations(state) {
       return state.designations;
+    },
+    myRequests: function myRequests(state) {
+      return state.myRequests;
     }
   }), {
     stateLoaded: function stateLoaded() {
@@ -71388,9 +71391,15 @@ var render = function() {
                   "div",
                   { staticClass: "small-box bg-success" },
                   [
-                    _vm._m(2),
+                    _c("div", { staticClass: "inner" }, [
+                      _c("h3", [
+                        _vm._v(_vm._s(Object.keys(_vm.myRequests).length))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("Requests")])
+                    ]),
                     _vm._v(" "),
-                    _vm._m(3),
+                    _vm._m(2),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -71415,9 +71424,9 @@ var render = function() {
                   "div",
                   { staticClass: "small-box bg-danger" },
                   [
-                    _vm._m(4),
+                    _vm._m(3),
                     _vm._v(" "),
-                    _vm._m(5),
+                    _vm._m(4),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -71452,7 +71461,7 @@ var render = function() {
                       _c("p", [_vm._v("Manage Employees")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(6),
+                    _vm._m(5),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -71485,7 +71494,7 @@ var render = function() {
                       _c("p", [_vm._v("Manage departments")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(7),
+                    _vm._m(6),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -71518,7 +71527,7 @@ var render = function() {
                       _c("p", [_vm._v("Manage projects")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(8),
+                    _vm._m(7),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -71551,7 +71560,7 @@ var render = function() {
                       _c("p", [_vm._v("Manage vendors")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(9),
+                    _vm._m(8),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -71584,7 +71593,7 @@ var render = function() {
                       _c("p", [_vm._v("Assets")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(10),
+                    _vm._m(9),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -71617,7 +71626,7 @@ var render = function() {
                       _c("p", [_vm._v("Leave Types")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(11),
+                    _vm._m(10),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -71650,7 +71659,7 @@ var render = function() {
                       _c("p", [_vm._v("Designations")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(12),
+                    _vm._m(11),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -71706,16 +71715,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "icon" }, [
       _c("i", { staticClass: "fa fa-user" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inner" }, [
-      _c("h3", [_vm._v("5")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Requests")])
     ])
   },
   function() {

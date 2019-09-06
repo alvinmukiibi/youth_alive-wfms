@@ -33,7 +33,7 @@
                 <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('officer')">
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>5</h3>
+                            <h3>{{ Object.keys(myRequests).length }}</h3>
                             <p>Requests</p>
                         </div>
                         <div class="icon">
@@ -164,6 +164,7 @@ export default {
             vendors: state => state.vendors,
             leaveTypes: state => state.leaveTypes,
             designations: state => state.designations,
+            myRequests: state => state.myRequests,
         }),
         stateLoaded (){
             return Object.keys(this.auth).length > 0 ? true : false;

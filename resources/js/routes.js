@@ -12,21 +12,62 @@ import Vendors from './users/admin/Vendors.vue'
 import Request from './users/officer/Request.vue'
 import RequestView from './users/officer/RequestView.vue'
 
-const routes = [
-    { path: '/', component:  Dashboard},
-    { path: '/home', component:  Dashboard},
-    { path: '/profile', component:  Profile},
-    { path: '/employees', component:  Employees},
-    { path: '/view/employee', component:  Employee},
-    { path: '/contracts', component:  Contracts},
-    { path: '/departments', component:  Departments},
-    { path: '/designations', component:  Designations},
-    { path: '/assets', component:  Assets},
-    { path: '/projects', component:  Projects},
-    { path: '/leavetypes', component:  LeaveTypes},
-    { path: '/vendors', component:  Vendors},
-    { path: '/requests', component:  Request},
-    { path: '/view/request', component:  RequestView},
+const routes = [{
+        path: '/',
+        component: Dashboard
+    },
+    {
+        path: '/home',
+        component: Dashboard
+    },
+    {
+        path: '/profile',
+        component: Profile
+    },
+    {
+        path: '/employees',
+        component: Employees
+    },
+    {
+        path: '/view/employee',
+        component: Employee
+    },
+    {
+        path: '/contracts',
+        component: Contracts
+    },
+    {
+        path: '/departments',
+        component: Departments
+    },
+    {
+        path: '/designations',
+        component: Designations
+    },
+    {
+        path: '/assets',
+        component: Assets
+    },
+    {
+        path: '/projects',
+        component: Projects
+    },
+    {
+        path: '/leavetypes',
+        component: LeaveTypes
+    },
+    {
+        path: '/vendors',
+        component: Vendors
+    },
+    {
+        path: '/requests',
+        component: Request
+    },
+    {
+        path: '/view/request',
+        component: RequestView
+    },
 ]
 
 export default routes;
