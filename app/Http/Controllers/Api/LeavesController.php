@@ -9,12 +9,15 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Validator;
 use App\LeaveType;
 use App\User;
+use App\Department;
+use App\Designation;
+use App\Events\PendingLeaveEvent;
 
 class LeavesController extends BaseController
 {
-    public function getMyLeaves(User $user)
+    public function getMyLeaves(Request $request)
     {
-
+        $user = $request->user();
         $leaves = $user->leaves;
         $leaves = LeavesResource::collection($leaves);
 
@@ -29,6 +32,9 @@ class LeavesController extends BaseController
             'from' => 'required|date|after:today',
             'to' => 'required|date|after:from',
             'comments' => 'nullable|max:200'
+        ], [
+            'from.after' => 'The start date of the leave must be a date later than today',
+            'to.after' => 'The end date of the leave must be a date later than the start date',
         ]);
 
         return $validator;
@@ -37,6 +43,11 @@ class LeavesController extends BaseController
     public function askForLeave(Request $request)
     {
         $user = $request->user();
+
+        // first check if user has any leave request in process
+        if ($user->leaves()->where('status', '<', 3)->count() > 0) {
+            return $this->sendError('Patience error', ['error' => 'You already have a leave request in process, please first wait until its approved before you make another one']);
+        }
 
         $validator = $this->validation($request);
 
@@ -48,14 +59,13 @@ class LeavesController extends BaseController
         $max_days = LeaveType::find($request->leave_type_id)->days;
         $type = LeaveType::find($request->leave_type_id)->type;
 
-        if($duration > $max_days){
+        if ($duration > $max_days) {
 
             return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $max_days . ' days of the ' . $type . ' leave']);
-
         }
 
         $leave = [
-            'user_id' => 1, //$user->id,
+            'user_id' => $user->id,
             'leave_type_id' => $request->leave_type_id,
             'from' => $request->from,
             'to' => $request->to,
@@ -67,9 +77,151 @@ class LeavesController extends BaseController
         $leave = Leave::create($leave);
         $leave = new LeavesResource($leave);
 
+        // notify supervisor
+        $supervisor = null;
+        if ($user->user_type() == 'officer') {
+            foreach (Department::find($user->department_id)->users as $use) {
+                if ($use->user_type() == 'manager') {
+                    $supervisor = $use;
+                }
+            }
+        }
+        if ($user->user_type() == 'manager') {
+            foreach (Department::find($user->department_id)->users as $use) {
+                if ($use->user_type() == 'director') {
+                    $supervisor = $use;
+                }
+            }
+        }
+        if ($user->user_type() == 'director') {
+            $desi = Designation::where('name', 'Executive Director')->value('id');
+            $ed = User::where('designation_id', $desi)->first();
+            $supervisor = $ed;
+        }
+        event(new PendingLeaveEvent($supervisor));
+
         // $holidays=array('2019-01-01', '2019-01-26', '2019-02-16');
 
         return $this->sendResponse($leave, 'Leave data');
+    }
+
+    public function getPendingLeaves(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user->user_type() == 'manager') {
+            $leaves = collect();
+            $ids = array();
+            $users_in_my_dept = $user->department->users()->where('id', '!=', $user->id)->get();
+            foreach ($users_in_my_dept as $off) {
+                if ($off->user_type() == 'officer') {
+                    $ids[] = $off->id;
+                }
+            }
+            // $lp = Leave::whereIn('user_id', $ids)->whereIn('status', [0, 1, 4])->get();
+            $lp = Leave::whereIn('user_id', $ids)->whereIn('status', [0, 1, 2, 3, 4])->get();
+            foreach ($lp as $one) {
+                $leaves->push($one);
+            }
+
+            // if manager is human resource manager, give all requests
+            $hr = Department::where('name', 'Human Resource')->value('id');
+            if ($user->department_id == $hr) {
+                foreach (Leave::whereIn('status', [1, 2, 4])->get() as $two) {
+                    $leaves->push($two);
+                }
+            }
+        }
+        if ($user->user_type() == 'director') {
+            $ids = array();
+            $idds = array();
+            $leaves = collect();
+            $users_in_my_dept = $user->department->users()->where('id', '!=', $user->id)->get();
+            foreach ($users_in_my_dept as $off) {
+                if ($off->user_type() == 'officer') {
+                    $ids[] = $off->id;
+                }
+            }
+            $leav = Leave::whereIn('user_id', $ids)->whereIn('status', [2, 3, 4])->get();
+            foreach($leav as $l){
+                $leaves->push($l);
+            }
+            foreach ($users_in_my_dept as $man) {
+                if ($man->user_type() == 'manager') {
+                    $idds[] = $man->id;
+                }
+            }
+            $leavv = Leave::whereIn('user_id', $idds)->whereIn('status', [0, 1, 4])->get();
+            foreach($leavv as $la){
+                $leaves->push($la);
+            }
+            // get leaves for the e.d.
+
+            if($user->designation_id == 1){
+
+
+
+            }
+
+        }
+
+        $leaves = LeavesResource::collection($leaves);
+
+        return $this->sendResponse($leaves, 'Leave requests for pending');
+
+    }
+
+    public function cancelLeave(Leave $leave)
+    {
+
+        $leave->status = 6;
+        $leave->save();
+
+        return $this->sendResponse('success', 'success');
+
+    }
+    public function declineLeave(Leave $leave, Request $request)
+    {
+
+        $leave->status = 4;
+        $leave->updated_by = $request->user()->id;
+        $leave->approval_comments = $request->reason;
+        $leave->save();
+
+        return $this->sendResponse('success', 'success');
+
+    }
+    public function approveLeave(Leave $leave, Request $request)
+    {
+        $user = $request->user();
+
+        $hr = Department::where('name', 'Human Resource')->value('id');
+
+        if ($user->user_type() == 'manager' && $user->department_id != $hr) {
+            $leave->status = 1;
+        }
+        if ($user->user_type() == 'manager' && $user->department_id == $hr) {
+            $leave->status = 2;
+        }
+        if ($user->user_type() == 'director' && $leave->user->user_type() == 'manager') {
+            $leave->status = 1;
+        }
+        if ($user->user_type() == 'director' && $leave->user->user_type() == 'officer') {
+            $leave->status = 3;
+        }
+        // action for the e.d.
+        if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'manager') {
+            $leave->status = 3;
+        }
+        if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'director') {
+            $leave->status = 1;
+        }
+
+        $leave->updated_by = $user->id;
+        $leave->save();
+
+        return $this->sendResponse('success', 'success');
 
     }
 
@@ -122,14 +274,5 @@ class LeavesController extends BaseController
         //         $workingDays--;
         // }
         return $workingDays;
-    }
-
-    public function getAllLeaves(Request $request){
-
-        $leaves = Leave::latest()->get();
-        $leaves = LeavesResource::collection($leaves);
-
-        return $this->sendResponse($leaves, 'All leave requests');
-
     }
 }
