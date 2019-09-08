@@ -46,9 +46,12 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/update/{department}', 'DepartmentsController@update');
     });
     Route::group(['prefix' => 'leaves'], function () {
-        Route::get('/{user}', 'LeavesController@getMyLeaves');
-        Route::get('/', 'LeavesController@getAllLeaves');
+        Route::get('/mine', 'LeavesController@getMyLeaves');
+        Route::get('/pending', 'LeavesController@getPendingLeaves');
         Route::post('/', 'LeavesController@askForLeave');
+        Route::get('/cancel/{leave}', 'LeavesController@cancelLeave');
+        Route::post('/decline/{leave}', 'LeavesController@declineLeave');
+        Route::get('/approve/{leave}', 'LeavesController@approveLeave');
     });
     Route::group(['prefix' => 'designations'], function () {
         Route::get('/', 'DesignationsController@getDesignations');

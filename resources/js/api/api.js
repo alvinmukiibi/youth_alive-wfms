@@ -152,3 +152,23 @@ export function declineRequest(data) {
         comments: data.comments,
     }).then(response => response.data);
 }
+export function askForLeave(data) {
+    return axios.post(prefix + '/leaves', data).then(response => response.data)
+}
+export function cancelLeave(id) {
+    return axios.get(prefix + `/leaves/cancel/${id}`).then(response => response.data)
+}
+export function approveLeave(id) {
+    return axios.get(prefix + `/leaves/approve/${id}`).then(response => response.data)
+}
+export function getMyLeaves() {
+    return axios.get(prefix + '/leaves/mine').then(response => response.data)
+}
+export function getPendingLeaves() {
+    return axios.get(prefix + '/leaves/pending').then(response => response.data)
+}
+export function declineLeave(data) {
+    return axios.post(prefix + `/leaves/decline/${data.id}`, {
+        reason: data.reason
+    }).then(response => response.data)
+}

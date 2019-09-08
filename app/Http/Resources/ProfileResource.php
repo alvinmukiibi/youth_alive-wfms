@@ -37,6 +37,7 @@ class ProfileResource extends JsonResource
             'contract' => Contract::find($this->contract_id)->name,
             'activity_status' => $this->activity_status,
             'availability_status' => $this->availability_status,
+            'user_type' => $this->user_type(),
             'created_at' => date('Y-M-d', strtotime($this->created_at))
         ];
     }

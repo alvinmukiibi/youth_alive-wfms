@@ -131,6 +131,9 @@ export default {
           api.getMyRequests().then(response => {
             this.setMyRequests(response.data);
           });
+          api.getLeaveTypes().then(response => {
+            this.setLeaveTypes(response);
+          });
         }
         if (response.data.roles.includes("director")) {
           api.getProjects().then(response => {

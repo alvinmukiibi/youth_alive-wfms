@@ -77,4 +77,16 @@ class User extends Authenticatable
         }
         return $projects;
     }
+    public function user_type(){
+        $roles = $this->arrayOfRoles();
+        if(in_array('officer', $roles) && count($roles) == 1){
+            return 'officer';
+        }
+        if(in_array('manager', $roles)){
+            return 'manager';
+        }
+        if(in_array('director', $roles)){
+            return 'director';
+        }
+    }
 }

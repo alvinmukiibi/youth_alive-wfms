@@ -2041,6 +2041,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getMyRequests"]().then(function (response) {
             _this.setMyRequests(response.data);
           });
+          _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getLeaveTypes"]().then(function (response) {
+            _this.setLeaveTypes(response);
+          });
         }
 
         if (response.data.roles.includes("director")) {
@@ -2395,46 +2398,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -5203,6 +5166,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _api_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/api */ "./resources/js/api/api.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -5304,7 +5275,615 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      spinner: false,
+      dec: {
+        id: null,
+        reason: null
+      },
+      leave: {
+        leave_type_id: null,
+        from: null,
+        to: null,
+        comments: null
+      },
+      max_days: null,
+      loading: false,
+      myLeaves: [],
+      pendingLeaves: []
+    };
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
+    setErrors: "setErrors",
+    setMyLeaves: "setMyLeaves"
+  }), {
+    setLeave: function setLeave(id) {
+      this.dec.id = id;
+    },
+    approve: function approve(id) {
+      var _this = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_1__["approveLeave"](id).then(function (response) {
+        _this.loadPendingLeaves();
+      });
+    },
+    decline: function decline() {
+      var _this2 = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_1__["declineLeave"](this.dec).then(function (response) {
+        $(".modal").modal("hide");
+
+        _this2.loadPendingLeaves();
+      });
+    },
+    loadPendingLeaves: function loadPendingLeaves() {
+      var _this3 = this;
+
+      this.spinner = true;
+      _api_api__WEBPACK_IMPORTED_MODULE_1__["getPendingLeaves"]().then(function (response) {
+        _this3.pendingLeaves = response.data;
+        _this3.spinner = false;
+      });
+    },
+    cancel: function cancel(id) {
+      var _this4 = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_1__["cancelLeave"](id).then(function (response) {
+        _this4.loadMyLeaves();
+      });
+    },
+    loadMyLeaves: function loadMyLeaves() {
+      var _this5 = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_1__["getMyLeaves"]().then(function (response) {
+        _this5.myLeaves = response.data;
+      });
+    },
+    save: function save() {
+      var _this6 = this;
+
+      this.loading = true;
+      _api_api__WEBPACK_IMPORTED_MODULE_1__["askForLeave"](this.leave).then(function (response) {
+        if (!response.success) {
+          _this6.setErrors(response.data.error);
+
+          _this6.loading = false;
+          return;
+        }
+
+        _this6.setErrors([]);
+
+        _this6.loading = false; // this.leave.leave_type_id = null
+        // this.leave.from = null
+        // this.leave.to = null
+        // this.leave.comments = null
+
+        $(".modal").modal("hide");
+
+        _this6.loadMyLeaves();
+      });
+    },
+    setMaxDays: function setMaxDays() {
+      var _this7 = this;
+
+      if (this.leave.leave_type_id != null) {
+        this.max_days = this.leaveTypes.filter(function (lt) {
+          return lt.id == _this7.leave.leave_type_id;
+        })[0]["days"];
+      }
+    }
+  }),
+  mounted: function mounted() {
+    this.loadMyLeaves();
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    auth: function auth(state) {
+      return state.auth;
+    },
+    leaveTypes: function leaveTypes(state) {
+      return state.leaveTypes;
+    },
+    errors: function errors(state) {
+      return state.errors;
+    }
+  }))
+});
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -72878,7 +73457,7 @@ var render = function() {
               _vm.stateLoaded && _vm.auth.roles.includes("officer")
                 ? _c(
                     "li",
-                    { staticClass: "nav-item has-treeview" },
+                    { staticClass: "nav-item" },
                     [
                       _c(
                         "router-link",
@@ -72892,14 +73471,9 @@ var render = function() {
                             staticClass: "nav-icon fa fa-minus-circle"
                           }),
                           _vm._v(" "),
-                          _c("p", [
-                            _vm._v("\n              Leave\n              "),
-                            _c("i", { staticClass: "right fa fa-angle-left" })
-                          ])
+                          _c("p", [_vm._v("Leave")])
                         ]
-                      ),
-                      _vm._v(" "),
-                      _vm._m(1)
+                      )
                     ],
                     1
                   )
@@ -73118,64 +73692,6 @@ var staticRenderFns = [
         ])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "nav nav-treeview" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "./index.html" } }, [
-          _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v("\n                  Pending\n                  "),
-            _c("span", { staticClass: "right badge badge-danger" }, [
-              _vm._v("2")
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "./index.html" } }, [
-          _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v("\n                  Approved\n                  "),
-            _c("span", { staticClass: "right badge badge-danger" }, [
-              _vm._v("8")
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "./index.html" } }, [
-          _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v("\n                  Declined\n                  "),
-            _c("span", { staticClass: "right badge badge-danger" }, [
-              _vm._v("9")
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "./index.html" } }, [
-          _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v("\n                  Canceled\n                  "),
-            _c("span", { staticClass: "right badge badge-danger" }, [
-              _vm._v("0")
-            ])
-          ])
-        ])
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -79448,225 +79964,1394 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("section", { staticClass: "content" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-10" }, [
+            _c("div", { staticClass: "card card-success card-outline" }, [
+              _c("div", { staticClass: "card-header p-2" }, [
+                _c("ul", { staticClass: "nav nav-pills" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _vm.auth.user_type == "manager"
+                    ? _c("li", { staticClass: "nav-item" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link",
+                            attrs: {
+                              href: "#pendingapprovals",
+                              "data-toggle": "tab"
+                            },
+                            on: { click: _vm.loadPendingLeaves }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-circle-o" }),
+                            _vm._v(" Pending Approvals\n                    "),
+                            _vm.spinner
+                              ? _c("span", {
+                                  staticClass:
+                                    "spinner-border spinner-border-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              : _vm._e()
+                          ]
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.auth.user_type == "director"
+                    ? _c("li", { staticClass: "nav-item" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link",
+                            attrs: {
+                              href: "#pendingapprovalsdirector",
+                              "data-toggle": "tab"
+                            },
+                            on: { click: _vm.loadPendingLeaves }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-circle-o" }),
+                            _vm._v(" Pending Approvals\n                    "),
+                            _vm.spinner
+                              ? _c("span", {
+                                  staticClass:
+                                    "spinner-border spinner-border-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              : _vm._e()
+                          ]
+                        )
+                      ])
+                    : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "tab-content" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "tab-pane active",
+                      attrs: { id: "myleaves" }
+                    },
+                    [
+                      _c("table", { staticClass: "table table-bordered" }, [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.myLeaves, function(le) {
+                            return _c("tr", { key: le.id }, [
+                              _c("td", [_vm._v(_vm._s(le.request_date))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(le.leave_type))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(le.leave_first_day))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(le.leave_last_day))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(le.duration_of_leave))]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _c(
+                                    "b-button",
+                                    {
+                                      attrs: {
+                                        id: "pock" + le.id,
+                                        variant: "primary btn-sm"
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-eye" })]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-popover",
+                                    {
+                                      attrs: {
+                                        placement: "top",
+                                        target: "pock" + le.id,
+                                        triggers: "hover focus"
+                                      }
+                                    },
+                                    [
+                                      _c("template", { slot: "title" }, [
+                                        _vm._v("Comments")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("p", [_vm._v(_vm._s(le.comments))])
+                                    ],
+                                    2
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("td", [
+                                le.status < 3
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-warning",
+                                        attrs: { title: "Not yet approved" }
+                                      },
+                                      [_c("b", [_vm._v("P")])]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                le.status == 3
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-success",
+                                        attrs: { title: "Approved" }
+                                      },
+                                      [_vm._m(4, true)]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                le.status == 5
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-secondary",
+                                        attrs: {
+                                          title: "Leave was taken and is past"
+                                        }
+                                      },
+                                      [_c("b", [_vm._v("G")])]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                le.status == 4
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-danger",
+                                        attrs: { title: "Leave was denied" }
+                                      },
+                                      [_c("b", [_vm._v("D")])]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                le.status == 6
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-dark",
+                                        attrs: {
+                                          title: "You cancelled this leave"
+                                        }
+                                      },
+                                      [_c("b", [_vm._v("C")])]
+                                    )
+                                  : _vm._e()
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                le.status < 3
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-danger",
+                                        attrs: { title: "Cancel Request" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.cancel(le.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._m(5, true)]
+                                    )
+                                  : _vm._e()
+                              ])
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "tab-pane",
+                      attrs: { id: "pendingapprovals" }
+                    },
+                    [
+                      _c("table", { staticClass: "table table-bordered" }, [
+                        _vm._m(6),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.pendingLeaves, function(lea) {
+                            return _c("tr", { key: lea.id }, [
+                              _c("td", [_vm._v(_vm._s(lea.request_date))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(lea.user))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(lea.leave_type))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(lea.leave_first_day))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(lea.leave_last_day))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(lea.duration_of_leave + " days"))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _c(
+                                    "b-button",
+                                    {
+                                      attrs: {
+                                        id: "pocke" + lea.id,
+                                        variant: "primary btn-sm"
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-eye" })]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-popover",
+                                    {
+                                      attrs: {
+                                        placement: "top",
+                                        target: "pocke" + lea.id,
+                                        triggers: "hover focus"
+                                      }
+                                    },
+                                    [
+                                      _c("template", { slot: "title" }, [
+                                        _vm._v("Comments")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("p", [_vm._v(_vm._s(lea.comments))])
+                                    ],
+                                    2
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _vm.auth.department != "Human Resource" &&
+                                  lea.status == 0
+                                    ? _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-sm btn-warning",
+                                          attrs: { title: "Not yet approved" }
+                                        },
+                                        [_c("b", [_vm._v("P")])]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.auth.department == "Human Resource" &&
+                                  (lea.status == 0 || lea.status == 1)
+                                    ? _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-sm btn-warning",
+                                          attrs: { title: "Not yet approved" }
+                                        },
+                                        [_c("b", [_vm._v("P")])]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.auth.department != "Human Resource" &&
+                                  (lea.status == 1 ||
+                                    lea.status == 2 ||
+                                    lea.status == 3)
+                                    ? _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-sm btn-success",
+                                          attrs: { title: "Approved" }
+                                        },
+                                        [_vm._m(7, true)]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.auth.department == "Human Resource" &&
+                                  (lea.status == 2 || lea.status == 3)
+                                    ? _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-sm btn-success",
+                                          attrs: { title: "Approved" }
+                                        },
+                                        [_vm._m(8, true)]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  lea.status == 4
+                                    ? _c(
+                                        "b-button",
+                                        {
+                                          attrs: {
+                                            id: "pockex" + lea.id,
+                                            title: "Leave was denied",
+                                            variant: "btn btn-sm btn-danger"
+                                          }
+                                        },
+                                        [_c("b", [_vm._v("D")])]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-popover",
+                                    {
+                                      attrs: {
+                                        placement: "top",
+                                        target: "pockex" + lea.id,
+                                        triggers: "hover focus"
+                                      }
+                                    },
+                                    [
+                                      _c("template", { slot: "title" }, [
+                                        _vm._v("Reason given")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("p", [_vm._v(_vm._s(lea.reason))])
+                                    ],
+                                    2
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm.auth.department != "Human Resource" &&
+                                lea.status == 0
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-danger",
+                                        attrs: {
+                                          "data-toggle": "modal",
+                                          "data-target": "#declineModal",
+                                          title: "Decline Request"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setLeave(lea.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._m(9, true)]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.auth.department == "Human Resource" &&
+                                (lea.status == 0 || lea.status == 1)
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-danger",
+                                        attrs: {
+                                          "data-toggle": "modal",
+                                          "data-target": "#declineModal",
+                                          title: "Decline Request"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setLeave(lea.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._m(10, true)]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.auth.department != "Human Resource" &&
+                                lea.status == 0
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-success",
+                                        attrs: { title: "Approve Request" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.approve(lea.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._m(11, true)]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.auth.department == "Human Resource" &&
+                                (lea.status == 0 || lea.status == 1)
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-success",
+                                        attrs: { title: "Approve Request" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.approve(lea.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._m(12, true)]
+                                    )
+                                  : _vm._e()
+                              ])
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "tab-pane",
+                      attrs: { id: "pendingapprovalsdirector" }
+                    },
+                    [
+                      _c("table", { staticClass: "table table-bordered" }, [
+                        _vm._m(13),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.pendingLeaves, function(lea) {
+                            return _c("tr", { key: lea.id }, [
+                              _c("td", [_vm._v(_vm._s(lea.request_date))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(lea.user))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(lea.leave_type))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(lea.leave_first_day))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(lea.leave_last_day))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(lea.duration_of_leave + " days"))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _c(
+                                    "b-button",
+                                    {
+                                      attrs: {
+                                        id: "pockee" + lea.id,
+                                        variant: "primary btn-sm"
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-eye" })]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-popover",
+                                    {
+                                      attrs: {
+                                        placement: "top",
+                                        target: "pockee" + lea.id,
+                                        triggers: "hover focus"
+                                      }
+                                    },
+                                    [
+                                      _c("template", { slot: "title" }, [
+                                        _vm._v("Comments")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("p", [_vm._v(_vm._s(lea.comments))])
+                                    ],
+                                    2
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  lea.user_type == "officer" && lea.status == 2
+                                    ? _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-sm btn-warning",
+                                          attrs: { title: "Not yet approved" }
+                                        },
+                                        [_c("b", [_vm._v("P")])]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  lea.user_type == "manager" && lea.status == 0
+                                    ? _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-sm btn-warning",
+                                          attrs: { title: "Not yet approved" }
+                                        },
+                                        [_c("b", [_vm._v("P")])]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  lea.user_type == "officer" && lea.status == 3
+                                    ? _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-sm btn-success",
+                                          attrs: { title: "Approved" }
+                                        },
+                                        [_vm._m(14, true)]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  lea.user_type == "manager" && lea.status == 1
+                                    ? _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-sm btn-success",
+                                          attrs: { title: "Approved" }
+                                        },
+                                        [_vm._m(15, true)]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  lea.status == 4
+                                    ? _c(
+                                        "b-button",
+                                        {
+                                          attrs: {
+                                            id: "pockex" + lea.id,
+                                            title: "Leave was denied",
+                                            variant: "btn btn-sm btn-danger"
+                                          }
+                                        },
+                                        [_c("b", [_vm._v("D")])]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-popover",
+                                    {
+                                      attrs: {
+                                        placement: "top",
+                                        target: "pockex" + lea.id,
+                                        triggers: "hover focus"
+                                      }
+                                    },
+                                    [
+                                      _c("template", { slot: "title" }, [
+                                        _vm._v("Reason given")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("p", [_vm._v(_vm._s(lea.reason))])
+                                    ],
+                                    2
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("td", [
+                                lea.user_type == "officer" && lea.status == 2
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-danger",
+                                        attrs: {
+                                          "data-toggle": "modal",
+                                          "data-target": "#declineModal",
+                                          title: "Decline Request"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setLeave(lea.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._m(16, true)]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                lea.user_type == "manager" && lea.status == 0
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-danger",
+                                        attrs: {
+                                          "data-toggle": "modal",
+                                          "data-target": "#declineModal",
+                                          title: "Decline Request"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setLeave(lea.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._m(17, true)]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                lea.user_type == "officer" && lea.status == 2
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-success",
+                                        attrs: { title: "Approve Request" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.approve(lea.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._m(18, true)]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                lea.user_type == "manager" && lea.status == 0
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-success",
+                                        attrs: { title: "Approve Request" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.approve(lea.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._m(19, true)]
+                                    )
+                                  : _vm._e()
+                              ])
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "modal fade",
+              attrs: {
+                id: "modal",
+                tabindex: "-1",
+                role: "dialog",
+                "aria-labelledby": "exampleModalCenterTitle",
+                "aria-hidden": "true"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-dialog modal-dialog-centered",
+                  attrs: { role: "document" }
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _vm._m(20),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c(
+                        "div",
+                        { staticClass: "card card-primary card-outline" },
+                        [
+                          _vm._m(21),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "card-body" }, [
+                            _c("div", { staticClass: "form-row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group col-md-12" },
+                                [
+                                  _c("label", { attrs: { for: "type" } }, [
+                                    _vm._v("Leave Type")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.leave.leave_type_id,
+                                          expression: "leave.leave_type_id"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { id: "" },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            var $$selectedVal = Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function(o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function(o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                            _vm.$set(
+                                              _vm.leave,
+                                              "leave_type_id",
+                                              $event.target.multiple
+                                                ? $$selectedVal
+                                                : $$selectedVal[0]
+                                            )
+                                          },
+                                          _vm.setMaxDays
+                                        ]
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "option",
+                                        { attrs: { disabled: "", value: "" } },
+                                        [_vm._v("Select Leave Type")]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.leaveTypes, function(
+                                        leaveType
+                                      ) {
+                                        return _c(
+                                          "option",
+                                          {
+                                            key: leaveType.id,
+                                            domProps: { value: leaveType.id }
+                                          },
+                                          [_vm._v(_vm._s(leaveType.type))]
+                                        )
+                                      })
+                                    ],
+                                    2
+                                  )
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group col-md-12" },
+                                [
+                                  _c("label", { attrs: { for: "type" } }, [
+                                    _vm._v("Max Days")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.max_days,
+                                        expression: "max_days"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { readonly: "" },
+                                    domProps: { value: _vm.max_days },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.max_days = $event.target.value
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group col-md-12" },
+                                [
+                                  _c("label", { attrs: { for: "type" } }, [
+                                    _vm._v("Start Date")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.leave.from,
+                                        expression: "leave.from"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "date" },
+                                    domProps: { value: _vm.leave.from },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.leave,
+                                          "from",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group col-md-12" },
+                                [
+                                  _c("label", { attrs: { for: "type" } }, [
+                                    _vm._v("End Date")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.leave.to,
+                                        expression: "leave.to"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "date" },
+                                    domProps: { value: _vm.leave.to },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.leave,
+                                          "to",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group col-md-12" },
+                                [
+                                  _c("label", { attrs: { for: "type" } }, [
+                                    _vm._v("Comments...")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.leave.comments,
+                                        expression: "leave.comments"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      name: "",
+                                      id: "",
+                                      cols: "3",
+                                      rows: "3"
+                                    },
+                                    domProps: { value: _vm.leave.comments },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.leave,
+                                          "comments",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-row" }, [
+                              _vm.errors.length > 0
+                                ? _c("div", { staticClass: "col-md-12" }, [
+                                    _c(
+                                      "p",
+                                      { staticClass: "text-danger pull-left" },
+                                      [_vm._v(_vm._s(_vm.errors))]
+                                    )
+                                  ])
+                                : _vm._e()
+                            ])
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary btn-flat",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _vm.loading == true
+                            ? _c("span", {
+                                staticClass: "spinner-border spinner-border-sm",
+                                attrs: { role: "status", "aria-hidden": "true" }
+                              })
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("b", [_vm._v("REQUEST")]),
+                          _vm._v(" "),
+                          _c("i", { staticClass: "fa fa-save" })
+                        ]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "modal fade",
+              attrs: {
+                id: "declineModal",
+                tabindex: "-1",
+                role: "dialog",
+                "aria-labelledby": "exampleModalCenterTitle",
+                "aria-hidden": "true"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-dialog modal-dialog-centered",
+                  attrs: { role: "document" }
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _vm._m(22),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c(
+                        "div",
+                        { staticClass: "card card-primary card-outline" },
+                        [
+                          _vm._m(23),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "card-body" }, [
+                            _c("div", { staticClass: "form-row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group col-md-12" },
+                                [
+                                  _c("label", { attrs: { for: "type" } }, [
+                                    _vm._v("Reason")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.dec.reason,
+                                        expression: "dec.reason"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      name: "",
+                                      id: "",
+                                      cols: "3",
+                                      rows: "3"
+                                    },
+                                    domProps: { value: _vm.dec.reason },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.dec,
+                                          "reason",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            ])
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary btn-flat",
+                          on: { click: _vm.decline }
+                        },
+                        [_c("b", [_vm._v("CONTINUE")])]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ]
+          )
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "content-header" }, [
-        _c("div", { staticClass: "container-fluid" }, [
-          _c("div", { staticClass: "row mb-2" }, [
-            _c("div", { staticClass: "col-sm-6" }, [
-              _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("Dashboard")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-6" }, [
-              _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
-                _c("li", { staticClass: "breadcrumb-item" }, [
-                  _c("a", { attrs: { href: "#" } }, [_vm._v("Home")])
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "breadcrumb-item active" }, [
-                  _vm._v("Leaves")
-                ])
+    return _c("div", { staticClass: "content-header" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row mb-2" }, [
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("Dashboard")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
+              _c("li", { staticClass: "breadcrumb-item" }, [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Home")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "breadcrumb-item active" }, [
+                _vm._v("Leaves")
               ])
             ])
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _c("section", { staticClass: "content" }, [
-        _c("div", { staticClass: "container-fluid" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-2" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-outline-primary btn-block",
-                  attrs: {
-                    type: "button",
-                    "data-toggle": "modal",
-                    "data-target": "#modal"
-                  }
-                },
-                [
-                  _c("b", [_vm._v("Ask For Leave")]),
-                  _vm._v(" "),
-                  _c("i", { staticClass: "fa fa-plus" })
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-10" }, [
-              _c("div", { staticClass: "card card-success card-outline" }, [
-                _c("div", { staticClass: "card-header" }, [
-                  _c("h3", { staticClass: "card-title" }, [_vm._v("Leaves")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-body" })
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "modal fade",
-                attrs: {
-                  id: "modal",
-                  tabindex: "-1",
-                  role: "dialog",
-                  "aria-labelledby": "exampleModalCenterTitle",
-                  "aria-hidden": "true"
-                }
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass: "modal-dialog modal-dialog-centered",
-                    attrs: { role: "document" }
-                  },
-                  [
-                    _c("div", { staticClass: "modal-content" }, [
-                      _c("div", { staticClass: "modal-header" }, [
-                        _c(
-                          "h5",
-                          {
-                            staticClass: "modal-title",
-                            attrs: { id: "exampleModalLongTitle" }
-                          },
-                          [_vm._v("Ask For Leave")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "close",
-                            attrs: {
-                              type: "button",
-                              "data-dismiss": "modal",
-                              "aria-label": "Close"
-                            }
-                          },
-                          [
-                            _c("span", { attrs: { "aria-hidden": "true" } }, [
-                              _vm._v("×")
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "modal-body" }, [
-                        _c(
-                          "div",
-                          { staticClass: "card card-primary card-outline" },
-                          [
-                            _c("div", { staticClass: "card-header" }, [
-                              _c("h3", { staticClass: "card-title" }, [
-                                _vm._v("Ask for leave")
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "card-body" }, [
-                              _c("div", { staticClass: "form-row" }, [
-                                _c(
-                                  "div",
-                                  { staticClass: "form-group col-md-12" },
-                                  [
-                                    _c("label", { attrs: { for: "type" } }, [
-                                      _vm._v("Leave Type")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "select",
-                                      {
-                                        staticClass: "form-control",
-                                        attrs: { name: "", id: "" }
-                                      },
-                                      [
-                                        _c(
-                                          "option",
-                                          {
-                                            attrs: { disabled: "", value: "" }
-                                          },
-                                          [_vm._v("Select Leave Type")]
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-row" }, [
-                                _c(
-                                  "div",
-                                  { staticClass: "form-group col-md-12" },
-                                  [
-                                    _c("label", { attrs: { for: "type" } }, [
-                                      _vm._v("Start Date")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticClass: "form-control",
-                                      attrs: { type: "date" }
-                                    })
-                                  ]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-row" }, [
-                                _c(
-                                  "div",
-                                  { staticClass: "form-group col-md-12" },
-                                  [
-                                    _c("label", { attrs: { for: "type" } }, [
-                                      _vm._v("End Date")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticClass: "form-control",
-                                      attrs: { type: "date" }
-                                    })
-                                  ]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-row" }, [
-                                _c(
-                                  "div",
-                                  { staticClass: "form-group col-md-12" },
-                                  [
-                                    _c("label", { attrs: { for: "type" } }, [
-                                      _vm._v("Comments...")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("textarea", {
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        name: "",
-                                        id: "",
-                                        cols: "3",
-                                        rows: "3"
-                                      }
-                                    })
-                                  ]
-                                )
-                              ])
-                            ])
-                          ]
-                        )
-                      ])
-                    ])
-                  ]
-                )
-              ]
-            )
-          ])
-        ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-2" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-primary btn-block",
+          attrs: {
+            type: "button",
+            "data-toggle": "modal",
+            "data-target": "#modal"
+          }
+        },
+        [
+          _c("b", [_vm._v("Ask For Leave")]),
+          _vm._v(" "),
+          _c("i", { staticClass: "fa fa-plus" })
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item" }, [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link active",
+          attrs: { href: "#myleaves", "data-toggle": "tab" }
+        },
+        [
+          _c("i", { staticClass: "fa fa-list-alt" }),
+          _vm._v(" My Leaves\n                  ")
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Date of Request")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Start Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("End Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Duration")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Comments")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-check" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-times" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Date Made")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Staff")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Start Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("End Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Duration")]),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c("th", [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-check" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-check" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-times" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-times" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-check" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-check" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Date Made")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Staff")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Start Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("End Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Duration")]),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c("th", [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-check" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-check" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-times" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-times" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-check" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [_c("i", { staticClass: "fa fa-check" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
+        [_vm._v("Ask For Leave")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Ask for leave")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
+        [_vm._v("Reason")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Give Reason")])
     ])
   }
 ]
@@ -102006,7 +103691,7 @@ module.exports = function(module) {
 /*!*********************************!*\
   !*** ./resources/js/api/api.js ***!
   \*********************************/
-/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, getLeaveTypes, getAssets, getVendors, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDesignation, saveLeaveType, saveVendor, saveDp, addRequest, saveRequest, getMyRequests, downloadFile, getProjectRequests, getLevel1Requests, getFMRequests, getDirectorRequests, getEDRequests, giveAccountantApproval, giveLevel1Approval, givefMApproval, giveEDApproval, giveDirectorApproval, declineRequest */
+/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, getLeaveTypes, getAssets, getVendors, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDesignation, saveLeaveType, saveVendor, saveDp, addRequest, saveRequest, getMyRequests, downloadFile, getProjectRequests, getLevel1Requests, getFMRequests, getDirectorRequests, getEDRequests, giveAccountantApproval, giveLevel1Approval, givefMApproval, giveEDApproval, giveDirectorApproval, declineRequest, askForLeave, cancelLeave, approveLeave, getMyLeaves, getPendingLeaves, declineLeave */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -102052,6 +103737,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "giveEDApproval", function() { return giveEDApproval; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "giveDirectorApproval", function() { return giveDirectorApproval; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "declineRequest", function() { return declineRequest; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "askForLeave", function() { return askForLeave; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cancelLeave", function() { return cancelLeave; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "approveLeave", function() { return approveLeave; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMyLeaves", function() { return getMyLeaves; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPendingLeaves", function() { return getPendingLeaves; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "declineLeave", function() { return declineLeave; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -102284,6 +103975,38 @@ function declineRequest(data) {
     request_id: data.request_id,
     field: data.field,
     comments: data.comments
+  }).then(function (response) {
+    return response.data;
+  });
+}
+function askForLeave(data) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/leaves', data).then(function (response) {
+    return response.data;
+  });
+}
+function cancelLeave(id) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + "/leaves/cancel/".concat(id)).then(function (response) {
+    return response.data;
+  });
+}
+function approveLeave(id) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + "/leaves/approve/".concat(id)).then(function (response) {
+    return response.data;
+  });
+}
+function getMyLeaves() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/leaves/mine').then(function (response) {
+    return response.data;
+  });
+}
+function getPendingLeaves() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/leaves/pending').then(function (response) {
+    return response.data;
+  });
+}
+function declineLeave(data) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + "/leaves/decline/".concat(data.id), {
+    reason: data.reason
   }).then(function (response) {
     return response.data;
   });

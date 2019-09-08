@@ -25,7 +25,9 @@ class LeavesResource extends JsonResource
             'leave_last_day' => \date('d-M-Y', \strtotime($this->to)),
             'duration_of_leave' => $this->duration,
             'comments' => $this->comments,
+            'reason' => $this->approval_comments,
             'status' => $this->status,
+            'user_type' => User::find($this->user_id)->user_type(),
             'request_date' => \date('d-M-Y', \strtotime($this->created_at))
         ];
     }

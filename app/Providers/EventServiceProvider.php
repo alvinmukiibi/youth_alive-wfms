@@ -27,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\RequestUpdateEvent' => [
             'App\Listeners\RequestUpdateListener'
         ],
+        'App\Events\PendingLeaveEvent' => [
+            'App\Listeners\PendingLeaveListener'
+        ],
     ];
 
     /**

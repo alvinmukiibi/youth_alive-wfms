@@ -122,52 +122,12 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview" v-if="stateLoaded && auth.roles.includes('officer')">
+
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('officer')">
             <router-link to="/leave" class="nav-link" :class="{ 'active': isActive('/leave') }">
               <i class="nav-icon fa fa-minus-circle"></i>
-              <p>
-                Leave
-                <i class="right fa fa-angle-left"></i>
-              </p>
+              <p>Leave</p>
             </router-link>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>
-                    Pending
-                    <span class="right badge badge-danger">2</span>
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>
-                    Approved
-                    <span class="right badge badge-danger">8</span>
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>
-                    Declined
-                    <span class="right badge badge-danger">9</span>
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>
-                    Canceled
-                    <span class="right badge badge-danger">0</span>
-                  </p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li
             class="nav-item"
