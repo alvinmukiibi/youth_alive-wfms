@@ -8,12 +8,12 @@
                 @csrf
                 <div class="login-logo">
                     <img src="{{ asset('images/logo.png') }}" width="50%"  />
-                    <a href=""><b>YOUTH</b>ALIVE</a>
+                    <a style="text-decoration: none" href="{{ url('/login') }}"><b class="text-primary" style="font-weight:700">YOUTH</b><b class="text-warning">ALIVE</b></a>
                 </div>
                 <div class="card">
                     <div class="card-body login-card-body">
                         <p class="login-box-msg">
-                            Sign in to start your session
+                            Log in
                         </p>
                         <div class="form-group has-feedback">
                             <input type="text" class="form-control {{$errors->has('email')?'is-invalid':''}}" value="" name="email" placeholder="Email">

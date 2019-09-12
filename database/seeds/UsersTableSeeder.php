@@ -18,6 +18,8 @@ class UsersTableSeeder extends Seeder
             'password' => '$2y$10$epk.1TdSHELenZ8lQNMtRucGxafU5gBkCqfWKuE5/TZ3dVV1SZ9pu',
             'mobile_contact' => '0753847633',
             'department_id' => '4',
+            'designation_id' => '3',
+            'contract_id' => '1',
             'profile_picture' => null,
             'activity_status' => 1,
             'availability_status' => 1,
