@@ -1,7 +1,6 @@
 .env
 /node_modules
 /public/hot
-/public/storage
 /public/adminlte
 /vendor
 .phpunit.result.cache
