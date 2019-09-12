@@ -2308,6 +2308,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2398,6 +2410,13 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4596,6 +4615,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4685,6 +4711,18 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -72693,13 +72731,25 @@ var render = function() {
             _c("div", { staticClass: "card card-primary card-outline" }, [
               _c("div", { staticClass: "card-body box-profile" }, [
                 _c("div", { staticClass: "text-center" }, [
-                  _c("img", {
-                    staticClass: "profile-user-img img-fluid img-circle",
-                    attrs: {
-                      src: "storage/" + _vm.auth.profile_picture,
-                      alt: "User profile picture"
-                    }
-                  })
+                  _vm.auth.profile_picture
+                    ? _c("img", {
+                        staticClass: "profile-user-img img-fluid img-circle",
+                        attrs: {
+                          src: "/storage/" + _vm.auth.profile_picture,
+                          alt: "User Image"
+                        }
+                      })
+                    : _c("img", {
+                        staticClass: "img-circle elevation-2",
+                        attrs: {
+                          src:
+                            "https://ui-avatars.com/api/?name=" +
+                            _vm.auth.fname +
+                            "+" +
+                            _vm.auth.lname,
+                          alt: "User Image"
+                        }
+                      })
                 ]),
                 _vm._v(" "),
                 _c("h3", { staticClass: "profile-username text-center" }, [
@@ -73192,13 +73242,25 @@ var render = function() {
       _c("div", { staticClass: "sidebar" }, [
         _c("div", { staticClass: "user-panel mt-3 pb-3 mb-3 d-flex" }, [
           _c("div", { staticClass: "image" }, [
-            _c("img", {
-              staticClass: "img-circle elevation-2",
-              attrs: {
-                src: "/storage/" + _vm.auth.profile_picture,
-                alt: "User Image"
-              }
-            })
+            _vm.auth.profile_picture
+              ? _c("img", {
+                  staticClass: "img-circle elevation-2",
+                  attrs: {
+                    src: "/storage/" + _vm.auth.profile_picture,
+                    alt: "User Image"
+                  }
+                })
+              : _c("img", {
+                  staticClass: "img-circle elevation-2",
+                  attrs: {
+                    src:
+                      "https://ui-avatars.com/api/?name=" +
+                      _vm.auth.fname +
+                      "+" +
+                      _vm.auth.lname,
+                    alt: "User Image"
+                  }
+                })
           ]),
           _vm._v(" "),
           _c(
@@ -77856,13 +77918,25 @@ var render = function() {
                 { staticClass: "card-body box-profile" },
                 [
                   _c("div", { staticClass: "text-center" }, [
-                    _c("img", {
-                      staticClass: "profile-user-img img-fluid img-circle",
-                      attrs: {
-                        src: "/storage/" + _vm.employee.profile_picture,
-                        alt: "User profile picture"
-                      }
-                    })
+                    _vm.employee.profile_picture
+                      ? _c("img", {
+                          staticClass: "profile-user-img img-fluid img-circle",
+                          attrs: {
+                            src: "/storage/" + _vm.employee.profile_picture,
+                            alt: "User Image"
+                          }
+                        })
+                      : _c("img", {
+                          staticClass: "img-circle elevation-2",
+                          attrs: {
+                            src:
+                              "https://ui-avatars.com/api/?name=" +
+                              _vm.employee.fname +
+                              "+" +
+                              _vm.employee.lname,
+                            alt: "User Image"
+                          }
+                        })
                   ]),
                   _vm._v(" "),
                   _c("h3", { staticClass: "profile-username text-center" }, [
@@ -78599,14 +78673,27 @@ var render = function() {
                                 _c("td", [_vm._v(_vm._s(user.mobile_contact))]),
                                 _vm._v(" "),
                                 _c("td", [
-                                  _c("img", {
-                                    staticClass:
-                                      "profile-user-img img-fluid img-circle",
-                                    attrs: {
-                                      src: "/storage/" + user.profile_picture,
-                                      alt: "User profile picture"
-                                    }
-                                  })
+                                  user.profile_picture
+                                    ? _c("img", {
+                                        staticClass:
+                                          "profile-user-img img-fluid img-circle",
+                                        attrs: {
+                                          src:
+                                            "/storage/" + user.profile_picture,
+                                          alt: "User Image"
+                                        }
+                                      })
+                                    : _c("img", {
+                                        staticClass: "img-circle elevation-2",
+                                        attrs: {
+                                          src:
+                                            "https://ui-avatars.com/api/?name=" +
+                                            user.fname +
+                                            "+" +
+                                            user.lname,
+                                          alt: "User Image"
+                                        }
+                                      })
                                 ]),
                                 _vm._v(" "),
                                 _c("td", [

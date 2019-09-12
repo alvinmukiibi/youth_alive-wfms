@@ -20,11 +20,10 @@ class UsersController extends BaseController
     public $defaultAvatar = 'user.jpg';
 
     public function __construct()
+    { }
+
+    public function saveProfile(Request $request)
     {
-
-    }
-
-    public function saveProfile(Request $request){
         $user = $request->user();
 
         $validator = Validator::make($request->all(), [
@@ -32,7 +31,7 @@ class UsersController extends BaseController
             'password' => 'required | min:8 | alpha_num'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
         }
 
@@ -42,30 +41,33 @@ class UsersController extends BaseController
         $user->save();
 
         return $this->sendResponse($user, 'Profile successfully saved!');
-
     }
 
-    public function getUsers(Request $request){
+    public function getUsers(Request $request)
+    {
         $users = User::all();
         $users = ProfileResource::collection($users);
 
         return $this->sendResponse($users, 'All employees');
     }
 
-    public function activateUser(User $user){
+    public function activateUser(User $user)
+    {
         $user->activity_status = true;
         $user->save();
 
         return $this->sendResponse('', 'Success');
     }
-    public function deactivateUser(User $user){
+    public function deactivateUser(User $user)
+    {
         $user->activity_status = false;
         $user->save();
 
         return $this->sendResponse('', 'Success');
     }
 
-    public function validation($request){
+    public function validation($request)
+    {
         $validator = Validator::make($request->all(), [
             // 'department_id' => 'required',
             // 'designation_id' => 'required',
@@ -90,16 +92,17 @@ class UsersController extends BaseController
         return $validator;
     }
 
-    public function saveUserEdit(User $user, Request $request){
+    public function saveUserEdit(User $user, Request $request)
+    {
         $validator = $this->validation($request);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
         }
 
-        $user->department_id = $request->department_id == ''? $user->department_id: $request->department_id;
-        $user->designation_id = $request->designation_id == ''? $user->designation_id: $request->designation_id;
-        $user->contract_id = $request->contract_id == ''? $user->contract_id: $request->contract_id;
+        $user->department_id = $request->department_id == '' ? $user->department_id : $request->department_id;
+        $user->designation_id = $request->designation_id == '' ? $user->designation_id : $request->designation_id;
+        $user->contract_id = $request->contract_id == '' ? $user->contract_id : $request->contract_id;
         $user->duty_station = $request->duty_station;
         $user->email = $request->email;
         $user->work_contact = $request->work_contact;
@@ -113,7 +116,8 @@ class UsersController extends BaseController
         return $this->sendResponse($user, 'Edited successfully');
     }
 
-    public function validationAdd($request){
+    public function validationAdd($request)
+    {
         $validator = Validator::make($request->all(), [
             'fname' => 'required',
             'lname' => 'required',
@@ -137,19 +141,20 @@ class UsersController extends BaseController
         return $validator;
     }
 
-    public function addUser(Request $request){
+    public function addUser(Request $request)
+    {
 
         $validator = $this->validationAdd($request);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
         }
 
-        if($request->hasFile('biodata')){
+        if ($request->hasFile('biodata')) {
             $validator =  Validator::make($request->all(), [
                 'biodata' => 'mimes:docx,doc,pdf,xls,xlsx,txt | max:10240'
             ]);
-            if($validator->fails()){
+            if ($validator->fails()) {
                 return $this->sendError('Validation errors', $validator->errors(), 422);
             }
 
@@ -172,80 +177,78 @@ class UsersController extends BaseController
             'activity_status' => true,
             'availability_status' => true,
             'email_verified_status' => false,
-            'profile_picture' => $this->defaultAvatar,
+            'profile_picture' => null,
         ];
 
         $user = User::create($data);
 
         $user->roles()->attach(1); // make every user an officer on registration
-        if($request->hasFile('biodata')){
+        if ($request->hasFile('biodata')) {
 
             UserFile::create(['filename' => $biodata, 'description' => 'users biodata form copy', 'user_id' => $user->id]);
-
         }
         $event = new UserCreatedEvent($user);
         event($event);
 
         return $this->sendResponse($user, 'User successfully created');
-
     }
 
-    public function attachRole(Request $request){
+    public function attachRole(Request $request)
+    {
 
         $count = DB::table('role_user')->where(['user_id' => $request->user_id, 'role_id' => $request->role_id])->count();
-        if($count > 0){
+        if ($count > 0) {
             return $this->sendError('', 'Role already attached to user');
-        }else{
+        } else {
             $user = User::find($request->user_id);
             $user->roles()->attach($request->role_id);
             return $this->sendResponse('', 'Role successfully attached');
         }
     }
-    public function attachProject(Request $request){
+    public function attachProject(Request $request)
+    {
 
         $count = DB::table('project_user')->where(['user_id' => $request->user_id, 'project_id' => $request->project_id])->count();
-        if($count > 0){
+        if ($count > 0) {
             return $this->sendError('', 'Project already attached to user');
-        }else{
+        } else {
             $user = User::find($request->user_id);
             $user->projects()->attach($request->project_id);
             return $this->sendResponse('', 'Project successfully attached');
         }
-
     }
-    public function detachProject(Request $request){
+    public function detachProject(Request $request)
+    {
 
         $count = DB::table('project_user')->where(['user_id' => $request->user_id, 'project_id' => $request->project_id])->count();
-        if($count > 0){
+        if ($count > 0) {
             $user = User::find($request->user_id);
             $user->projects()->detach($request->project_id);
             return $this->sendResponse('', 'Project successfully detached');
-
-        }else{
+        } else {
             return $this->sendError('', 'User doesnot have that project');
-
         }
     }
-    public function detachRole(Request $request){
+    public function detachRole(Request $request)
+    {
 
         $count = DB::table('role_user')->where(['user_id' => $request->user_id, 'role_id' => $request->role_id])->count();
-        if($count > 0){
+        if ($count > 0) {
             $user = User::find($request->user_id);
             $user->roles()->detach($request->role_id);
             return $this->sendResponse('', 'Role successfully detached');
-
-        }else{
+        } else {
             return $this->sendError('', 'User doesnot have that role');
-
         }
     }
 
-    public function saveDp(User $user, Request $request){
+    public function saveDp(User $user, Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'profile_picture' => ['mimes:jpeg,jpg,png,webp,gif']
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
         }
 
@@ -254,8 +257,5 @@ class UsersController extends BaseController
         $user->save();
 
         return $this->sendResponse('Saved', 'Dp saved!!');
-
-
     }
-
 }

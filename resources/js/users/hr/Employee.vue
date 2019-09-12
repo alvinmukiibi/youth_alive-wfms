@@ -25,9 +25,16 @@
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img
-                    class="profile-user-img img-fluid img-circle"
+                    v-if="employee.profile_picture"
                     :src="'/storage/' + employee.profile_picture"
-                    alt="User profile picture"
+                    class="profile-user-img img-fluid img-circle"
+                    alt="User Image"
+                  />
+                  <img
+                    v-else
+                    :src="'https://ui-avatars.com/api/?name=' + employee.fname + '+' + employee.lname"
+                    class="img-circle elevation-2"
+                    alt="User Image"
                   />
                 </div>
 

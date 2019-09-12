@@ -56,9 +56,21 @@
                                                     <td>{{ user.duty_station }}</td>
                                                     <td>{{ user.mobile_contact }}</td>
                                                     <td>
-                                                        <img class="profile-user-img img-fluid img-circle"
+                                                        <img
+                                                            v-if="user.profile_picture"
                                                             :src="'/storage/' + user.profile_picture"
-                                                            alt="User profile picture">
+                                                            class="profile-user-img img-fluid img-circle"
+                                                            alt="User Image"
+                                                        />
+                                                        <img
+                                                            v-else
+                                                            :src="'https://ui-avatars.com/api/?name=' + user.fname + '+' + user.lname"
+                                                            class="img-circle elevation-2"
+                                                            alt="User Image"
+                                                        />
+                                                        <!-- <img class="profile-user-img img-fluid img-circle"
+                                                            :src="'/storage/' + user.profile_picture"
+                                                            alt="User profile picture"> -->
                                                     </td>
                                                     <td>
                                                         <button type="button" data-toggle="modal" @click="setEmployee(user.id)" data-target="#rolesModal" class="btn btn-sm btn-primary" title="Roles and Projects"> <i  class="fa fa-tasks"></i>  </button>
