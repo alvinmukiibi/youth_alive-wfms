@@ -14,12 +14,13 @@ class UsersTableSeeder extends Seeder
         $user = [
             'fname' => 'Vin',
             'lname' => 'Mukiibi',
-            'email' => 'admin@youthalive.com',
-            'password' => '$2y$10$nJbQ4tGJ8/JOzzHbz4aaJe9VSZwYVUcfVcpNS/hxYxc1k45/Rgu.S',
+            'email' => 'admin@youthaliveuganda.org',
+            'password' => '$2y$10$epk.1TdSHELenZ8lQNMtRucGxafU5gBkCqfWKuE5/TZ3dVV1SZ9pu',
             'mobile_contact' => '0753847633',
             'department_id' => '4',
-            'profile_picture' => 'user.jpg',
+            'profile_picture' => null,
             'activity_status' => 1,
+            'availability_status' => 1,
             'email_verified_status' => 1,
         ];
 
