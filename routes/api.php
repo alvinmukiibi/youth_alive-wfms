@@ -68,6 +68,10 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
     Route::group(['prefix' => 'projects'], function () {
         Route::get('/', 'ProjectsController@getProjects');
     });
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('/', 'SettingsController@getSettings');
+        Route::post('/toggle', 'SettingsController@toggleSetting');
+    });
 
     Route::group(['prefix' => 'requests'], function () {
         Route::post('/', 'RequestsController@addRequest');

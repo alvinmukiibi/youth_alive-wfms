@@ -27,10 +27,13 @@
               </div>
               <div class="card-body">
                 <div class="form-group">
-                  <label>
-                    <p-input type="checkbox">Default</p-input>
-                    <!-- <p-check name="check" color="success" v-model="check">Check</p-check>Flat green skin checkbox -->
-                  </label>
+                  <b-form-checkbox
+                    v-model="settings.receive_login_notifications"
+                    name="check-button"
+                    switch
+                    size="lg"
+                    @change="toggleButton('receive_login_notifications')"
+                  >Receive Login Notifications</b-form-checkbox>
                 </div>
               </div>
             </div>
@@ -42,16 +45,37 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+import * as api from "../api/api";
 export default {
   data() {
-    return {
-      check: null
-    };
+    return {};
   },
-  mounted() {}
+  methods: {
+    ...mapMutations({
+      setSettings: "setSettings"
+    }),
+    toggleButton(field) {
+      api.toggleButton(field).then(response => {
+        this.loadSettings();
+      });
+    },
+    loadSettings() {
+      api.getSettings().then(response => {
+        this.setSettings(response.data);
+      });
+    }
+  },
+  computed: {
+    ...mapState({
+      settings: state => state.settings
+    })
+  },
+  mounted() {
+    this.loadSettings();
+  }
 };
 </script>
 
-<style lang="css" >
-@import "/node_modules/pretty-checkbox/src/pretty-checkbox.scss";
+<style >
 </style>

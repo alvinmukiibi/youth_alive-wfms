@@ -1,6 +1,7 @@
 @component('mail::message')
 Hello <b>{{ $user->fname }}</b>,  <br/>
 You have just signed into the WorkFlow Management System.
+<p>Time of Signin: {{ date('d-M-Y H:i:s') }}</p>
 <p>If its not you, please click on the button below to lock your account. The account will be unlocked once you change your password</p>
 
 <br/>

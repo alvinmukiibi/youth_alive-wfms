@@ -172,3 +172,13 @@ export function declineLeave(data) {
         reason: data.reason
     }).then(response => response.data)
 }
+
+export function toggleButton(field) {
+    return axios.post(prefix + '/settings/toggle', {
+        field: field
+    }).then(response => response.data)
+}
+
+export function getSettings() {
+    return axios.get(prefix + '/settings').then(response => response.data)
+}
