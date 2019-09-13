@@ -23,8 +23,8 @@ class AuthController extends Controller
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
 
-            $response['token'] = $user->createToken('youth_alive_passport_token')->accessToken;
-            $response['user'] = $user;
+            // $response['token'] = $user->createToken('youth_alive_passport_token')->accessToken;
+            // $response['user'] = $user;
 
             if($user->activity_status == false){
                 Auth::logout();
@@ -35,10 +35,13 @@ class AuthController extends Controller
                 return redirect()->back()->with('info', 'Please verify your email first');
             }
 
-            $job = new LoggedInJobs;
-            $job->user = $user;
-            $job->ip = $request->ip();
-            // dispatch($job);
+            if($user->settings()->value('receive_login_notifications')){
+                $job = new LoggedInJobs;
+                $job->user = $user;
+                $job->ip = $request->ip();
+                dispatch($job);
+            }
+
 
             return redirect()->to('/home');
 

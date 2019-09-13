@@ -10,6 +10,7 @@ use App\Designation;
 use App\Role;
 use App\Request;
 use App\Leave;
+use App\Setting;
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
@@ -38,6 +39,7 @@ class User extends Authenticatable
     protected $casts = [
         'activity_status' => 'boolean',
         'email_verified_status' => 'boolean',
+
     ];
 
     public function designation(){
@@ -61,6 +63,9 @@ class User extends Authenticatable
     }
     public function leaves(){
         return $this->hasMany(Leave::class, 'user_id');
+    }
+    public function settings(){
+        return $this->hasOne(Setting::class, 'user_id');
     }
 
     public function arrayOfRoles(){

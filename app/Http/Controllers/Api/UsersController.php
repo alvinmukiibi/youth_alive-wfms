@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ProfileResource;
 use App\RoleUser;
+use App\Setting;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\User;
@@ -181,6 +182,13 @@ class UsersController extends BaseController
         $user = User::create($data);
 
         $user->roles()->attach(1); // make every user an officer on registration
+
+        $setting = [
+            'receive_login_notifications' => true
+        ];
+
+        $user->settings()->updateOrCreate(['user_id' => $user->id], $setting);
+
         if ($request->hasFile('biodata')) {
 
             UserFile::create(['filename' => $biodata, 'description' => 'users biodata form copy', 'user_id' => $user->id]);

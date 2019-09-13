@@ -15,13 +15,17 @@
                         <p class="login-box-msg">
                             Log in
                         </p>
-                        <div class="form-group has-feedback">
-                            <input type="text" class="form-control {{$errors->has('email')?'is-invalid':''}}" value="" name="email" placeholder="Email">
-
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            </div>
+                            <input type="email" name="email" class="form-control" placeholder="Email">
                         </div>
-                        <div class="form-group has-feedback">
-                            <input type="password" class="form-control {{$errors->has('password')?'is-invalid':''}}" value="" name="password" placeholder="Password">
-
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fa fa-key"></i></span>
+                            </div>
+                            <input type="password" name="password" class="form-control" placeholder="Password">
                         </div>
                         <div class="row">
                             <div class="col-12">

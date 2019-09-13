@@ -211,6 +211,16 @@
               <p>Leave Types</p>
             </router-link>
           </li>
+          <li class="nav-item">
+            <router-link
+              to="/settings"
+              class="nav-link"
+              :class="{ 'active': isActive('/settings') }"
+            >
+              <i class="nav-icon fa fa-gear"></i>
+              <p>Settings</p>
+            </router-link>
+          </li>
         </ul>
       </nav>
     </div>

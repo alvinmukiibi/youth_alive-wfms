@@ -170,13 +170,13 @@
               <div class="card-body">
                 <div class="form-row">
                   <div class="form-group col-md-4">
-                    <label for="inputEmail4">UserName</label>
+                    <label for="inputEmail4">Username</label>
                     <input
                       type="text"
                       class="form-control"
                       v-model="auth.user_name"
-                      id="inputEmail3"
-                      placeholder="Email"
+
+
                     />
                   </div>
                   <div class="form-group col-md-4">
