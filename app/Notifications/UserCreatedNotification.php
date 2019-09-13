@@ -43,7 +43,7 @@ class UserCreatedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject('NEW ACCOUNT CREATED')
+        ->subject('NEW ACOUNT CREATED')
         ->markdown('mails.user-created-notification', ['user' => $this->user]);
     }
 
