@@ -121,9 +121,8 @@ class UsersController extends BaseController
         $validator = Validator::make($request->all(), [
             'fname' => 'required',
             'lname' => 'required',
-            'department_id' => 'required',
-            'designation_id' => 'required|numeric',
-            'contract_id' => 'required|numeric',
+            'designation_id' => 'required|exists:designations,id',
+            'contract_id' => 'required|exists:contracts,id',
             'duty_station' => 'required',
             'mobile_contact' => 'required',
             'address' => 'required|max:200',
@@ -131,7 +130,6 @@ class UsersController extends BaseController
         ], [
             'fname.required' => 'The first name field is required',
             'lname.required' => 'The last name field is required',
-            'department_id.required' => 'Please choose a department for the user',
             'designation_id.required' => 'Please choose a designation for the user',
             'contract_id.required' => 'Please choose a contract type for the user',
             'email.required' => 'The email address field is required',
@@ -169,7 +167,7 @@ class UsersController extends BaseController
             'work_contact' => $request->work_contact == null ? null : $request->work_contact,
             'staff_id' => $request->staff_id == null ? null : $request->staff_id,
             'address' => $request->address,
-            'department_id' => $request->department_id,
+            'department_id' => $request->department_id ? $request->department_id : null,
             'designation_id' => $request->designation_id,
             'contract_id' => $request->contract_id,
             'duty_station' => $request->duty_station,

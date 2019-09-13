@@ -8,7 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
+        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
         <!-- Styles -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 

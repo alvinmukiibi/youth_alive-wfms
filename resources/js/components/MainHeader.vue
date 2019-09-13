@@ -41,6 +41,12 @@
       <li class="nav-item">
         <a class="nav-link" @click.prevent="logout" href="#">
           <i class="fa fa-sign-out"></i>
+          <span
+            v-if="spinner"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
           <b>Logout</b>
         </a>
       </li>
@@ -53,7 +59,9 @@ import { mapState, mapMutations } from "vuex";
 import * as api from "../api/api.js";
 export default {
   data() {
-    return {};
+    return {
+      spinner: false
+    };
   },
   methods: {
     ...mapMutations({
@@ -70,7 +78,9 @@ export default {
       setMyRequests: "setMyRequests"
     }),
     logout() {
+      this.spinner = true;
       api.logout().then(response => {
+        this.spinner = false;
         document.location.href = "/login";
       });
     },

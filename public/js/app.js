@@ -1962,11 +1962,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      spinner: false
+    };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
     setAuthUser: "setAuthUser",
@@ -1982,85 +1990,89 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setMyRequests: "setMyRequests"
   }), {
     logout: function logout() {
+      var _this = this;
+
+      this.spinner = true;
       _api_api_js__WEBPACK_IMPORTED_MODULE_1__["logout"]().then(function (response) {
+        _this.spinner = false;
         document.location.href = "/login";
       });
     },
     getAuthUser: function getAuthUser() {
-      var _this = this;
+      var _this2 = this;
 
       _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getAuthUser"]().then(function (response) {
-        _this.setAuthUser(response.data);
+        _this2.setAuthUser(response.data);
 
         if (response.data.roles.includes("manager") || response.data.roles.includes("administrator")) {
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getDepartments"]().then(function (response) {
-            _this.setDepartments(response.data);
+            _this2.setDepartments(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getDesignations"]().then(function (response) {
-            _this.setDesignations(response.data);
+            _this2.setDesignations(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getUsers"]().then(function (response) {
-            _this.setUsers(response.data);
+            _this2.setUsers(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getContracts"]().then(function (response) {
-            _this.setContracts(response.data);
+            _this2.setContracts(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getRoles"]().then(function (response) {
-            _this.setRoles(response.data);
+            _this2.setRoles(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getProjects"]().then(function (response) {
-            _this.setProjects(response.data);
+            _this2.setProjects(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getLeaveTypes"]().then(function (response) {
-            _this.setLeaveTypes(response);
+            _this2.setLeaveTypes(response);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getAssets"]().then(function (response) {
-            _this.setAssets(response);
+            _this2.setAssets(response);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getVendors"]().then(function (response) {
-            _this.setVendors(response);
+            _this2.setVendors(response);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getMyRequests"]().then(function (response) {
-            _this.setMyRequests(response.data);
+            _this2.setMyRequests(response.data);
           });
         }
 
         if (response.data.roles.includes("officer") && response.data.roles.length == 1) {
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getProjects"]().then(function (response) {
-            _this.setProjects(response.data);
+            _this2.setProjects(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getVendors"]().then(function (response) {
-            _this.setVendors(response);
+            _this2.setVendors(response);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getDepartments"]().then(function (response) {
-            _this.setDepartments(response.data);
+            _this2.setDepartments(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getAssets"]().then(function (response) {
-            _this.setAssets(response);
+            _this2.setAssets(response);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getMyRequests"]().then(function (response) {
-            _this.setMyRequests(response.data);
+            _this2.setMyRequests(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getLeaveTypes"]().then(function (response) {
-            _this.setLeaveTypes(response);
+            _this2.setLeaveTypes(response);
           });
         }
 
         if (response.data.roles.includes("director")) {
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getProjects"]().then(function (response) {
-            _this.setProjects(response.data);
+            _this2.setProjects(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getVendors"]().then(function (response) {
-            _this.setVendors(response);
+            _this2.setVendors(response);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getDepartments"]().then(function (response) {
-            _this.setDepartments(response.data);
+            _this2.setDepartments(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getAssets"]().then(function (response) {
-            _this.setAssets(response);
+            _this2.setAssets(response);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getMyRequests"]().then(function (response) {
-            _this.setMyRequests(response.data);
+            _this2.setMyRequests(response.data);
           });
         }
       });
@@ -72663,6 +72675,13 @@ var render = function() {
             },
             [
               _c("i", { staticClass: "fa fa-sign-out" }),
+              _vm._v(" "),
+              _vm.spinner
+                ? _c("span", {
+                    staticClass: "spinner-border spinner-border-sm",
+                    attrs: { role: "status", "aria-hidden": "true" }
+                  })
+                : _vm._e(),
               _vm._v(" "),
               _c("b", [_vm._v("Logout")])
             ]
