@@ -74,6 +74,9 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::get('/system', 'SettingsController@getSystemSettings');
         Route::post('/toggle', 'SettingsController@toggleSetting');
     });
+    Route::group(['prefix' => 'reports'], function () {
+        Route::get('/leaves', 'ReportsController@leaveReports');
+    });
 
     Route::group(['prefix' => 'requests'], function () {
         Route::post('/', 'RequestsController@addRequest');

@@ -221,6 +221,15 @@
               <p>Settings</p>
             </router-link>
           </li>
+          <li
+            class="nav-item"
+            v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Human Resource'"
+          >
+            <router-link to="/reports" class="nav-link" :class="{ 'active': isActive('/reports') }">
+              <i class="nav-icon fa fa-bar-chart"></i>
+              <p>Reports</p>
+            </router-link>
+          </li>
         </ul>
       </nav>
     </div>

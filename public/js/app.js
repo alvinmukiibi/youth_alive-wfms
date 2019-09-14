@@ -1852,6 +1852,73 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2654,6 +2721,15 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -72379,7 +72455,7 @@ var render = function() {
                     attrs: { to: "/profile" }
                   },
                   [
-                    _vm._v("More info "),
+                    _vm._v("\n              More info\n              "),
                     _c("i", { staticClass: "fa fa-arrow-circle-right" })
                   ]
                 )
@@ -72411,7 +72487,7 @@ var render = function() {
                         attrs: { to: "/requests" }
                       },
                       [
-                        _vm._v("More info "),
+                        _vm._v("\n              More info\n              "),
                         _c("i", { staticClass: "fa fa-arrow-circle-right" })
                       ]
                     )
@@ -72438,7 +72514,7 @@ var render = function() {
                         attrs: { to: "/leave" }
                       },
                       [
-                        _vm._v("More info "),
+                        _vm._v("\n              More info\n              "),
                         _c("i", { staticClass: "fa fa-arrow-circle-right" })
                       ]
                     )
@@ -72457,9 +72533,7 @@ var render = function() {
                   { staticClass: "small-box bg-success" },
                   [
                     _c("div", { staticClass: "inner" }, [
-                      _c("h3", [
-                        _vm._v(" " + _vm._s(Object.keys(_vm.users).length))
-                      ]),
+                      _c("h3", [_vm._v(_vm._s(Object.keys(_vm.users).length))]),
                       _vm._v(" "),
                       _c("p", [_vm._v("Manage Employees")])
                     ]),
@@ -72473,7 +72547,36 @@ var render = function() {
                         attrs: { to: "/employees" }
                       },
                       [
-                        _vm._v("More info "),
+                        _vm._v("\n              More info\n              "),
+                        _c("i", { staticClass: "fa fa-arrow-circle-right" })
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.stateLoaded &&
+          _vm.auth.roles.includes("manager") &&
+          _vm.auth.department == "Human Resource"
+            ? _c("div", { staticClass: "col-lg-3 col-6" }, [
+                _c(
+                  "div",
+                  { staticClass: "small-box bg-primary" },
+                  [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "small-box-footer",
+                        attrs: { to: "/reports" }
+                      },
+                      [
+                        _vm._v("\n              More info\n              "),
                         _c("i", { staticClass: "fa fa-arrow-circle-right" })
                       ]
                     )
@@ -72497,7 +72600,7 @@ var render = function() {
                       _c("p", [_vm._v("Manage departments")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(6),
+                    _vm._m(8),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -72506,7 +72609,7 @@ var render = function() {
                         attrs: { to: "/departments" }
                       },
                       [
-                        _vm._v("More info "),
+                        _vm._v("\n              More info\n              "),
                         _c("i", { staticClass: "fa fa-arrow-circle-right" })
                       ]
                     )
@@ -72530,7 +72633,7 @@ var render = function() {
                       _c("p", [_vm._v("Manage projects")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(7),
+                    _vm._m(9),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -72539,7 +72642,7 @@ var render = function() {
                         attrs: { to: "/projects" }
                       },
                       [
-                        _vm._v("More info "),
+                        _vm._v("\n              More info\n              "),
                         _c("i", { staticClass: "fa fa-arrow-circle-right" })
                       ]
                     )
@@ -72563,7 +72666,7 @@ var render = function() {
                       _c("p", [_vm._v("Manage vendors")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(8),
+                    _vm._m(10),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -72572,7 +72675,7 @@ var render = function() {
                         attrs: { to: "/vendors" }
                       },
                       [
-                        _vm._v("More info "),
+                        _vm._v("\n              More info\n              "),
                         _c("i", { staticClass: "fa fa-arrow-circle-right" })
                       ]
                     )
@@ -72596,7 +72699,7 @@ var render = function() {
                       _c("p", [_vm._v("Assets")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(9),
+                    _vm._m(11),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -72605,7 +72708,7 @@ var render = function() {
                         attrs: { to: "/assets" }
                       },
                       [
-                        _vm._v("More info "),
+                        _vm._v("\n              More info\n              "),
                         _c("i", { staticClass: "fa fa-arrow-circle-right" })
                       ]
                     )
@@ -72629,7 +72732,7 @@ var render = function() {
                       _c("p", [_vm._v("Leave Types")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(10),
+                    _vm._m(12),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -72638,7 +72741,7 @@ var render = function() {
                         attrs: { to: "/leavetypes" }
                       },
                       [
-                        _vm._v("More info "),
+                        _vm._v("\n              More info\n              "),
                         _c("i", { staticClass: "fa fa-arrow-circle-right" })
                       ]
                     )
@@ -72662,7 +72765,7 @@ var render = function() {
                       _c("p", [_vm._v("Designations")])
                     ]),
                     _vm._v(" "),
-                    _vm._m(11),
+                    _vm._m(13),
                     _vm._v(" "),
                     _c(
                       "router-link",
@@ -72671,7 +72774,7 @@ var render = function() {
                         attrs: { to: "/designations" }
                       },
                       [
-                        _vm._v("More info "),
+                        _vm._v("\n              More info\n              "),
                         _c("i", { staticClass: "fa fa-arrow-circle-right" })
                       ]
                     )
@@ -72679,7 +72782,32 @@ var render = function() {
                   1
                 )
               ])
-            : _vm._e()
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-lg-3 col-6" }, [
+            _c(
+              "div",
+              { staticClass: "small-box bg-dark" },
+              [
+                _vm._m(14),
+                _vm._v(" "),
+                _vm._m(15),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "small-box-footer",
+                    attrs: { to: "/settings" }
+                  },
+                  [
+                    _vm._v("\n              More info\n              "),
+                    _c("i", { staticClass: "fa fa-arrow-circle-right" })
+                  ]
+                )
+              ],
+              1
+            )
+          ])
         ])
       ])
     ])
@@ -72758,8 +72886,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "inner" }, [
+      _c("h3", [_vm._v("Reports")]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Exports and Statistics")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "icon" }, [
-      _c("i", { staticClass: "fa fa-users" })
+      _c("i", { staticClass: "fa fa-bar-chart" })
     ])
   },
   function() {
@@ -72800,6 +72938,32 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "icon" }, [
       _c("i", { staticClass: "fa fa-users" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-users" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "inner" }, [
+      _c("h3", [_vm._v("Settings")]),
+      _vm._v(" "),
+      _c("p", [_vm._v("User Preferences")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-gear" })
     ])
   }
 ]
@@ -74493,7 +74657,32 @@ var render = function() {
                   )
                 ],
                 1
-              )
+              ),
+              _vm._v(" "),
+              _vm.stateLoaded &&
+              _vm.auth.roles.includes("manager") &&
+              _vm.auth.department == "Human Resource"
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.isActive("/reports") },
+                          attrs: { to: "/reports" }
+                        },
+                        [
+                          _c("i", { staticClass: "nav-icon fa fa-bar-chart" }),
+                          _vm._v(" "),
+                          _c("p", [_vm._v("Reports")])
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
             ]
           )
         ])
@@ -105266,6 +105455,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _users_officer_RequestView_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./users/officer/RequestView.vue */ "./resources/js/users/officer/RequestView.vue");
 /* harmony import */ var _users_officer_Leaves_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./users/officer/Leaves.vue */ "./resources/js/users/officer/Leaves.vue");
 /* harmony import */ var _components_Settings_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/Settings.vue */ "./resources/js/components/Settings.vue");
+/* harmony import */ var _users_hr_Reports_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./users/hr/Reports.vue */ "./resources/js/users/hr/Reports.vue");
+
 
 
 
@@ -105329,6 +105520,9 @@ var routes = [{
 }, {
   path: '/settings',
   component: _components_Settings_vue__WEBPACK_IMPORTED_MODULE_14__["default"]
+}, {
+  path: '/reports',
+  component: _users_hr_Reports_vue__WEBPACK_IMPORTED_MODULE_16__["default"]
 }];
 /* harmony default export */ __webpack_exports__["default"] = (routes);
 
@@ -106062,6 +106256,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Employees_vue_vue_type_template_id_0744e4c5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/users/hr/Reports.vue":
+/*!*******************************************!*\
+  !*** ./resources/js/users/hr/Reports.vue ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/users/hr/Reports.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
