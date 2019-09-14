@@ -15,9 +15,8 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-
 Route::group(['middleware' => 'guest'], function () {
-    Route::get('/login', 'AuthController@login');
+    Route::get('/login', 'AuthController@login')->name('login');
     Route::post('/login', 'AuthController@authenticate');
 });
 
