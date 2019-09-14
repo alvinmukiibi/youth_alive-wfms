@@ -4,11 +4,11 @@
     <body class="hold-transition login-page" style="background-image: url('images/background-photo.jpg'); background-size: cover; background-position: 'center'; background-repeat: 'no-repeat'">
         <div id="app">
             <div class="login-box mt-5" >
-                <form action="{{ url('/login') }}" method="POST">
+                <form action="{{ url('/sendlink') }}" method="POST">
                 @csrf
                 <div class="login-logo">
                     <img src="{{ asset('images/logo.png') }}" width="50%"  />
-                    <a style="text-decoration: none" href="{{ url('/sendlink') }}"><b class="text-primary" style="font-weight:700">YOUTH</b><b class="text-warning">ALIVE</b></a>
+                    <a style="text-decoration: none" href="{{ url('/login') }}"><b class="text-primary" style="font-weight:700">YOUTH</b><b class="text-warning">ALIVE</b></a>
                 </div>
                 <div class="card">
                     <div class="card-body login-card-body">
