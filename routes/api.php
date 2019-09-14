@@ -126,14 +126,14 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/leavetypes', function (Request $request) {
             $leave = [
                 'type' => $request->type,
-                'days' => $request->days
+                // 'days' => $request->days
             ];
             $leave = LeaveType::create($leave);
             return response()->json($leave, 202);
         });
         Route::post('/leavetypes/update/{leaveType}', function (LeaveType $leaveType, Request $request) {
             $leaveType->type = $request->type;
-            $leaveType->days = $request->days;
+            // $leaveType->days = $request->days;
             $leaveType->save();
             return response()->json($leaveType, 202);
         });

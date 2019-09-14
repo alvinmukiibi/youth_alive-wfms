@@ -12,9 +12,12 @@ use App\User;
 use App\Department;
 use App\Designation;
 use App\Events\PendingLeaveEvent;
+use App\SystemSetting;
 
 class LeavesController extends BaseController
 {
+    public $total_annual_leave_days_allowed = 21;
+
     public function getMyLeaves(Request $request)
     {
         $user = $request->user();
@@ -40,6 +43,39 @@ class LeavesController extends BaseController
         return $validator;
     }
 
+    public function getRemaininingDays($user){
+
+        $count = $user->leaves()->where('status', 3)->count();
+        if($count > 0){
+            $sum_of_leave_days_taken = $user->leaves()->where('status', 3)->sum('duration');
+            $remaining_days = $this->total_annual_leave_days_allowed - $sum_of_leave_days_taken;
+            return $remaining_days;
+
+        }else{
+            return $this->total_annual_leave_days_allowed;
+        }
+
+    }
+
+    public function getHolidays(){
+
+        $year = date('Y');
+        $holidays=array($year.'-01-01', $year.'-01-26', $year.'-02-16', $year.'-03-08', $year.'-05-01', $year.'-06-03', $year.'-06-09', $year.'-10-09', $year.'-12-25', $year.'-12-26');
+
+        $dynamicDays = SystemSetting::select(['good_friday', 'easter_sunday', 'easter_monday', 'eid_ul_fitr', 'eid_al_adha', 'other_holiday'])->get();
+        foreach($dynamicDays as $day){
+            $holidays[] = $day['good_friday'] == null ? '' : date('Y-m-d', strtotime($day['good_friday']));
+            $holidays[] = $day['easter_sunday'] == null ? '' : date('Y-m-d', strtotime($day['easter_sunday']));
+            $holidays[] = $day['easter_monday'] == null ? '' : date('Y-m-d', strtotime($day['easter_monday']));
+            $holidays[] = $day['eid_ul_fitr'] == null ? '' : date('Y-m-d', strtotime($day['eid_ul_fitr']));
+            $holidays[] = $day['eid_al_adha'] == null ? '' : date('Y-m-d', strtotime($day['eid_al_adha']));
+            $holidays[] = $day['other_holiday'] == null ? '' : date('Y-m-d', strtotime($day['other_holiday']));
+        }
+
+        return $holidays;
+
+    }
+
     public function askForLeave(Request $request)
     {
         $user = $request->user();
@@ -55,13 +91,18 @@ class LeavesController extends BaseController
             return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
         }
 
-        $duration = $this->getWorkingDays($request->from, $request->to);
-        $max_days = LeaveType::find($request->leave_type_id)->days;
+        $holidays = $this->getHolidays();
+
+        $duration = $this->getWorkingDays($request->from, $request->to, $holidays);
+
+        $days_left = $this->total_annual_leave_days_allowed -  $user->leaves()->where('status', 3)->sum('duration');
+
         $type = LeaveType::find($request->leave_type_id)->type;
 
-        if ($duration > $max_days) {
+        if ($duration > $days_left) {
 
-            return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $max_days . ' days of the ' . $type . ' leave']);
+            return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $days_left . ' days']);
+
         }
 
         $leave = [
@@ -72,35 +113,35 @@ class LeavesController extends BaseController
             'comments' => $request->comments ? $request->comments : null,
             'duration' => $duration,
             'status' => 0,
+            'total_annual_days_remaining' => $this->getRemaininingDays($user)
         ];
 
         $leave = Leave::create($leave);
+
         $leave = new LeavesResource($leave);
 
         // notify supervisor
-        $supervisor = null;
-        if ($user->user_type() == 'officer') {
-            foreach (Department::find($user->department_id)->users as $use) {
-                if ($use->user_type() == 'manager') {
-                    $supervisor = $use;
-                }
-            }
-        }
-        if ($user->user_type() == 'manager') {
-            foreach (Department::find($user->department_id)->users as $use) {
-                if ($use->user_type() == 'director') {
-                    $supervisor = $use;
-                }
-            }
-        }
-        if ($user->user_type() == 'director') {
-            $desi = Designation::where('name', 'Executive Director')->value('id');
-            $ed = User::where('designation_id', $desi)->first();
-            $supervisor = $ed;
-        }
-        event(new PendingLeaveEvent($supervisor));
-
-        // $holidays=array('2019-01-01', '2019-01-26', '2019-02-16');
+        // $supervisor = null;
+        // if ($user->user_type() == 'officer') {
+        //     foreach (Department::find($user->department_id)->users as $use) {
+        //         if ($use->user_type() == 'manager') {
+        //             $supervisor = $use;
+        //         }
+        //     }
+        // }
+        // if ($user->user_type() == 'manager') {
+        //     foreach (Department::find($user->department_id)->users as $use) {
+        //         if ($use->user_type() == 'director') {
+        //             $supervisor = $use;
+        //         }
+        //     }
+        // }
+        // if ($user->user_type() == 'director') {
+        //     $desi = Designation::where('name', 'Executive Director')->value('id');
+        //     $ed = User::where('designation_id', $desi)->first();
+        //     $supervisor = $ed;
+        // }
+        // event(new PendingLeaveEvent($supervisor));
 
         return $this->sendResponse($leave, 'Leave data');
     }
@@ -209,10 +250,12 @@ class LeavesController extends BaseController
         }
         if ($user->user_type() == 'director' && $leave->user->user_type() == 'officer') {
             $leave->status = 3;
+            $leave->total_annual_days_remaining = $this->getRemaininingDays($leave->user) - $leave->duration;
         }
         // action for the e.d.
         if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'manager') {
             $leave->status = 3;
+            $leave->total_annual_days_remaining = $this->getRemaininingDays($leave->user) - $leave->duration;
         }
         if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'director') {
             $leave->status = 1;
@@ -225,7 +268,7 @@ class LeavesController extends BaseController
 
     }
 
-    public function getWorkingDays($startDate, $endDate)
+    public function getWorkingDays($startDate, $endDate, $holidays)
     {
         // do strtotime calculations just once
         $endDate = strtotime($endDate);
@@ -266,13 +309,13 @@ class LeavesController extends BaseController
         if ($no_remaining_days > 0) {
             $workingDays += $no_remaining_days;
         }
-        //We subtract the holidays
-        // foreach ($holidays as $holiday) {
-        //     $time_stamp = strtotime($holiday);
-        //     //If the holiday doesn't fall in weekend
-        //     if ($startDate <= $time_stamp && $time_stamp <= $endDate && date("N", $time_stamp) != 6 && date("N", $time_stamp) != 7)
-        //         $workingDays--;
-        // }
+        // We subtract the holidays
+        foreach ($holidays as $holiday) {
+            $time_stamp = strtotime($holiday);
+            //If the holiday doesn't fall in weekend
+            if ($startDate <= $time_stamp && $time_stamp <= $endDate && date("N", $time_stamp) != 6 && date("N", $time_stamp) != 7)
+                $workingDays--;
+        }
         return $workingDays;
     }
 }

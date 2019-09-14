@@ -3874,8 +3874,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       name: '',
       prefix: "/api",
       leave: {
-        type: '',
-        days: 0
+        type: '' // days: 0
+
       },
       leav: []
     };
@@ -3918,11 +3918,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.leave.type == '') {
         return;
-      }
+      } // if(this.leave.days == 0){
+      //     return;
+      // }
 
-      if (this.leave.days == 0) {
-        return;
-      }
 
       _api_api__WEBPACK_IMPORTED_MODULE_0__["saveLeaveType"](this.leave).then(function (response) {
         _this4.loadLeaveTypes();
@@ -5920,11 +5919,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6016,16 +6010,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this6.loadMyLeaves();
       });
-    },
-    setMaxDays: function setMaxDays() {
-      var _this7 = this;
+    } // setMaxDays() {
+    //   if (this.leave.leave_type_id != null) {
+    //     this.max_days = this.leaveTypes.filter(
+    //       lt => lt.id == this.leave.leave_type_id
+    //     )[0]["days"];
+    //   }
+    // }
 
-      if (this.leave.leave_type_id != null) {
-        this.max_days = this.leaveTypes.filter(function (lt) {
-          return lt.id == _this7.leave.leave_type_id;
-        })[0]["days"];
-      }
-    }
   }),
   mounted: function mounted() {
     this.loadMyLeaves();
@@ -76043,39 +76035,6 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                    _vm._v("Number of days")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.leave.days,
-                        expression: "leave.days"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "number",
-                      min: "0",
-                      id: "exampleInputEmail1",
-                      placeholder: "e.g. 21"
-                    },
-                    domProps: { value: _vm.leave.days },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.leave, "days", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
                 _c(
                   "button",
                   {
@@ -76108,8 +76067,6 @@ var render = function() {
                       _vm._l(_vm.leavetypes, function(le) {
                         return _c("tr", { key: le.id }, [
                           _c("td", [_vm._v(_vm._s(le.type))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(le.days))]),
                           _vm._v(" "),
                           _c("td", [
                             _c(
@@ -76219,45 +76176,6 @@ var render = function() {
                                 })
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c(
-                                  "label",
-                                  { attrs: { for: "exampleInputEmail1" } },
-                                  [_vm._v("Number of days")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.leav.days,
-                                      expression: "leav.days"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "number",
-                                    min: "0",
-                                    id: "exampleInputEmail1",
-                                    placeholder: "e.g. 21"
-                                  },
-                                  domProps: { value: _vm.leav.days },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.leav,
-                                        "days",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
                               _c(
                                 "button",
                                 {
@@ -76334,8 +76252,6 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Type")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("# Days")]),
         _vm._v(" "),
         _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Action")])
       ])
@@ -81052,32 +80968,29 @@ var render = function() {
                                       staticClass: "form-control",
                                       attrs: { id: "" },
                                       on: {
-                                        change: [
-                                          function($event) {
-                                            var $$selectedVal = Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function(o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function(o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                            _vm.$set(
-                                              _vm.leave,
-                                              "leave_type_id",
-                                              $event.target.multiple
-                                                ? $$selectedVal
-                                                : $$selectedVal[0]
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
                                             )
-                                          },
-                                          _vm.setMaxDays
-                                        ]
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.leave,
+                                            "leave_type_id",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
                                       }
                                     },
                                     [
@@ -81102,40 +81015,6 @@ var render = function() {
                                     ],
                                     2
                                   )
-                                ]
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "form-row" }, [
-                              _c(
-                                "div",
-                                { staticClass: "form-group col-md-12" },
-                                [
-                                  _c("label", { attrs: { for: "type" } }, [
-                                    _vm._v("Max Days")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.max_days,
-                                        expression: "max_days"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { readonly: "" },
-                                    domProps: { value: _vm.max_days },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.max_days = $event.target.value
-                                      }
-                                    }
-                                  })
                                 ]
                               )
                             ]),

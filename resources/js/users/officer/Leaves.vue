@@ -469,12 +469,7 @@
                       <div class="form-row">
                         <div class="form-group col-md-12">
                           <label for="type">Leave Type</label>
-                          <select
-                            @change="setMaxDays"
-                            v-model="leave.leave_type_id"
-                            id
-                            class="form-control"
-                          >
+                          <select v-model="leave.leave_type_id" id class="form-control">
                             <option disabled value>Select Leave Type</option>
                             <option
                               v-for="leaveType in leaveTypes"
@@ -484,12 +479,12 @@
                           </select>
                         </div>
                       </div>
-                      <div class="form-row">
+                      <!-- <div class="form-row">
                         <div class="form-group col-md-12">
                           <label for="type">Max Days</label>
                           <input readonly v-model="max_days" class="form-control" />
                         </div>
-                      </div>
+                      </div>-->
                       <div class="form-row">
                         <div class="form-group col-md-12">
                           <label for="type">Start Date</label>
@@ -666,14 +661,14 @@ export default {
         $(".modal").modal("hide");
         this.loadMyLeaves();
       });
-    },
-    setMaxDays() {
-      if (this.leave.leave_type_id != null) {
-        this.max_days = this.leaveTypes.filter(
-          lt => lt.id == this.leave.leave_type_id
-        )[0]["days"];
-      }
     }
+    // setMaxDays() {
+    //   if (this.leave.leave_type_id != null) {
+    //     this.max_days = this.leaveTypes.filter(
+    //       lt => lt.id == this.leave.leave_type_id
+    //     )[0]["days"];
+    //   }
+    // }
   },
   mounted() {
     this.loadMyLeaves();

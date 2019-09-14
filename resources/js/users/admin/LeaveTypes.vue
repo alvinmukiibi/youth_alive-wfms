@@ -28,10 +28,10 @@
                                     <label for="exampleInputEmail1">Leave Type</label>
                                     <input type="text" v-model="leave.type"  class="form-control" id="exampleInputEmail1" placeholder="e.g. Sick">
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="exampleInputEmail1">Number of days</label>
                                     <input type="number" v-model="leave.days" min="0" class="form-control" id="exampleInputEmail1" placeholder="e.g. 21">
-                                </div>
+                                </div> -->
 
                                 <button type="button" @click="save" class="btn btn-primary btn-flat">Submit</button>
 
@@ -48,14 +48,14 @@
                                 <thead>
                                     <tr>
                                         <th>Type</th>
-                                        <th># Days</th>
+                                        <!-- <th># Days</th> -->
                                         <th style="width:100px">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="le in leavetypes" :key="le.id">
                                         <td >{{ le.type }}</td>
-                                        <td >{{ le.days }}</td>
+                                        <!-- <td >{{ le.days }}</td> -->
                                         <td>
                                             <button @click="deleteType(le.id)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
                                             <button @click="setType(le.id)" type="button" data-toggle="modal" data-target="#modal" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil"></i></button>
@@ -81,10 +81,10 @@
                                                         <label for="exampleInputEmail1">Leave Type</label>
                                                         <input type="text" v-model="leav.type"  class="form-control" id="exampleInputEmail1" placeholder="e.g. Sick">
                                                     </div>
-                                                    <div class="form-group">
+                                                    <!-- <div class="form-group">
                                                         <label for="exampleInputEmail1">Number of days</label>
                                                         <input type="number" v-model="leav.days" min="0" class="form-control" id="exampleInputEmail1" placeholder="e.g. 21">
-                                                    </div>
+                                                    </div> -->
 
                                                     <button type="button" @click="saveEdit" class="btn btn-primary btn-flat">Submit</button>
 
@@ -116,7 +116,7 @@ export default {
             prefix: process.env.MIX_API_URL,
             leave: {
                 type: '',
-                days: 0
+                // days: 0
             },
             leav: []
         }
@@ -152,9 +152,9 @@ export default {
             if(this.leave.type == ''){
                 return;
             }
-            if(this.leave.days == 0){
-                return;
-            }
+            // if(this.leave.days == 0){
+            //     return;
+            // }
 
             api.saveLeaveType(this.leave).then(response => {
                 this.loadLeaveTypes()
