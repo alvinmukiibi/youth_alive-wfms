@@ -185,6 +185,9 @@ export function getSettings() {
 export function getSystemSettings() {
     return axios.get(prefix + '/settings/system').then(response => response.data)
 }
+export function getLeaveStats() {
+    return axios.get(prefix + '/reports/leaves').then(response => response.data)
+}
 export function setHoliday(data) {
     return axios.post(prefix + '/leaves/holidays', data).then(response => response.data)
 }

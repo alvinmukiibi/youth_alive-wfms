@@ -21,6 +21,7 @@ export default new Vuex.Store({
         request: [],
         settings: [],
         systemSettings: [],
+        leaveStats: [],
         usersCount: '',
     },
     mutations: {
@@ -74,6 +75,9 @@ export default new Vuex.Store({
         },
         setSystemSettings: (state, data) => {
             state.systemSettings = data
+        },
+        setLeaveStats: (state, data) => {
+            state.leaveStats = data
         },
     },
 })

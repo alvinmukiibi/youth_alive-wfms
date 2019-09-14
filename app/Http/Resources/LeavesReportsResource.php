@@ -19,7 +19,7 @@ class LeavesReportsResource extends JsonResource
         $max_annual_days = 21;
         return [
             'staff' => $this->fname . ' ' . $this->lname,
-            'availability' => $this->availability_status,
+            'availability' => $this->availability_status ? 'ON DUTY' : 'ON LEAVE',
             'cumulative_leave_days_this_year' => $this->leaves()->where('status', 3)->sum('duration'),
             'pending_leaves' => $this->leaves()->where('status', '<', 3)->count(),
             'leaves_this_month' => $this->leaves()->whereYear('created_at', $currentYear)->whereMonth('created_at', $currentMonth)->where('status', 3)->sum('duration'),
