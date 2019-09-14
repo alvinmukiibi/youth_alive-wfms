@@ -30,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PendingLeaveEvent' => [
             'App\Listeners\PendingLeaveListener'
         ],
+        'App\Events\LeaveRequestApprovedEvent' => [
+            'App\Listeners\LeaveRequestApprovedListener'
+        ],
     ];
 
     /**

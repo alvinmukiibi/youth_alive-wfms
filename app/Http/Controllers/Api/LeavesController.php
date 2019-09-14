@@ -13,6 +13,7 @@ use App\Department;
 use App\Designation;
 use App\Events\PendingLeaveEvent;
 use App\SystemSetting;
+use App\Events\LeaveRequestApprovedEvent;
 
 class LeavesController extends BaseController
 {
@@ -121,27 +122,27 @@ class LeavesController extends BaseController
         $leave = new LeavesResource($leave);
 
         // notify supervisor
-        // $supervisor = null;
-        // if ($user->user_type() == 'officer') {
-        //     foreach (Department::find($user->department_id)->users as $use) {
-        //         if ($use->user_type() == 'manager') {
-        //             $supervisor = $use;
-        //         }
-        //     }
-        // }
-        // if ($user->user_type() == 'manager') {
-        //     foreach (Department::find($user->department_id)->users as $use) {
-        //         if ($use->user_type() == 'director') {
-        //             $supervisor = $use;
-        //         }
-        //     }
-        // }
-        // if ($user->user_type() == 'director') {
-        //     $desi = Designation::where('name', 'Executive Director')->value('id');
-        //     $ed = User::where('designation_id', $desi)->first();
-        //     $supervisor = $ed;
-        // }
-        // event(new PendingLeaveEvent($supervisor));
+        $supervisor = null;
+        if ($user->user_type() == 'officer') {
+            foreach (Department::find($user->department_id)->users as $use) {
+                if ($use->user_type() == 'manager') {
+                    $supervisor = $use;
+                }
+            }
+        }
+        if ($user->user_type() == 'manager') {
+            foreach (Department::find($user->department_id)->users as $use) {
+                if ($use->user_type() == 'director') {
+                    $supervisor = $use;
+                }
+            }
+        }
+        if ($user->user_type() == 'director') {
+            $desi = Designation::where('name', 'Executive Director')->value('id');
+            $ed = User::where('designation_id', $desi)->first();
+            $supervisor = $ed;
+        }
+        event(new PendingLeaveEvent($supervisor));
 
         return $this->sendResponse($leave, 'Leave data');
     }
@@ -251,11 +252,13 @@ class LeavesController extends BaseController
         if ($user->user_type() == 'director' && $leave->user->user_type() == 'officer') {
             $leave->status = 3;
             $leave->total_annual_days_remaining = $this->getRemaininingDays($leave->user) - $leave->duration;
+            event(new LeaveRequestApprovedEvent($leave));
         }
         // action for the e.d.
         if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'manager') {
             $leave->status = 3;
             $leave->total_annual_days_remaining = $this->getRemaininingDays($leave->user) - $leave->duration;
+            event(new LeaveRequestApprovedEvent($leave));
         }
         if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'director') {
             $leave->status = 1;
