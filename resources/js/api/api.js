@@ -182,3 +182,9 @@ export function toggleButton(field) {
 export function getSettings() {
     return axios.get(prefix + '/settings').then(response => response.data)
 }
+export function getSystemSettings() {
+    return axios.get(prefix + '/settings/system').then(response => response.data)
+}
+export function setHoliday(data) {
+    return axios.post(prefix + '/leaves/holidays', data).then(response => response.data)
+}

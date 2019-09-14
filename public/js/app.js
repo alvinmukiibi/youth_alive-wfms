@@ -2468,6 +2468,117 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2475,8 +2586,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {};
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
-    setSettings: "setSettings"
+    setSettings: "setSettings",
+    setSystemSettings: "setSystemSettings"
   }), {
+    savePublicHoliday: function savePublicHoliday(field) {
+      var data = {
+        field: field,
+        value: this.systemSettings[field]
+      };
+      _api_api__WEBPACK_IMPORTED_MODULE_1__["setHoliday"](data);
+    },
     toggleButton: function toggleButton(field) {
       var _this = this;
 
@@ -2490,15 +2609,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _api_api__WEBPACK_IMPORTED_MODULE_1__["getSettings"]().then(function (response) {
         _this2.setSettings(response.data);
       });
+    },
+    loadSystemSettings: function loadSystemSettings() {
+      var _this3 = this;
+
+      _api_api__WEBPACK_IMPORTED_MODULE_1__["getSystemSettings"]().then(function (response) {
+        _this3.setSystemSettings(response.data);
+      });
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    auth: function auth(state) {
+      return state.auth;
+    },
     settings: function settings(state) {
       return state.settings;
+    },
+    systemSettings: function systemSettings(state) {
+      return state.systemSettings;
     }
   })),
   mounted: function mounted() {
     this.loadSettings();
+    this.loadSystemSettings();
   }
 });
 
@@ -73360,38 +73493,418 @@ var render = function() {
               _vm._m(1),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
                     _c(
-                      "b-form-checkbox",
-                      {
-                        attrs: { name: "check-button", switch: "", size: "lg" },
-                        on: {
-                          change: function($event) {
-                            return _vm.toggleButton(
-                              "receive_login_notifications"
-                            )
-                          }
-                        },
-                        model: {
-                          value: _vm.settings.receive_login_notifications,
-                          callback: function($$v) {
-                            _vm.$set(
-                              _vm.settings,
-                              "receive_login_notifications",
-                              $$v
-                            )
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "b-form-checkbox",
+                          {
+                            attrs: {
+                              name: "check-button",
+                              switch: "",
+                              size: "lg"
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.toggleButton(
+                                  "receive_login_notifications"
+                                )
+                              }
+                            },
+                            model: {
+                              value: _vm.settings.receive_login_notifications,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.settings,
+                                  "receive_login_notifications",
+                                  $$v
+                                )
+                              },
+                              expression: "settings.receive_login_notifications"
+                            }
                           },
-                          expression: "settings.receive_login_notifications"
-                        }
-                      },
-                      [_vm._v("Receive Login Notifications")]
+                          [_vm._v("Receive Login Notifications")]
+                        )
+                      ],
+                      1
                     )
-                  ],
-                  1
-                )
+                  ]),
+                  _vm._v(" "),
+                  _vm.auth.user_type == "manager" &&
+                  _vm.auth.department == "Human Resource"
+                    ? _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "div",
+                          { staticClass: "card card-outline card-success" },
+                          [
+                            _vm._m(2),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "card-body" },
+                              [
+                                _c(
+                                  "b-container",
+                                  { attrs: { fluid: "" } },
+                                  [
+                                    _c(
+                                      "b-row",
+                                      { staticClass: "my-1" },
+                                      [
+                                        _c("b-col", { attrs: { sm: "4" } }, [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "input-default" } },
+                                            [
+                                              _vm._v(
+                                                "\n                              Good Friday\n                              "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [_vm._v("*")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-col",
+                                          { attrs: { sm: "8" } },
+                                          [
+                                            _c("b-form-input", {
+                                              attrs: {
+                                                id: "input-default",
+                                                type: "date"
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.savePublicHoliday(
+                                                    "good_friday"
+                                                  )
+                                                }
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.systemSettings
+                                                    .good_friday,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.systemSettings,
+                                                    "good_friday",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "systemSettings.good_friday"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "b-row",
+                                      { staticClass: "my-1" },
+                                      [
+                                        _c("b-col", { attrs: { sm: "4" } }, [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "input-default" } },
+                                            [
+                                              _vm._v(
+                                                "\n                              Easter Sunday\n                              "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [_vm._v("*")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-col",
+                                          { attrs: { sm: "8" } },
+                                          [
+                                            _c("b-form-input", {
+                                              attrs: {
+                                                id: "input-default",
+                                                type: "date"
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.savePublicHoliday(
+                                                    "easter_sunday"
+                                                  )
+                                                }
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.systemSettings
+                                                    .easter_sunday,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.systemSettings,
+                                                    "easter_sunday",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "systemSettings.easter_sunday"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "b-row",
+                                      { staticClass: "my-1" },
+                                      [
+                                        _c("b-col", { attrs: { sm: "4" } }, [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "input-default" } },
+                                            [
+                                              _vm._v(
+                                                "\n                              Easter Monday\n                              "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [_vm._v("*")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-col",
+                                          { attrs: { sm: "8" } },
+                                          [
+                                            _c("b-form-input", {
+                                              attrs: {
+                                                id: "input-default",
+                                                type: "date"
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.savePublicHoliday(
+                                                    "easter_monday"
+                                                  )
+                                                }
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.systemSettings
+                                                    .easter_monday,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.systemSettings,
+                                                    "easter_monday",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "systemSettings.easter_monday"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "b-row",
+                                      { staticClass: "my-1" },
+                                      [
+                                        _c("b-col", { attrs: { sm: "4" } }, [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "input-default" } },
+                                            [
+                                              _vm._v(
+                                                "\n                              Eid El Fitr\n                              "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [_vm._v("*")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-col",
+                                          { attrs: { sm: "8" } },
+                                          [
+                                            _c("b-form-input", {
+                                              attrs: {
+                                                id: "input-default",
+                                                type: "date"
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.savePublicHoliday(
+                                                    "eid_ul_fitr"
+                                                  )
+                                                }
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.systemSettings
+                                                    .eid_ul_fitr,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.systemSettings,
+                                                    "eid_ul_fitr",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "systemSettings.eid_ul_fitr"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "b-row",
+                                      { staticClass: "my-1" },
+                                      [
+                                        _c("b-col", { attrs: { sm: "4" } }, [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "input-default" } },
+                                            [
+                                              _vm._v(
+                                                "\n                              Eid Al Adha\n                              "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [_vm._v("*")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-col",
+                                          { attrs: { sm: "8" } },
+                                          [
+                                            _c("b-form-input", {
+                                              attrs: {
+                                                id: "input-default",
+                                                type: "date"
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.savePublicHoliday(
+                                                    "eid_al_adha"
+                                                  )
+                                                }
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.systemSettings
+                                                    .eid_al_adha,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.systemSettings,
+                                                    "eid_al_adha",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "systemSettings.eid_al_adha"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "b-row",
+                                      { staticClass: "my-1" },
+                                      [
+                                        _c("b-col", { attrs: { sm: "4" } }, [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "input-default" } },
+                                            [_vm._v("Miscellaneous")]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-col",
+                                          { attrs: { sm: "8" } },
+                                          [
+                                            _c("b-form-input", {
+                                              attrs: {
+                                                id: "input-default",
+                                                type: "date"
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.savePublicHoliday(
+                                                    "other_holiday"
+                                                  )
+                                                }
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.systemSettings
+                                                    .other_holiday,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.systemSettings,
+                                                    "other_holiday",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "systemSettings.other_holiday"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ]
+                        )
+                      ])
+                    : _vm._e()
+                ])
               ])
             ])
           ])
@@ -73433,6 +73946,16 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [_vm._v("Settings")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [
+        _vm._v("Dynamic Public Holidays")
+      ])
     ])
   }
 ]
@@ -103910,7 +104433,7 @@ module.exports = function(module) {
 /*!*********************************!*\
   !*** ./resources/js/api/api.js ***!
   \*********************************/
-/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, getLeaveTypes, getAssets, getVendors, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDesignation, saveLeaveType, saveVendor, saveDp, addRequest, saveRequest, getMyRequests, downloadFile, getProjectRequests, getLevel1Requests, getFMRequests, getDirectorRequests, getEDRequests, giveAccountantApproval, giveLevel1Approval, givefMApproval, giveEDApproval, giveDirectorApproval, declineRequest, askForLeave, cancelLeave, approveLeave, getMyLeaves, getPendingLeaves, declineLeave, toggleButton, getSettings */
+/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, getLeaveTypes, getAssets, getVendors, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDesignation, saveLeaveType, saveVendor, saveDp, addRequest, saveRequest, getMyRequests, downloadFile, getProjectRequests, getLevel1Requests, getFMRequests, getDirectorRequests, getEDRequests, giveAccountantApproval, giveLevel1Approval, givefMApproval, giveEDApproval, giveDirectorApproval, declineRequest, askForLeave, cancelLeave, approveLeave, getMyLeaves, getPendingLeaves, declineLeave, toggleButton, getSettings, getSystemSettings, setHoliday */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -103964,6 +104487,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "declineLeave", function() { return declineLeave; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleButton", function() { return toggleButton; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSettings", function() { return getSettings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSystemSettings", function() { return getSystemSettings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setHoliday", function() { return setHoliday; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -104241,6 +104766,16 @@ function toggleButton(field) {
 }
 function getSettings() {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/settings').then(function (response) {
+    return response.data;
+  });
+}
+function getSystemSettings() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/settings/system').then(function (response) {
+    return response.data;
+  });
+}
+function setHoliday(data) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(prefix + '/leaves/holidays', data).then(function (response) {
     return response.data;
   });
 }
@@ -104831,6 +105366,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     myRequests: [],
     request: [],
     settings: [],
+    systemSettings: [],
     usersCount: ''
   },
   mutations: {
@@ -104881,6 +105417,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     setSettings: function setSettings(state, data) {
       state.settings = data;
+    },
+    setSystemSettings: function setSystemSettings(state, data) {
+      state.systemSettings = data;
     }
   }
 }));

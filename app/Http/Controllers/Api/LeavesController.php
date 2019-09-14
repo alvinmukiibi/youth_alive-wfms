@@ -318,4 +318,10 @@ class LeavesController extends BaseController
         }
         return $workingDays;
     }
+    public function setHoliday(Request $request){
+
+        SystemSetting::updateOrCreate(['id' => 1], [$request->field => $request->value]);
+
+        return $this->sendResponse('success', 'success');
+    }
 }

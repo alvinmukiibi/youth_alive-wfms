@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::get('/cancel/{leave}', 'LeavesController@cancelLeave');
         Route::post('/decline/{leave}', 'LeavesController@declineLeave');
         Route::get('/approve/{leave}', 'LeavesController@approveLeave');
+        Route::post('/holidays', 'LeavesController@setHoliday');
     });
     Route::group(['prefix' => 'designations'], function () {
         Route::get('/', 'DesignationsController@getDesignations');
@@ -70,6 +71,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
     });
     Route::group(['prefix' => 'settings'], function () {
         Route::get('/', 'SettingsController@getSettings');
+        Route::get('/system', 'SettingsController@getSystemSettings');
         Route::post('/toggle', 'SettingsController@toggleSetting');
     });
 

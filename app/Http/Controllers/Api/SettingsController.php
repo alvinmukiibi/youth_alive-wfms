@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Setting;
 use App\Http\Controllers\BaseController;
+use App\SystemSetting;
 
 class SettingsController extends BaseController
 {
@@ -27,6 +28,14 @@ class SettingsController extends BaseController
         $user->settings()->updateOrCreate(['user_id' => $user->id], [$field => !$oldValue]);
 
         return $this->sendResponse('success', 'success');
+
+    }
+
+    public function getSystemSettings(Request $request){
+
+        $settings = SystemSetting::firstOrCreate(['id' => 1]);
+
+        return $this->sendResponse($settings, 'system settings');
 
     }
 }

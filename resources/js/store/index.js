@@ -20,6 +20,7 @@ export default new Vuex.Store({
         myRequests: [],
         request: [],
         settings: [],
+        systemSettings: [],
         usersCount: '',
     },
     mutations: {
@@ -70,6 +71,9 @@ export default new Vuex.Store({
         },
         setSettings: (state, data) => {
             state.settings = data
+        },
+        setSystemSettings: (state, data) => {
+            state.systemSettings = data
         },
     },
 })
