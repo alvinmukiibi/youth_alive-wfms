@@ -18,6 +18,8 @@ Route::get('/', function () {
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', 'AuthController@login')->name('login');
     Route::post('/login', 'AuthController@authenticate');
+    Route::get('/forgot', 'AuthController@forgotPassword');
+    Route::post('/sendlink', 'AuthController@sendLink');
 });
 
 Route::group(['middleware' => ['auth']], function () {

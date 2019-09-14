@@ -58,4 +58,16 @@ class AuthController extends Controller
 
         return $validator;
     }
+
+    public function forgotPassword(Request $request){
+        return view('auth.forgot-password');
+    }
+    public function sendLink(Request $request){
+        $data = $this->validate($request, [
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+
+
+    }
 }

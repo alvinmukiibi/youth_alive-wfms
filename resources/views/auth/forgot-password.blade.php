@@ -8,12 +8,12 @@
                 @csrf
                 <div class="login-logo">
                     <img src="{{ asset('images/logo.png') }}" width="50%"  />
-                    <a style="text-decoration: none" href="{{ url('/login') }}"><b class="text-primary" style="font-weight:700">YOUTH</b><b class="text-warning">ALIVE</b></a>
+                    <a style="text-decoration: none" href="{{ url('/sendlink') }}"><b class="text-primary" style="font-weight:700">YOUTH</b><b class="text-warning">ALIVE</b></a>
                 </div>
                 <div class="card">
                     <div class="card-body login-card-body">
                         <p class="login-box-msg">
-                            Log in
+                            Enter your Email Address
                         </p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -21,20 +21,14 @@
                             </div>
                             <input type="email" name="email" class="form-control" placeholder="Email">
                         </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fa fa-key"></i></span>
-                            </div>
-                            <input type="password" name="password" class="form-control" placeholder="Password">
-                        </div>
                         <div class="row">
                             <div class="col-12">
-                              <button type="submit" class="btn btn-primary btn-block"> <i class="fa fa-sign-in"></i> Sign In</button>
+                              <button type="submit" class="btn btn-success btn-flat btn-block"> Reset Password</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <a class="text-primary pull-right mt-2" href="{{ url('/forgot')  }}">Forgot Password ? </a>
+                                <a class="text-primary pull-right mt-2" href="{{ url('/login')  }}">Go to Login </a>
                             </div>
                         </div>
                         @if(session('error'))
