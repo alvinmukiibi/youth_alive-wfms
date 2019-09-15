@@ -17,6 +17,7 @@ class UserCreatedNotification extends Notification
      * @return void
      */
     public $user;
+    public $link;
 
     public function __construct()
     {
@@ -44,7 +45,7 @@ class UserCreatedNotification extends Notification
     {
         return (new MailMessage)
         ->subject('NEW ACOUNT CREATED')
-        ->markdown('mails.user-created-notification', ['user' => $this->user]);
+        ->markdown('mails.user-created-notification', ['user' => $this->user, 'link' => $this->link]);
     }
 
     /**

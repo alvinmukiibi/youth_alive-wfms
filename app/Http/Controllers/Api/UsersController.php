@@ -120,6 +120,7 @@ class UsersController extends BaseController
     public function validationAdd($request)
     {
         $validator = Validator::make($request->all(), [
+            'staff_id' => 'nullable|unique:users',
             'fname' => 'required',
             'lname' => 'required',
             'designation_id' => 'required|exists:designations,id',

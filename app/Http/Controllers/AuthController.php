@@ -101,7 +101,7 @@ class AuthController extends Controller
         $email = Crypt::decrypt($token1);
 
         $dbtoken = DB::table('password_resets')->where('email', $email)->value('token');
-        
+
         if(Hash::check($email, $dbtoken) && Hash::check($email, Crypt::decrypt($token2))){
             return view('auth.reset')->with('email', $email);
         }else{
@@ -124,4 +124,13 @@ class AuthController extends Controller
 
     }
 
+    public function verifyEmail(Request $request){
+
+        $email = Crypt::decrypt($request->segment(3)) ;
+
+        User::where('email', $email)->update(['email_verified_status' => true]);
+
+        return redirect()->to('/login')->with('info', 'Email address verified successfully!');
+
+    }
 }

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\UserCreatedNotification;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Crypt;
 
 class UserCreatedListener implements ShouldQueue
 {
@@ -32,6 +33,7 @@ class UserCreatedListener implements ShouldQueue
     {
         $notification = new UserCreatedNotification;
         $notification->user = $event->user;
+        $notification->link = Crypt::encrypt($event->user->email);
         Notification::send($event->user, $notification);
     }
 }
