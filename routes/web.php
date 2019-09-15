@@ -20,6 +20,9 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/login', 'AuthController@authenticate');
     Route::get('/forgot', 'AuthController@forgotPassword');
     Route::post('/sendlink', 'AuthController@sendLink');
+    Route::post('/reset', 'AuthController@doReset');
+    Route::get('/password/reset/{token1}/{token2}', 'AuthController@resetPassword');
+
 });
 
 Route::group(['middleware' => ['auth']], function () {

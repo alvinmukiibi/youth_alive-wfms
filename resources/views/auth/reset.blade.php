@@ -4,7 +4,7 @@
     <body class="hold-transition login-page" style="background-image: url('images/background-photo.jpg'); background-size: cover; background-position: 'center'; background-repeat: 'no-repeat'">
         <div id="app">
             <div class="login-box mt-5" >
-                <form action="{{ url('/sendlink') }}" method="POST">
+                <form action="{{ url('/reset') }}" method="POST">
                 @csrf
                 <div class="login-logo">
                     <img src="{{ asset('images/logo.png') }}" width="50%"  />
@@ -13,17 +13,24 @@
                 <div class="card">
                     <div class="card-body login-card-body">
                         <p class="login-box-msg">
-                            Enter your Email Address
+                            Enter new password
                         </p>
+                        <input type="hidden" name="email" value="{{ $email }}">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                             </div>
-                            <input type="email" required name="email" class="form-control" placeholder="Email">
+                            <input type="password" required name="password" class="form-control" placeholder="Password">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            </div>
+                            <input type="password" required name="password_confirmation" class="form-control" placeholder="Confirm Password">
                         </div>
                         <div class="row">
                             <div class="col-12">
-                              <button type="submit" class="btn btn-success btn-flat btn-block"> Send Link</button>
+                              <button type="submit" class="btn btn-success btn-flat btn-block"> Reset Password</button>
                             </div>
                         </div>
                         <div class="row">
