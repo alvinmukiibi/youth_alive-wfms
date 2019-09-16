@@ -5432,6 +5432,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this5.loadUsers();
 
+        _this5.user = {};
+
         _this5.$router.push('/employees#activity'); // window.location.href = '/employees'
 
       });

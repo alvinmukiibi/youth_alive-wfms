@@ -176,7 +176,7 @@ class UsersController extends BaseController
             'password' => Hash::make($this->defaultPassword),
             'activity_status' => true,
             'availability_status' => true,
-            'email_verified_status' => false,
+            'email_verified_status' => true,
             'profile_picture' => null,
         ];
 
@@ -195,7 +195,7 @@ class UsersController extends BaseController
             UserFile::create(['filename' => $biodata, 'description' => 'users biodata form copy', 'user_id' => $user->id]);
         }
         $event = new UserCreatedEvent($user);
-        event($event);
+        //event($event);
 
         return $this->sendResponse($user, 'User successfully created');
     }
