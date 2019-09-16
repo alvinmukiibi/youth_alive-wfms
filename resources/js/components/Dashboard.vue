@@ -53,7 +53,7 @@
           <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('officer')">
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>2</h3>
+                <h3>0</h3>
                 <p>Leaves</p>
               </div>
               <div class="icon">
