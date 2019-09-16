@@ -22,7 +22,7 @@
                         <div class="card">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
-                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab"> <i class="fa fa-list-alt"></i>  List of Employees</a></li>
+                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab" @click="loadUsers"> <i class="fa fa-list-alt"></i>  List of Employees  <span v-if="usersPresent"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> </a></li>
                                     <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab"> <i class="fa fa-plus-circle"></i> Add Employee</a></li>
                                 </ul>
                             </div>
@@ -273,6 +273,7 @@ export default {
         return {
             autocomplete: '',
             spinner: false,
+            usersPresent: false,
             user: {
                 biodata: '',
                 fname: '',
@@ -371,8 +372,9 @@ export default {
                 }
                 this.setErrors([])
                 this.spinner = false;
-                // this.$router.push('/employees')
-                window.location.href = '/employees'
+                this.loadUsers();
+                this.$router.push('/employees#activity')
+                // window.location.href = '/employees'
             })
 
         },
@@ -391,8 +393,10 @@ export default {
             })
         },
         loadUsers(){
+            this.usersPresent = true
             api.getUsers().then(response => {
                 this.setUsers(response.data)
+                this.usersPresent = false
             })
         }
     },

@@ -5314,6 +5314,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       autocomplete: '',
       spinner: false,
+      usersPresent: false,
       user: {
         biodata: '',
         fname: '',
@@ -5427,9 +5428,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this5.setErrors([]);
 
-        _this5.spinner = false; // this.$router.push('/employees')
+        _this5.spinner = false;
 
-        window.location.href = '/employees';
+        _this5.loadUsers();
+
+        _this5.$router.push('/employees#activity'); // window.location.href = '/employees'
+
       });
     },
     setEmployee: function setEmployee(id) {
@@ -5455,8 +5459,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     loadUsers: function loadUsers() {
       var _this8 = this;
 
+      this.usersPresent = true;
       _api_api__WEBPACK_IMPORTED_MODULE_0__["getUsers"]().then(function (response) {
         _this8.setUsers(response.data);
+
+        _this8.usersPresent = false;
       });
     }
   }),
@@ -79471,7 +79478,32 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(1),
+              _c("div", { staticClass: "card-header p-2" }, [
+                _c("ul", { staticClass: "nav nav-pills" }, [
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link active",
+                        attrs: { href: "#activity", "data-toggle": "tab" },
+                        on: { click: _vm.loadUsers }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-list-alt" }),
+                        _vm._v("  List of Employees  "),
+                        _vm.usersPresent
+                          ? _c("span", {
+                              staticClass: "spinner-border spinner-border-sm",
+                              attrs: { role: "status", "aria-hidden": "true" }
+                            })
+                          : _vm._e()
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1)
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "tab-content" }, [
@@ -80697,36 +80729,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header p-2" }, [
-      _c("ul", { staticClass: "nav nav-pills" }, [
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link active",
-              attrs: { href: "#activity", "data-toggle": "tab" }
-            },
-            [
-              _c("i", { staticClass: "fa fa-list-alt" }),
-              _vm._v("  List of Employees")
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: { href: "#timeline", "data-toggle": "tab" }
-            },
-            [
-              _c("i", { staticClass: "fa fa-plus-circle" }),
-              _vm._v(" Add Employee")
-            ]
-          )
-        ])
-      ])
+    return _c("li", { staticClass: "nav-item" }, [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link",
+          attrs: { href: "#timeline", "data-toggle": "tab" }
+        },
+        [_c("i", { staticClass: "fa fa-plus-circle" }), _vm._v(" Add Employee")]
+      )
     ])
   },
   function() {
