@@ -167,7 +167,7 @@ class UsersController extends BaseController
             'email' => $request->email,
             'mobile_contact' => $request->mobile_contact,
             'work_contact' => $request->work_contact == null ? null : $request->work_contact,
-            'staff_id' => $request->staff_id == null ? null : $request->staff_id,
+            'staff_id' => $request->staff_id == null || $request->staff_id == 'undefined' ? null : $request->staff_id,
             'address' => $request->address,
             'department_id' => $request->department_id ? $request->department_id : null,
             'designation_id' => $request->designation_id,
