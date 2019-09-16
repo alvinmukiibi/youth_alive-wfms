@@ -46,7 +46,7 @@ class UsersController extends BaseController
 
     public function getUsers(Request $request)
     {
-        $users = User::all();
+        $users = User::latest()->get();
         $users = ProfileResource::collection($users);
 
         return $this->sendResponse($users, 'All employees');
