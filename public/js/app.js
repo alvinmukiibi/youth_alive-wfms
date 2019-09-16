@@ -72585,7 +72585,15 @@ var render = function() {
                 _c("div", { staticClass: "inner" }, [
                   _c("h3", [_vm._v("My Profile")]),
                   _vm._v(" "),
-                  _c("p", [_vm._v(_vm._s(_vm.auth.designation))])
+                  _c("p", [
+                    _vm._v(
+                      _vm._s(
+                        _vm.auth.designation +
+                          ", " +
+                          _vm.auth.department_acronym
+                      )
+                    )
+                  ])
                 ]),
                 _vm._v(" "),
                 _vm._m(1),

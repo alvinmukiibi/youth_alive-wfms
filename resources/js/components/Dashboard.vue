@@ -24,7 +24,7 @@
             <div class="small-box bg-primary">
               <div class="inner">
                 <h3>My Profile</h3>
-                <p>{{ auth.designation }}</p>
+                <p>{{ auth.designation + ', ' + auth.department_acronym }}</p>
               </div>
               <div class="icon">
                 <i class="fa fa-user"></i>
