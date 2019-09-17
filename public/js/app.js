@@ -2913,52 +2913,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -74499,10 +74453,13 @@ var render = function() {
                           }),
                           _vm._v(" "),
                           _c("p", [
-                            _vm._v("\n              Requests\n              ")
+                            _vm._v("\n              Requests\n              "),
+                            _c("i", { staticClass: "right fa fa-angle-left" })
                           ])
                         ]
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm._m(1)
                     ],
                     1
                   )
@@ -74792,6 +74749,36 @@ var staticRenderFns = [
         ])
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "nav nav-treeview" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link" }, [
+          _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+          _vm._v(" "),
+          _c("p", [_vm._v("Program")])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link" }, [
+          _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+          _vm._v(" "),
+          _c("p", [_vm._v("HR")])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link" }, [
+          _c("i", { staticClass: "fa fa-circle-o nav-icon" }),
+          _vm._v(" "),
+          _c("p", [_vm._v("Supplies")])
+        ])
+      ])
+    ])
   }
 ]
 render._withStripped = true

@@ -59,75 +59,29 @@
               <i class="nav-icon fa fa-hand-grab-o"></i>
               <p>
                 Requests
-                <!-- <i class="right fa fa-angle-left"></i> -->
+                <i class="right fa fa-angle-left"></i>
               </p>
             </router-link>
-            <!-- <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a @click.prevent class="nav-link">
+                <a class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>
-                    New
-                    <span class="right badge badge-warning">{{ n }}</span>
-                  </p>
+                  <p>Program</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a @click.prevent class="nav-link">
+                <a class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>
-                    Approval PA
-                    <span
-                      class="right badge badge-warning"
-                    >{{ n2('accountant_approval', 'level_one_approval') }}</span>
-                  </p>
+                  <p>HR</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a @click.prevent class="nav-link">
+                <a class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>
-                    Approval SP
-                    <span
-                      class="right badge badge-warning"
-                    >{{ n1('level_one_approval', 'accountant_approval', 'finance_approval') }}</span>
-                  </p>
+                  <p>Supplies</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a @click.prevent class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>
-                    Approval FM
-                    <span
-                      class="right badge badge-warning"
-                    >{{ n1('finance_approval', 'level_one_approval', 'level_two_approval') }}</span>
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a @click.prevent class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>
-                    Approval L2
-                    <span
-                      class="right badge badge-warning"
-                    >{{ n1('level_two_approval', 'finance_approval', 'level_three_approval') }}</span>
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a @click.prevent class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>
-                    Approval L3
-                    <span
-                      class="right badge badge-warning"
-                    >{{ n3('level_three_approval', 'level_two_approval') }}</span>
-                  </p>
-                </a>
-              </li>
-            </ul>-->
+            </ul>
           </li>
 
           <li class="nav-item" v-if="stateLoaded && auth.roles.includes('officer')">
