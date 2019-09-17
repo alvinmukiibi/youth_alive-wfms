@@ -128,21 +128,38 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-4">
+
+                                                    <div class="form-group col-md-3">
+                                                         <label for="inputEmail4">User is Director</label>
+                                                        <b-form-checkbox
+                                                        id="checkbox-1"
+                                                        @change="userNotDirector = !userNotDirector"
+                                                        name="checkbox-1"
+                                                        >
+                                                        </b-form-checkbox>
+                                                    </div>
+                                                    <div class="form-group col-md-3" v-if="userNotDirector">
                                                         <label for="inputEmail4">Department <span class="text-danger">*</span></label>
                                                         <select v-model="user.department_id" name="" id="" class="form-control">
                                                             <option disabled value=""  >Select Department</option>
                                                             <option v-for="dept in departments" :value="dept.id" :key="dept.id"> {{ dept.name }}</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-md-4">
+                                                    <div class="form-group col-md-3" v-else>
+                                                        <label for="inputEmail4">Directorate <span class="text-danger">*</span></label>
+                                                        <select v-model="user.directorate_id" name="" id="" class="form-control">
+                                                            <option disabled value=""  >Select Directorate</option>
+                                                            <option v-for="dir in directorates" :value="dir.id" :key="dir.id"> {{ dir.name }}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
                                                         <label for="inputPassword4">Designation <span class="text-danger">*</span></label>
                                                         <select v-model="user.designation_id" name="" id="" class="form-control">
                                                             <option disabled value=""  >Select Designation</option>
                                                             <option v-for="desi in designations" :value="desi.id" :key="desi.id"> {{ desi.name }}</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-md-4">
+                                                    <div class="form-group col-md-3">
                                                         <label for="inputPassword4">Contract Type <span class="text-danger">*</span></label>
                                                         <select v-model="user.contract_id" name="" id="" class="form-control">
                                                             <option disabled value="" >Select Contract Type</option>
@@ -271,6 +288,7 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data() {
         return {
+            userNotDirector: true,
             autocomplete: '',
             spinner: false,
             usersPresent: false,
@@ -284,6 +302,7 @@ export default {
                 staff_id: '',
                 department_id: '',
                 designation_id: '',
+                directorate_id: '',
                 contract_id: '',
                 address: '',
                 duty_station: '',
@@ -350,6 +369,9 @@ export default {
             this.user.biodata = this.$refs.biodata.files[0]
         },
         save(){
+            if(this.user.directorate_id){
+                this.user.department_id == null
+            }
             this.spinner = true;
             this.setErrors([])
             this.data.append('biodata', this.user.biodata);
@@ -361,6 +383,7 @@ export default {
             this.data.append('staff_id', this.user.staff_id)
             this.data.append('address', this.user.address)
             this.data.append('department_id', this.user.department_id)
+            this.data.append('directorate_id', this.user.directorate_id)
             this.data.append('designation_id', this.user.designation_id)
             this.data.append('contract_id', this.user.contract_id)
             this.data.append('duty_station', this.user.duty_station)
@@ -407,6 +430,7 @@ export default {
             auth: state => state.auth,
             users: state => state.users,
             departments: state => state.departments,
+            directorates: state => state.directorates,
             designations: state => state.designations,
             contracts: state => state.contracts,
             errors: state => state.errors,

@@ -67,6 +67,7 @@ export default {
     ...mapMutations({
       setAuthUser: "setAuthUser",
       setDepartments: "setDepartments",
+      setDirectorates: "setDirectorates",
       setDesignations: "setDesignations",
       setContracts: "setContracts",
       setRoles: "setRoles",
@@ -93,6 +94,9 @@ export default {
         ) {
           api.getDepartments().then(response => {
             this.setDepartments(response.data);
+          });
+          api.getDirectorates().then(response => {
+            this.setDirectorates(response.data);
           });
           api.getDesignations().then(response => {
             this.setDesignations(response.data);

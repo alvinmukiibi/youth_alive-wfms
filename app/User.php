@@ -11,6 +11,7 @@ use App\Role;
 use App\Request;
 use App\Leave;
 use App\Setting;
+use App\Directorate;
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
@@ -48,6 +49,9 @@ class User extends Authenticatable
 
     public function department(){
         return $this->belongsTo(Department::class, 'department_id');
+    }
+    public function directorate(){
+        return $this->belongsTo(Directorate::class, 'directorate_id');
     }
 
     public function projects(){

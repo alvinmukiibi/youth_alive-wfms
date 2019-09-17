@@ -10,6 +10,7 @@ export default new Vuex.Store({
         users: [],
         employee: [],
         departments: [],
+        directorates: [],
         designations: [],
         contracts: [],
         roles: [],
@@ -39,6 +40,9 @@ export default new Vuex.Store({
         },
         setDepartments: (state, data) => {
             state.departments = data
+        },
+        setDirectorates: (state, data) => {
+            state.directorates = data
         },
         setDesignations: (state, data) => {
             state.designations = data

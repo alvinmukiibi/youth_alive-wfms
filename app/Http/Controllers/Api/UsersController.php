@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Department;
 use App\Events\UserCreatedEvent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
@@ -161,6 +162,8 @@ class UsersController extends BaseController
             $biodata = Storage::disk('public')->putFile('files', $request->file('biodata'));
         }
 
+        // $directorate = Department::find($request->department_id)->directorate()->value('id');
+
         $data = [
             'fname' => $request->fname,
             'lname' => $request->lname,
@@ -170,6 +173,7 @@ class UsersController extends BaseController
             'staff_id' => $request->staff_id == null || $request->staff_id == 'undefined' ? null : $request->staff_id,
             'address' => $request->address,
             'department_id' => $request->department_id ? $request->department_id : null,
+            'directorate_id' => $request->directorate_id ? $request->department_id : null,
             'designation_id' => $request->designation_id,
             'contract_id' => $request->contract_id,
             'duty_station' => $request->duty_station,

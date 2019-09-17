@@ -2046,6 +2046,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
     setAuthUser: "setAuthUser",
     setDepartments: "setDepartments",
+    setDirectorates: "setDirectorates",
     setDesignations: "setDesignations",
     setContracts: "setContracts",
     setRoles: "setRoles",
@@ -2074,6 +2075,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (response.data.roles.includes("manager") || response.data.roles.includes("administrator")) {
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getDepartments"]().then(function (response) {
             _this2.setDepartments(response.data);
+          });
+          _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getDirectorates"]().then(function (response) {
+            _this2.setDirectorates(response.data);
           });
           _api_api_js__WEBPACK_IMPORTED_MODULE_1__["getDesignations"]().then(function (response) {
             _this2.setDesignations(response.data);
@@ -5308,11 +5312,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      userNotDirector: true,
       autocomplete: '',
       spinner: false,
       usersPresent: false,
@@ -5326,6 +5348,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         staff_id: '',
         department_id: '',
         designation_id: '',
+        directorate_id: '',
         contract_id: '',
         address: '',
         duty_station: ''
@@ -5405,6 +5428,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     save: function save() {
       var _this5 = this;
 
+      if (this.user.directorate_id) {
+        this.user.department_id == null;
+      }
+
       this.spinner = true;
       this.setErrors([]);
       this.data.append('biodata', this.user.biodata);
@@ -5416,6 +5443,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.data.append('staff_id', this.user.staff_id);
       this.data.append('address', this.user.address);
       this.data.append('department_id', this.user.department_id);
+      this.data.append('directorate_id', this.user.directorate_id);
       this.data.append('designation_id', this.user.designation_id);
       this.data.append('contract_id', this.user.contract_id);
       this.data.append('duty_station', this.user.duty_station);
@@ -5479,6 +5507,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     departments: function departments(state) {
       return state.departments;
+    },
+    directorates: function directorates(state) {
+      return state.directorates;
     },
     designations: function designations(state) {
       return state.designations;
@@ -80123,77 +80154,178 @@ var render = function() {
                             _c("div", { staticClass: "form-row" }, [
                               _c(
                                 "div",
-                                { staticClass: "form-group col-md-4" },
+                                { staticClass: "form-group col-md-3" },
                                 [
-                                  _vm._m(9),
-                                  _vm._v(" "),
                                   _c(
-                                    "select",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.user.department_id,
-                                          expression: "user.department_id"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: { name: "", id: "" },
-                                      on: {
-                                        change: function($event) {
-                                          var $$selectedVal = Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function(o) {
-                                                return o.selected
-                                              }
-                                            )
-                                            .map(function(o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                          _vm.$set(
-                                            _vm.user,
-                                            "department_id",
-                                            $event.target.multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          )
-                                        }
-                                      }
+                                    "label",
+                                    { attrs: { for: "inputEmail4" } },
+                                    [_vm._v("User is Director")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("b-form-checkbox", {
+                                    attrs: {
+                                      id: "checkbox-1",
+                                      name: "checkbox-1"
                                     },
-                                    [
-                                      _c(
-                                        "option",
-                                        { attrs: { disabled: "", value: "" } },
-                                        [_vm._v("Select Department")]
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(_vm.departments, function(dept) {
-                                        return _c(
-                                          "option",
-                                          {
-                                            key: dept.id,
-                                            domProps: { value: dept.id }
-                                          },
-                                          [_vm._v(" " + _vm._s(dept.name))]
-                                        )
-                                      })
-                                    ],
-                                    2
-                                  )
-                                ]
+                                    on: {
+                                      change: function($event) {
+                                        _vm.userNotDirector = !_vm.userNotDirector
+                                      }
+                                    }
+                                  })
+                                ],
+                                1
                               ),
+                              _vm._v(" "),
+                              _vm.userNotDirector
+                                ? _c(
+                                    "div",
+                                    { staticClass: "form-group col-md-3" },
+                                    [
+                                      _vm._m(9),
+                                      _vm._v(" "),
+                                      _c(
+                                        "select",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.user.department_id,
+                                              expression: "user.department_id"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { name: "", id: "" },
+                                          on: {
+                                            change: function($event) {
+                                              var $$selectedVal = Array.prototype.filter
+                                                .call(
+                                                  $event.target.options,
+                                                  function(o) {
+                                                    return o.selected
+                                                  }
+                                                )
+                                                .map(function(o) {
+                                                  var val =
+                                                    "_value" in o
+                                                      ? o._value
+                                                      : o.value
+                                                  return val
+                                                })
+                                              _vm.$set(
+                                                _vm.user,
+                                                "department_id",
+                                                $event.target.multiple
+                                                  ? $$selectedVal
+                                                  : $$selectedVal[0]
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "option",
+                                            {
+                                              attrs: { disabled: "", value: "" }
+                                            },
+                                            [_vm._v("Select Department")]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._l(_vm.departments, function(
+                                            dept
+                                          ) {
+                                            return _c(
+                                              "option",
+                                              {
+                                                key: dept.id,
+                                                domProps: { value: dept.id }
+                                              },
+                                              [_vm._v(" " + _vm._s(dept.name))]
+                                            )
+                                          })
+                                        ],
+                                        2
+                                      )
+                                    ]
+                                  )
+                                : _c(
+                                    "div",
+                                    { staticClass: "form-group col-md-3" },
+                                    [
+                                      _vm._m(10),
+                                      _vm._v(" "),
+                                      _c(
+                                        "select",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.user.directorate_id,
+                                              expression: "user.directorate_id"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { name: "", id: "" },
+                                          on: {
+                                            change: function($event) {
+                                              var $$selectedVal = Array.prototype.filter
+                                                .call(
+                                                  $event.target.options,
+                                                  function(o) {
+                                                    return o.selected
+                                                  }
+                                                )
+                                                .map(function(o) {
+                                                  var val =
+                                                    "_value" in o
+                                                      ? o._value
+                                                      : o.value
+                                                  return val
+                                                })
+                                              _vm.$set(
+                                                _vm.user,
+                                                "directorate_id",
+                                                $event.target.multiple
+                                                  ? $$selectedVal
+                                                  : $$selectedVal[0]
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "option",
+                                            {
+                                              attrs: { disabled: "", value: "" }
+                                            },
+                                            [_vm._v("Select Directorate")]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._l(_vm.directorates, function(
+                                            dir
+                                          ) {
+                                            return _c(
+                                              "option",
+                                              {
+                                                key: dir.id,
+                                                domProps: { value: dir.id }
+                                              },
+                                              [_vm._v(" " + _vm._s(dir.name))]
+                                            )
+                                          })
+                                        ],
+                                        2
+                                      )
+                                    ]
+                                  ),
                               _vm._v(" "),
                               _c(
                                 "div",
-                                { staticClass: "form-group col-md-4" },
+                                { staticClass: "form-group col-md-3" },
                                 [
-                                  _vm._m(10),
+                                  _vm._m(11),
                                   _vm._v(" "),
                                   _c(
                                     "select",
@@ -80259,9 +80391,9 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "div",
-                                { staticClass: "form-group col-md-4" },
+                                { staticClass: "form-group col-md-3" },
                                 [
-                                  _vm._m(11),
+                                  _vm._m(12),
                                   _vm._v(" "),
                                   _c(
                                     "select",
@@ -80331,7 +80463,7 @@ var render = function() {
                                 "div",
                                 { staticClass: "form-group col-md-8" },
                                 [
-                                  _vm._m(12),
+                                  _vm._m(13),
                                   _vm._v(" "),
                                   _c("input", {
                                     directives: [
@@ -80438,7 +80570,7 @@ var render = function() {
                                           })
                                         : _vm._e(),
                                       _vm._v(" "),
-                                      _vm._m(13)
+                                      _vm._m(14)
                                     ]
                                   )
                                 ]
@@ -80471,7 +80603,7 @@ var render = function() {
                         },
                         [
                           _c("div", { staticClass: "modal-content" }, [
-                            _vm._m(14),
+                            _vm._m(15),
                             _vm._v(" "),
                             _c("div", { staticClass: "modal-body" }, [
                               _c(
@@ -80828,7 +80960,7 @@ var render = function() {
                               )
                             ]),
                             _vm._v(" "),
-                            _vm._m(15)
+                            _vm._m(16)
                           ])
                         ]
                       )
@@ -80979,6 +81111,15 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "inputEmail4" } }, [
       _vm._v("Department "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "inputEmail4" } }, [
+      _vm._v("Directorate "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -105010,7 +105151,7 @@ module.exports = function(module) {
 /*!*********************************!*\
   !*** ./resources/js/api/api.js ***!
   \*********************************/
-/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDesignations, getContracts, getRoles, getProjects, getLeaveTypes, getAssets, getVendors, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDesignation, saveLeaveType, saveVendor, saveDp, addRequest, saveRequest, getMyRequests, downloadFile, getProjectRequests, getLevel1Requests, getFMRequests, getDirectorRequests, getEDRequests, giveAccountantApproval, giveLevel1Approval, givefMApproval, giveEDApproval, giveDirectorApproval, declineRequest, askForLeave, cancelLeave, approveLeave, getMyLeaves, getPendingLeaves, declineLeave, toggleButton, getSettings, getSystemSettings, getLeaveStats, setHoliday */
+/*! exports provided: getAuthUser, logout, saveProfile, saveUserEdit, getUsers, activateUser, deactivateUser, getDepartments, getDirectorates, getDesignations, getContracts, getRoles, getProjects, getLeaveTypes, getAssets, getVendors, addUser, attachRole, detachRole, attachProject, detachProject, countUsers, saveContract, saveDesignation, saveLeaveType, saveVendor, saveDp, addRequest, saveRequest, getMyRequests, downloadFile, getProjectRequests, getLevel1Requests, getFMRequests, getDirectorRequests, getEDRequests, giveAccountantApproval, giveLevel1Approval, givefMApproval, giveEDApproval, giveDirectorApproval, declineRequest, askForLeave, cancelLeave, approveLeave, getMyLeaves, getPendingLeaves, declineLeave, toggleButton, getSettings, getSystemSettings, getLeaveStats, setHoliday */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -105023,6 +105164,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "activateUser", function() { return activateUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deactivateUser", function() { return deactivateUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDepartments", function() { return getDepartments; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDirectorates", function() { return getDirectorates; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDesignations", function() { return getDesignations; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getContracts", function() { return getContracts; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRoles", function() { return getRoles; });
@@ -105108,6 +105250,11 @@ function deactivateUser(id) {
 }
 function getDepartments() {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/departments').then(function (response) {
+    return response.data;
+  });
+}
+function getDirectorates() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(prefix + '/directorates').then(function (response) {
     return response.data;
   });
 }
@@ -105944,6 +106091,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     users: [],
     employee: [],
     departments: [],
+    directorates: [],
     designations: [],
     contracts: [],
     roles: [],
@@ -105973,6 +106121,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     setDepartments: function setDepartments(state, data) {
       state.departments = data;
+    },
+    setDirectorates: function setDirectorates(state, data) {
+      state.directorates = data;
     },
     setDesignations: function setDesignations(state, data) {
       state.designations = data;

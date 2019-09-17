@@ -26,6 +26,9 @@ export function deactivateUser(id) {
 export function getDepartments() {
     return axios.get(prefix + '/departments').then(response => response.data);
 }
+export function getDirectorates() {
+    return axios.get(prefix + '/directorates').then(response => response.data);
+}
 export function getDesignations() {
     return axios.get(prefix + '/designations').then(response => response.data);
 }
