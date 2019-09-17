@@ -98,8 +98,15 @@ class LeavesController extends BaseController
 
         $days_left = $this->total_annual_leave_days_allowed -  $user->leaves()->where('status', 3)->sum('duration');
 
+        $type_days = LeaveType::find($request->leave_type_id)->days;
+
         $type = LeaveType::find($request->leave_type_id)->type;
 
+        if ($duration > $type_days) {
+
+            return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $type_days . ' days of the ' . $type . ' leave']);
+
+        }
         if ($duration > $days_left) {
 
             return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $days_left . ' days']);

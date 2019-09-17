@@ -477,6 +477,12 @@
                               :value="leaveType.id"
                             >{{ leaveType.type }}</option>
                           </select>
+                          <!-- <span class="input-group-append">
+                            <button
+                              type="button"
+                              class="btn btn-success btn-flat"
+                            >{{ max_days + ' days' }}</button>
+                          </span>-->
                         </div>
                       </div>
                       <!-- <div class="form-row">
@@ -592,6 +598,7 @@ export default {
   data() {
     return {
       spinner: false,
+      max_days: null,
       dec: {
         id: null,
         reason: null
@@ -661,14 +668,14 @@ export default {
         $(".modal").modal("hide");
         this.loadMyLeaves();
       });
+    },
+    setMaxDay() {
+      if (this.leave.leave_type_id != null) {
+        this.max_days = this.leaveTypes.filter(
+          lt => lt.id == this.leave.leave_type_id
+        )[0]["days"];
+      }
     }
-    // setMaxDays() {
-    //   if (this.leave.leave_type_id != null) {
-    //     this.max_days = this.leaveTypes.filter(
-    //       lt => lt.id == this.leave.leave_type_id
-    //     )[0]["days"];
-    //   }
-    // }
   },
   mounted() {
     this.loadMyLeaves();

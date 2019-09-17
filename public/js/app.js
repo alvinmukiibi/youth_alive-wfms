@@ -4074,28 +4074,75 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       edit: false,
-      name: '',
+      name: "",
       prefix: "/api",
       leave: {
-        type: '' // days: 0
-
+        type: "",
+        days: 0
       },
       leav: []
     };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
-    setLeaveTypes: 'setLeaveTypes'
+    setLeaveTypes: "setLeaveTypes"
   }), {
     saveEdit: function saveEdit() {
       var _this = this;
 
-      if (this.leav.type == '') {
+      if (this.leav.type == "") {
         return;
       }
 
@@ -4125,7 +4172,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     save: function save() {
       var _this4 = this;
 
-      if (this.leave.type == '') {
+      if (this.leave.type == "") {
         return;
       } // if(this.leave.days == 0){
       //     return;
@@ -6279,12 +6326,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       spinner: false,
+      max_days: null,
       dec: {
         id: null,
         reason: null
@@ -6294,12 +6350,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         from: null,
         to: null,
         comments: null
-      },
-      max_days: null,
-      loading: false,
-      myLeaves: [],
-      pendingLeaves: []
-    };
+      }
+    }, _defineProperty(_ref, "max_days", null), _defineProperty(_ref, "loading", false), _defineProperty(_ref, "myLeaves", []), _defineProperty(_ref, "pendingLeaves", []), _ref;
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
     setErrors: "setErrors",
@@ -6370,14 +6422,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this6.loadMyLeaves();
       });
-    } // setMaxDays() {
-    //   if (this.leave.leave_type_id != null) {
-    //     this.max_days = this.leaveTypes.filter(
-    //       lt => lt.id == this.leave.leave_type_id
-    //     )[0]["days"];
-    //   }
-    // }
+    },
+    setMaxDay: function setMaxDay() {
+      var _this7 = this;
 
+      if (this.leave.leave_type_id != null) {
+        this.max_days = this.leaveTypes.filter(function (lt) {
+          return lt.id == _this7.leave.leave_type_id;
+        })[0]["days"];
+      }
+    }
   }),
   mounted: function mounted() {
     this.loadMyLeaves();
@@ -7325,11 +7379,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      selected: null,
+      options: [{
+        text: 'Programs',
+        value: '1'
+      }, {
+        text: 'HR',
+        value: '2'
+      }, {
+        text: 'Supplies',
+        value: '3'
+      }],
       bag: {
         request_id: null,
         field: null,
@@ -76748,6 +76828,39 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                    _vm._v("Number of days")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.leave.days,
+                        expression: "leave.days"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "number",
+                      min: "0",
+                      id: "exampleInputEmail1",
+                      placeholder: "e.g. 21"
+                    },
+                    domProps: { value: _vm.leave.days },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.leave, "days", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
                 _c(
                   "button",
                   {
@@ -76780,6 +76893,8 @@ var render = function() {
                       _vm._l(_vm.leavetypes, function(le) {
                         return _c("tr", { key: le.id }, [
                           _c("td", [_vm._v(_vm._s(le.type))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(le.days))]),
                           _vm._v(" "),
                           _c("td", [
                             _c(
@@ -76889,6 +77004,45 @@ var render = function() {
                                 })
                               ]),
                               _vm._v(" "),
+                              _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { attrs: { for: "exampleInputEmail1" } },
+                                  [_vm._v("Number of days")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.leav.days,
+                                      expression: "leav.days"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "number",
+                                    min: "0",
+                                    id: "exampleInputEmail1",
+                                    placeholder: "e.g. 21"
+                                  },
+                                  domProps: { value: _vm.leav.days },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.leav,
+                                        "days",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
                               _c(
                                 "button",
                                 {
@@ -76947,7 +77101,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title " }, [_vm._v("Add Leave Type")])
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Add Leave Type")])
     ])
   },
   function() {
@@ -76965,6 +77119,8 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("# Days")]),
         _vm._v(" "),
         _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Action")])
       ])
@@ -86427,178 +86583,265 @@ var render = function() {
                             [
                               _vm._m(41),
                               _vm._v(" "),
-                              _c("div", { staticClass: "card-body" }, [
-                                _c("div", { staticClass: "form-group row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "card-body" },
+                                [
                                   _c(
-                                    "label",
-                                    {
-                                      staticClass: "col-sm-4 col-form-label",
-                                      attrs: { for: "" }
-                                    },
-                                    [_vm._v("Activity Type")]
+                                    "b-form-group",
+                                    [
+                                      _c("b-form-radio-group", {
+                                        attrs: {
+                                          id: "btn-radios-1",
+                                          options: _vm.options,
+                                          buttons: "",
+                                          "button-variant": "outline-primary",
+                                          name: "radio-btn-outline"
+                                        },
+                                        model: {
+                                          value: _vm.selected,
+                                          callback: function($$v) {
+                                            _vm.selected = $$v
+                                          },
+                                          expression: "selected"
+                                        }
+                                      })
+                                    ],
+                                    1
                                   ),
                                   _vm._v(" "),
-                                  _c("div", { staticClass: "col-md-8" }, [
-                                    _c(
-                                      "select",
-                                      {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.activity_type,
-                                            expression: "activity_type"
-                                          }
-                                        ],
-                                        staticClass: "form-control",
-                                        attrs: { name: "", id: "" },
-                                        on: {
-                                          change: function($event) {
-                                            var $$selectedVal = Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function(o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function(o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                            _vm.activity_type = $event.target
-                                              .multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("option", { attrs: { value: "" } }, [
-                                          _vm._v("Select Activity Type")
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "option",
-                                          { attrs: { value: "Meeting" } },
-                                          [_vm._v("Meeting")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "option",
-                                          { attrs: { value: "Talk Show" } },
-                                          [_vm._v("Talk Show")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "option",
-                                          { attrs: { value: "Workshop" } },
-                                          [_vm._v("Workshop")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "option",
-                                          { attrs: { value: "Training" } },
-                                          [_vm._v("Training")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "option",
-                                          { attrs: { value: "Vehicle" } },
-                                          [_vm._v("Vehicle")]
-                                        )
-                                      ]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group row" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass: "col-sm-4 col-form-label",
-                                      attrs: { for: "" }
-                                    },
-                                    [_vm._v("Project")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col-md-8" }, [
-                                    _c(
-                                      "select",
-                                      {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.project_id,
-                                            expression: "project_id"
-                                          }
-                                        ],
-                                        staticClass: "form-control",
-                                        attrs: { name: "", id: "" },
-                                        on: {
-                                          change: function($event) {
-                                            var $$selectedVal = Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function(o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function(o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                            _vm.project_id = $event.target
-                                              .multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("option", { attrs: { value: "" } }, [
-                                          _vm._v("Select Project")
-                                        ]),
-                                        _vm._v(" "),
-                                        _vm._l(_vm.projects, function(project) {
-                                          return _c(
-                                            "option",
+                                  _vm.selected == 1
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "form-group row" },
+                                        [
+                                          _c(
+                                            "label",
                                             {
-                                              key: project.id,
-                                              domProps: { value: project.id }
+                                              staticClass:
+                                                "col-sm-4 col-form-label",
+                                              attrs: { for: "" }
                                             },
-                                            [_vm._v(_vm._s(project.name))]
+                                            [_vm._v("Activity Type")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-8" },
+                                            [
+                                              _c(
+                                                "select",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.activity_type,
+                                                      expression:
+                                                        "activity_type"
+                                                    }
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  attrs: { name: "", id: "" },
+                                                  on: {
+                                                    change: function($event) {
+                                                      var $$selectedVal = Array.prototype.filter
+                                                        .call(
+                                                          $event.target.options,
+                                                          function(o) {
+                                                            return o.selected
+                                                          }
+                                                        )
+                                                        .map(function(o) {
+                                                          var val =
+                                                            "_value" in o
+                                                              ? o._value
+                                                              : o.value
+                                                          return val
+                                                        })
+                                                      _vm.activity_type = $event
+                                                        .target.multiple
+                                                        ? $$selectedVal
+                                                        : $$selectedVal[0]
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "option",
+                                                    { attrs: { value: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        "Select Activity Type"
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "option",
+                                                    {
+                                                      attrs: {
+                                                        value: "Meeting"
+                                                      }
+                                                    },
+                                                    [_vm._v("Meeting")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "option",
+                                                    {
+                                                      attrs: {
+                                                        value: "Talk Show"
+                                                      }
+                                                    },
+                                                    [_vm._v("Talk Show")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "option",
+                                                    {
+                                                      attrs: {
+                                                        value: "Workshop"
+                                                      }
+                                                    },
+                                                    [_vm._v("Workshop")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "option",
+                                                    {
+                                                      attrs: {
+                                                        value: "Training"
+                                                      }
+                                                    },
+                                                    [_vm._v("Training")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "option",
+                                                    {
+                                                      attrs: {
+                                                        value: "Vehicle"
+                                                      }
+                                                    },
+                                                    [_vm._v("Vehicle")]
+                                                  )
+                                                ]
+                                              )
+                                            ]
                                           )
-                                        })
-                                      ],
-                                      2
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.selected == 1
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "form-group row" },
+                                        [
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "col-sm-4 col-form-label",
+                                              attrs: { for: "" }
+                                            },
+                                            [_vm._v("Project")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-8" },
+                                            [
+                                              _c(
+                                                "select",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.project_id,
+                                                      expression: "project_id"
+                                                    }
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  attrs: { name: "", id: "" },
+                                                  on: {
+                                                    change: function($event) {
+                                                      var $$selectedVal = Array.prototype.filter
+                                                        .call(
+                                                          $event.target.options,
+                                                          function(o) {
+                                                            return o.selected
+                                                          }
+                                                        )
+                                                        .map(function(o) {
+                                                          var val =
+                                                            "_value" in o
+                                                              ? o._value
+                                                              : o.value
+                                                          return val
+                                                        })
+                                                      _vm.project_id = $event
+                                                        .target.multiple
+                                                        ? $$selectedVal
+                                                        : $$selectedVal[0]
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "option",
+                                                    { attrs: { value: "" } },
+                                                    [_vm._v("Select Project")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._l(_vm.projects, function(
+                                                    project
+                                                  ) {
+                                                    return _c(
+                                                      "option",
+                                                      {
+                                                        key: project.id,
+                                                        domProps: {
+                                                          value: project.id
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(project.name)
+                                                        )
+                                                      ]
+                                                    )
+                                                  })
+                                                ],
+                                                2
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v(_vm._s(_vm.message))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-primary pull-right btn-flat",
+                                        attrs: { disabled: _vm.disabled },
+                                        on: { click: _vm.loadForm }
+                                      },
+                                      [_vm._v("Load request Form")]
                                     )
                                   ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("span", { staticClass: "text-danger" }, [
-                                    _vm._v(_vm._s(_vm.message))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-primary pull-right btn-flat",
-                                      attrs: { disabled: _vm.disabled },
-                                      on: { click: _vm.loadForm }
-                                    },
-                                    [_vm._v("Load request Form")]
-                                  )
-                                ])
-                              ])
+                                ],
+                                1
+                              )
                             ]
                           )
                         : _c(
@@ -87705,7 +87948,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [
         _vm._v(
-          "\n                                                Choose Activity and Project\n                                            "
+          "\n                                               Please choose your request type\n                                            "
         )
       ])
     ])

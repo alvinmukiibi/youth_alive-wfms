@@ -20,6 +20,7 @@ class LeavesResource extends JsonResource
             'id' => $this->id,
             'user' => User::find($this->user_id)->fname . ' ' . User::find($this->user_id)->lname,
             'leave_type' => LeaveType::find($this->leave_type_id)->type,
+            'leave_type_days' => LeaveType::find($this->leave_type_id)->days,
             'total_days_left' => $this->total_annual_days_remaining,
             'leave_first_day' => \date('d-M-Y', \strtotime($this->from)),
             'leave_last_day' => \date('d-M-Y', \strtotime($this->to)),

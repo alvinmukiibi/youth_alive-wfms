@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterLeaveTypesTable extends Migration
+class ChangeLeaveTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AlterLeaveTypesTable extends Migration
     public function up()
     {
         Schema::table('leave_types', function (Blueprint $table) {
-            $table->dropColumn('days');
+            $table->bigInteger('days')->after('type')->nullable();
         });
     }
 

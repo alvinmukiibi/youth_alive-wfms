@@ -769,11 +769,26 @@
                                         <div class="card card-primary card-outline" v-if="load == false">
                                             <div class="card-header">
                                                 <h3 class="card-title">
-                                                    Choose Activity and Project
+                                                   Please choose your request type
                                                 </h3>
                                             </div>
                                             <div class="card-body">
-                                                <div class="form-group row">
+                                                   <b-form-group >
+                                                        <b-form-radio-group
+                                                            id="btn-radios-1"
+                                                            v-model="selected"
+                                                            :options="options"
+                                                            buttons
+                                                            button-variant="outline-primary"
+                                                           
+                                                            name="radio-btn-outline"
+                                                        ></b-form-radio-group>
+                                                        </b-form-group>
+                                                   
+                                                  
+                                              
+
+                                                <div class="form-group row" v-if="selected == 1">
                                                     <label for="" class="col-sm-4 col-form-label">Activity Type</label>
                                                     <div class="col-md-8">
                                                         <select name="" id="" class="form-control" v-model="activity_type">
@@ -786,7 +801,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
+                                                <div class="form-group row" v-if="selected == 1">
                                                     <label for="" class="col-sm-4 col-form-label">Project</label>
                                                     <div class="col-md-8">
                                                         <select name="" id="" class="form-control" v-model="project_id">
@@ -914,6 +929,12 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data() {
         return {
+            selected: null,
+            options: [
+            { text: 'Programs', value: '1' },
+            { text: 'HR', value: '2' },
+            { text: 'Supplies', value: '3' }
+            ],
             bag: {
                 request_id: null,
                 field: null,
