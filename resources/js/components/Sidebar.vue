@@ -195,12 +195,73 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <router-link
-                  to="/activity/report"
+                  to="/request/activity/report"
                   class="nav-link"
-                  :class="{ 'active': isActive('/activity/report') }"
+                  :class="{ 'active': isActive('/request/activity/report') }"
                 >
                   <i class="nav-icon fa fa-hand-grab-o"></i>
                   <p>Activity Report Form</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  to="/request/vehicle"
+                  class="nav-link"
+                  :class="{ 'active': isActive('/request/vehicle') }"
+                >
+                  <i class="nav-icon fa fa-hand-grab-o"></i>
+                  <p>Vehicle Request Form</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  to="/request/hotel"
+                  class="nav-link"
+                  :class="{ 'active': isActive('/request/hotel') }"
+                >
+                  <i class="nav-icon fa fa-hand-grab-o"></i>
+                  <p>Hotel Request Form</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  to="/request/concept"
+                  class="nav-link"
+                  :class="{ 'active': isActive('/request/concept') }"
+                >
+                  <i class="nav-icon fa fa-hand-grab-o"></i>
+                  <p>Concept Note</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  to="/request/travel/scope"
+                  class="nav-link"
+                  :class="{ 'active': isActive('/request/travel/scope') }"
+                >
+                  <i class="nav-icon fa fa-hand-grab-o"></i>
+                  <p>Travel Scope of Work</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  to="/request/travel/report"
+                  class="nav-link"
+                  :class="{ 'active': isActive('/request/travel/report') }"
+                >
+                  <i class="nav-icon fa fa-hand-grab-o"></i>
+                  <p>Travel/Trip Report</p>
+                </router-link>
+              </li>
+
+              <li class="nav-item">
+                <router-link
+                  to="/request/budget"
+                  class="nav-link"
+                  :class="{ 'active': isActive('/request/budget') }"
+                >
+                  <i class="nav-icon fa fa-hand-grab-o"></i>
+                  <p>Budget</p>
                 </router-link>
               </li>
             </ul>

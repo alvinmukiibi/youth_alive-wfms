@@ -14,7 +14,13 @@ import RequestView from './users/officer/RequestView.vue'
 import Leaves from './users/officer/Leaves.vue'
 import Settings from './components/Settings.vue'
 import Reports from './users/hr/Reports.vue'
+import HotelRequest from './users/officer/HotelRequest'
 import ActivityReport from './users/officer/ActivityReport'
+import VehicleRequest from './users/officer/VehicleRequest'
+import ConceptNote from './users/officer/ConceptNote'
+import TravelScope from './users/officer/TravelScope'
+import TravelReport from './users/officer/TravelReport'
+import Budget from './users/officer/Budget'
 
 const routes = [{
         path: '/',
@@ -85,8 +91,32 @@ const routes = [{
         component: Reports
     },
     {
-        path: '/activity/report',
+        path: '/request/activity/report',
         component: ActivityReport
+    },
+    {
+        path: '/request/hotel',
+        component: HotelRequest
+    },
+    {
+        path: '/request/vehicle',
+        component: VehicleRequest
+    },
+    {
+        path: '/request/concept',
+        component: ConceptNote
+    },
+    {
+        path: '/request/travel/scope',
+        component: TravelScope
+    },
+    {
+        path: '/request/travel/report',
+        component: TravelReport
+    },
+    {
+        path: '/request/budget',
+        component: Budget
     },
 ]
 
