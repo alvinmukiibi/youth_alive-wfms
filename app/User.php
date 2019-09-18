@@ -12,6 +12,7 @@ use App\Request;
 use App\Leave;
 use App\Setting;
 use App\Directorate;
+
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
@@ -43,59 +44,119 @@ class User extends Authenticatable
 
     ];
 
-    public function designation(){
+    public function designation()
+    {
         return $this->belongsTo(Designation::class, 'designation_id');
     }
 
-    public function department(){
+    public function department()
+    {
         return $this->belongsTo(Department::class, 'department_id');
     }
-    public function directorate(){
+    public function directorate()
+    {
         return $this->belongsTo(Directorate::class, 'directorate_id');
     }
 
-    public function projects(){
+    public function projects()
+    {
         return $this->belongsToMany(Project::class);
     }
 
-    public function roles(){
+    public function roles()
+    {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
 
-    public function requests(){
+    public function requests()
+    {
         return $this->hasMany(Request::class, 'user_id');
     }
-    public function leaves(){
+    public function leaves()
+    {
         return $this->hasMany(Leave::class, 'user_id');
     }
-    public function settings(){
+    public function settings()
+    {
         return $this->hasOne(Setting::class, 'user_id');
     }
 
-    public function arrayOfRoles(){
+    public function arrayOfRoles()
+    {
         $roles = [];
-        foreach($this->roles as $role){
+        foreach ($this->roles as $role) {
             $roles[] = $role['name'];
         }
         return $roles;
     }
-    public function arrayOfProjects(){
+    public function arrayOfProjects()
+    {
         $projects = [];
-        foreach($this->projects as $project){
+        foreach ($this->projects as $project) {
             $projects[] = $project['name'];
         }
         return $projects;
     }
-    public function user_type(){
+    public function user_type()
+    {
         $roles = $this->arrayOfRoles();
-        if(in_array('officer', $roles) && count($roles) == 1){
+        if (in_array('officer', $roles) && count($roles) == 1) {
             return 'officer';
         }
-        if(in_array('manager', $roles)){
+        if (in_array('manager', $roles)) {
             return 'manager';
         }
-        if(in_array('director', $roles)){
+        if (in_array('director', $roles)) {
             return 'director';
         }
+    }
+
+    public function supervisor()
+    {
+        /**
+         * your supervisor is the user above you in the organogram
+         * if youre an officer, then your supervisor is the manager of your department
+         * if youre an officer in the PM dept, your supervisor is the manager of that project
+         * if youre a manager, your supervisor is the director of the directorate where your dept falls
+         * if youre a director, your supervisor is the executive director
+         *
+         *
+         * */
+        $post = $this->user_type();
+        $users = User::all();
+        $admin = User::first();
+
+        switch ($post) {
+            case 'officer':
+                $response = null;
+                foreach ($users as $user) {
+                    if ($user->user_type() == 'manager' && $user->department == $this->department) {
+                        $response = $user;
+                    }
+                }
+                return $response ? $response : $admin;
+                break;
+            case 'manager':
+                $response1 = null;
+                foreach($users as $user){
+                    if($user->user_type() == 'director' && $user->directorate == $this->department->directorate){
+                        $response1 = $user;
+                    }
+                }
+                return $response1 ? $response1 : $admin;
+                break;
+            case 'director':
+
+                $designation = Designation::where('name', 'Executive Director')->value('id');
+                $executive_director = User::where('designation_id', $designation)->first();
+                return $executive_director ? $executive_director : $admin;
+                break;
+
+            default:
+                return $admin;
+                break;
+        }
+
+
     }
 }

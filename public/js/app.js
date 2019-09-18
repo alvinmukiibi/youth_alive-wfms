@@ -2403,12 +2403,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      spinner: false
+      spinner: false,
+      profile: [],
+      fields: [{
+        key: "staff_id",
+        label: "Staff ID"
+      }, {
+        key: "fname",
+        label: "First Name"
+      }, {
+        key: "lname",
+        label: "Other Names"
+      }, {
+        key: "directorate",
+        label: "Directorate"
+      }, {
+        key: "department",
+        label: "Department"
+      }, {
+        key: "designation",
+        label: "Designation"
+      }, {
+        key: "contract",
+        label: "Contract Type"
+      }, {
+        key: "duty_station",
+        label: "Duty Station"
+      }, {
+        key: "email",
+        label: "Email Address"
+      }, {
+        key: "work_contact",
+        label: "Work Contact"
+      }, {
+        key: "mobile_contact",
+        label: "Mobile Contact"
+      }, {
+        key: "roles",
+        label: "System Roles"
+      }, {
+        key: "projects",
+        label: "Projects Attached To"
+      }]
     };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
@@ -2464,6 +2506,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   }),
+  mounted: function mounted() {
+    var _this4 = this;
+
+    _api_api__WEBPACK_IMPORTED_MODULE_0__["getAuthUser"]().then(function (response) {
+      _this4.profile = [response.data];
+    });
+  },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
     auth: function auth(state) {
       return state.auth;
@@ -5428,7 +5477,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     save: function save() {
       var _this5 = this;
 
-      if (this.user.directorate_id) {
+      if (this.userNotDirector) {
+        this.user.directorate_id == null;
+      } else {
         this.user.department_id == null;
       }
 
@@ -5442,8 +5493,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.data.append('work_contact', this.user.work_contact);
       this.data.append('staff_id', this.user.staff_id);
       this.data.append('address', this.user.address);
-      this.data.append('department_id', this.user.department_id);
-      this.data.append('directorate_id', this.user.directorate_id);
+      this.data.append('department_id', this.userNotDirector ? this.user.department_id : null);
+      this.data.append('directorate_id', this.userNotDirector ? null : this.user.directorate_id);
       this.data.append('designation_id', this.user.designation_id);
       this.data.append('contract_id', this.user.contract_id);
       this.data.append('duty_station', this.user.duty_station);
@@ -5457,11 +5508,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this5.setErrors([]);
 
-        _this5.spinner = false;
-
-        _this5.loadUsers();
-
-        _this5.user = {};
+        _this5.spinner = false; // this.loadUsers();
+        // this.user = {}
 
         _this5.$router.push('/employees#activity'); // window.location.href = '/employees'
 
@@ -73436,259 +73484,20 @@ var render = function() {
             _c("div", { staticClass: "card card-primary card-outline" }, [
               _vm._m(1),
               _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-2 col-form-label",
-                      attrs: { for: "Deparmtent" }
-                    },
-                    [_vm._v("Staff ID")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-10" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", readonly: "" },
-                      domProps: { value: _vm.auth.staff_id }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-2 col-form-label",
-                      attrs: { for: "Deparmtent" }
-                    },
-                    [_vm._v("Department")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-10" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", readonly: "" },
-                      domProps: { value: _vm.auth.department }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-2 col-form-label",
-                      attrs: { for: "Designation" }
-                    },
-                    [_vm._v("Designation")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-10" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", readonly: "" },
-                      domProps: { value: _vm.auth.designation }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-2 col-form-label",
-                      attrs: { for: "contract" }
-                    },
-                    [_vm._v("Contract Type")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-10" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", readonly: "" },
-                      domProps: { value: _vm.auth.contract }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-2 col-form-label",
-                      attrs: { for: "station" }
-                    },
-                    [_vm._v("Duty Station")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-10" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", readonly: "" },
-                      domProps: { value: _vm.auth.duty_station }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-2 col-form-label",
-                      attrs: { for: "station" }
-                    },
-                    [_vm._v("Availability")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-10" }, [
-                    _vm.auth.availability_status
-                      ? _c("span", [
-                          _c("b", { staticClass: "text-success" }, [
-                            _vm._v("ON DUTY")
-                          ])
-                        ])
-                      : _c("span", [
-                          _c("b", { staticClass: "text-danger" }, [
-                            _vm._v("ON LEAVE")
-                          ])
-                        ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-2 col-form-label",
-                      attrs: { for: "station" }
-                    },
-                    [_vm._v("System Roles")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-md-10" },
-                    [
-                      _vm._v("\n                  [\n                  "),
-                      _vm._l(_vm.auth.roles, function(role) {
-                        return _c("span", { key: role }, [
-                          _vm._v(_vm._s(role) + ",")
-                        ])
-                      }),
-                      _vm._v(" ]\n                ")
-                    ],
-                    2
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-4 col-form-label",
-                      attrs: { for: "station" }
-                    },
-                    [_vm._v("Projects Attached To")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-md-8" },
-                    [
-                      _vm._v("\n                  [\n                  "),
-                      _vm._l(_vm.auth.projects, function(project) {
-                        return _c("span", { key: project }, [
-                          _vm._v(_vm._s(project) + ",")
-                        ])
-                      }),
-                      _vm._v(" ]\n                ")
-                    ],
-                    2
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._m(2),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-3 col-form-label",
-                      attrs: { for: "" }
-                    },
-                    [_vm._v("Work Contact")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", readonly: "" },
-                      domProps: { value: _vm.auth.work_contact }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-3 col-form-label",
-                      attrs: { for: "Phone Number" }
-                    },
-                    [_vm._v("Mobile Contact")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", readonly: "" },
-                      domProps: { value: _vm.auth.mobile_contact }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-3 col-form-label",
-                      attrs: { for: "email" }
-                    },
-                    [_vm._v("Email Address")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-9" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", readonly: "" },
-                      domProps: { value: _vm.auth.email }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "col-sm-3 col-form-label",
-                      attrs: { for: "" }
-                    },
-                    [_vm._v("Address")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-9" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", readonly: "" },
-                      domProps: { value: _vm.auth.address }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._m(3),
+              _c(
+                "div",
+                { staticClass: "card-body" },
+                [
+                  _c("b-table", {
+                    attrs: {
+                      stacked: "",
+                      fields: _vm.fields,
+                      items: _vm.profile
+                    }
+                  })
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-row" }, [
@@ -73828,24 +73637,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [_vm._v("Employment Details")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [_vm._v("Contact Details")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [
-        _vm._v("Other Information [Editable]")
-      ])
     ])
   }
 ]

@@ -162,8 +162,12 @@ class UsersController extends BaseController
             $biodata = Storage::disk('public')->putFile('files', $request->file('biodata'));
         }
 
-        // $directorate = Department::find($request->department_id)->directorate()->value('id');
-
+        //
+        if(!is_numeric($request->directorate_id)){
+            $directorate = Department::find($request->department_id)->directorate()->value('id');
+        }else{
+            $directorate = $request->directorate_id;
+        }
         $data = [
             'fname' => $request->fname,
             'lname' => $request->lname,
@@ -173,14 +177,14 @@ class UsersController extends BaseController
             'staff_id' => $request->staff_id == null || $request->staff_id == 'undefined' ? null : $request->staff_id,
             'address' => $request->address,
             'department_id' => $request->department_id ? $request->department_id : null,
-            'directorate_id' => $request->directorate_id ? $request->department_id : null,
+            'directorate_id' => $directorate,
             'designation_id' => $request->designation_id,
             'contract_id' => $request->contract_id,
             'duty_station' => $request->duty_station,
             'password' => Hash::make($this->defaultPassword),
             'activity_status' => true,
             'availability_status' => true,
-            'email_verified_status' => true,
+            'email_verified_status' => false,
             'profile_picture' => null,
         ];
 
@@ -199,9 +203,9 @@ class UsersController extends BaseController
             UserFile::create(['filename' => $biodata, 'description' => 'users biodata form copy', 'user_id' => $user->id]);
         }
         $event = new UserCreatedEvent($user);
-        //event($event);
+        event($event);
 
-        return $this->sendResponse($user, 'User successfully created');
+        return $this->sendResponse($data, 'User successfully created');
     }
 
     public function attachRole(Request $request)

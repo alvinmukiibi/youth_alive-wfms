@@ -369,7 +369,9 @@ export default {
             this.user.biodata = this.$refs.biodata.files[0]
         },
         save(){
-            if(this.user.directorate_id){
+            if(this.userNotDirector){
+                this.user.directorate_id == null
+            }else{
                 this.user.department_id == null
             }
             this.spinner = true;
@@ -382,8 +384,8 @@ export default {
             this.data.append('work_contact', this.user.work_contact)
             this.data.append('staff_id', this.user.staff_id)
             this.data.append('address', this.user.address)
-            this.data.append('department_id', this.user.department_id)
-            this.data.append('directorate_id', this.user.directorate_id)
+            this.data.append('department_id', this.userNotDirector ? this.user.department_id: null)
+            this.data.append('directorate_id', this.userNotDirector ? null : this.user.directorate_id)
             this.data.append('designation_id', this.user.designation_id)
             this.data.append('contract_id', this.user.contract_id)
             this.data.append('duty_station', this.user.duty_station)
@@ -395,8 +397,8 @@ export default {
                 }
                 this.setErrors([])
                 this.spinner = false;
-                this.loadUsers();
-                this.user = {}
+                // this.loadUsers();
+                // this.user = {}
                 this.$router.push('/employees#activity')
                 // window.location.href = '/employees'
             })

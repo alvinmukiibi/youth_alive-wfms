@@ -81,10 +81,17 @@
                 <h3 class="card-title">Employment Details</h3>
               </div>
               <div class="card-body">
-                <div class="form-group row">
+                <b-table stacked :fields="fields" :items="profile"></b-table>
+                <!-- <div class="form-group row">
                   <label for="Deparmtent" class="col-sm-2 col-form-label">Staff ID</label>
                   <div class="col-md-10">
                     <input type="text" readonly :value="auth.staff_id" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="Deparmtent" class="col-sm-2 col-form-label">Directorate</label>
+                  <div class="col-md-10">
+                    <input type="text" readonly :value="auth.directorate" class="form-control" />
                   </div>
                 </div>
                 <div class="form-group row">
@@ -135,9 +142,9 @@
                     [
                     <span v-for="project in auth.projects" :key="project">{{ project }},</span> ]
                   </div>
-                </div>
+                </div>-->
               </div>
-              <div class="card-header">
+              <!-- <div class="card-header">
                 <h3 class="card-title">Contact Details</h3>
               </div>
               <div class="card-body">
@@ -163,21 +170,15 @@
                     <input type="text" readonly :value="auth.address" class="form-control" />
                   </div>
                 </div>
-              </div>
-              <div class="card-header">
+              </div>-->
+              <!-- <div class="card-header">
                 <h3 class="card-title">Other Information [Editable]</h3>
-              </div>
+              </div>-->
               <div class="card-body">
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label for="inputEmail4">Username</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="auth.user_name"
-
-
-                    />
+                    <input type="text" class="form-control" v-model="auth.user_name" />
                   </div>
                   <div class="form-group col-md-4">
                     <label for="inputPassword4">Password</label>
@@ -225,7 +226,23 @@ import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      spinner: false
+      spinner: false,
+      profile: [],
+      fields: [
+        { key: "staff_id", label: "Staff ID" },
+        { key: "fname", label: "First Name" },
+        { key: "lname", label: "Other Names" },
+        { key: "directorate", label: "Directorate" },
+        { key: "department", label: "Department" },
+        { key: "designation", label: "Designation" },
+        { key: "contract", label: "Contract Type" },
+        { key: "duty_station", label: "Duty Station" },
+        { key: "email", label: "Email Address" },
+        { key: "work_contact", label: "Work Contact" },
+        { key: "mobile_contact", label: "Mobile Contact" },
+        { key: "roles", label: "System Roles" },
+        { key: "projects", label: "Projects Attached To" }
+      ]
     };
   },
   methods: {
@@ -269,6 +286,11 @@ export default {
         this.spinner = false;
       });
     }
+  },
+  mounted() {
+    api.getAuthUser().then(response => {
+      this.profile = [response.data];
+    });
   },
   computed: {
     ...mapState({

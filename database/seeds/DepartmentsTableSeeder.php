@@ -30,9 +30,12 @@ class DepartmentsTableSeeder extends Seeder
             'MLE',
             'COMM',
         ];
+        $directorates = [
+            '3', '3', '3', '2', '2', '1', '1'
+        ];
 
         for($i = 0; $i < count($department_names); $i++){
-            Department::create(['name' => $department_names[$i], 'acronym' => $departments_acronyms[$i]]);
+            Department::create(['name' => $department_names[$i], 'acronym' => $departments_acronyms[$i], 'directorate_id' => $directorates[$i]]);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Contract;
 use App\Department;
 use App\Designation;
+use App\Directorate;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProfileResource extends JsonResource
@@ -29,6 +30,7 @@ class ProfileResource extends JsonResource
             'address' => $this->address,
             'profile_picture' => $this->profile_picture,
             'duty_station' => explode(', ', $this->duty_station)[0],
+            'directorate' => Directorate::find($this->directorate_id)->name,
             'department' => $this->department_id ? Department::find($this->department_id)->name: null,
             'department_acronym' => $this->department_id ? Department::find($this->department_id)->acronym: null,
             'designation' => Designation::find($this->designation_id)->name,
@@ -38,7 +40,7 @@ class ProfileResource extends JsonResource
             'activity_status' => $this->activity_status,
             'availability_status' => $this->availability_status,
             'user_type' => $this->user_type(),
-            'created_at' => date('Y-M-d', strtotime($this->created_at))
+            'date_registered' => date('Y-M-d', strtotime($this->created_at))
         ];
     }
 }
