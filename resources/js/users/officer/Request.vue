@@ -146,34 +146,34 @@
                                                                     <td >
                                                                         <button title="Approved" v-if="reqq.trail.accountant_approval != null && reqq.trail.accountant_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>PA</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.accountant_approval != null && reqq.trail.accountant_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>PA</b></i></button>
-                                                                        
+
                                                                         <b-button v-if="reqq.trail.accountant_approval != null && reqq.trail.accountant_approval == 2" title="Declined" :id="'dec' + reqq.id" variant="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>PA</b></i></b-button>
                                                                          <b-popover placement="top" :target="'dec' + reqq.id" triggers="hover focus">
                                                                             <template slot="title">Reason</template>
                                                                             <p>{{ reqq.trail.acc_comments }} </p>
                                                                          </b-popover>
-                                                                        
-                                                                        
+
+
                                                                         <!-- <button   class="btn btn-sm btn-danger btn-flat"></button> -->
 
                                                                         <button title="Approved" v-if="reqq.trail.level_one_approval != null && reqq.trail.level_one_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L1</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.level_one_approval != null && reqq.trail.level_one_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L1</b></i></button>
-                                                                        
+
                                                                         <b-button v-if="reqq.trail.level_one_approval != null && reqq.trail.level_one_approval == 2" title="Declined" :id="'decq' + reqq.id" variant="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>L1</b></i></b-button>
                                                                          <b-popover placement="top" :target="'decq' + reqq.id" triggers="hover focus">
                                                                             <template slot="title">Reason</template>
                                                                             <p>{{ reqq.trail.level_one_comments }} </p>
                                                                          </b-popover>
-                                                                        
+
                                                                         <!-- <button title="Declined"  class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L1</b></i></button> -->
 
                                                                         <button title="Approved" v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 1" class="btn btn-success btn-sm btn-flat"><i class="fa fa-check"><b>FM</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>FM</b></i></button>
-                                                                        
-                                                                        <b-button 
+
+                                                                        <b-button
                                                                             v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 2"
-                                                                            title="Declined" 
-                                                                            :id="'decqq' + reqq.id" 
+                                                                            title="Declined"
+                                                                            :id="'decqq' + reqq.id"
                                                                             variant="btn btn-sm btn-danger btn-flat">
                                                                                 <i class="fa fa-times"><b>FM</b></i>
                                                                         </b-button>
@@ -181,18 +181,18 @@
                                                                             <template slot="title">Reason</template>
                                                                             <p>{{ reqq.trail.finance_appro_comments }} </p>
                                                                         </b-popover>
-                                                                        
-                                                                        
-                                                                        <!-- <button title="Declined" 
+
+
+                                                                        <!-- <button title="Declined"
                                                                         v-if="reqq.trail.finance_approval != null && reqq.trail.finance_approval == 2" class="btn btn-sm btn-danger btn-flat"><i class="fa fa-times"><b>FM</b></i></button> -->
-                                                                
+
                                                                         <button title="Approved" v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L2</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L2</b></i></button>
-                                                                        
-                                                                        <b-button 
+
+                                                                        <b-button
                                                                             v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 2"
-                                                                            title="Declined" 
-                                                                            :id="'decqz' + reqq.id" 
+                                                                            title="Declined"
+                                                                            :id="'decqz' + reqq.id"
                                                                             variant="btn btn-sm btn-danger btn-flat">
                                                                                 <i class="fa fa-times"><b>L2</b></i>
                                                                         </b-button>
@@ -200,18 +200,18 @@
                                                                             <template slot="title">Reason</template>
                                                                             <p>{{ reqq.trail.level_two_comments }} </p>
                                                                         </b-popover>
-                                                                        
-                                                                        
-                                                                        <!-- <button title="Declined" 
+
+
+                                                                        <!-- <button title="Declined"
                                                                         v-if="reqq.trail.level_two_approval != null && reqq.trail.level_two_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L2</b></i></button> -->
 
                                                                         <button title="Approved" v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L3</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L3</b></i></button>
-                                                                        
-                                                                        <b-button 
+
+                                                                        <b-button
                                                                             v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 2"
-                                                                            title="Declined" 
-                                                                            :id="'decqzc' + reqq.id" 
+                                                                            title="Declined"
+                                                                            :id="'decqzc' + reqq.id"
                                                                             variant="btn btn-sm btn-danger btn-flat">
                                                                                 <i class="fa fa-times"><b>L3</b></i>
                                                                         </b-button>
@@ -220,7 +220,7 @@
                                                                             <p>{{ reqq.trail.level_three_comments }} </p>
                                                                         </b-popover>
 
-                                                                        <!-- <button title="Declined" 
+                                                                        <!-- <button title="Declined"
                                                                         v-if="reqq.trail.level_three_approval != null && reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L3</b></i></button> -->
 
                                                                     </td>
@@ -240,7 +240,7 @@
                                                                         <button title="Approved" v-if="reqq.trail.level_three_approval == 1" class="btn btn-sm btn-success btn-flat"><i class="fa fa-check"><b>L3</b></i></button>
                                                                         <button title="Not yet approved" v-if="reqq.trail.level_three_approval == 0" class="btn btn-sm btn-outline-warning btn-flat"><i class="fa fa-clock-o"><b>L3</b></i></button>
                                                                         <button title="Declined" v-if="reqq.trail.level_three_approval == 2" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-times"><b>L3</b></i></button>
- 
+
                                                                     </td> -->
                                                                 </tr>
                                                             </tbody>
@@ -780,15 +780,24 @@
                                                             :options="options"
                                                             buttons
                                                             button-variant="outline-primary"
-                                                           
                                                             name="radio-btn-outline"
                                                         ></b-form-radio-group>
-                                                        </b-form-group>
-                                                   
-                                                  
-                                              
+                                                    </b-form-group>
+                                                   <b-form-group v-if="selected == 1" >
+                                                        <b-form-radio-group
+                                                            id="btn-radios-1"
+                                                            v-model="activity_type"
+                                                            :options="programs"
+                                                            buttons
+                                                            button-variant="outline-success"
+                                                            name="radio-btn-outline"
+                                                        ></b-form-radio-group>
+                                                    </b-form-group>
 
-                                                <div class="form-group row" v-if="selected == 1">
+
+
+
+                                                <!-- <div class="form-group row" v-if="selected == 1">
                                                     <label for="" class="col-sm-4 col-form-label">Activity Type</label>
                                                     <div class="col-md-8">
                                                         <select name="" id="" class="form-control" v-model="activity_type">
@@ -800,16 +809,27 @@
                                                             <option value="Vehicle">Vehicle</option>
                                                         </select>
                                                     </div>
-                                                </div>
-                                                <div class="form-group row" v-if="selected == 1">
-                                                    <label for="" class="col-sm-4 col-form-label">Project</label>
-                                                    <div class="col-md-8">
+                                                </div> -->
+                                            
+                                                <div class="form-group row" v-if="activity_type != ''">
+                                                    <label for="" class="col-sm-2 col-form-label">Select a Project</label>
+                                                    <div class="col-md-4">
                                                         <select name="" id="" class="form-control" v-model="project_id">
-                                                            <option value="">Select Project</option>
+                                                            <option value="Select Project" disabled>Select Project</option>
                                                             <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.name }}</option>
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <b-form-group v-if="project_id != null" label="Please select the documents to fill" >
+                                                <b-form-checkbox-group stacked id="checkbox-group-2" v-model="documents" name="flavour-2">
+                                                    <b-form-checkbox size="lg" value="tsw" >Travel Scope of Work</b-form-checkbox>
+                                                    <b-form-checkbox size="lg" value="acc">Do you need accomodation ? </b-form-checkbox>
+                                                    <b-form-checkbox size="lg" value="veh">Do you need a vehicle(s) ?</b-form-checkbox>
+                                                    <b-form-checkbox size="lg" value="bgt">Budget</b-form-checkbox>
+                                                    <b-form-checkbox size="lg" value="cpt">Concept note</b-form-checkbox>
+                                                </b-form-checkbox-group>
+                                            </b-form-group>
+
                                                 <div class="form-group">
                                                    <span class="text-danger">{{ message }}</span>
                                                         <button @click="loadForm" :disabled="disabled" class="btn btn-primary pull-right btn-flat">Load request Form</button>
@@ -907,7 +927,7 @@
                                                             <span v-if="loading == true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                         <b>REQUEST NOW</b>
                                                         </button>
-                                                      
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -934,6 +954,14 @@ export default {
             { text: 'Programs', value: '1' },
             { text: 'HR', value: '2' },
             { text: 'Supplies', value: '3' }
+            ],
+            checked: true,
+            documents:[],
+            programs: [
+                {text: 'Meeting', value: 'Meeting'},
+                {text: 'Workshop', value: 'Wofrkshop'},
+                {text: 'Training', value: 'Training'},
+                {text: 'Talkshow', value: 'Talkshow'},
             ],
             bag: {
                 request_id: null,
@@ -1011,7 +1039,7 @@ export default {
                 // if(auth.roles.includes('manager') ){
                 //     this.loadProjectRequests();
                 // }
-                    
+
             })
         },
         loadEDRequests(){

@@ -7427,6 +7427,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -7442,6 +7462,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: 'Supplies',
         value: '3'
+      }],
+      checked: true,
+      documents: [],
+      programs: [{
+        text: 'Meeting',
+        value: 'Meeting'
+      }, {
+        text: 'Workshop',
+        value: 'Wofrkshop'
+      }, {
+        text: 'Training',
+        value: 'Training'
+      }, {
+        text: 'Talkshow',
+        value: 'Talkshow'
       }],
       bag: {
         request_id: null,
@@ -86531,129 +86566,31 @@ var render = function() {
                                   _vm._v(" "),
                                   _vm.selected == 1
                                     ? _c(
-                                        "div",
-                                        { staticClass: "form-group row" },
+                                        "b-form-group",
                                         [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "col-sm-4 col-form-label",
-                                              attrs: { for: "" }
+                                          _c("b-form-radio-group", {
+                                            attrs: {
+                                              id: "btn-radios-1",
+                                              options: _vm.programs,
+                                              buttons: "",
+                                              "button-variant":
+                                                "outline-success",
+                                              name: "radio-btn-outline"
                                             },
-                                            [_vm._v("Activity Type")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-8" },
-                                            [
-                                              _c(
-                                                "select",
-                                                {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: _vm.activity_type,
-                                                      expression:
-                                                        "activity_type"
-                                                    }
-                                                  ],
-                                                  staticClass: "form-control",
-                                                  attrs: { name: "", id: "" },
-                                                  on: {
-                                                    change: function($event) {
-                                                      var $$selectedVal = Array.prototype.filter
-                                                        .call(
-                                                          $event.target.options,
-                                                          function(o) {
-                                                            return o.selected
-                                                          }
-                                                        )
-                                                        .map(function(o) {
-                                                          var val =
-                                                            "_value" in o
-                                                              ? o._value
-                                                              : o.value
-                                                          return val
-                                                        })
-                                                      _vm.activity_type = $event
-                                                        .target.multiple
-                                                        ? $$selectedVal
-                                                        : $$selectedVal[0]
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "option",
-                                                    { attrs: { value: "" } },
-                                                    [
-                                                      _vm._v(
-                                                        "Select Activity Type"
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: {
-                                                        value: "Meeting"
-                                                      }
-                                                    },
-                                                    [_vm._v("Meeting")]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: {
-                                                        value: "Talk Show"
-                                                      }
-                                                    },
-                                                    [_vm._v("Talk Show")]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: {
-                                                        value: "Workshop"
-                                                      }
-                                                    },
-                                                    [_vm._v("Workshop")]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: {
-                                                        value: "Training"
-                                                      }
-                                                    },
-                                                    [_vm._v("Training")]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: {
-                                                        value: "Vehicle"
-                                                      }
-                                                    },
-                                                    [_vm._v("Vehicle")]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ]
+                                            model: {
+                                              value: _vm.activity_type,
+                                              callback: function($$v) {
+                                                _vm.activity_type = $$v
+                                              },
+                                              expression: "activity_type"
+                                            }
+                                          })
+                                        ],
+                                        1
                                       )
                                     : _vm._e(),
                                   _vm._v(" "),
-                                  _vm.selected == 1
+                                  _vm.activity_type != ""
                                     ? _c(
                                         "div",
                                         { staticClass: "form-group row" },
@@ -86662,15 +86599,15 @@ var render = function() {
                                             "label",
                                             {
                                               staticClass:
-                                                "col-sm-4 col-form-label",
+                                                "col-sm-2 col-form-label",
                                               attrs: { for: "" }
                                             },
-                                            [_vm._v("Project")]
+                                            [_vm._v("Select a Project")]
                                           ),
                                           _vm._v(" "),
                                           _c(
                                             "div",
-                                            { staticClass: "col-md-8" },
+                                            { staticClass: "col-md-4" },
                                             [
                                               _c(
                                                 "select",
@@ -86711,7 +86648,12 @@ var render = function() {
                                                 [
                                                   _c(
                                                     "option",
-                                                    { attrs: { value: "" } },
+                                                    {
+                                                      attrs: {
+                                                        value: "Select Project",
+                                                        disabled: ""
+                                                      }
+                                                    },
                                                     [_vm._v("Select Project")]
                                                   ),
                                                   _vm._v(" "),
@@ -86739,6 +86681,103 @@ var render = function() {
                                             ]
                                           )
                                         ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.project_id != null
+                                    ? _c(
+                                        "b-form-group",
+                                        {
+                                          attrs: {
+                                            label:
+                                              "Please select the documents to fill"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "b-form-checkbox-group",
+                                            {
+                                              attrs: {
+                                                stacked: "",
+                                                id: "checkbox-group-2",
+                                                name: "flavour-2"
+                                              },
+                                              model: {
+                                                value: _vm.documents,
+                                                callback: function($$v) {
+                                                  _vm.documents = $$v
+                                                },
+                                                expression: "documents"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "b-form-checkbox",
+                                                {
+                                                  attrs: {
+                                                    size: "lg",
+                                                    value: "tsw"
+                                                  }
+                                                },
+                                                [_vm._v("Travel Scope of Work")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "b-form-checkbox",
+                                                {
+                                                  attrs: {
+                                                    size: "lg",
+                                                    value: "acc"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "Do you need accomodation ? "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "b-form-checkbox",
+                                                {
+                                                  attrs: {
+                                                    size: "lg",
+                                                    value: "veh"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "Do you need a vehicle(s) ?"
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "b-form-checkbox",
+                                                {
+                                                  attrs: {
+                                                    size: "lg",
+                                                    value: "bgt"
+                                                  }
+                                                },
+                                                [_vm._v("Budget")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "b-form-checkbox",
+                                                {
+                                                  attrs: {
+                                                    size: "lg",
+                                                    value: "cpt"
+                                                  }
+                                                },
+                                                [_vm._v("Concept note")]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
                                       )
                                     : _vm._e(),
                                   _vm._v(" "),
