@@ -952,7 +952,7 @@ export default {
             selected: null,
             options: [
             { text: 'Programs', value: '1' },
-            { text: 'HR', value: '2' },
+            { text: 'Human Resource', value: '2' },
             { text: 'Supplies', value: '3' }
             ],
             checked: true,
