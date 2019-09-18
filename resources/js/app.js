@@ -14,7 +14,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import VPopover from 'vue-js-popover'
-Vue.use(VPopover, { tooltip: true })
+Vue.use(VPopover, {
+    tooltip: true
+})
+
+import CKEditor from '@ckeditor/ckeditor5-vue';
+Vue.use(CKEditor);
 
 import store from './store'
 import Vue from 'vue'

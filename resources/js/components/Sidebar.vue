@@ -184,6 +184,27 @@
               <p>Reports</p>
             </router-link>
           </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <a class="nav-link" @click.prevent>
+              <i class="nav-icon fa fa-hand-grab-o"></i>
+              <p>
+                Forms
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link
+                  to="/activity/report"
+                  class="nav-link"
+                  :class="{ 'active': isActive('/activity/report') }"
+                >
+                  <i class="nav-icon fa fa-hand-grab-o"></i>
+                  <p>Activity Report Form</p>
+                </router-link>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
     </div>

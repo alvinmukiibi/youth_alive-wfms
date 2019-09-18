@@ -14,6 +14,7 @@ import RequestView from './users/officer/RequestView.vue'
 import Leaves from './users/officer/Leaves.vue'
 import Settings from './components/Settings.vue'
 import Reports from './users/hr/Reports.vue'
+import ActivityReport from './users/officer/ActivityReport'
 
 const routes = [{
         path: '/',
@@ -82,6 +83,10 @@ const routes = [{
     {
         path: '/reports',
         component: Reports
+    },
+    {
+        path: '/activity/report',
+        component: ActivityReport
     },
 ]
 
