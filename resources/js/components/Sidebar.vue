@@ -215,16 +215,6 @@
               </li>
               <li class="nav-item">
                 <router-link
-                  to="/request/hotel"
-                  class="nav-link"
-                  :class="{ 'active': isActive('/request/hotel') }"
-                >
-                  <i class="nav-icon fa fa-hand-grab-o"></i>
-                  <p>Hotel Request Form</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link
                   to="/request/concept"
                   class="nav-link"
                   :class="{ 'active': isActive('/request/concept') }"
