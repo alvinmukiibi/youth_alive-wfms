@@ -28,10 +28,14 @@
         "@ckeditor/ckeditor5-vue": "^1.0.0-beta.2",
         "bootstrap-vue": "^2.0.0-rc.28",
         "font-awesome": "^4.7.0",
+        "luxon": "^1.18.0",
         "mdbvue": "^5.8.1",
+        "vue-ctk-date-time-picker": "^2.2.0",
+        "vue-datetime": "^1.0.0-beta.10",
         "vue-js-popover": "^1.1.8",
         "vue-router": "^3.1.2",
         "vuex": "^3.1.1",
-        "vuex-persistedstate": "^2.5.4"
+        "vuex-persistedstate": "^2.5.4",
+        "weekstart": "^1.0.0"
     }
 }

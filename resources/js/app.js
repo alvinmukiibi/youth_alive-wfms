@@ -21,6 +21,10 @@ Vue.use(VPopover, {
 import CKEditor from '@ckeditor/ckeditor5-vue';
 Vue.use(CKEditor);
 
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
+
 import store from './store'
 import Vue from 'vue'
 
