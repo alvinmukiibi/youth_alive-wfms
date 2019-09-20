@@ -84,11 +84,11 @@
                             </div>
                             <div class="form-group col-md-4">
                               <label>Check-in Date</label>
-                              <input type="date" class="form-control" />
+                              <VueCtkDateTimePicker position="top" v-model="date" :only-date="only_date" />
                             </div>
                             <div class="form-group col-md-4">
                               <label>Check-out Date</label>
-                              <input type="date" class="form-control" />
+                              <VueCtkDateTimePicker position="top" v-model="date" :only_date="only_date" />
                             </div>
                           </div>
                           <div class="row">
@@ -177,6 +177,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   data() {
     return {
+      only_date: true,
       date: "",
       hotel: false,
       vehicle: false,
