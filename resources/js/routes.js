@@ -20,6 +20,7 @@ import ConceptNote from './users/officer/ConceptNote'
 import TravelScope from './users/officer/TravelScope'
 import TravelReport from './users/officer/TravelReport'
 import Budget from './users/officer/Budget'
+import Container from './users/officer/Container'
 
 const routes = [{
         path: '/',
@@ -94,24 +95,25 @@ const routes = [{
         component: ActivityReport
     },
     {
-        path: '/request/vehicle',
-        component: VehicleRequest
-    },
-    {
-        path: '/request/concept',
-        component: ConceptNote
-    },
-    {
-        path: '/request/travel/scope',
-        component: TravelScope
-    },
-    {
         path: '/request/travel/report',
         component: TravelReport
     },
     {
-        path: '/request/budget',
-        component: Budget
+        path: '/request/make',
+        component: Container,
+        children: [{
+            path: '/request/budget',
+            component: Budget
+        }, {
+            path: '/request/travel/scope',
+            component: TravelScope
+        }, {
+            path: '/request/concept',
+            component: ConceptNote
+        }, {
+            path: '/request/vehicle',
+            component: VehicleRequest
+        }, ]
     },
 ]
 
