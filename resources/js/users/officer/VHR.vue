@@ -30,36 +30,44 @@
               <div class="card-body">
                 <div class="form-group row">
                   <label class="col-sm-2">Requestor’s Name :</label>
-                  <div class="col-sm-4">fdgxdfg</div>
+                  <div class="col-sm-4">{{ auth.fname + ' ' + auth.lname }}</div>
                   <label class="col-sm-2">Designation :</label>
-                  <div class="col-sm-4">xfgxdfg</div>
+                  <div class="col-sm-4">{{ auth.designation }}</div>
                 </div>
                 <div class="form-group row">
                   <label class="col-sm-2">Directorate :</label>
-                  <div class="col-sm-4">fdgxdfg</div>
+                  <div class="col-sm-4">{{ auth.directorate }}</div>
                   <label class="col-sm-2">Department :</label>
-                  <div class="col-sm-4">xfgxdfg</div>
+                  <div class="col-sm-4">{{ auth.department }}</div>
                 </div>
                 <div class="form-group row">
                   <label class="col-sm-2">Staff ID No :</label>
-                  <div class="col-sm-4">fdgxdfg</div>
+                  <div class="col-sm-4">{{ auth.staff_id }}</div>
                   <label class="col-sm-2">Phone No :</label>
-                  <div class="col-sm-4">xfgxdfg</div>
+                  <div class="col-sm-4">{{ auth.mobile_contact }}</div>
                 </div>
                 <div class="form-group row">
                   <label class="col-sm-2">Email Address :</label>
-                  <div class="col-sm-4">fdgxdfg</div>
+                  <div class="col-sm-4">{{ auth.email }}</div>
                   <label class="col-sm-2">Signature :</label>
                   <div class="col-sm-4"></div>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
                     <b-form-group label="Select only what you will need">
-                      <b-form-checkbox name="flavour-4a" @change="hotel = !hotel" inline>Hotel</b-form-checkbox>
-                      <b-form-checkbox name="flavour-4a" @change="vehicle = !vehicle" inline>Vehicle</b-form-checkbox>
+                      <b-form-checkbox
+                        name="flavour-4a"
+                        @change="data.hotel = !data.hotel"
+                        inline
+                      >Hotel</b-form-checkbox>
+                      <b-form-checkbox
+                        name="flavour-4a"
+                        @change="data.vehicle = !data.vehicle"
+                        inline
+                      >Vehicle</b-form-checkbox>
                     </b-form-group>
 
-                    <div class="card card-outline card-secondary" v-if="hotel">
+                    <div class="card card-outline card-secondary" v-if="data.hotel">
                       <div class="card-header">
                         <h3 class="card-title">
                           <b>HOTEL</b>
@@ -70,34 +78,62 @@
                         <div class="card-body">
                           <div class="row">
                             <div class="col-md-12">
-                              <b-button pill variant="primary">
+                              <b-button @click="addRow" pill variant="primary">
                                 Add row
                                 <i class="fa fa-plus"></i>
                               </b-button>
                             </div>
                           </div>
                           <br />
-                          <div class="form-row">
-                            <div class="form-group col-md-4">
-                              <label>Booking District</label>
-                              <input type="text" class="form-control" />
-                            </div>
-                            <div class="form-group col-md-4">
-                              <label>Check-in Date</label>
-                              <VueCtkDateTimePicker position="top" v-model="date" :only-date="only_date" />
-                            </div>
-                            <div class="form-group col-md-4">
-                              <label>Check-out Date</label>
-                              <VueCtkDateTimePicker position="top" v-model="date" :only_date="only_date" />
-                            </div>
-                          </div>
+                          <b-table-simple hover small caption-top responsive>
+                            <colgroup>
+                              <col />
+                              <col />
+                              <col />
+                            </colgroup>
+                            <b-thead head-variant="dark">
+                              <b-tr>
+                                <b-th class="text-center">Booking District</b-th>
+                                <b-th class="text-center">Check-in Date</b-th>
+                                <b-th class="text-center">Check-out Date</b-th>
+                              </b-tr>
+                            </b-thead>
+                            <b-tbody>
+                              <b-tr v-for="booking in bookings" :key="booking.d">
+                                <b-td>
+                                  <input
+                                    type="text"
+                                    v-model="booking.district"
+                                    class="form-control"
+                                  />
+                                </b-td>
+                                <b-td>
+                                  <VueCtkDateTimePicker
+                                    :position="position"
+                                    v-model="booking.check_in_date"
+                                    :label="label"
+                                    :only-date="only_date"
+                                  />
+                                </b-td>
+                                <b-td>
+                                  <VueCtkDateTimePicker
+                                    :position="position"
+                                    v-model="booking.check_out_date"
+                                    :label="label"
+                                    :only-date="only_date"
+                                  />
+                                </b-td>
+                              </b-tr>
+                            </b-tbody>
+                          </b-table-simple>
+
                           <div class="row">
                             <div class="col-md-12">
                               <div class="form-group">
                                 <label for="exampleFormControlInput1">Purpose</label>
                                 <ckeditor
                                   :editor="editor"
-                                  v-model="editorData"
+                                  v-model="data.purpose"
                                   :config="editorConfig"
                                 ></ckeditor>
                               </div>
@@ -106,7 +142,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="card card-outline card-secondary" v-if="vehicle">
+                    <div class="card card-outline card-secondary" v-if="data.vehicle">
                       <div class="card-header">
                         <h3 class="card-title">
                           <b>VEHICLE</b>
@@ -118,17 +154,21 @@
                           <div class="form-row">
                             <div class="form-group col-md-6">
                               <label>Departure Date and Time</label>
-                              <VueCtkDateTimePicker position="top" v-model="date" />
+                              <VueCtkDateTimePicker position="top" v-model="data.departure_date" />
                             </div>
                             <div class="form-group col-md-6">
                               <label>Return Date and Time</label>
-                              <VueCtkDateTimePicker position="top" v-model="date" />
+                              <VueCtkDateTimePicker position="top" v-model="data.return_date" />
                             </div>
                           </div>
                           <div class="form-row">
                             <div class="form-group col-md-12">
                               <label>Departure Venue</label>
-                              <input type="text" class="form-control" />
+                              <input
+                                type="text"
+                                class="form-control"
+                                v-model="data.departure_venue"
+                              />
                             </div>
                           </div>
                           <div class="form-row">
@@ -136,7 +176,7 @@
                               <label>Reason</label>
                               <ckeditor
                                 :editor="editor"
-                                v-model="editorData"
+                                v-model="data.reason"
                                 :config="editorConfig"
                               ></ckeditor>
                             </div>
@@ -151,7 +191,7 @@
                               </label>
                               <ckeditor
                                 :editor="editor"
-                                v-model="editorData"
+                                v-model="data.name_of_passengers"
                                 :config="editorConfig"
                               ></ckeditor>
                             </div>
@@ -160,6 +200,15 @@
                       </div>
                     </div>
                     <hr />
+                    <button @click="save" class="btn btn-primary btn-flat pull-right">
+                      <i class="fa fa-save"></i> Provisional Save
+                      <span
+                        v-if="spinner"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -177,20 +226,76 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   data() {
     return {
+      spinner: false,
+      bookings: [{ district: "", check_in_date: "", check_out_date: "" }],
       only_date: true,
       date: "",
-      hotel: false,
-      vehicle: false,
+      position: "top",
+      label: "Select Date",
       editor: ClassicEditor,
-      editorData: "<p>Content of the editor.</p>",
       editorConfig: {
-        // The configuration of the editor.
+        toolbar: [
+          "heading",
+          "|",
+          "bold",
+          "italic",
+          "bulletedList",
+          "numberedList",
+          "blockQuote"
+        ],
+        heading: {
+          options: [
+            {
+              model: "paragraph",
+              title: "Paragraph",
+              class: "ck-heading_paragraph"
+            },
+            {
+              model: "heading1",
+              view: "h1",
+              title: "Heading 1",
+              class: "ck-heading_heading1"
+            },
+            {
+              model: "heading2",
+              view: "h2",
+              title: "Heading 2",
+              class: "ck-heading_heading2"
+            }
+          ]
+        }
+      },
+      data: {
+        hotel: false,
+        vehicle: false
       }
     };
   },
-  methods: {},
+  methods: {
+    addRow() {
+      this.bookings.push({
+        district: "",
+        check_in_date: "",
+        check_out_date: ""
+      });
+    },
+    save() {
+      this.data.bookings = this.bookings;
+      this.data.request_id = this.request.id;
+      api.saveVhr(this.data).then(response => {
+        this.spinner = false;
+        this.data = {};
+        this.$parent.$emit("formSubmitted", "vhr");
+      });
+    }
+  },
   mounted() {},
-  computed: {}
+  computed: {
+    ...mapState({
+      auth: state => state.auth,
+      request: state => state.request
+    })
+  }
 };
 </script>
 

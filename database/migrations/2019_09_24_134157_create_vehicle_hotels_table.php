@@ -24,7 +24,7 @@ class CreateVehicleHotelsTable extends Migration
             $table->text('reason')->nullable();
             $table->text('name_of_passengers')->nullable();
 
-            $table->unsignedBigInteger('program_request_id')->nullable();
+            $table->unsignedBigInteger('program_request_id');
             $table->foreign('program_request_id')->references('id')->on('program_requests');
 
             $table->timestamps();

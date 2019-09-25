@@ -31,30 +31,35 @@
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label>Name of Traveller(s)</label>
-                    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                    <ckeditor :editor="editor" v-model="data.travellers" :config="editorConfig"></ckeditor>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label>Project</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" readonly v-model="request.project" class="form-control" />
                   </div>
                   <div class="form-group col-md-6">
                     <label>Date</label>
-                    <input type="text" class="form-control" />
-                    <!-- <VueCtkDateTimePicker position="top" v-model="date" /> -->
+                    <VueCtkDateTimePicker
+                      :position="position"
+                      :label="label"
+                      :format="date_format"
+                      :only-date="only_date"
+                      v-model="data.date_of_activity"
+                    />
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label>Destinations</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" v-model="data.destination" class="form-control" />
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label>Departure Point</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" v-model="data.departure_point" class="form-control" />
                   </div>
                   <div class="form-group col-md-4">
                     <label>Departure Date</label>
@@ -64,7 +69,7 @@
                       :label="label"
                       :format="date_format"
                       :only-date="only_date"
-                      v-model="date"
+                      v-model="data.departure_date"
                     />
                   </div>
                   <div class="form-group col-md-4">
@@ -75,14 +80,14 @@
                       :label="label"
                       :format="date_format"
                       :only-date="only_date"
-                      v-model="date"
+                      v-model="data.return_date"
                     />
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label>Travel Objectives</label>
-                    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                    <ckeditor :editor="editor" v-model="data.objectives" :config="editorConfig"></ckeditor>
                   </div>
                 </div>
                 <div class="form-row">
@@ -93,7 +98,7 @@
                         <i>state which activities will contribute to the achievement of the identified trip objectives above</i>
                       </small>
                     </label>
-                    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                    <ckeditor :editor="editor" v-model="data.activities" :config="editorConfig"></ckeditor>
                   </div>
                 </div>
                 <div class="form-row">
@@ -104,36 +109,24 @@
                         <i>State the key people/individuals who you will engage or interact with to achieve the stated trip objectives</i>
                       </small>
                     </label>
-                    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                    <ckeditor :editor="editor" v-model="data.key_people" :config="editorConfig"></ckeditor>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label>Expected Deliverables</label>
-                    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                    <ckeditor :editor="editor" v-model="data.deliverables" :config="editorConfig"></ckeditor>
                   </div>
                 </div>
-                <b-jumbotron bg-variant="primary" text-variant="white" border-variant="dark">
-                  <p>Compiled By</p>
-                  <div class="form-row">
-                    <div class="form-group col-md-3">
-                      <label for="inputEmail4">Name</label>
-                      <input type="text" class="form-control" />
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="inputPassword4">Staff ID</label>
-                      <input type="text" class="form-control" />
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="inputEmail4">Position</label>
-                      <input type="text" class="form-control" />
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="inputPassword4">Date</label>
-                      <input type="text" class="form-control" />
-                    </div>
-                  </div>
-                </b-jumbotron>
+                <button @click="save" class="btn btn-primary btn-flat pull-right">
+                  <i class="fa fa-save"></i> Provisional Save
+                  <span
+                    v-if="spinner"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                </button>
               </div>
             </div>
           </div>
@@ -149,21 +142,67 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   data() {
     return {
+      spinner: false,
       date: "",
       only_date: true,
       position: "top",
       date_format: "YYYY-MM-DD",
       label: "Select Date",
       editor: ClassicEditor,
-      editorData: "<p>Content of the editor.</p>",
       editorConfig: {
-        // The configuration of the editor.
-      }
+        toolbar: [
+          "heading",
+          "|",
+          "bold",
+          "italic",
+          "bulletedList",
+          "numberedList",
+          "blockQuote"
+        ],
+        heading: {
+          options: [
+            {
+              model: "paragraph",
+              title: "Paragraph",
+              class: "ck-heading_paragraph"
+            },
+            {
+              model: "heading1",
+              view: "h1",
+              title: "Heading 1",
+              class: "ck-heading_heading1"
+            },
+            {
+              model: "heading2",
+              view: "h2",
+              title: "Heading 2",
+              class: "ck-heading_heading2"
+            }
+          ]
+        }
+      },
+      data: {}
     };
   },
-  methods: {},
+  methods: {
+    save() {
+      this.spinner = true;
+      this.data.request_id = this.request.id;
+      api.saveTSoW(this.data).then(response => {
+        if (response.success) {
+          this.spinner = false;
+          this.data = {};
+          this.$parent.$emit("formSubmitted", "tsw");
+        }
+      });
+    }
+  },
   mounted() {},
-  computed: {}
+  computed: {
+    ...mapState({
+      request: state => state.request
+    })
+  }
 };
 </script>
 

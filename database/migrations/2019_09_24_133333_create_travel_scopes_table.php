@@ -27,7 +27,7 @@ class CreateTravelScopesTable extends Migration
             $table->text('expected_deliverables')->nullable();
             $table->text('misc_notes')->nullable();
 
-            $table->unsignedBigInteger('program_request_id')->nullable();
+            $table->unsignedBigInteger('program_request_id');
             $table->foreign('program_request_id')->references('id')->on('program_requests');
 
             $table->timestamps();

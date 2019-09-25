@@ -194,3 +194,14 @@ export function getLeaveStats() {
 export function setHoliday(data) {
     return axios.post(prefix + '/leaves/holidays', data).then(response => response.data)
 }
+
+
+export function makeReq(data) {
+    return axios.post(prefix + '/programs', data).then(response => response.data)
+}
+export function saveTSoW(data) {
+    return axios.post(prefix + '/programs/savetsow', data).then(response => response.data)
+}
+export function saveVhr(data) {
+    return axios.post(prefix + '/programs/savevhr', data).then(response => response.data)
+}

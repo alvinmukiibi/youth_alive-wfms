@@ -9,17 +9,11 @@
                 <b-progress :value="25" variant="primary" striped :animated="animate"></b-progress>
                 <hr />
                 <ul class="list-group list-group-horizontal-xl">
-                  <li class="list-group-item">
-                    <router-link to="/request/travel/scope">TSoW</router-link>
-                  </li>
-                  <li class="list-group-item">
-                    <router-link to="/request/budget">Budget</router-link>
-                  </li>
-                  <li class="list-group-item">
-                    <router-link to="/request/concept">Concept</router-link>
-                  </li>
-                  <li class="list-group-item">
-                    <router-link to="/request/vehicle">VHR</router-link>
+                  <li v-for="document in documents" :key="document.acr" class="list-group-item">
+                    <router-link
+                      :to="document.route"
+                      :class="{ 'boldened': isActive(document.route) }"
+                    >{{ document.name }}</router-link>
                   </li>
                 </ul>
               </div>
@@ -40,14 +34,83 @@ import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      animate: true
+      animate: true,
+      docs: [
+        {
+          acr: "bgt",
+          route: "/request/budget",
+          name: "TSoW Budget",
+          submitted: false
+        },
+        {
+          acr: "vhr",
+          route: "/request/vehicle",
+          name: "Vehicle & Hotel Request",
+          submitted: false
+        },
+        {
+          acr: "tsw",
+          route: "/request/travel/scope",
+          name: "Travel Scope",
+          submitted: false
+        },
+        {
+          acr: "cpt",
+          route: "/request/concept",
+          name: "Concept Note",
+          submitted: false
+        }
+      ]
     };
   },
-  methods: {},
-  mounted() {},
-  computed: {}
+  methods: {
+    isActive(route) {
+      if (this.$route.path == route) {
+        return true;
+      }
+      return false;
+    },
+    initialiseRequest() {
+      // console.log(this.documents);
+    }
+  },
+  mounted() {
+    this.initialiseRequest();
+    // redirection mechanism, when a doc is submitted, notify the parent, when the parent
+    // gets to know, it flags the doc as submitted and routes to the next unsubmitted doc
+    this.$on("formSubmitted", param => {
+      this.documents.filter(doc => {
+        if (doc.acr == param) {
+          doc.submitted = true;
+        }
+      });
+      this.documents.forEach(docu => {
+        if (!docu.submitted) {
+          this.$router.push(docu.route);
+        }
+      });
+    });
+  },
+  computed: {
+    ...mapState({
+      request: state => state.request
+    }),
+    documents() {
+      let docus = JSON.parse(this.request.documents);
+      return this.docs.filter(doc => {
+        if (docus.includes(doc.acr)) {
+          return doc;
+        }
+      });
+    }
+  }
 };
 </script>
 
 <style>
+.boldened {
+  font-weight: 700;
+  text-decoration: none;
+  color: green;
+}
 </style>

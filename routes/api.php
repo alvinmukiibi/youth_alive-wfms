@@ -20,6 +20,12 @@ use App\LeaveType;
 
 Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
 
+    Route::group(['prefix' => 'programs'], function () {
+        Route::post('/', 'ProgramRequestController@store');
+        Route::post('/savetsow', 'ProgramRequestController@savetsow');
+        Route::post('/savevhr', 'ProgramRequestController@savevhr');
+    });
+
     Route::group(['prefix' => 'users'], function () {
         Route::get('auth', function (Request $request) {
             return new ProfileResource($request->user());

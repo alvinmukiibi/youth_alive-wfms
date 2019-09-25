@@ -111,6 +111,13 @@ class User extends Authenticatable
         }
     }
 
+    public function isHQStaff(){
+        if(Str::containes($this->duty_station, 'Kampala')){
+            return true;
+        }
+        return false;
+    }
+
     public function supervisor()
     {
         /**
