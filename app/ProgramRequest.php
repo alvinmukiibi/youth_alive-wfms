@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\TravelScope;
 use App\VehicleHotel;
+use App\TravelscopeBudget;
 
 class ProgramRequest extends Model
 {
@@ -13,5 +14,8 @@ class ProgramRequest extends Model
     }
     public function vehiclehotel(){
         return $this->hasOne(VehicleHotel::class, 'program_request_id');
+    }
+    public function travelscopebudget(){
+        return $this->hasOne(TravelscopeBudget::class, 'program_request_id');
     }
 }

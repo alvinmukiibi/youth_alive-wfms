@@ -16,11 +16,13 @@ class CreateTravelscopeBudgetItemsTable extends Migration
         Schema::create('travelscope_budget_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('no');
+            $table->string('item');
             $table->integer('units');
             $table->integer('frequency');
             $table->integer('unit_cost');
+            $table->integer('sub_total');
 
-            $table->unsignedBigInteger('travelscope_budget_id')->nullable();
+            $table->unsignedBigInteger('travelscope_budget_id');
             $table->foreign('travelscope_budget_id')->references('id')->on('travelscope_budgets');
 
             $table->timestamps();

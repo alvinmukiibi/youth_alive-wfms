@@ -205,3 +205,6 @@ export function saveTSoW(data) {
 export function saveVhr(data) {
     return axios.post(prefix + '/programs/savevhr', data).then(response => response.data)
 }
+export function saveBudget(data) {
+    return axios.post(prefix + '/programs/savebudget', data).then(response => response.data)
+}

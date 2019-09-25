@@ -226,13 +226,14 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   data() {
     return {
-      spinner: false,
       bookings: [{ district: "", check_in_date: "", check_out_date: "" }],
+      spinner: false,
       only_date: true,
       date: "",
       position: "top",
       label: "Select Date",
       editor: ClassicEditor,
+      date_format: "YYYY-MM-DD",
       editorConfig: {
         toolbar: [
           "heading",

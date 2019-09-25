@@ -89,14 +89,34 @@ class ProgramRequestController extends BaseController
 
      }
 
+     public function savebudget(Request $request){
 
+        $req = ProgramRequest::find($request->request_id);
 
+        $bgt = [
+            'activity' => $request->activity,
+            'date' => $request->activity_date,
+            'destination' => $request->destination,
+            'purpose' => $request->purpose,
+            'total' => $request->total,
+            'comments' => $request->comments,
+        ];
+        $bgt = $req->travelscopebudget()->updateOrCreate(['program_request_id' => $request->request_id], $bgt);
 
+        if(count($request->items) > 0){
+            foreach($request->items as $item){
+                $bgt->travelscopebudgetitem()->create($item);
+            }
+        }
+        if(count($request->contacts) > 0){
+            foreach($request->contacts as $contact){
+                $bgt->travelscopebudgetcontact()->create($contact);
+            }
+        }
 
+        return $this->sendResponse('saved', 'Travel Scope Budget Saved');
 
-
-
-
+    }
 
     public function random_strings($length_of_string)
     {

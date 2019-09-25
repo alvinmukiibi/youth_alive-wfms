@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/', 'ProgramRequestController@store');
         Route::post('/savetsow', 'ProgramRequestController@savetsow');
         Route::post('/savevhr', 'ProgramRequestController@savevhr');
+        Route::post('/savebudget', 'ProgramRequestController@savebudget');
     });
 
     Route::group(['prefix' => 'users'], function () {

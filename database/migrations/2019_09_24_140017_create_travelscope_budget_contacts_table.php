@@ -15,12 +15,15 @@ class CreateTravelscopeBudgetContactsTable extends Migration
     {
         Schema::create('travelscope_budget_contacts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('amount');
+            $table->string('name')->nullable();
+            $table->string('contact')->nullable();
+            $table->string('position')->nullable();
+            $table->integer('amount')->nullable();
 
-            $table->unsignedBigInteger('user_id')->nullable();
+
             $table->unsignedBigInteger('travelscope_budget_id')->nullable();
             $table->foreign('travelscope_budget_id')->references('id')->on('travelscope_budgets');
-            $table->foreign('user_id')->references('id')->on('users');
+
 
             $table->timestamps();
         });
