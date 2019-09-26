@@ -18,6 +18,7 @@ class ProgramRequestResource extends JsonResource
         return [
             'activity_type' => $this->activity_type,
             'documents' => $this->documents,
+            'doc_completion_status' => $this->doc_completion_status,
             'id' => $this->id,
             'identity' => $this->identity,
             'project' => Project::find($this->project_id)->name,

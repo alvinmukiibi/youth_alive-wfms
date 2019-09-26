@@ -131,7 +131,12 @@ export default {
         }),
         save(){
             this.spinner = true;
+            let doc_completion_status = []
+            this.documents.forEach((arg) => {
+                doc_completion_status.push({'doc' : arg, 'status' : false})
+            })
             let data = {
+                doc_completion_status: JSON.stringify(doc_completion_status),
                 documents: JSON.stringify(this.documents),
                 project_id: this.project_id,
                 activity_type: this.activity_type

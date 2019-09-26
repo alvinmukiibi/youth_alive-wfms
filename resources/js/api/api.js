@@ -208,3 +208,6 @@ export function saveVhr(data) {
 export function saveBudget(data) {
     return axios.post(prefix + '/programs/savebudget', data).then(response => response.data)
 }
+export function updateRequestThatDocIsCompleted(data) {
+    return axios.post(prefix + '/programs/changedoccompletionstatus', data).then(response => response.data)
+}

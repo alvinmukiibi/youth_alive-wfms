@@ -13,7 +13,15 @@
                     <router-link
                       :to="document.route"
                       :class="{ 'boldened': isActive(document.route) }"
-                    >{{ document.name }}</router-link>
+                    >
+                      {{ document.name }}
+                      <span
+                        v-if="spinner"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                    </router-link>
                   </li>
                 </ul>
               </div>
@@ -35,6 +43,7 @@ export default {
   data() {
     return {
       animate: true,
+      spinner: false,
       docs: [
         {
           acr: "bgt",
@@ -64,6 +73,9 @@ export default {
     };
   },
   methods: {
+    ...mapMutations({
+      setRequest: "setRequest"
+    }),
     isActive(route) {
       if (this.$route.path == route) {
         return true;
@@ -72,6 +84,33 @@ export default {
     },
     initialiseRequest() {
       // console.log(this.documents);
+    },
+    updateRequestThatDocIsCompleted(acr) {
+      // get request doc_completion_status, parse it to object, update doc acr to true, stringify it and save it to db
+      let status = JSON.parse(this.request.doc_completion_status);
+      status.forEach(obj => {
+        if (obj.doc == acr) {
+          obj.status = true;
+        }
+      });
+      let newStatus = JSON.stringify(status);
+      api
+        .updateRequestThatDocIsCompleted({
+          doc_completion_status: newStatus,
+          request_id: this.request.id
+        })
+        .then(response => {
+          this.setRequest(response.data);
+          JSON.parse(this.request.doc_completion_status).forEach(mydoc => {
+            if (!mydoc.status) {
+              let r = this.documents.filter(d => d.acr == mydoc.doc)[0][
+                "route"
+              ];
+              this.$router.push(r);
+              return;
+            }
+          });
+        });
     }
   },
   mounted() {
@@ -81,14 +120,18 @@ export default {
     this.$on("formSubmitted", param => {
       this.documents.filter(doc => {
         if (doc.acr == param) {
+          this.updateRequestThatDocIsCompleted(doc.acr);
           doc.submitted = true;
         }
       });
-      this.documents.forEach(docu => {
-        if (!docu.submitted) {
-          this.$router.push(docu.route);
-        }
-      });
+      // go to state, get the status object, parse it, iterate it, if there is a doc whose status is false, route to it, if there is none, route to audit trail
+      // let status = this.
+
+      //   this.documents.forEach(docu => {
+      //     if (!docu.submitted) {
+      //       this.$router.push(docu.route);
+      //     }
+      //   });
     });
   },
   computed: {

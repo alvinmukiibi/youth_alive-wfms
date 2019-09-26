@@ -20,6 +20,7 @@ class CreateProgramRequestsTable extends Migration
             $table->unsignedBigInteger('project_id')->nullable();
             $table->unsignedBigInteger('department_id')->nullable();
             $table->text('documents')->nullable();
+            $table->string('doc_completion_status')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->boolean('status')->default(0);
             $table->timestamps();
