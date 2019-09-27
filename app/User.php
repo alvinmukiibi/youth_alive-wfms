@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Designation;
 use App\Role;
-use App\Request;
+use App\ProgramRequest;
 use App\Leave;
 use App\Setting;
 use App\Directorate;
@@ -70,7 +70,7 @@ class User extends Authenticatable
 
     public function requests()
     {
-        return $this->hasMany(Request::class, 'user_id');
+        return $this->hasMany(ProgramRequest::class, 'user_id');
     }
     public function leaves()
     {

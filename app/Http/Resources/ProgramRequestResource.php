@@ -22,7 +22,8 @@ class ProgramRequestResource extends JsonResource
             'id' => $this->id,
             'identity' => $this->identity,
             'project' => Project::find($this->project_id)->name,
-            'user' => User::find($this->user_id)->fname . ' ' . User::find($this->user_id)->fname
+            'created_at' => date('d-M-Y', strtotime($this->created_at)),
+            'user' => User::find($this->user_id)->fname . ' ' . User::find($this->user_id)->lname
         ];
     }
 }

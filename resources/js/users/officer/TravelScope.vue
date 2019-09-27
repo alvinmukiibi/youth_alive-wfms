@@ -109,13 +109,21 @@
                         <i>State the key people/individuals who you will engage or interact with to achieve the stated trip objectives</i>
                       </small>
                     </label>
-                    <ckeditor :editor="editor" v-model="data.key_people" :config="editorConfig"></ckeditor>
+                    <ckeditor
+                      :editor="editor"
+                      v-model="data.key_people_to_be_met"
+                      :config="editorConfig"
+                    ></ckeditor>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label>Expected Deliverables</label>
-                    <ckeditor :editor="editor" v-model="data.deliverables" :config="editorConfig"></ckeditor>
+                    <ckeditor
+                      :editor="editor"
+                      v-model="data.expected_deliverables"
+                      :config="editorConfig"
+                    ></ckeditor>
                   </div>
                 </div>
                 <button @click="save" class="btn btn-primary btn-flat pull-right">
@@ -195,9 +203,16 @@ export default {
           this.$parent.$emit("formSubmitted", "tsw");
         }
       });
+    },
+    loadTsow() {
+      if (this.request.tsow) {
+        this.data = this.request.tsow;
+      }
     }
   },
-  mounted() {},
+  mounted() {
+    this.loadTsow();
+  },
   computed: {
     ...mapState({
       request: state => state.request

@@ -29,7 +29,60 @@
                             <div class="card-body">
                                 <div class="tab-content">
                                     <div class="active tab-pane" id="requests">
-                                      Here
+                                        <div class="card card-primary card-outline">
+                                            <div class="card-header">
+                                                <ul class="nav nav-pills">
+                                                    <li class="nav-item"><a @click="getMyRequests" class="nav-link active" href="#new" data-toggle="tab">Requests <span v-if="spin1"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a>  </li>
+                                                    <li class="nav-item"><a class="nav-link" href="#approved" data-toggle="tab">Approval Trail</a></li>
+                                                    <!-- <li class="nav-item"><a class="nav-link" href="#declined" data-toggle="tab">Declined</a></li> -->
+                                                    <!-- <li @click="loadProjectRequests" v-if="auth.designation == 'Project Accountant'" class="nav-item"><a class="nav-link" href="#projectrequests" data-toggle="tab">Project Requests</a></li>
+                                                    <li @click="loadLevel1Requests" v-if="stateLoaded && auth.roles.includes('manager')" class="nav-item"><a class="nav-link" href="#level1requests" data-toggle="tab">Level 1 Approvals</a></li>
+                                                    <li @click="loadFMRequests" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Finance and Operations'" class="nav-item"><a class="nav-link" href="#fmrequests" data-toggle="tab">Pending Financial Approval</a></li>
+                                                    <li @click="loadDirectorRequests" v-if="stateLoaded && auth.roles.includes('director')" class="nav-item"><a class="nav-link" href="#directorrequests" data-toggle="tab">Pending Director Approval</a></li>
+                                                    <li @click="loadEDRequests" v-if="stateLoaded && auth.designation == 'Executive Director'" class="nav-item"><a class="nav-link" href="#edrequests" data-toggle="tab">Pending ED Approval</a></li> -->
+                                                </ul>
+                                            </div>
+                                              <div class="card-body">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="new">
+                                                        <b-table-simple small caption-top responsive>
+                                                            <colgroup>
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            </colgroup>
+                                                            <b-thead head-variant="dark">
+                                                            <b-tr>
+                                                                <b-th>Request ID</b-th>
+                                                                <b-th>Date of Request</b-th>
+                                                                <b-th>Activity Type</b-th>
+                                                                <b-th>Project</b-th>
+                                                                <b-th>Documents</b-th>
+                                                            </b-tr>
+                                                            </b-thead>
+                                                            <b-tbody>
+                                                                <b-tr v-for="req in myRequests" :key="req.id">
+                                                                    <b-td><router-link to="/request/make"><span @click="loadRequest(req.id)" ><b> {{ req.identity  }}</b></span></router-link></b-td>
+                                                                    <b-td>{{ req.created_at }}</b-td>
+                                                                    <b-td>{{ req.activity_type }}</b-td>
+                                                                    <b-td>{{ req.project }}</b-td>
+                                                                    <b-td>   
+                                                                        <!-- <b-button  :id="'doc' + req.id" variant="primary btn-sm">Documents</b-button>
+                                                                        <b-popover placement="bottom" :target="'doc' + req.id" triggers="focus">
+                                                                            <template slot="title">Documents</template>
+                                                                        </b-popover> -->
+                                                                    </b-td>
+                                                                </b-tr>
+                                                            </b-tbody>
+                                                        </b-table-simple>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                        </div>
+
+
                                     </div>
                                     <div class="tab-pane" id="make">
                                         <div class="card card-primary card-outline">
@@ -79,9 +132,9 @@
 
                                                 <div class="form-group">
                                                    
-                                                        <button class="btn btn-primary pull-right" @click="save">
+                                                        <button class="btn btn-primary btn-flat" @click="save">
                                                             <span v-if="spinner"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                            Save</button>
+                                                            <b>Save</b></button>
 
                                                 </div>
                                             </div>
@@ -121,6 +174,7 @@ export default {
                 {text: 'Talkshow', value: 'Talkshow'},
             ],
             spinner: false,
+            spin1: false,
         }
     },
     methods: {
@@ -146,7 +200,18 @@ export default {
                 this.spinner = false
                 this.$router.push('/request/make')
             })
-        }
+        },
+        getMyRequests(){
+            this.spin1 = true
+            api.getMyRequests().then(response => {
+                this.setMyRequests(response.data);
+                this.spin1 = false
+          });
+        },
+        loadRequest(id){
+            let request = this.myRequests.filter(req => req.id == id)[0]
+            this.setRequest(request)
+        },
     },
     computed: {
          ...mapState({
@@ -175,7 +240,8 @@ export default {
         }
     },
     mounted() {
-
+        this.getMyRequests();
+        
 
     },
     watch: {

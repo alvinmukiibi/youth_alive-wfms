@@ -281,6 +281,7 @@ export default {
       });
     },
     save() {
+      this.spinner = true;
       this.data.bookings = this.bookings;
       this.data.request_id = this.request.id;
       api.saveVhr(this.data).then(response => {
@@ -288,9 +289,17 @@ export default {
         this.data = {};
         this.$parent.$emit("formSubmitted", "vhr");
       });
+    },
+    loadVhr() {
+      if (this.request.vhr) {
+        this.data = this.request.vhr;
+        this.bookings = this.request.vhr.bookings;
+      }
     }
   },
-  mounted() {},
+  mounted() {
+    this.loadVhr();
+  },
   computed: {
     ...mapState({
       auth: state => state.auth,

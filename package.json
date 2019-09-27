@@ -30,6 +30,7 @@
         "font-awesome": "^4.7.0",
         "luxon": "^1.18.0",
         "mdbvue": "^5.8.1",
+        "v-money": "^0.8.1",
         "vue-ctk-date-time-picker": "^2.2.0",
         "vue-datetime": "^1.0.0-beta.10",
         "vue-js-popover": "^1.1.8",

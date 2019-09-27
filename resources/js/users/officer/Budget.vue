@@ -274,6 +274,7 @@ export default {
   },
   methods: {
     save() {
+      this.spinner = true;
       this.data.items = this.items;
       this.data.contacts = this.contacts;
       this.data.request_id = this.request.id;
@@ -325,9 +326,19 @@ export default {
       } else {
         this.total = "0.00";
       }
+    },
+    loadBgt() {
+      if (this.request.bgt) {
+        this.data = this.request.bgt;
+        this.items = this.request.bgt.items;
+        this.contacts = this.request.bgt.contacts;
+        this.total = this.request.bgt.total;
+      }
     }
   },
-  mounted() {},
+  mounted() {
+    this.loadBgt();
+  },
   computed: {
     ...mapState({
       request: state => state.request

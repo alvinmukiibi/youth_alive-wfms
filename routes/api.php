@@ -28,6 +28,23 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/changedoccompletionstatus', 'ProgramRequestController@changedoccompletionstatus');
     });
 
+    Route::group(['prefix' => 'requests'], function () {
+        // Route::post('/', 'ProgramRequestController@addRequest');
+        // Route::post('/update/{request}', 'ProgramRequestController@updateRequest');
+        Route::get('/mine', 'ProgramRequestController@getMyRequests');
+        Route::get('/accountant', 'ProgramRequestController@getProjectRequests');
+        Route::get('/firstlevel', 'ProgramRequestController@getLevel1Requests');
+        Route::get('/fmrequests', 'ProgramRequestController@getFMRequests');
+        Route::get('/directorreqeuests', 'ProgramRequestController@getDirectorRequests');
+        Route::get('/edrequests', 'ProgramRequestController@getEDRequests');
+        Route::post('/edrequests', 'ProgramRequestController@approveRequest');
+        Route::post('/directorreqeuests', 'ProgramRequestController@approveRequest');
+        Route::post('/fmrequests', 'ProgramRequestController@approveRequest');
+        Route::post('/firstlevel', 'ProgramRequestController@approveRequest');
+        Route::post('/accountant', 'ProgramRequestController@approveRequest');
+        Route::post('/decline', 'ProgramRequestController@declineRequest');
+    });
+
     Route::group(['prefix' => 'users'], function () {
         Route::get('auth', function (Request $request) {
             return new ProfileResource($request->user());
@@ -89,22 +106,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::get('/leaves', 'ReportsController@leaveReports');
     });
 
-    Route::group(['prefix' => 'requests'], function () {
-        Route::post('/', 'RequestsController@addRequest');
-        Route::post('/update/{request}', 'RequestsController@updateRequest');
-        Route::get('/mine', 'RequestsController@getMyRequests');
-        Route::get('/accountant', 'RequestsController@getProjectRequests');
-        Route::get('/firstlevel', 'RequestsController@getLevel1Requests');
-        Route::get('/fmrequests', 'RequestsController@getFMRequests');
-        Route::get('/directorreqeuests', 'RequestsController@getDirectorRequests');
-        Route::get('/edrequests', 'RequestsController@getEDRequests');
-        Route::post('/edrequests', 'RequestsController@approveRequest');
-        Route::post('/directorreqeuests', 'RequestsController@approveRequest');
-        Route::post('/fmrequests', 'RequestsController@approveRequest');
-        Route::post('/firstlevel', 'RequestsController@approveRequest');
-        Route::post('/accountant', 'RequestsController@approveRequest');
-        Route::post('/decline', 'RequestsController@declineRequest');
-    });
+
 
     Route::get('/download/file/{attachment}', function (Attachment $attachment) {
         // return Storage

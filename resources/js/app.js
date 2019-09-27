@@ -25,6 +25,11 @@ import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 
+// import money from 'v-money'
+// Vue.use(money, {
+//     precision: 0
+// })
+
 import store from './store'
 import Vue from 'vue'
 

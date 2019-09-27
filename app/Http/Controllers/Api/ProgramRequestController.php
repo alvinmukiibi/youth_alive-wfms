@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ProgramRequestResource;
+use App\Http\Resources\ProgramRequestResourceExtensive;
 use App\ProgramRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Project;
@@ -54,8 +55,8 @@ class ProgramRequestController extends BaseController
             'return_date' => $request->return_date,
             'objectives' => $request->objectives,
             'activities' => $request->activities,
-            'key_people_to_be_met' => $request->key_people,
-            'expected_deliverables' => $request->deliverables,
+            'key_people_to_be_met' => $request->key_people_to_be_met,
+            'expected_deliverables' => $request->expected_deliverables,
         ];
 
         $tsow = $req->travelscope()->updateOrCreate(['program_request_id' => $request->request_id], $tsow);
@@ -143,5 +144,16 @@ class ProgramRequestController extends BaseController
         $identity = $activity . '/' . $project . '/' . $this->random_strings(4);
 
         return $identity;
+    }
+
+    public function getMyRequests(Request $request)
+    {
+
+        $user = $request->user();
+
+        $requests = $user->requests;
+        $requests = ProgramRequestResourceExtensive::collection($requests);
+
+        return $this->sendResponse($requests, 'All my requests');
     }
 }
