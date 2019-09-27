@@ -69,10 +69,7 @@
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
                                                                     <b-td>   
-                                                                        <!-- <b-button  :id="'doc' + req.id" variant="primary btn-sm">Documents</b-button>
-                                                                        <b-popover placement="bottom" :target="'doc' + req.id" triggers="focus">
-                                                                            <template slot="title">Documents</template>
-                                                                        </b-popover> -->
+                                                                       
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>

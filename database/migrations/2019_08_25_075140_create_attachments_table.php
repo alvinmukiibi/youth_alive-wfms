@@ -18,7 +18,7 @@ class CreateAttachmentsTable extends Migration
             $table->unsignedBigInteger('request_id');
             $table->string('reference');
 
-            $table->foreign('request_id')->references('id')->on('requests');
+            $table->foreign('request_id')->references('id')->on('program_requests');
 
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Attachment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ProgramRequestResource;
@@ -10,6 +11,7 @@ use App\ProgramRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Project;
 use App\TravelScope;
+use Illuminate\Support\Facades\Storage;
 
 class ProgramRequestController extends BaseController
 {
@@ -32,6 +34,21 @@ class ProgramRequestController extends BaseController
 
         $req = new ProgramRequestResource($req);
         return $this->sendResponse($req, 'Request saved');
+    }
+
+    public function saveAttachments(Request $request){
+
+        $req = ProgramRequest::find($request->request_id);
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->attachments as $file) {
+                $ref = Storage::disk('public')->put('attachments', $file);
+                $req->attachments()->create(['reference' => $ref]);
+            }
+        }
+
+        return $this->sendresponse('success', 'success');
+
     }
 
     public function changedoccompletionstatus(Request $request){

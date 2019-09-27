@@ -211,3 +211,6 @@ export function saveBudget(data) {
 export function updateRequestThatDocIsCompleted(data) {
     return axios.post(prefix + '/programs/changedoccompletionstatus', data).then(response => response.data)
 }
+export function saveAttachments(data) {
+    return axios.post(prefix + '/programs/save/attachments', data).then(response => response.data)
+}

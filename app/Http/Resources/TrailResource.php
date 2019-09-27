@@ -18,8 +18,6 @@ class TrailResource extends JsonResource
         return [
             'request_id' => $this->request_id,
             'requestor' =>  User::find($this->requestor_id)->fname . ' ' . User::find($this->requestor_id)->lname,
-            'requestor_comments' => $this->requestor_comments,
-            'requested_date' => date('d-M-Y', \strtotime($this->requested_date)),
 
             'accountant_approval' => $this->accountant_approval,
             'accountant' => $this->accountant_approval ? User::find($this->accountant_id)->fname . ' ' . User::find($this->accountant_id)->lname: null,

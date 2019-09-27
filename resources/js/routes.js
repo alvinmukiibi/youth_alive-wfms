@@ -21,6 +21,7 @@ import TravelScope from './users/officer/TravelScope'
 import TravelReport from './users/officer/TravelReport'
 import Budget from './users/officer/Budget'
 import Container from './users/officer/Container'
+import ApprovalTrail from './users/officer/ApprovalTrail'
 
 const routes = [{
         path: '/',
@@ -113,6 +114,9 @@ const routes = [{
         }, {
             path: '/request/vehicle',
             component: VehicleRequest
+        }, {
+            path: '/request/trail',
+            component: ApprovalTrail
         }, ]
     },
 ]

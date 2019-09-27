@@ -9,6 +9,9 @@
                 <b-progress :value="25" variant="primary" striped :animated="animate"></b-progress>
                 <hr />
                 <ul class="list-group list-group-horizontal-xl">
+                  <li class="list-group-item">
+                    <router-link to="/request/trail">Approval Trail & Attachments</router-link>
+                  </li>
                   <li v-for="document in documents" :key="document.acr" class="list-group-item">
                     <router-link
                       :to="document.route"

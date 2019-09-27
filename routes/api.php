@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/savetsow', 'ProgramRequestController@savetsow');
         Route::post('/savevhr', 'ProgramRequestController@savevhr');
         Route::post('/savebudget', 'ProgramRequestController@savebudget');
+        Route::post('/save/attachments', 'ProgramRequestController@saveAttachments');
         Route::post('/changedoccompletionstatus', 'ProgramRequestController@changedoccompletionstatus');
     });
 

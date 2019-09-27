@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\TravelScopeResource;
 use App\Http\Resources\VehicleHotelResource;
 use App\Http\Resources\BudgetResource;
-
+use App\Http\Resources\TrailResource;
 class ProgramRequestResourceExtensive extends JsonResource
 {
     /**
@@ -31,7 +31,8 @@ class ProgramRequestResourceExtensive extends JsonResource
             'tsow' => $this->travelscope()->count() > 0 ? new TravelScopeResource($this->travelscope) : null,
             'vhr' => $this->vehiclehotel()->count() > 0 ? new VehicleHotelResource($this->vehiclehotel) : null,
             'bgt' => $this->travelscopebudget()->count() > 0 ? new BudgetResource($this->travelscopebudget) : null,
-
+            'trail' => new TrailResource($this->trail),
+            'attachments' => $this->attachments,
         ];
     }
 }
