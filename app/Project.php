@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
-use App\Request;
+use App\ProgramRequest;
 
 class Project extends Model
 {
@@ -14,6 +14,6 @@ class Project extends Model
         return $this->belongsToMany(User::class);
     }
     public function requests(){
-        return $this->hasMany(Request::class, 'project_id');
+        return $this->hasMany(ProgramRequest::class, 'project_id');
     }
 }

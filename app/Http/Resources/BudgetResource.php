@@ -19,7 +19,7 @@ class BudgetResource extends JsonResource
         return [
             'id' => $this->id,
             'activity' => $this->activity,
-            'date' => date('d-M-Y', strtotime($this->date)),
+            'date' => $this->date,
             'destination' => $this->destination,
             'purpose' => $this->purpose,
             'comments' => $this->comments,

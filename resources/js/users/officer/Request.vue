@@ -35,8 +35,12 @@
                                                     <li class="nav-item"><a @click="getMyRequests" class="nav-link active" href="#new" data-toggle="tab">Requests <span v-if="spin1"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a>  </li>
                                                     <li class="nav-item"><a class="nav-link" href="#approved" data-toggle="tab">Approval Trail</a></li>
                                                     <!-- <li class="nav-item"><a class="nav-link" href="#declined" data-toggle="tab">Declined</a></li> -->
-                                                    <!-- <li @click="loadProjectRequests" v-if="auth.designation == 'Project Accountant'" class="nav-item"><a class="nav-link" href="#projectrequests" data-toggle="tab">Project Requests</a></li>
-                                                    <li @click="loadLevel1Requests" v-if="stateLoaded && auth.roles.includes('manager')" class="nav-item"><a class="nav-link" href="#level1requests" data-toggle="tab">Level 1 Approvals</a></li>
+                                                    <li @click="loadProjectRequests" v-if="auth.designation == 'Project Accountant'" class="nav-item"><a class="nav-link" href="#projectrequests" data-toggle="tab">Project Requests <span v-if="spin2"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
+                                                    <li @click="loadLevel1Requests" v-if="stateLoaded && auth.roles.includes('manager')" class="nav-item"><a class="nav-link" href="#level1requests" data-toggle="tab">Supervisor Requests <span v-if="spin3"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
+                                                    <li @click="loadFMRequests" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Finance and Operations'" class="nav-item"><a class="nav-link" href="#fmrequests" data-toggle="tab">Pending Financial Approval <span v-if="spin4"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
+                                                    <li @click="loadDirectorRequests" v-if="stateLoaded && auth.roles.includes('director')"  class="nav-item"><a class="nav-link" href="#directorrequests" data-toggle="tab">Pending Director Approval <span v-if="spin5"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
+                                                    <li @click="loadEDRequests" v-if="stateLoaded && auth.designation == 'Executive Director'" class="nav-item"><a class="nav-link" href="#edrequests" data-toggle="tab">Pending ED Approval <span v-if="spin6"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
+                                                    <!-- <li @click="loadLevel1Requests" v-if="stateLoaded && auth.roles.includes('manager')" class="nav-item"><a class="nav-link" href="#level1requests" data-toggle="tab">Level 1 Approvals</a></li>
                                                     <li @click="loadFMRequests" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Finance and Operations'" class="nav-item"><a class="nav-link" href="#fmrequests" data-toggle="tab">Pending Financial Approval</a></li>
                                                     <li @click="loadDirectorRequests" v-if="stateLoaded && auth.roles.includes('director')" class="nav-item"><a class="nav-link" href="#directorrequests" data-toggle="tab">Pending Director Approval</a></li>
                                                     <li @click="loadEDRequests" v-if="stateLoaded && auth.designation == 'Executive Director'" class="nav-item"><a class="nav-link" href="#edrequests" data-toggle="tab">Pending ED Approval</a></li> -->
@@ -75,6 +79,176 @@
                                                             </b-tbody>
                                                         </b-table-simple>
                                                     </div>
+                                                      <div class="tab-pane" id="projectrequests">
+                                                        <b-table-simple small caption-top responsive>
+                                                            <colgroup>
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            </colgroup>
+                                                            <b-thead head-variant="dark">
+                                                            <b-tr>
+                                                                <b-th>Request ID</b-th>
+                                                                <b-th>Requested By</b-th>
+                                                                <b-th>Date of Request</b-th>
+                                                                <b-th>Activity Type</b-th>
+                                                                <b-th>Project</b-th>
+                                                                <b-th>Action</b-th>
+                                                            </b-tr>
+                                                            </b-thead>
+                                                            <b-tbody>
+                                                                <b-tr v-for="req in bucket" :key="req.id">
+                                                                    <b-td><router-link to="/request/make"><span @click="loadReq(req.id)" ><b> {{ req.identity  }}</b></span></router-link></b-td>
+                                                                    <b-td>{{ req.user }}</b-td>
+                                                                    <b-td>{{ req.created_at }}</b-td>
+                                                                    <b-td>{{ req.activity_type }}</b-td>
+                                                                    <b-td>{{ req.project }}</b-td>
+                                                                    <b-td>   
+                                                                       
+                                                                    </b-td>
+                                                                </b-tr>
+                                                            </b-tbody>
+                                                        </b-table-simple>
+                                                      </div>
+                                                      <div class="tab-pane" id="level1requests">
+                                                        <b-table-simple small caption-top responsive>
+                                                            <colgroup>
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            </colgroup>
+                                                            <b-thead head-variant="dark">
+                                                            <b-tr>
+                                                                <b-th>Request ID</b-th>
+                                                                <b-th>Requested By</b-th>
+                                                                <b-th>Date of Request</b-th>
+                                                                <b-th>Activity Type</b-th>
+                                                                <b-th>Project</b-th>
+                                                                <b-th>Action</b-th>
+                                                            </b-tr>
+                                                            </b-thead>
+                                                            <b-tbody>
+                                                                <b-tr v-for="req in bucket" :key="req.id">
+                                                                    <b-td><router-link to="/request/make"><span @click="loadReq(req.id)" ><b> {{ req.identity  }}</b></span></router-link></b-td>
+                                                                    <b-td>{{ req.user }}</b-td>
+                                                                    <b-td>{{ req.created_at }}</b-td>
+                                                                    <b-td>{{ req.activity_type }}</b-td>
+                                                                    <b-td>{{ req.project }}</b-td>
+                                                                    <b-td>   
+                                                                       
+                                                                    </b-td>
+                                                                </b-tr>
+                                                            </b-tbody>
+                                                        </b-table-simple>
+                                                      </div>
+                                                      <div class="tab-pane" id="fmrequests">
+                                                        <b-table-simple small caption-top responsive>
+                                                            <colgroup>
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            </colgroup>
+                                                            <b-thead head-variant="dark">
+                                                            <b-tr>
+                                                                <b-th>Request ID</b-th>
+                                                                <b-th>Requested By</b-th>
+                                                                <b-th>Date of Request</b-th>
+                                                                <b-th>Activity Type</b-th>
+                                                                <b-th>Project</b-th>
+                                                                <b-th>Action</b-th>
+                                                            </b-tr>
+                                                            </b-thead>
+                                                            <b-tbody>
+                                                                <b-tr v-for="req in bucket" :key="req.id">
+                                                                    <b-td><router-link to="/request/make"><span @click="loadReq(req.id)" ><b> {{ req.identity  }}</b></span></router-link></b-td>
+                                                                    <b-td>{{ req.user }}</b-td>
+                                                                    <b-td>{{ req.created_at }}</b-td>
+                                                                    <b-td>{{ req.activity_type }}</b-td>
+                                                                    <b-td>{{ req.project }}</b-td>
+                                                                    <b-td>   
+                                                                       
+                                                                    </b-td>
+                                                                </b-tr>
+                                                            </b-tbody>
+                                                        </b-table-simple>
+                                                      </div>
+                                                      <div class="tab-pane" id="directorrequests">
+                                                        <b-table-simple small caption-top responsive>
+                                                            <colgroup>
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            </colgroup>
+                                                            <b-thead head-variant="dark">
+                                                            <b-tr>
+                                                                <b-th>Request ID</b-th>
+                                                                <b-th>Requested By</b-th>
+                                                                <b-th>Date of Request</b-th>
+                                                                <b-th>Activity Type</b-th>
+                                                                <b-th>Project</b-th>
+                                                                <b-th>Action</b-th>
+                                                            </b-tr>
+                                                            </b-thead>
+                                                            <b-tbody>
+                                                                <b-tr v-for="req in bucket" :key="req.id">
+                                                                    <b-td><router-link to="/request/make"><span @click="loadReq(req.id)" ><b> {{ req.identity  }}</b></span></router-link></b-td>
+                                                                    <b-td>{{ req.user }}</b-td>
+                                                                    <b-td>{{ req.created_at }}</b-td>
+                                                                    <b-td>{{ req.activity_type }}</b-td>
+                                                                    <b-td>{{ req.project }}</b-td>
+                                                                    <b-td>   
+                                                                       
+                                                                    </b-td>
+                                                                </b-tr>
+                                                            </b-tbody>
+                                                        </b-table-simple>
+                                                      </div>
+                                                      <div class="tab-pane" id="edrequests">
+                                                        <b-table-simple small caption-top responsive>
+                                                            <colgroup>
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            </colgroup>
+                                                            <b-thead head-variant="dark">
+                                                            <b-tr>
+                                                                <b-th>Request ID</b-th>
+                                                                <b-th>Requested By</b-th>
+                                                                <b-th>Date of Request</b-th>
+                                                                <b-th>Activity Type</b-th>
+                                                                <b-th>Project</b-th>
+                                                                <b-th>Action</b-th>
+                                                            </b-tr>
+                                                            </b-thead>
+                                                            <b-tbody>
+                                                                <b-tr v-for="req in bucket" :key="req.id">
+                                                                    <b-td><router-link to="/request/make"><span @click="loadReq(req.id)" ><b> {{ req.identity  }}</b></span></router-link></b-td>
+                                                                    <b-td>{{ req.user }}</b-td>
+                                                                    <b-td>{{ req.created_at }}</b-td>
+                                                                    <b-td>{{ req.activity_type }}</b-td>
+                                                                    <b-td>{{ req.project }}</b-td>
+                                                                    <b-td>   
+                                                                       
+                                                                    </b-td>
+                                                                </b-tr>
+                                                            </b-tbody>
+                                                        </b-table-simple>
+                                                      </div>
                                                 </div>
                                               </div>
                                         </div>
@@ -172,6 +346,12 @@ export default {
             ],
             spinner: false,
             spin1: false,
+            spin2: false,
+            spin3: false,
+            spin4: false,
+            spin5: false,
+            spin6: false,
+            bucket: null,
         }
     },
     methods: {
@@ -204,6 +384,45 @@ export default {
                 this.setMyRequests(response.data);
                 this.spin1 = false
           });
+        },
+         loadProjectRequests(){
+             this.spin2 = true
+            api.getProjectRequests().then(response => {
+                this.bucket = response.data
+                this.spin2 = false
+            })
+        },
+        loadLevel1Requests(){
+             this.spin3 = true
+            api.getLevel1Requests().then(response => {
+                this.bucket = response.data
+                this.spin3 = false
+            })
+        },
+        loadFMRequests(){
+             this.spin4 = true
+            api.getFMRequests().then(response => {
+                this.bucket = response.data
+                 this.spin4 = false
+            })
+        },
+         loadEDRequests(){
+              this.spin6 = true
+            api.getEDRequests().then(response => {
+                this.bucket = response.data
+                 this.spin6 = false
+            })
+        },
+        loadDirectorRequests(){
+             this.spin5 = true
+            api.getDirectorRequests().then(response => {
+                this.bucket = response.data
+                 this.spin5 = true
+            })
+        },
+        loadReq(id){
+            let request = this.bucket.filter(req => req.id == id)[0]
+            this.setRequest(request)
         },
         loadRequest(id){
             let request = this.myRequests.filter(req => req.id == id)[0]

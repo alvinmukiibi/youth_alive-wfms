@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
-use App\Request as Req;
+use App\ProgramRequest;
 use App\Directorate;
 class Department extends Model
 {
@@ -14,7 +14,7 @@ class Department extends Model
         return $this->hasMany(User::class, 'department_id');
     }
     public function requests(){
-        return $this->hasMany(Req::class, 'department_id');
+        return $this->hasMany(ProgramRequest::class, 'department_id');
     }
 
     public function directorate(){
