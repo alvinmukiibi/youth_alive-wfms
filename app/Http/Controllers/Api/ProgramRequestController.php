@@ -19,7 +19,7 @@ class ProgramRequestController extends BaseController
         $user = auth()->user();
 
         $req = new ProgramRequest;
-        $req->identity = $this->generateRequestIdentity($request);
+        $req->identity = $this->generateRequestIdentity($request->activity_type, $request->project_id);
         $req->activity_type = $request->activity_type;
         $req->project_id = $request->project_id;
         $req->department_id = $request->department_id;
@@ -27,6 +27,8 @@ class ProgramRequestController extends BaseController
         $req->doc_completion_status = $request->doc_completion_status;
         $req->user_id = $user->id;
         $req->save();
+
+        $req->trail()->create(['requestor_id' => $user->id, 'request_id' => $req->id]);
 
         $req = new ProgramRequestResource($req);
         return $this->sendResponse($req, 'Request saved');
@@ -102,7 +104,7 @@ class ProgramRequestController extends BaseController
 
         $bgt = [
             'activity' => $request->activity,
-            'date' => $request->activity_date,
+            'date' => $request->date,
             'destination' => $request->destination,
             'purpose' => $request->purpose,
             'total' => $request->total,
@@ -130,14 +132,13 @@ class ProgramRequestController extends BaseController
         return substr(str_shuffle($str_result),  0, $length_of_string);
     }
 
-    public function generateRequestIdentity($request)
+    public function generateRequestIdentity($activity_type, $project_id)
     {
 
-        $activity_type = $request->activity_type;
         $activity_type = \strtoupper($activity_type);
         $activity = \substr($activity_type, 0, 2);
 
-        $project = Project::find($request->project_id)->value('name');
+        $project = Project::find($project_id)->value('name');
         $project = \strtoupper($project);
         $project = \substr($project, 0, 3);
 

@@ -52,7 +52,7 @@
                           :label="label"
                           :format="date_format"
                           :only-date="only_date"
-                          v-model="data.activity_date"
+                          v-model="data.date"
                         />
                       </b-td>
                     </b-tr>

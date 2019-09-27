@@ -132,10 +132,10 @@ class RequestsController extends BaseController
         ];
 
         // disable the following trail tokens for those users
-        if($req->getRequestorType == 'manager'){
+        if ($req->getRequestorType == 'manager') {
             $trail['finance_approval'] = null;
         }
-        if($req->getRequestorType == 'director'){
+        if ($req->getRequestorType == 'director') {
             $trail['finance_approval'] = null;
             $trail['level_three_approval'] = null;
         }
@@ -282,7 +282,6 @@ class RequestsController extends BaseController
 
         $reqs = RequestsResource::collection($reqs);
         return $this->sendResponse($reqs, 'Requests for ED approval');
-
     }
 
     public function getDirectorRequests(Request $request)
@@ -303,7 +302,6 @@ class RequestsController extends BaseController
             if ($req->trail->accountant_approval == 1 && $req->getRequestorType() == 'manager') {
                 $reqs->push($req);
             }
-
         }
 
         // get requests from the ED for approval
@@ -314,7 +312,7 @@ class RequestsController extends BaseController
         $dept_id = Department::where('name', 'Finance and Operations')->value('id');
         if (auth()->user()->department_id == $dept_id) {
             $directorrequests = Req::all();
-            foreach($directorrequests as $re){
+            foreach ($directorrequests as $re) {
                 if ($re->trail->accountant_approval == 1 && $re->getRequestorType() == 'director') {
                     $reqs->push($re);
                 }
@@ -343,7 +341,7 @@ class RequestsController extends BaseController
 
         if ($field == 'level_two_approval') {
 
-            if($req->getRequestorType() != 'manager' && $req->getRequestorType() != 'director') {
+            if ($req->getRequestorType() != 'manager' && $req->getRequestorType() != 'director') {
                 $traceability_id = 'level_two_approver_id';
                 $traceability_date = 'level_two_approval_date';
                 // for an officer
@@ -363,27 +361,24 @@ class RequestsController extends BaseController
                 $traceability_date = 'level_one_approval_date';
 
                 // if requestor is the ED himself
-                if($req->requestor->designation_id == 1){
+                if ($req->requestor->designation_id == 1) {
                     // notify all other directors
                     $directors = [];
                     $all_users = User::all();
-                    foreach($all_users as $user){
+                    foreach ($all_users as $user) {
                         // if the directors dont include the finance director and the executive director
-                        if(in_array('director', $user->arrayOfRoles()) && $user->designation_id != 1 && $user->id != auth()->user()->id){
+                        if (in_array('director', $user->arrayOfRoles()) && $user->designation_id != 1 && $user->id != auth()->user()->id) {
                             $directors[] = $user;
                         }
                     }
                     // notify all these directors, whoever gets there first approves it
-                    foreach($directors as $dir){
+                    foreach ($directors as $dir) {
                         event(new RequestCreatedEvent($dir, $req->requestor));
                     }
-
-                }else{
+                } else {
                     $this->notifyLastDirector($req); // for last level (2) approval
                 }
-
             }
-
         }
         if ($field == 'finance_approval') {
             if ($req->getRequestorType() == 'manager') {
@@ -405,7 +400,7 @@ class RequestsController extends BaseController
                 $traceability_id = 'level_two_approver_id';
                 $traceability_date = 'level_two_approval_date';
                 // the end of a director request
-            }else{
+            } else {
                 $traceability_id = 'level_three_approver_id';
                 $traceability_date = 'level_three_approval_date';
                 // for an officer
@@ -444,14 +439,13 @@ class RequestsController extends BaseController
 
         if ($field == 'level_two_approval') {
 
-            if($req->getRequestorType() != 'manager' && $req->getRequestorType() != 'director') {
+            if ($req->getRequestorType() != 'manager' && $req->getRequestorType() != 'director') {
 
                 $traceability_id = 'level_two_approver_id';
                 $traceability_date = 'level_two_approval_date';
                 $traceability_comments = 'level_two_approver_comments';
                 // for an officer
                 $this->notifyLastDirector($req);
-
             }
             if ($req->getRequestorType() == 'manager') {
                 $field = 'level_one_approval';
@@ -468,27 +462,24 @@ class RequestsController extends BaseController
                 $traceability_comments = 'level_one_approver_comments';
 
                 // if requestor is the ED himself
-                if($req->requestor->designation_id == 1){
+                if ($req->requestor->designation_id == 1) {
                     // notify all other directors
                     $directors = [];
                     $all_users = User::all();
-                    foreach($all_users as $user){
+                    foreach ($all_users as $user) {
                         // if the directors dont include the finance director and the executive director
-                        if(in_array('director', $user->arrayOfRoles()) && $user->designation_id != 1 && $user->id != auth()->user()->id){
+                        if (in_array('director', $user->arrayOfRoles()) && $user->designation_id != 1 && $user->id != auth()->user()->id) {
                             $directors[] = $user;
                         }
                     }
                     // notify all these directors, whoever gets there first approves it
-                    foreach($directors as $dir){
+                    foreach ($directors as $dir) {
                         event(new RequestCreatedEvent($dir, $req->requestor));
                     }
-
-                }else{
+                } else {
                     $this->notifyLastDirector($req); // for last level (2) approval
                 }
-
             }
-
         }
         if ($field == 'finance_approval') {
             if ($req->getRequestorType() == 'manager') {
@@ -513,7 +504,7 @@ class RequestsController extends BaseController
                 $traceability_date = 'level_two_approval_date';
                 $traceability_comments = 'level_two_approver_comments';
                 // the end of a director request
-            }else{
+            } else {
                 $traceability_id = 'level_three_approver_id';
                 $traceability_date = 'level_three_approval_date';
                 $traceability_comments = 'level_three_approver_comments';

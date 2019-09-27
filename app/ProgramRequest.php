@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\TravelScope;
 use App\VehicleHotel;
 use App\TravelscopeBudget;
-
+use App\Trail;
 class ProgramRequest extends Model
 {
     public function travelscope(){
@@ -17,5 +17,32 @@ class ProgramRequest extends Model
     }
     public function travelscopebudget(){
         return $this->hasOne(TravelscopeBudget::class, 'program_request_id');
+    }
+    public function trail(){
+        return $this->hasOne(Trail::class, 'request_id');
+    }
+    public function requestor(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function project(){
+        return $this->belongsTo(Project::class, 'project_id');
+    }
+    public function department(){
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+    public function attachments(){
+        return $this->hasMany(Attachment::class, 'request_id');
+    }
+    public function getRequestorType(){
+        $roles = $this->requestor->arrayOfRoles();
+        if(in_array('officer', $roles) && count($roles) == 1){
+            return 'officer';
+        }
+        if(in_array('manager', $roles)){
+            return 'manager';
+        }
+        if(in_array('director', $roles)){
+            return 'director';
+        }
     }
 }

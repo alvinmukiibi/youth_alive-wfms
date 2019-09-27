@@ -59,7 +59,7 @@
                                                                 <b-th>Date of Request</b-th>
                                                                 <b-th>Activity Type</b-th>
                                                                 <b-th>Project</b-th>
-                                                                <b-th>Documents</b-th>
+                                                                <b-th>Action</b-th>
                                                             </b-tr>
                                                             </b-thead>
                                                             <b-tbody>

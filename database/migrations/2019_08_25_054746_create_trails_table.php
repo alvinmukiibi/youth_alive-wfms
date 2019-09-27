@@ -19,9 +19,6 @@ class CreateTrailsTable extends Migration
             $table->unsignedBigInteger('request_id');
 
             $table->unsignedBigInteger('requestor_id');
-            $table->text('requestor_comments')->nullable();
-            $table->string('requested_date');
-
             $table->boolean('accountant_approval')->default(false)->nullable();
             $table->unsignedBigInteger('accountant_id')->nullable();
             $table->text('accountant_comments')->nullable();
@@ -47,7 +44,7 @@ class CreateTrailsTable extends Migration
             $table->text('level_three_approver_comments')->nullable();
             $table->string('level_three_approval_date')->nullable();
 
-            $table->foreign('request_id')->references('id')->on('requests');
+            $table->foreign('request_id')->references('id')->on('program_requests');
             $table->foreign('requestor_id')->references('id')->on('users');
             $table->foreign('accountant_id')->references('id')->on('users');
             $table->foreign('level_one_approver_id')->references('id')->on('users');
