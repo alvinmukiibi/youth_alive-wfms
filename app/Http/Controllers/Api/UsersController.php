@@ -176,7 +176,7 @@ class UsersController extends BaseController
             'work_contact' => $request->work_contact == null ? null : $request->work_contact,
             'staff_id' => $request->staff_id == null || $request->staff_id == 'undefined' ? null : $request->staff_id,
             'address' => $request->address,
-            'department_id' => $request->department_id ? $request->department_id : null,
+            'department_id' => $request->department_id == 'null' ? null:  $request->department_id,
             'directorate_id' => $directorate,
             'designation_id' => $request->designation_id,
             'contract_id' => $request->contract_id,
@@ -202,8 +202,8 @@ class UsersController extends BaseController
 
             UserFile::create(['filename' => $biodata, 'description' => 'users biodata form copy', 'user_id' => $user->id]);
         }
-        $event = new UserCreatedEvent($user);
-        event($event);
+        // $event = new UserCreatedEvent($user);
+        // event($event);
 
         return $this->sendResponse($data, 'User successfully created');
     }

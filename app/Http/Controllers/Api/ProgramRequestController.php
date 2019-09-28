@@ -10,6 +10,7 @@ use App\ProgramRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Project;
 use App\Department;
+use App\User;
 use App\Events\RequestCreatedEvent;
 use Illuminate\Support\Facades\Storage;
 
@@ -33,8 +34,8 @@ class ProgramRequestController extends BaseController
         $req->trail()->create(['requestor_id' => $user->id, 'request_id' => $req->id]);
 
         // let it be an action on the request, notify accountant
-        // $accountant = User::find(Project::find($req->project_id)->accountant);
-        // event(new RequestCreatedEvent($accountant, $user));
+        $accountant = User::find(Project::find($req->project_id)->accountant);
+        event(new RequestCreatedEvent($accountant, $user));
 
         $req = new ProgramRequestResource($req);
         return $this->sendResponse($req, 'Request saved');
@@ -251,7 +252,12 @@ class ProgramRequestController extends BaseController
         $user = $request->user();
 
         // requests in directors line of department
-        $requests = Department::find($user->department_id)->requests;
+        $requests = collect();
+        foreach($user->directorate->departments as $dept){
+            foreach($dept->requests as $r){
+                $requests->push($r);
+            }
+        }
 
         foreach ($requests as $req) {
             // those requiring level 2 approvals i.e. officer requests

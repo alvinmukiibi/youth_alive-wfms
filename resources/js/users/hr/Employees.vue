@@ -397,8 +397,8 @@ export default {
                 }
                 this.setErrors([])
                 this.spinner = false;
-                // this.loadUsers();
-                // this.user = {}
+                this.loadUsers();
+                this.user = {}
                 this.$router.push('/employees#activity')
                 // window.location.href = '/employees'
             })

@@ -417,7 +417,7 @@ export default {
              this.spin5 = true
             api.getDirectorRequests().then(response => {
                 this.bucket = response.data
-                 this.spin5 = true
+                 this.spin5 = false
             })
         },
         loadReq(id){

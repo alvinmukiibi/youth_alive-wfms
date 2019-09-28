@@ -47,7 +47,7 @@ class AuthController extends Controller
                 $job = new LoggedInJobs;
                 $job->user = $user;
                 $job->ip = $request->ip();
-                dispatch($job);
+                //dispatch($job);
             }
 
 
