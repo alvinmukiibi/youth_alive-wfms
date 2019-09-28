@@ -7,9 +7,10 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\ProgramRequestResource;
 use App\Http\Resources\ProgramRequestResourceExtensive;
 use App\ProgramRequest;
-use Illuminate\Support\Facades\Validator;
+
 use App\Project;
 use App\Department;
+use App\Designation;
 use App\User;
 use App\Events\RequestCreatedEvent;
 use App\Mail\ApprovalTokenMail;
@@ -40,7 +41,7 @@ class ProgramRequestController extends BaseController
         $accountant = User::find(Project::find($req->project_id)->accountant);
         event(new RequestCreatedEvent($accountant, $user));
 
-        $req = new ProgramRequestResource($req);
+        $req = new ProgramRequestResourceExtensive($req);
         return $this->sendResponse($req, 'Request saved');
     }
 
@@ -64,7 +65,7 @@ class ProgramRequestController extends BaseController
         $req = ProgramRequest::find($request->request_id);
         $req->doc_completion_status = $request->doc_completion_status;
         $req->save();
-        $req = new ProgramRequestResource($req);
+        $req = new ProgramRequestResourceExtensive($req);
         return $this->sendResponse($req, 'saved');
     }
 
@@ -73,8 +74,8 @@ class ProgramRequestController extends BaseController
 
         $req = ProgramRequest::find($request->request_id);
 
-        if(auth()->user()->id != $req->id){
-            return $this->sendResponse('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
+        if(auth()->user()->id != $req->user_id){
+            return $this->sendError('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
         }
 
         $tsow = [
@@ -99,8 +100,8 @@ class ProgramRequestController extends BaseController
 
         $req = ProgramRequest::find($request->request_id);
 
-        if(auth()->user()->id != $req->id){
-            return $this->sendResponse('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
+        if(auth()->user()->id != $req->user_id){
+            return $this->sendError('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
         }
 
         if ($request->vehicle) {
@@ -135,8 +136,8 @@ class ProgramRequestController extends BaseController
 
         $req = ProgramRequest::find($request->request_id);
 
-        if(auth()->user()->id != $req->id){
-            return $this->sendResponse('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
+        if(auth()->user()->id != $req->user_id){
+            return $this->sendError('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
         }
 
         $bgt = [
@@ -175,7 +176,7 @@ class ProgramRequestController extends BaseController
         $activity_type = \strtoupper($activity_type);
         $activity = \substr($activity_type, 0, 2);
 
-        $project = Project::find($project_id)->value('name');
+        $project = Project::find($project_id)->name;
         $project = \strtoupper($project);
         $project = \substr($project, 0, 3);
 
@@ -363,13 +364,13 @@ class ProgramRequestController extends BaseController
         if ($field == 'accountant_approval') {
             $traceability_id = 'accountant_id';
             $traceability_date = 'accountant_approval_date';
-            // $this->notifyLevelOne($req);
+            event(new RequestCreatedEvent($req->requestor->supervisor(), $req->requestor));
         }
         if ($field == 'level_one_approval') {
             $traceability_id = 'level_one_approver_id';
             $traceability_date = 'level_one_approval_date';
             // for an officer
-            // $this->notifyFinanceManager($req);
+            $this->notifyFinanceManager($req);
         }
 
         if ($field == 'level_two_approval') {
@@ -378,14 +379,14 @@ class ProgramRequestController extends BaseController
                 $traceability_id = 'level_two_approver_id';
                 $traceability_date = 'level_two_approval_date';
                 // for an officer
-                // $this->notifyLastDirector($req);
+                $this->notifyLastDirector($req);
             }
 
             if ($req->getRequestorType() == 'manager') {
                 $field = 'level_one_approval';
                 $traceability_id = 'level_one_approver_id';
                 $traceability_date = 'level_one_approval_date';
-                // $this->notifyFinanceManager($req); // for level two approval
+                $this->notifyFinanceManager($req); // for level two approval
 
             }
             if ($req->getRequestorType() == 'director') {
@@ -406,10 +407,10 @@ class ProgramRequestController extends BaseController
                     }
                     // notify all these directors, whoever gets there first approves it
                     foreach ($directors as $dir) {
-                        // event(new RequestCreatedEvent($dir, $req->requestor));
+                        event(new RequestCreatedEvent($dir, $req->requestor));
                     }
                 } else {
-                    // $this->notifyLastDirector($req); // for last level (2) approval
+                    $this->notifyLastDirector($req); // for last level (2) approval
                 }
             }
         }
@@ -418,13 +419,13 @@ class ProgramRequestController extends BaseController
                 $field = 'level_two_approval';
                 $traceability_id = 'level_two_approver_id';
                 $traceability_date = 'level_two_approval_date';
-                // $this->notifyLastDirector($req); // for last approval
+                $this->notifyLastDirector($req); // for last approval
 
             } else {
                 $traceability_id = 'finance_approver_id';
                 $traceability_date = 'finance_approval_date';
                 // for an officer
-                // $this->notifyDirector1($req);
+                $this->notifyDirector1($req);
             }
         }
         if ($field == 'level_three_approval') {
@@ -450,6 +451,50 @@ class ProgramRequestController extends BaseController
         // event(new RequestUpdateEvent($req->requestor));
 
         return $this->sendResponse('success', 'success');
+    }
+    public function notifyFinanceManager($request)
+    {
+
+        // send these to finance manager for approval
+
+        foreach (Department::where('name', 'Finance and Operations')->first()->users as $user) {
+
+            if (in_array('manager', $user->arrayOfRoles())) {
+                $notified = $user;
+            }
+        }
+        if(!$notified){
+            $notified = User::first();
+        }
+
+        event(new RequestCreatedEvent($notified, $request->requestor));
+    }
+    public function notifyDirector1($request)
+    {
+        $notified = null;
+
+        // get the director that heads the directorate where the dept of the requestor belongs
+        $directorate_id = $request->requestor->department->directorate->id;
+        $users = User::where(['department_id' => null, 'directorate_id' => $directorate_id])->get();
+        foreach ($users as $user) {
+            if (in_array('director', $user->arrayOfRoles())) {
+                $notified = $user;
+            }
+        }
+        if(!$notified){
+            $notified = User::first();
+        }
+
+        event(new RequestCreatedEvent($notified, $request->requestor));
+    }
+    public function notifyLastDirector($req)
+    {
+
+        // send these to finance manager for approval
+
+        $desi = Designation::where('name', 'Executive Director')->value('id');
+
+        event(new RequestCreatedEvent(User::where('designation_id', $desi)->first(), $req->requestor));
     }
     public function declineRequest(Request $request)
     {
@@ -507,7 +552,7 @@ class ProgramRequestController extends BaseController
                     }
                     // notify all these directors, whoever gets there first approves it
                     foreach ($directors as $dir) {
-                        event(new RequestCreatedEvent($dir, $req->requestor));
+                        // event(new RequestCreatedEvent($dir, $req->requestor));
                     }
                 } else {
                     // $this->notifyLastDirector($req); // for last level (2) approval

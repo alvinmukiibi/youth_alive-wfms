@@ -59,10 +59,10 @@
               <i class="nav-icon fa fa-hand-grab-o"></i>
               <p>
                 Requests
-                <i class="right fa fa-angle-left"></i>
+                <!-- <i class="right fa fa-angle-left"></i> -->
               </p>
             </router-link>
-            <ul class="nav nav-treeview">
+            <!-- <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
@@ -81,7 +81,7 @@
                   <p>Supplies</p>
                 </a>
               </li>
-            </ul>
+            </ul>-->
           </li>
 
           <li class="nav-item" v-if="stateLoaded && auth.roles.includes('officer')">
@@ -267,8 +267,7 @@ import * as api from "../api/api.js";
 import { mapState, mapMutations } from "vuex";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     ...mapMutations({
@@ -287,10 +286,13 @@ export default {
     }
   },
   mounted() {
-      if(this.stateLoaded && this.auth.roles.includes('manager') && this.auth.department == 'Human Resource'){
-          this.countEmployees();
-      }
-    
+    if (
+      this.stateLoaded &&
+      this.auth.roles.includes("manager") &&
+      this.auth.department == "Human Resource"
+    ) {
+      this.countEmployees();
+    }
   },
   computed: {
     ...mapState({

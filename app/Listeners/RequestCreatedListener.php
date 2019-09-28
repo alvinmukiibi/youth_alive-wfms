@@ -34,7 +34,7 @@ class RequestCreatedListener implements ShouldQueue
         $notification2 = new RequestUpdatedNotification;
         $notification->user = $event->user;
         $notification2->user = $event->requestor;
-        // Notification::send($event->user, $notification);
-        // Notification::send($event->requestor, $notification2);
+        Notification::send($event->user, $notification);
+        Notification::send($event->requestor, $notification2);
     }
 }

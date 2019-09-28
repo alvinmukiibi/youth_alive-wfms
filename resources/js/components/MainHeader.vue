@@ -76,12 +76,14 @@ export default {
       setAssets: "setAssets",
       setVendors: "setVendors",
       setUsers: "setUsers",
-      setMyRequests: "setMyRequests"
+      setMyRequests: "setMyRequests",
+      setErrors: "setErrors"
     }),
     logout() {
       this.spinner = true;
       api.logout().then(response => {
         this.spinner = false;
+        this.setErrors([]);
         document.location.href = "/login";
       });
     },

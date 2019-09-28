@@ -34,24 +34,29 @@
                     accept=".jpg, .png, .gif, .doc, .docx, .xls, .xlsx, .pdf, .ppt, .pptx, .jpeg, .txt"
                   ></b-form-file>-->
                   <div class="input-group">
-                  <input
-                    type="file"
-                    @change="uploadAttachments"
-                    class="form-control"
-                    ref="att"
-                    multiple="multiple"
-                  />
-                  <span class="input-group-append">
-                    <button type="button" @click="saveAttachments" class="btn btn-primary btn-flat">
-                      Upload
-                      <span
-                        v-if="spinner"
-                        class="spinner-border spinner-border-sm"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                  </span></div>
+                    <input
+                      type="file"
+                      @change="uploadAttachments"
+                      class="form-control"
+                      ref="att"
+                      multiple="multiple"
+                    />
+                    <span class="input-group-append">
+                      <button
+                        type="button"
+                        @click="saveAttachments"
+                        class="btn btn-primary btn-flat"
+                      >
+                        Upload
+                        <span
+                          v-if="spinner"
+                          class="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                    </span>
+                  </div>
                 </div>
 
                 <hr />
@@ -112,7 +117,7 @@
                       <b-td>{{ request.trail.acc_comments }}</b-td>
                     </b-tr>
                     <b-tr v-if="request.trail.level_one_approval != 0">
-                      <b-td>L1</b-td>
+                      <b-td>Supervisor</b-td>
                       <b-td v-if="request.trail.level_one_approval == 1">
                         <button class="btn btn-sm btn-success">
                           <i class="fa fa-check"></i>
@@ -130,7 +135,7 @@
                     <b-tr
                       v-if="request.trail.finance_approval != 0 && request.trail.finance_approval != null"
                     >
-                      <b-td>FM</b-td>
+                      <b-td>Finance Manager</b-td>
                       <b-td v-if="request.trail.finance_approval == 1">
                         <button class="btn btn-sm btn-success">
                           <i class="fa fa-check"></i>
@@ -148,7 +153,7 @@
                     <b-tr
                       v-if="request.trail.level_two_approval != 0 && request.trail.level_two_approval != null"
                     >
-                      <b-td>L2</b-td>
+                      <b-td>Line Director</b-td>
                       <b-td v-if="request.trail.level_two_approval == 1">
                         <button class="btn btn-sm btn-success">
                           <i class="fa fa-check"></i>
@@ -166,7 +171,7 @@
                     <b-tr
                       v-if="request.trail.level_three_approval != 0 && request.trail.level_three_approval != null"
                     >
-                      <b-td>L3</b-td>
+                      <b-td>Executive Director</b-td>
                       <b-td v-if="request.trail.level_three_approval == 1">
                         <button class="btn btn-sm btn-success">
                           <i class="fa fa-check"></i>

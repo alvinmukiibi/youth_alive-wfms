@@ -285,9 +285,21 @@ export default {
       this.data.bookings = this.bookings;
       this.data.request_id = this.request.id;
       api.saveVhr(this.data).then(response => {
+        if (!response.success) {
+          this.showToast("danger", "Error", response.data.error);
+          this.spinner = false;
+          return;
+        }
         this.spinner = false;
         this.data = {};
         this.$parent.$emit("formSubmitted", "vhr");
+      });
+    },
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
       });
     },
     loadVhr() {

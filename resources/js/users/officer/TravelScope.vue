@@ -197,11 +197,22 @@ export default {
       this.spinner = true;
       this.data.request_id = this.request.id;
       api.saveTSoW(this.data).then(response => {
-        if (response.success) {
+        if (!response.success) {
+          this.showToast("danger", "Error", response.data.error);
           this.spinner = false;
-          this.data = {};
-          this.$parent.$emit("formSubmitted", "tsw");
+          return;
         }
+
+        this.spinner = false;
+        this.data = {};
+        this.$parent.$emit("formSubmitted", "tsw");
+      });
+    },
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
       });
     },
     loadTsow() {

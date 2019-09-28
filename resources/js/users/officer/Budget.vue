@@ -280,9 +280,23 @@ export default {
       this.data.request_id = this.request.id;
       this.data.total = this.total;
       api.saveBudget(this.data).then(response => {
+        if (!response.success) {
+          this.showToast("danger", "Error", response.data.error);
+          this.spinner = false;
+          return;
+        }
         this.spinner = false;
         this.data = {};
+        this.items = [];
+        this.contacts = [];
         this.$parent.$emit("formSubmitted", "bgt");
+      });
+    },
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
       });
     },
     addRow() {

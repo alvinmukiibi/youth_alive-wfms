@@ -40,10 +40,10 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::get('/fmrequests', 'ProgramRequestController@getFMRequests');
         Route::get('/directorreqeuests', 'ProgramRequestController@getDirectorRequests');
         Route::get('/edrequests', 'ProgramRequestController@getEDRequests');
-        // Route::post('/edrequests', 'ProgramRequestController@approveRequest');
-        // Route::post('/directorreqeuests', 'ProgramRequestController@approveRequest');
-        // Route::post('/fmrequests', 'ProgramRequestController@approveRequest');
-        // Route::post('/firstlevel', 'ProgramRequestController@approveRequest');
+        Route::post('/edrequests', 'ProgramRequestController@approveRequest');
+        Route::post('/directorreqeuests', 'ProgramRequestController@approveRequest');
+        Route::post('/fmrequests', 'ProgramRequestController@approveRequest');
+        Route::post('/firstlevel', 'ProgramRequestController@approveRequest');
         Route::post('/accountant', 'ProgramRequestController@approveRequest');
         Route::post('/decline', 'ProgramRequestController@declineRequest');
     });

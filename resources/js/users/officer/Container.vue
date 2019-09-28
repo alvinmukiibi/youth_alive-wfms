@@ -10,7 +10,10 @@
                 <hr />
                 <ul class="list-group list-group-horizontal-xl">
                   <li class="list-group-item">
-                    <router-link to="/request/trail">Approval Trail & Attachments</router-link>
+                    <router-link
+                      to="/request/trail"
+                      :class="{ 'boldened': isActive('/request/trail') }"
+                    >Approval Trail & Attachments</router-link>
                   </li>
                   <li v-for="document in documents" :key="document.acr" class="list-group-item">
                     <router-link

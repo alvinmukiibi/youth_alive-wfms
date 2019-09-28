@@ -33,7 +33,7 @@
                                             <div class="card-header">
                                                 <ul class="nav nav-pills">
                                                     <li class="nav-item"><a @click="getMyRequests" class="nav-link active" href="#new" data-toggle="tab">Requests <span v-if="spin1"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a>  </li>
-                                                    <li class="nav-item"><a class="nav-link" href="#approved" data-toggle="tab">Approval Trail</a></li>
+                                                    <!-- <li class="nav-item"><a class="nav-link" href="#approved" data-toggle="tab">Approval Trail</a></li> -->
                                                     <!-- <li class="nav-item"><a class="nav-link" href="#declined" data-toggle="tab">Declined</a></li> -->
                                                     <li @click="loadProjectRequests" v-if="auth.designation == 'Project Accountant'" class="nav-item"><a class="nav-link" href="#projectrequests" data-toggle="tab">Project Requests <span v-if="spin2"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
                                                     <li @click="loadLevel1Requests" v-if="stateLoaded && auth.roles.includes('manager')" class="nav-item"><a class="nav-link" href="#level1requests" data-toggle="tab">Supervisor Requests <span v-if="spin3"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
@@ -102,7 +102,7 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                      <b-td v-if="req.trail.accountant_approval == 0">
+                                                                    <b-td v-if="req.trail.accountant_approval == 0">
                                                                         <button @click="sendToken(req.id, 'proj')" type="button" class="btn btn-outline-success btn-sm">
                                                                             Approve <span v-if="spin7"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                                         </button>
@@ -145,8 +145,17 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>
-
+                                                                    <b-td v-if="req.trail.level_one_approval == 0">
+                                                                        <button @click="sendToken(req.id, 'lev1')" type="button" class="btn btn-outline-success btn-sm">
+                                                                            Approve <span v-if="spin7"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </button>
+                                                                        <button @click="sendDecToken(req.id, 'lev1')"    class="btn btn-outline-danger btn-sm">Decline <span v-if="spin8"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.trail.level_one_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.trail.level_one_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -179,8 +188,34 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>
-
+                                                                     <b-td v-if="req.requestor_type == 'officer' && req.trail.finance_approval == 0">
+                                                                         <button @click="sendToken(req.id, 'finm')" type="button" class="btn btn-outline-success btn-sm">
+                                                                            Approve <span v-if="spin7"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </button>
+                                                                        <button @click="sendDecToken(req.id, 'finm')"    class="btn btn-outline-danger btn-sm">Decline <span v-if="spin8"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
+                                                                        <!-- <button @click="approveFMRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button @click="setDataBag(req.id, 'finance_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button> -->
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'officer' && req.trail.finance_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'officer' && req.trail.finance_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'manager' && req.trail.level_two_approval == 0">
+                                                                        <button @click="sendToken(req.id, 'finm')" type="button" class="btn btn-outline-success btn-sm">
+                                                                            Approve <span v-if="spin7"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </button>
+                                                                        <button @click="sendDecToken(req.id, 'finm')"    class="btn btn-outline-danger btn-sm">Decline <span v-if="spin8"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
+                                                                       
+                                                                        <!-- <button @click="approveFMRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button @click="setDataBag(req.id, 'finance_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button> -->
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'manager' && req.trail.level_two_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'manager' && req.trail.level_two_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -213,8 +248,50 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>
-
+                                                                    <b-td v-if="req.requestor_type == 'officer' && req.trail.level_two_approval == 0">
+                                                                         <button @click="sendToken(req.id, 'lev2')" type="button" class="btn btn-outline-success btn-sm">
+                                                                            Approve <span v-if="spin7"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </button>
+                                                                        <button @click="sendDecToken(req.id, 'lev2')"    class="btn btn-outline-danger btn-sm">Decline <span v-if="spin8"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
+                                                                       
+                                                                        <!-- <button @click="approveDirectorRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button @click="setDataBag(req.id, 'level_two_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button> -->
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'officer' && req.trail.level_two_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'officer' && req.trail.level_two_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'manager' && req.trail.level_one_approval == 0">
+                                                                         <button @click="sendToken(req.id, 'lev2')" type="button" class="btn btn-outline-success btn-sm">
+                                                                            Approve <span v-if="spin7"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </button>
+                                                                        <button @click="sendDecToken(req.id, 'lev2')"    class="btn btn-outline-danger btn-sm">Decline <span v-if="spin8"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
+                                                                       
+                                                                        <!-- <button @click="approveDirectorRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button @click="setDataBag(req.id, 'level_two_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button> -->
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'manager' && req.trail.level_one_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'manager' && req.trail.level_one_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'director' && req.trail.level_one_approval == 0">
+                                                                         <button @click="sendToken(req.id, 'lev2')" type="button" class="btn btn-outline-success btn-sm">
+                                                                            Approve <span v-if="spin7"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </button>
+                                                                        <button @click="sendDecToken(req.id, 'lev1')"    class="btn btn-outline-danger btn-sm">Decline <span v-if="spin8"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
+                                                                       
+                                                                        <!-- <button @click="approveDirectorRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button @click="setDataBag(req.id, 'level_one_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button> -->
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'director' && req.trail.level_one_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'director' && req.trail.level_one_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -247,8 +324,34 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>
-
+                                                                    <b-td v-if="req.requestor_type != 'director' && req.trail.level_three_approval == 0">
+                                                                        <button @click="sendToken(req.id, 'lev3')" type="button" class="btn btn-outline-success btn-sm">
+                                                                            Approve <span v-if="spin7"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </button>
+                                                                        <button @click="sendDecToken(req.id, 'lev3')"    class="btn btn-outline-danger btn-sm">Decline <span v-if="spin8"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
+                                                                       
+                                                                        <!-- <button @click="approveEDRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button @click="setDataBag(req.id, 'level_three_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button> -->
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type != 'director' && req.trail.level_three_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type != 'director' && req.trail.level_three_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'director' && req.trail.level_two_approval == 0">
+                                                                       <button @click="sendToken(req.id, 'lev3')" type="button" class="btn btn-outline-success btn-sm">
+                                                                            Approve <span v-if="spin7"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </button>
+                                                                        <button @click="sendDecToken(req.id, 'lev3')"    class="btn btn-outline-danger btn-sm">Decline <span v-if="spin8"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
+                                                                        <!-- <button @click="approveEDRequest(req.id)" class="btn btn-outline-success btn-sm">Approve</button>
+                                                                        <button @click="setDataBag(req.id, 'level_three_approval')" data-toggle="modal" data-backdrop="false" data-dismiss="modal"  data-target="#exampleModal" class="btn btn-outline-danger btn-sm">Decline</button> -->
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'director' && req.trail.level_two_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.requestor_type == 'director' && req.trail.level_two_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -472,20 +575,36 @@ export default {
              setProjects: "setProjects"
         }),
         confirm(){
-            if(this.approvalBag.approvalType == 'proj'){
+            
                 api.checkAndInvalidateToken(this.approvalBag).then(response => {
                     if(!response.success){
                          this.setErrors(response.data.error)
+                         this.showToast('danger', 'Error', this.errors)
                          return
                     } 
+                   
+                    if(this.approvalBag.approvalType == 'proj'){
+                        this.approveProjectrequest(this.approvalBag.request_id)
+                    }
+                    if(this.approvalBag.approvalType == 'lev1'){
+                        this.approveLevel1Request(this.approvalBag.request_id)
+                    }
+                    if(this.approvalBag.approvalType == 'finm'){
+                        this.approveFMRequest(this.approvalBag.request_id)
+                    }
+                    if(this.approvalBag.approvalType == 'lev2'){
+                        this.approveDirectorRequest(this.approvalBag.request_id)
+                    }
+                    if(this.approvalBag.approvalType == 'lev3'){
+                        this.approveEDRequest(this.approvalBag.request_id)
+                    }
                     this.approvalBag.token = null
                     this.approvalBag.approvalType = ''
-                    this.approveProjectrequest(this.approvalBag.request_id)
+                    this.showToast('success', 'Notification', 'Success')
                 })
-            }
+            
         },
         decline(){
-           
                 api.checkAndInvalidateToken(this.approvalBag).then(response => {
                     if(!response.success){
                          this.setErrors(response.data.error)
@@ -508,15 +627,35 @@ export default {
             this.spin7 = true
             api.sendToken(data).then(response => {
                 this.spin7 = false
+                this.showToast('primary', 'Token', 'Token has been generated and sent, check your email and retrieve token')
                 $('#tokenModal').modal('show')
             })
+        },
+        showToast(variant, title, body){
+             this.$bvToast.toast(body, {
+                title: title,
+                variant: variant,
+                solid: true
+        })
         },
         setDataBag(id, type){
             this.bag.request_id = id
             this.bag.field = type
         },
         sendDecToken(id, ty){
-            this.setDataBag(id, 'accountant_approval')
+            if(ty == 'proj'){
+                this.setDataBag(id, 'accountant_approval')
+            }
+            if(ty == 'lev1'){
+                this.setDataBag(id, 'level_one_approval')
+            }
+            if(ty == 'finm'){
+                this.setDataBag(id, 'finance_approval')
+            }
+            if(ty == 'lev2'){
+                this.setDataBag(id, 'level_two_approval')
+            }
+            
             this.approvalBag.approvalType = ty
             this.approvalBag.request_id = id
             let data = {
@@ -526,6 +665,7 @@ export default {
             this.spin8 = true
             api.sendToken(data).then(response => {
                 this.spin8 = false
+                this.showToast('primary', 'Token', 'Token has been generated and sent, check your email and retrieve token')
                 $('#tokenDecModal').modal('show')
             })
         },
@@ -544,13 +684,16 @@ export default {
             api.makeReq(data).then(response => {
                 this.setRequest(response.data)
                 this.spinner = false
+                 this.showToast('success', 'Notification', 'Saved!! Please fill the documents on the next page')
                 this.$router.push('/request/make')
+                
             })
         },
          declineProjectrequest(){
             api.declineRequest(this.bag).then(response => {
                 $('#tokenModal').modal('hide');
                 $('#exampleModal').modal('toggle');
+                 this.showToast('success', 'Notification', 'success')
             })
          },
         approveLevel1Request(req){
@@ -644,9 +787,6 @@ export default {
              auth: state => state.auth,
              myRequests: state => state.myRequests,
              projects: state => state.projects,
-             vendors: state => state.vendors,
-             departments: state => state.departments,
-             assets: state => state.assets,
              errors: state => state.errors,
          }),
          currentDate() {
@@ -672,11 +812,11 @@ export default {
 
     },
     watch: {
-        vendor_id(newVal, oldVal){
-            if(newVal != undefined){
-                this.vendor_location = this.vendors.filter(vendor => vendor.id == newVal)[0]['location']
-            }
-        },
+        // vendor_id(newVal, oldVal){
+        //     if(newVal != undefined){
+        //         this.vendor_location = this.vendors.filter(vendor => vendor.id == newVal)[0]['location']
+        //     }
+        // },
     },
 }
 </script>

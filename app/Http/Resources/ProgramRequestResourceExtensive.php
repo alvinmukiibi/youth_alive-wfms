@@ -26,6 +26,7 @@ class ProgramRequestResourceExtensive extends JsonResource
             'doc_completion_status' => $this->doc_completion_status,
             'id' => $this->id,
             'identity' => $this->identity,
+            'requestor_type' => $this->getRequestorType(),
             'project' => Project::find($this->project_id)->name,
             'created_at' => date('d-M-Y', strtotime($this->created_at)),
             'tsow' => $this->travelscope()->count() > 0 ? new TravelScopeResource($this->travelscope) : null,
