@@ -12,6 +12,9 @@ use App\Project;
 use App\Department;
 use App\User;
 use App\Events\RequestCreatedEvent;
+use App\Mail\ApprovalTokenMail;
+use App\Token;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class ProgramRequestController extends BaseController
@@ -70,6 +73,10 @@ class ProgramRequestController extends BaseController
 
         $req = ProgramRequest::find($request->request_id);
 
+        if(auth()->user()->id != $req->id){
+            return $this->sendResponse('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
+        }
+
         $tsow = [
             'travellers' => $request->travellers,
             'date_of_activity' => $request->date_of_activity,
@@ -91,6 +98,10 @@ class ProgramRequestController extends BaseController
     {
 
         $req = ProgramRequest::find($request->request_id);
+
+        if(auth()->user()->id != $req->id){
+            return $this->sendResponse('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
+        }
 
         if ($request->vehicle) {
             $veh = [
@@ -123,6 +134,10 @@ class ProgramRequestController extends BaseController
     {
 
         $req = ProgramRequest::find($request->request_id);
+
+        if(auth()->user()->id != $req->id){
+            return $this->sendResponse('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
+        }
 
         $bgt = [
             'activity' => $request->activity,
@@ -178,6 +193,7 @@ class ProgramRequestController extends BaseController
         $requests = ProgramRequestResourceExtensive::collection($requests);
 
         return $this->sendResponse($requests, 'All my requests');
+
     }
 
     public function getProjectRequests(Request $request)
@@ -271,7 +287,7 @@ class ProgramRequestController extends BaseController
         }
 
         // get requests from the ED for approval
-        // $all = Req::all();
+        // $all = ProgramRequest::all();
         // foreach($all)
 
         // if the director is a finance director, then get director requests for level 1 approval
@@ -287,5 +303,258 @@ class ProgramRequestController extends BaseController
 
         $reqs = ProgramRequestResourceExtensive::collection($reqs);
         return $this->sendResponse($reqs, 'Requests for directors approval');
+    }
+
+    public function invalidateToken(request $request){
+
+        $user = auth()->user();
+
+        $token = Token::where(['initiator' => $user->id, 'request' => $request->request_id, 'type' => $request->approvalType])->latest()->first();
+
+        if($token){
+            if($token->status){
+                return $this->sendError('error', ['error' => 'Token already used']);
+            }
+            if($token->token == $request->token){
+                if(date('d-M-Y H:i:s') < date('d-M-Y H:i:s', strtotime($token->expiry_date))){
+                    $token->status = true;
+                    $token->save();
+
+                    return $this->sendResponse('success', 'Token invalidated');
+                }else{
+                    return $this->sendError('error', ['error' => 'Token expired, please generate another one!']);
+                }
+            }else{
+                return $this->sendError('error', ['error' => 'Token incorrect, please enter right token']);
+            }
+        }else{
+            return $this->sendError('error', ['error' => 'Token does not exist, please generate a token']);
+        }
+
+    }
+
+    public function generateToken(Request $request){
+
+        $user = auth()->user();
+
+        $data = [
+            'token' => $this->random_strings(5),
+            'request' => $request->request_id,
+            'initiator' => $user->id,
+            'type' => $request->ty,
+            'expiry_date' => date('Y-m-d H:i:s', strtotime("+10 min"))
+        ];
+
+        $token = Token::create($data);
+
+        $mail = new ApprovalTokenMail;
+        $mail->token = $token;
+        $mail->user = $user->fname;
+
+        Mail::to($user->email)->send($mail);
+
+        return $this->sendResponse('success', 'Confirmation token has been sent to your email!');
+    }
+
+    public function approveRequest(Request $request)
+    {
+        $req = ProgramRequest::find($request->request_id);
+        $field = $request->field;
+        if ($field == 'accountant_approval') {
+            $traceability_id = 'accountant_id';
+            $traceability_date = 'accountant_approval_date';
+            // $this->notifyLevelOne($req);
+        }
+        if ($field == 'level_one_approval') {
+            $traceability_id = 'level_one_approver_id';
+            $traceability_date = 'level_one_approval_date';
+            // for an officer
+            // $this->notifyFinanceManager($req);
+        }
+
+        if ($field == 'level_two_approval') {
+
+            if ($req->getRequestorType() != 'manager' && $req->getRequestorType() != 'director') {
+                $traceability_id = 'level_two_approver_id';
+                $traceability_date = 'level_two_approval_date';
+                // for an officer
+                // $this->notifyLastDirector($req);
+            }
+
+            if ($req->getRequestorType() == 'manager') {
+                $field = 'level_one_approval';
+                $traceability_id = 'level_one_approver_id';
+                $traceability_date = 'level_one_approval_date';
+                // $this->notifyFinanceManager($req); // for level two approval
+
+            }
+            if ($req->getRequestorType() == 'director') {
+                $field = 'level_one_approval';
+                $traceability_id = 'level_one_approver_id';
+                $traceability_date = 'level_one_approval_date';
+
+                // if requestor is the ED himself
+                if ($req->requestor->designation_id == 1) {
+                    // notify all other directors
+                    $directors = [];
+                    $all_users = User::all();
+                    foreach ($all_users as $user) {
+                        // if the directors dont include the finance director and the executive director
+                        if (in_array('director', $user->arrayOfRoles()) && $user->designation_id != 1 && $user->id != auth()->user()->id) {
+                            $directors[] = $user;
+                        }
+                    }
+                    // notify all these directors, whoever gets there first approves it
+                    foreach ($directors as $dir) {
+                        // event(new RequestCreatedEvent($dir, $req->requestor));
+                    }
+                } else {
+                    // $this->notifyLastDirector($req); // for last level (2) approval
+                }
+            }
+        }
+        if ($field == 'finance_approval') {
+            if ($req->getRequestorType() == 'manager') {
+                $field = 'level_two_approval';
+                $traceability_id = 'level_two_approver_id';
+                $traceability_date = 'level_two_approval_date';
+                // $this->notifyLastDirector($req); // for last approval
+
+            } else {
+                $traceability_id = 'finance_approver_id';
+                $traceability_date = 'finance_approval_date';
+                // for an officer
+                // $this->notifyDirector1($req);
+            }
+        }
+        if ($field == 'level_three_approval') {
+            if ($req->getRequestorType() == 'director') {
+                $field = 'level_two_approval';
+                $traceability_id = 'level_two_approver_id';
+                $traceability_date = 'level_two_approval_date';
+                // the end of a director request
+            } else {
+                $traceability_id = 'level_three_approver_id';
+                $traceability_date = 'level_three_approval_date';
+                // for an officer
+                // $this->notifyLastDirector($req);
+            }
+        }
+
+        $trail = $req->trail;
+        $trail[$field] = true;
+        $trail[$traceability_id] = $request->user()->id;
+        $trail[$traceability_date] = date('d-M-Y H:i');
+        $trail->save();
+
+        // event(new RequestUpdateEvent($req->requestor));
+
+        return $this->sendResponse('success', 'success');
+    }
+    public function declineRequest(Request $request)
+    {
+        $comments = $request->comments;
+        $req = ProgramRequest::find($request->request_id);
+        $field = $request->field;
+        if ($field == 'accountant_approval') {
+            $traceability_id = 'accountant_id';
+            $traceability_date = 'accountant_approval_date';
+            $traceability_comments = 'accountant_comments';
+            // $this->notifyLevelOne($req);
+        }
+        if ($field == 'level_one_approval') {
+            $traceability_id = 'level_one_approver_id';
+            $traceability_date = 'level_one_approval_date';
+            $traceability_comments = 'level_one_approver_comments';
+            // for an officer
+            // $this->notifyFinanceManager($req);
+        }
+
+        if ($field == 'level_two_approval') {
+
+            if ($req->getRequestorType() != 'manager' && $req->getRequestorType() != 'director') {
+
+                $traceability_id = 'level_two_approver_id';
+                $traceability_date = 'level_two_approval_date';
+                $traceability_comments = 'level_two_approver_comments';
+                // for an officer
+                // $this->notifyLastDirector($req);
+            }
+            if ($req->getRequestorType() == 'manager') {
+                $field = 'level_one_approval';
+                $traceability_id = 'level_one_approver_id';
+                $traceability_date = 'level_one_approval_date';
+                $traceability_comments = 'level_one_approver_comments';
+                // $this->notifyFinanceManager($req); // for level two approval
+
+            }
+            if ($req->getRequestorType() == 'director') {
+                $field = 'level_one_approval';
+                $traceability_id = 'level_one_approver_id';
+                $traceability_date = 'level_one_approval_date';
+                $traceability_comments = 'level_one_approver_comments';
+
+                // if requestor is the ED himself
+                if ($req->requestor->designation_id == 1) {
+                    // notify all other directors
+                    $directors = [];
+                    $all_users = User::all();
+                    foreach ($all_users as $user) {
+                        // if the directors dont include the finance director and the executive director
+                        if (in_array('director', $user->arrayOfRoles()) && $user->designation_id != 1 && $user->id != auth()->user()->id) {
+                            $directors[] = $user;
+                        }
+                    }
+                    // notify all these directors, whoever gets there first approves it
+                    foreach ($directors as $dir) {
+                        event(new RequestCreatedEvent($dir, $req->requestor));
+                    }
+                } else {
+                    // $this->notifyLastDirector($req); // for last level (2) approval
+                }
+            }
+        }
+        if ($field == 'finance_approval') {
+            if ($req->getRequestorType() == 'manager') {
+                $field = 'level_two_approval';
+                $traceability_id = 'level_two_approver_id';
+                $traceability_date = 'level_two_approval_date';
+                $traceability_comments = 'level_two_approver_comments';
+                // $this->notifyLastDirector($req); // for last approval
+
+            } else {
+                $traceability_id = 'finance_approver_id';
+                $traceability_date = 'finance_approval_date';
+                $traceability_comments = 'finance_approver_comments';
+                // for an officer
+                // $this->notifyDirector1($req);
+            }
+        }
+        if ($field == 'level_three_approval') {
+            if ($req->getRequestorType() == 'director') {
+                $field = 'level_two_approval';
+                $traceability_id = 'level_two_approver_id';
+                $traceability_date = 'level_two_approval_date';
+                $traceability_comments = 'level_two_approver_comments';
+                // the end of a director request
+            } else {
+                $traceability_id = 'level_three_approver_id';
+                $traceability_date = 'level_three_approval_date';
+                $traceability_comments = 'level_three_approver_comments';
+                // for an officer
+                // $this->notifyLastDirector($req);
+            }
+        }
+
+        $trail = $req->trail;
+        $trail[$field] = 2;
+        $trail[$traceability_id] = $request->user()->id;
+        $trail[$traceability_date] = date('d-M-Y H:i');
+        $trail[$traceability_comments] = $comments;
+        $trail->save();
+
+        // event(new RequestUpdateEvent($req->requestor));
+
+        return $this->sendResponse($trail, 'success');
     }
 }

@@ -618,7 +618,8 @@ export default {
   methods: {
     ...mapMutations({
       setErrors: "setErrors",
-      setMyLeaves: "setMyLeaves"
+      setMyLeaves: "setMyLeaves",
+      setLeaveTypes: "setLeaveTypes"
     }),
     setLeave(id) {
       this.dec.id = id;
@@ -675,9 +676,15 @@ export default {
           lt => lt.id == this.leave.leave_type_id
         )[0]["days"];
       }
+    },
+    getLeaveTypes() {
+      api.getLeaveTypes().then(response => {
+        this.setLeaveTypes(response);
+      });
     }
   },
   mounted() {
+    this.getLeaveTypes();
     this.loadMyLeaves();
   },
   computed: {

@@ -268,37 +268,12 @@ import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      n: 0,
-      n1: 0,
-      n2: 0,
-      n3: 0
     };
   },
   methods: {
     ...mapMutations({
       setUsersCount: "setUsersCount"
     }),
-    // n3(approval1, approval2){
-    //     return this.myRequests.filter(req => {
-    //         if(req.trail[approval1] == 1 && req.trail[approval2] == 1){
-    //             return req
-    //         }
-    //     }).length
-    // },
-    // n1(approval1, approval2, approval3){
-    //     return this.myRequests.filter(req => {
-    //         if(req.trail[approval1] == 1 && req.trail[approval2] == 1 && req.trail[approval3] == 0){
-    //             return req
-    //         }
-    //     }).length
-    // },
-    // n2(approval, approval1){
-    //     return this.myRequests.filter(req => {
-    //         if(req.trail[approval] == 1 && req.trail[approval1] == 0){
-    //             return req
-    //         }
-    //     }).length
-    // },
     isActive(route) {
       if (this.$route.path == route) {
         return true;
@@ -312,7 +287,10 @@ export default {
     }
   },
   mounted() {
-    this.countEmployees();
+      if(this.stateLoaded && this.auth.roles.includes('manager') && this.auth.department == 'Human Resource'){
+          this.countEmployees();
+      }
+    
   },
   computed: {
     ...mapState({
@@ -322,13 +300,6 @@ export default {
     stateLoaded() {
       return Object.keys(this.auth).length > 0 ? true : false;
     }
-    // n(){
-    //     return this.myRequests.filter(req => {
-    //         if(req.trail['accountant_approval'] == 0){
-    //             return req
-    //         }
-    //     }).length
-    // },
   }
 };
 </script>

@@ -214,3 +214,9 @@ export function updateRequestThatDocIsCompleted(data) {
 export function saveAttachments(data) {
     return axios.post(prefix + '/programs/save/attachments', data).then(response => response.data)
 }
+export function sendToken(data) {
+    return axios.post(prefix + '/requests/send/token', data).then(response => response.data)
+}
+export function checkAndInvalidateToken(data) {
+    return axios.post(prefix + '/requests/check/token', data).then(response => response.data)
+}

@@ -92,62 +92,39 @@ export default {
           response.data.roles.includes("manager") ||
           response.data.roles.includes("administrator")
         ) {
-        //   api.getDepartments().then(response => {
-        //     this.setDepartments(response.data);
-        //   });
-        //   api.getDirectorates().then(response => {
-        //     this.setDirectorates(response.data);
-        //   });
-        //   api.getDesignations().then(response => {
-        //     this.setDesignations(response.data);
-        //   });
-        //   api.getUsers().then(response => {
-        //     this.setUsers(response.data);
-        //   });
-        //   api.getContracts().then(response => {
-        //     this.setContracts(response.data);
-        //   });
-        //   api.getRoles().then(response => {
-        //     this.setRoles(response.data);
-        //   });
-        //   api.getProjects().then(response => {
-        //     this.setProjects(response.data);
-        //   });
-        //   api.getLeaveTypes().then(response => {
-        //     this.setLeaveTypes(response);
-        //   });
-        //   api.getAssets().then(response => {
-        //     this.setAssets(response);
-        //   });
-        //   api.getVendors().then(response => {
-        //     this.setVendors(response);
-        //   });
+          //   api.getDepartments().then(response => {
+          //     this.setDepartments(response.data);
+          //   });
+          //   api.getDirectorates().then(response => {
+          //     this.setDirectorates(response.data);
+          //   });
+          //   api.getDesignations().then(response => {
+          //     this.setDesignations(response.data);
+          //   });
+          //   api.getUsers().then(response => {
+          //     this.setUsers(response.data);
+          //   });
+          //   api.getContracts().then(response => {
+          //     this.setContracts(response.data);
+          //   });
+          //   api.getRoles().then(response => {
+          //     this.setRoles(response.data);
+          //   });
+          //   api.getProjects().then(response => {
+          //     this.setProjects(response.data);
+          //   });
+          //   api.getLeaveTypes().then(response => {
+          //     this.setLeaveTypes(response);
+          //   });
+          //   api.getAssets().then(response => {
+          //     this.setAssets(response);
+          //   });
+          //   api.getVendors().then(response => {
+          //     this.setVendors(response);
+          //   });
           //   api.getMyRequests().then(response => {
           //     this.setMyRequests(response.data);
           //   });
-        }
-        if (
-          response.data.roles.includes("officer") &&
-          response.data.roles.length == 1
-        ) {
-          api.getProjects().then(response => {
-            this.setProjects(response.data);
-          });
-          api.getVendors().then(response => {
-            this.setVendors(response);
-          });
-          api.getDepartments().then(response => {
-            this.setDepartments(response.data);
-          });
-          api.getAssets().then(response => {
-            this.setAssets(response);
-          });
-          //   api.getMyRequests().then(response => {
-          //     this.setMyRequests(response.data);
-          //   });
-          api.getLeaveTypes().then(response => {
-            this.setLeaveTypes(response);
-          });
         }
         if (response.data.roles.includes("director")) {
           api.getProjects().then(response => {

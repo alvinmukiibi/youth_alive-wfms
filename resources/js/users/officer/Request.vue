@@ -40,11 +40,7 @@
                                                     <li @click="loadFMRequests" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Finance and Operations'" class="nav-item"><a class="nav-link" href="#fmrequests" data-toggle="tab">Pending Financial Approval <span v-if="spin4"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
                                                     <li @click="loadDirectorRequests" v-if="stateLoaded && auth.roles.includes('director')"  class="nav-item"><a class="nav-link" href="#directorrequests" data-toggle="tab">Pending Director Approval <span v-if="spin5"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
                                                     <li @click="loadEDRequests" v-if="stateLoaded && auth.designation == 'Executive Director'" class="nav-item"><a class="nav-link" href="#edrequests" data-toggle="tab">Pending ED Approval <span v-if="spin6"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
-                                                    <!-- <li @click="loadLevel1Requests" v-if="stateLoaded && auth.roles.includes('manager')" class="nav-item"><a class="nav-link" href="#level1requests" data-toggle="tab">Level 1 Approvals</a></li>
-                                                    <li @click="loadFMRequests" v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Finance and Operations'" class="nav-item"><a class="nav-link" href="#fmrequests" data-toggle="tab">Pending Financial Approval</a></li>
-                                                    <li @click="loadDirectorRequests" v-if="stateLoaded && auth.roles.includes('director')" class="nav-item"><a class="nav-link" href="#directorrequests" data-toggle="tab">Pending Director Approval</a></li>
-                                                    <li @click="loadEDRequests" v-if="stateLoaded && auth.designation == 'Executive Director'" class="nav-item"><a class="nav-link" href="#edrequests" data-toggle="tab">Pending ED Approval</a></li> -->
-                                                </ul>
+                                                  </ul>
                                             </div>
                                               <div class="card-body">
                                                 <div class="tab-content">
@@ -72,8 +68,8 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>   
-                                                                       
+                                                                    <b-td>
+
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -106,8 +102,17 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>   
-                                                                       
+                                                                      <b-td v-if="req.trail.accountant_approval == 0">
+                                                                        <button @click="sendToken(req.id, 'proj')" type="button" class="btn btn-outline-success btn-sm">
+                                                                            Approve <span v-if="spin7"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </button>
+                                                                        <button @click="sendDecToken(req.id, 'proj')"    class="btn btn-outline-danger btn-sm">Decline <span v-if="spin8"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.trail.accountant_approval == 1">
+                                                                        <button class="btn btn-success btn-sm btn-flat"> <i class="fa fa-check"></i> Approved</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.trail.accountant_approval == 2">
+                                                                        <button class="btn btn-danger btn-sm btn-flat"> <i class="fa fa-times"></i> Declined</button>
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -140,8 +145,8 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>   
-                                                                       
+                                                                    <b-td>
+
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -174,8 +179,8 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>   
-                                                                       
+                                                                    <b-td>
+
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -208,8 +213,8 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>   
-                                                                       
+                                                                    <b-td>
+
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -242,8 +247,8 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>   
-                                                                       
+                                                                    <b-td>
+
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -255,6 +260,96 @@
 
 
                                     </div>
+                                    <div class="modal fade" id="tokenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Enter Token</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="card card-outline card-success">
+                                                                               <div class="card-body">
+                                                                                    <div class="form-group row" >
+                                                                                <label for="" class="col-sm-4 col-form-label">Token</label>
+                                                                                <div class="col-md-8">
+                                                                                    <input v-model="approvalBag.token" type="text" placeholder="e.g. 567G" class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                               </div>
+
+                                                                           </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <button type="button" @click="confirm" class="btn btn-primary">Confirm</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="tokenDecModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Enter Token</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="card card-outline card-success">
+                                                                               <div class="card-body">
+                                                                                    <div class="form-group row" >
+                                                                                <label for="" class="col-sm-4 col-form-label">Token</label>
+                                                                                <div class="col-md-8">
+                                                                                    <input v-model="approvalBag.token" type="text" placeholder="e.g. 567G" class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                               </div>
+
+                                                                           </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <button type="button" @click="decline" class="btn btn-danger">Decline</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLongTitle">Comments</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="card card-outline-primary">
+                                                                <div class="card-header">
+                                                                    <h3 class="card-title">
+                                                                        Comments
+                                                                    </h3>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <textarea name="" v-model="bag.comments" id="" cols="3" rows="3" class="form-control"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button @click="declineProjectrequest" type="button" class="btn btn-primary">Continue</button>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
                                     <div class="tab-pane" id="make">
                                         <div class="card card-primary card-outline">
                                             <div class="card-header">
@@ -302,7 +397,7 @@
                                             </b-form-group>
 
                                                 <div class="form-group">
-                                                   
+
                                                         <button class="btn btn-primary btn-flat" @click="save">
                                                             <span v-if="spinner"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                             <b>Save</b></button>
@@ -310,7 +405,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -328,6 +423,16 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data() {
         return {
+             bag: {
+                request_id: null,
+                field: null,
+                comments: null,
+            },
+            approvalBag: {
+                approvalType: '',
+                request_id: null,
+                token: null
+            },
             selected: null,
             options: [
             { text: 'Programs', value: '1' },
@@ -351,6 +456,11 @@ export default {
             spin4: false,
             spin5: false,
             spin6: false,
+            spin7: false,
+            spin8: false,
+            spin9: false,
+            spin10: false,
+            spin11: false,
             bucket: null,
         }
     },
@@ -358,8 +468,67 @@ export default {
          ...mapMutations({
              setRequest: "setRequest",
              setMyRequests: "setMyRequests",
-             setErrors: "setErrors"
+             setErrors: "setErrors",
+             setProjects: "setProjects"
         }),
+        confirm(){
+            if(this.approvalBag.approvalType == 'proj'){
+                api.checkAndInvalidateToken(this.approvalBag).then(response => {
+                    if(!response.success){
+                         this.setErrors(response.data.error)
+                         return
+                    } 
+                    this.approvalBag.token = null
+                    this.approvalBag.approvalType = ''
+                    this.approveProjectrequest(this.approvalBag.request_id)
+                })
+            }
+        },
+        decline(){
+           
+                api.checkAndInvalidateToken(this.approvalBag).then(response => {
+                    if(!response.success){
+                         this.setErrors(response.data.error)
+                         return
+                    } 
+                    this.approvalBag.token = null
+                    this.approvalBag.approvalType = ''
+                    $('#tokenModal').modal('hide')
+                    $('#exampleModal').modal('show')
+                })
+            
+        },
+        sendToken(id, ty){
+            this.approvalBag.approvalType = ty
+            this.approvalBag.request_id = id
+            let data = {
+                request_id: id,
+                ty: ty
+            }
+            this.spin7 = true
+            api.sendToken(data).then(response => {
+                this.spin7 = false
+                $('#tokenModal').modal('show')
+            })
+        },
+        setDataBag(id, type){
+            this.bag.request_id = id
+            this.bag.field = type
+        },
+        sendDecToken(id, ty){
+            this.setDataBag(id, 'accountant_approval')
+            this.approvalBag.approvalType = ty
+            this.approvalBag.request_id = id
+            let data = {
+                request_id: id,
+                ty: ty
+            }
+            this.spin8 = true
+            api.sendToken(data).then(response => {
+                this.spin8 = false
+                $('#tokenDecModal').modal('show')
+            })
+        },
         save(){
             this.spinner = true;
             let doc_completion_status = []
@@ -376,6 +545,42 @@ export default {
                 this.setRequest(response.data)
                 this.spinner = false
                 this.$router.push('/request/make')
+            })
+        },
+         declineProjectrequest(){
+            api.declineRequest(this.bag).then(response => {
+                $('#tokenModal').modal('hide');
+                $('#exampleModal').modal('toggle');
+            })
+         },
+        approveLevel1Request(req){
+            api.giveLevel1Approval(req).then(response => {
+                 $('#tokenModal').modal('hide');
+                this.loadLevel1Requests();
+            })
+        },
+        approveDirectorRequest(req){
+            api.giveDirectorApproval(req).then(response => {
+                 $('#tokenModal').modal('hide');
+                this.loadDirectorRequests();
+            })
+        },
+        approveEDRequest(req){
+            api.giveEDApproval(req).then(response => {
+                 $('#tokenModal').modal('hide');
+                this.loadEDRequests();
+            })
+        },
+        approveFMRequest(req){
+            api.givefMApproval(req).then(response => {
+                 $('#tokenModal').modal('hide');
+                this.loadFMRequests();
+            })
+        },
+         approveProjectrequest(req){
+            api.giveAccountantApproval(req).then(response => {
+                $('#tokenModal').modal('hide');
+                this.loadProjectRequests();
             })
         },
         getMyRequests(){
@@ -428,6 +633,11 @@ export default {
             let request = this.myRequests.filter(req => req.id == id)[0]
             this.setRequest(request)
         },
+        getProjects(){
+            api.getProjects().then(response => {
+            this.setProjects(response.data);
+          });
+        }
     },
     computed: {
          ...mapState({
@@ -457,7 +667,8 @@ export default {
     },
     mounted() {
         this.getMyRequests();
-        
+        this.getProjects()
+
 
     },
     watch: {

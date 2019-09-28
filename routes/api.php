@@ -33,6 +33,8 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         // Route::post('/', 'ProgramRequestController@addRequest');
         // Route::post('/update/{request}', 'ProgramRequestController@updateRequest');
         Route::get('/mine', 'ProgramRequestController@getMyRequests');
+        Route::post('/send/token', 'ProgramRequestController@generateToken');
+        Route::post('/check/token', 'ProgramRequestController@invalidateToken');
         Route::get('/accountant', 'ProgramRequestController@getProjectRequests');
         Route::get('/firstlevel', 'ProgramRequestController@getLevel1Requests');
         Route::get('/fmrequests', 'ProgramRequestController@getFMRequests');
@@ -42,8 +44,8 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         // Route::post('/directorreqeuests', 'ProgramRequestController@approveRequest');
         // Route::post('/fmrequests', 'ProgramRequestController@approveRequest');
         // Route::post('/firstlevel', 'ProgramRequestController@approveRequest');
-        // Route::post('/accountant', 'ProgramRequestController@approveRequest');
-        // Route::post('/decline', 'ProgramRequestController@declineRequest');
+        Route::post('/accountant', 'ProgramRequestController@approveRequest');
+        Route::post('/decline', 'ProgramRequestController@declineRequest');
     });
 
     Route::group(['prefix' => 'users'], function () {
