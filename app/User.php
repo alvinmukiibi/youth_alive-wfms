@@ -12,6 +12,7 @@ use App\ProgramRequest;
 use App\Leave;
 use App\Setting;
 use App\Directorate;
+use App\Message;
 
 class User extends Authenticatable
 {
@@ -116,6 +117,13 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    public function sent_messages(){
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+    public function received_messages(){
+        return $this->hasMany(Message::class, 'recipient_id');
     }
 
     public function supervisor($req = null)

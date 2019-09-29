@@ -166,6 +166,12 @@
             </router-link>
           </li>
           <li class="nav-item">
+            <router-link to="/mailbox" class="nav-link" :class="{ 'active': isActive('/mailbox') }">
+              <i class="nav-icon fa fa-envelope"></i>
+              <p>Messages</p>
+            </router-link>
+          </li>
+          <li class="nav-item">
             <router-link
               to="/settings"
               class="nav-link"

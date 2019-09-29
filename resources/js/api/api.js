@@ -236,3 +236,6 @@ export function getRequestAttachments(id) {
 export function saveNotes(data) {
     return axios.post(prefix + '/requests/save/notes', data).then(response => response.data)
 }
+export function getChats(data) {
+    return axios.get(prefix + '/chat', data).then(response => response.data)
+}

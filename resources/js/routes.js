@@ -22,6 +22,7 @@ import TravelReport from './users/officer/TravelReport'
 import Budget from './users/officer/Budget'
 import Container from './users/officer/Container'
 import ApprovalTrail from './users/officer/ApprovalTrail'
+import Mailbox from './components/Mailbox.vue'
 
 const routes = [{
         path: '/',
@@ -82,6 +83,10 @@ const routes = [{
     {
         path: '/leave',
         component: Leaves
+    },
+    {
+        path: '/mailbox',
+        component: Mailbox
     },
     {
         path: '/settings',

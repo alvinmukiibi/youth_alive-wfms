@@ -28,7 +28,9 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/save/attachments', 'ProgramRequestController@saveAttachments');
         Route::post('/changedoccompletionstatus', 'ProgramRequestController@changedoccompletionstatus');
     });
-
+    Route::group(['prefix' => 'chat'], function () {
+        Route::get('/', 'MessagingController@getChats');
+    }):
     Route::group(['prefix' => 'requests'], function () {
         // Route::post('/', 'ProgramRequestController@addRequest');
         // Route::post('/update/{request}', 'ProgramRequestController@updateRequest');
