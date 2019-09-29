@@ -218,7 +218,9 @@ export default {
       leavetypes: state => state.leaveTypes
     })
   },
-  mounted() {}
+  mounted() {
+      this.loadLeaveTypes()
+  }
 };
 </script>
 

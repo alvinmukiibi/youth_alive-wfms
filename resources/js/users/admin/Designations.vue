@@ -180,7 +180,9 @@ export default {
       designations: state => state.designations
     })
   },
-  mounted() {}
+  mounted() {
+    this.loadDesignations();
+  }
 };
 </script>
 

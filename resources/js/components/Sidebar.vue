@@ -143,7 +143,7 @@
               <p>Designations</p>
             </router-link>
           </li>
-          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+          <!-- <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
             <router-link to="/assets" class="nav-link" :class="{ 'active': isActive('/assets') }">
               <i class="nav-icon fa fa-user"></i>
               <p>Assets</p>
@@ -154,7 +154,7 @@
               <i class="nav-icon fa fa-user"></i>
               <p>Vendors</p>
             </router-link>
-          </li>
+          </li>-->
           <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
             <router-link
               to="/leavetypes"

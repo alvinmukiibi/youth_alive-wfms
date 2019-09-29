@@ -217,15 +217,29 @@ class ProgramRequestController extends BaseController
         // get requests that the accountant has approved but manager/supervisor has not yet approved and the request was instituted by an officer
 
         $user = $request->user();
+        $pm = Department::where(['name' => 'Project Management'])->first();
 
-        $department = Department::find($user->department_id);
-        $requests = $department->requests;
-        $reqs = collect();
-        foreach ($requests as $req) {
-            if ($req->getRequestorType() == 'officer' && $req->trail->accountant_approval == 1) {
-                $reqs->push($req);
+        if($user->department->id == $pm->id){
+            $project = Project::where(['manager' => $user->id])->first();
+            $reqp = $project->requests;
+            $reqs = collect();
+            foreach ($reqp as $req) {
+                if ($req->getRequestorType() == 'officer' && $req->trail->accountant_approval == 1) {
+                    $reqs->push($req);
+                }
             }
+
+        }else{
+            // $department = Department::find($user->department_id);
+            // $requests = $department->requests;
+            // $reqs = collect();
+            // foreach ($requests as $req) {
+            //     if ($req->getRequestorType() == 'officer' && $req->trail->accountant_approval == 1) {
+            //         $reqs->push($req);
+            //     }
+            // }
         }
+
         $reque = ProgramRequestResourceExtensive::collection($reqs);
 
         return $this->sendResponse($reque, 'Requests for level 1 approval');
@@ -368,7 +382,7 @@ class ProgramRequestController extends BaseController
         if ($field == 'accountant_approval') {
             $traceability_id = 'accountant_id';
             $traceability_date = 'accountant_approval_date';
-            event(new RequestCreatedEvent($req->requestor->supervisor(), $req->requestor));
+            event(new RequestCreatedEvent($req->requestor->supervisor($req), $req->requestor));
         }
         if ($field == 'level_one_approval') {
             $traceability_id = 'level_one_approver_id';

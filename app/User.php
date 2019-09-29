@@ -118,7 +118,7 @@ class User extends Authenticatable
         return false;
     }
 
-    public function supervisor()
+    public function supervisor($req = null)
     {
         /**
          * your supervisor is the user above you in the organogram
@@ -133,14 +133,28 @@ class User extends Authenticatable
         $users = User::all();
         $admin = User::first();
 
+
         switch ($post) {
             case 'officer':
                 $response = null;
-                foreach ($users as $user) {
-                    if ($user->user_type() == 'manager' && $user->department == $this->department) {
-                        $response = $user;
-                    }
+                $pm = Department::where(['name' => 'Project Management'])->first();
+
+                if($req->requestor->department == $pm){
+
+                        $manager = User::find(Project::find($req->project_id)->manager);
+                        $response = $manager;
+
+                }else{
+                    foreach ($users as $user) {
+
+                        if ($user->user_type() == 'manager' && $user->department == $this->department) {
+                            $response = $user;
+                        }
+
+
                 }
+                }
+
                 return $response ? $response : $admin;
                 break;
             case 'manager':

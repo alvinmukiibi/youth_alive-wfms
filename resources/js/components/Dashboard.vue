@@ -101,7 +101,7 @@
               </router-link>
             </div>
           </div>
-          <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+          <!-- <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
             <div class="small-box bg-danger">
               <div class="inner">
                 <h3>{{ Object.keys(departments).length }}</h3>
@@ -115,8 +115,8 @@
                 <i class="fa fa-arrow-circle-right"></i>
               </router-link>
             </div>
-          </div>
-          <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+          </div>-->
+          <!-- <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
             <div class="small-box bg-info">
               <div class="inner">
                 <h3>{{ Object.keys(projects).length }}</h3>
@@ -130,8 +130,8 @@
                 <i class="fa fa-arrow-circle-right"></i>
               </router-link>
             </div>
-          </div>
-          <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+          </div>-->
+          <!-- <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
             <div class="small-box bg-secondary">
               <div class="inner">
                 <h3>{{ Object.keys(vendors).length }}</h3>
@@ -145,8 +145,8 @@
                 <i class="fa fa-arrow-circle-right"></i>
               </router-link>
             </div>
-          </div>
-          <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+          </div>-->
+          <!-- <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
             <div class="small-box bg-dark">
               <div class="inner">
                 <h3>{{ Object.keys(assets).length }}</h3>
@@ -160,8 +160,8 @@
                 <i class="fa fa-arrow-circle-right"></i>
               </router-link>
             </div>
-          </div>
-          <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+          </div>-->
+          <!-- <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
             <div class="small-box bg-warning">
               <div class="inner">
                 <h3>{{ Object.keys(leaveTypes).length }}</h3>
@@ -175,8 +175,8 @@
                 <i class="fa fa-arrow-circle-right"></i>
               </router-link>
             </div>
-          </div>
-          <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
+          </div>-->
+          <!-- <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('administrator')">
             <div class="small-box bg-primary">
               <div class="inner">
                 <h3>{{ Object.keys(designations).length }}</h3>
@@ -190,7 +190,7 @@
                 <i class="fa fa-arrow-circle-right"></i>
               </router-link>
             </div>
-          </div>
+          </div>-->
           <div class="col-lg-3 col-6">
             <div class="small-box bg-dark">
               <div class="inner">
@@ -222,13 +222,13 @@ export default {
   computed: {
     ...mapState({
       auth: state => state.auth,
-      departments: state => state.departments,
-      projects: state => state.projects,
+      //   departments: state => state.departments,
+      //   projects: state => state.projects,
       users: state => state.users,
-      assets: state => state.assets,
-      vendors: state => state.vendors,
-      leaveTypes: state => state.leaveTypes,
-      designations: state => state.designations,
+      //   assets: state => state.assets,
+      //   vendors: state => state.vendors,
+      //   leaveTypes: state => state.leaveTypes,
+      //   designations: state => state.designations,
       myRequests: state => state.myRequests
     }),
     stateLoaded() {

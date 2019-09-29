@@ -231,7 +231,8 @@ export default {
             .then(response => {
                 this.loadProjects()
             });
-        }
+        },
+        
     },
     computed: {
         ...mapState({
@@ -245,6 +246,7 @@ export default {
     },
     mounted() {
         this.loadUsers()
+        this.loadProjects()
     },
 }
 </script>

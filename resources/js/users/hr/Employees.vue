@@ -316,7 +316,13 @@ export default {
         ...mapMutations({
             setUsers: 'setUsers',
             setCurrentEmployee: 'setCurrentEmployee',
-            setErrors: 'setErrors'
+            setErrors: 'setErrors',
+            setDepartments: "setDepartments",
+            setDirectorates: "setDirectorates",
+            setDesignations: "setDesignations",
+            setContracts: "setContracts",
+            setRoles: "setRoles",
+            setProjects: "setProjects",
         }),
         available(bool){
             if(bool){
@@ -440,7 +446,37 @@ export default {
                 this.setUsers(response.data)
                 this.usersPresent = false
             })
-        }
+        },
+        loadDepts(){
+            api.getDepartments().then(response => {
+              this.setDepartments(response.data);
+            });
+        },
+        loadDirectorates(){
+            api.getDirectorates().then(response => {
+              this.setDirectorates(response.data);
+            });
+        },
+        loadDesignations(){
+            api.getDesignations().then(response => {
+              this.setDesignations(response.data);
+            });
+        },
+        loadContracts(){
+            api.getContracts().then(response => {
+              this.setContracts(response.data);
+            });
+        },
+        loadRoles(){
+             api.getRoles().then(response => {
+              this.setRoles(response.data);
+            });
+        },
+        loadProjects(){
+            api.getProjects().then(response => {
+              this.setProjects(response.data);
+            });
+        },
     },
     
     computed: {
@@ -480,6 +516,12 @@ export default {
     },
     created() {
         this.loadUsers();
+        this.loadDepts();
+        this.loadDesignations();
+        this.loadContracts();
+        this.loadRoles();
+        this.loadDirectorates();
+        this.loadProjects();
     },
 }
 </script>

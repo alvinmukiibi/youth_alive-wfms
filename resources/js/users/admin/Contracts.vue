@@ -145,7 +145,8 @@ export default {
             api.saveContract(data).then(response => {
                 this.loadContractTypes()
             })
-        }
+        },
+        
     },
     computed: {
         ...mapState({
@@ -153,7 +154,7 @@ export default {
         })
     },
     mounted() {
-
+        this.loadContractTypes();
     },
 }
 </script>
