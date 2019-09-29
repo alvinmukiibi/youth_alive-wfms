@@ -27,6 +27,7 @@ class ProgramRequestResourceExtensive extends JsonResource
             'doc_completion_status' => $this->doc_completion_status,
             'id' => $this->id,
             'status' => $this->status,
+            'notes' => $this->notes,
             'identity' => $this->identity,
             'requestor_type' => $this->getRequestorType(),
             'project' => Project::find($this->project_id)->name,

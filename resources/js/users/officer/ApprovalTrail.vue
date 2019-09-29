@@ -24,6 +24,26 @@
           <div class="col-md-12">
             <div class="card card-outline card-primary">
               <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label>Notes</label>
+                    <ckeditor :editor="editor" v-model="request.notes" :config="editorConfig"></ckeditor>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <button @click="saveNotes" class="btn btn-primary btn-flat">
+                      Save Notes
+                      <span
+                        v-if="spin2"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </div>
+                </div>
+                <hr />
                 <h6>Upload Attachments</h6>
                 <div class="form-group">
                   <div class="input-group">
@@ -55,7 +75,6 @@
                   <div class="card-body">
                     <b-list-group>
                       <b-list-group-item
-                        
                         :href="'/storage/attachments/' + attach"
                         v-for="attach in request.attachments"
                         :key="attach"
@@ -221,12 +240,47 @@ import * as api from "../../api/api";
 import { mapState, mapMutations } from "vuex";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   data() {
     return {
       spinner: false,
       attachments: new FormData(),
-      spin1: false
+      spin1: false,
+      spin2: false,
+      editor: ClassicEditor,
+      editorConfig: {
+        toolbar: [
+          "heading",
+          "|",
+          "bold",
+          "italic",
+          "bulletedList",
+          "numberedList",
+          "blockQuote"
+        ],
+        heading: {
+          options: [
+            {
+              model: "paragraph",
+              title: "Paragraph",
+              class: "ck-heading_paragraph"
+            },
+            {
+              model: "heading1",
+              view: "h1",
+              title: "Heading 1",
+              class: "ck-heading_heading1"
+            },
+            {
+              model: "heading2",
+              view: "h2",
+              title: "Heading 2",
+              class: "ck-heading_heading2"
+            }
+          ]
+        }
+      }
     };
   },
   filters: {
@@ -253,6 +307,17 @@ export default {
     ...mapMutations({
       setRequestAttachments: "setRequestAttachments"
     }),
+    saveNotes() {
+      this.spin2 = true;
+      let data = {
+        request_id: this.request.id,
+        notes: this.request.notes
+      };
+      api.saveNotes(data).then(response => {
+        this.spin2 = false;
+        this.showToast("success", "Notification", response.message);
+      });
+    },
     downloadFile(id) {
       api.downloadAttachment(id).then(response => {
         console.log(response);
@@ -273,6 +338,13 @@ export default {
       });
       this.spin1 = false;
     },
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
+      });
+    },
     uploadAttachments() {
       let files = this.$refs.att.files;
       for (let i = 0; i < files.length; i++) {
@@ -284,6 +356,11 @@ export default {
       this.attachments.append("request_id", this.request.id);
       api.saveAttachments(this.attachments).then(response => {
         this.getRequestAttachments(this.request.id);
+        this.showToast(
+          "success",
+          "Notification",
+          "Attachments saved successfully"
+        );
         this.spinner = false;
       });
     },

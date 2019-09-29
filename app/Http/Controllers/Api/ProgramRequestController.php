@@ -624,4 +624,12 @@ class ProgramRequestController extends BaseController
         }
         return $this->sendResponse($atts, 'Request attachments');
     }
+
+    public function saveNotes(Request $request){
+        $req = ProgramRequest::find($request->request_id);
+
+        $req->update(['notes' => $request->notes]);
+
+        return $this->sendResponse('success', 'Notes saved successfully');
+    }
 }
