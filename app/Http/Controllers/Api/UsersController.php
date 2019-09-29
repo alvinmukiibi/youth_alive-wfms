@@ -58,14 +58,14 @@ class UsersController extends BaseController
         $user->activity_status = true;
         $user->save();
 
-        return $this->sendResponse('', 'Success');
+        return $this->sendResponse('', $user->fname . ' successfully activated');
     }
     public function deactivateUser(User $user)
     {
         $user->activity_status = false;
         $user->save();
 
-        return $this->sendResponse('', 'Success');
+        return $this->sendResponse('', $user->fname . ' successfully deactivated');
     }
 
     public function validation($request)
@@ -205,7 +205,7 @@ class UsersController extends BaseController
         // $event = new UserCreatedEvent($user);
         // event($event);
 
-        return $this->sendResponse($data, 'User successfully created');
+        return $this->sendResponse($data, 'User successfully added');
     }
 
     public function attachRole(Request $request)
@@ -213,7 +213,7 @@ class UsersController extends BaseController
 
         $count = DB::table('role_user')->where(['user_id' => $request->user_id, 'role_id' => $request->role_id])->count();
         if ($count > 0) {
-            return $this->sendError('', 'Role already attached to user');
+            return $this->sendResponse('', 'Role already attached to user');
         } else {
             $user = User::find($request->user_id);
             $user->roles()->attach($request->role_id);
@@ -225,7 +225,7 @@ class UsersController extends BaseController
 
         $count = DB::table('project_user')->where(['user_id' => $request->user_id, 'project_id' => $request->project_id])->count();
         if ($count > 0) {
-            return $this->sendError('', 'Project already attached to user');
+            return $this->sendResponse('', 'Project already attached to user');
         } else {
             $user = User::find($request->user_id);
             $user->projects()->attach($request->project_id);
@@ -241,7 +241,7 @@ class UsersController extends BaseController
             $user->projects()->detach($request->project_id);
             return $this->sendResponse('', 'Project successfully detached');
         } else {
-            return $this->sendError('', 'User doesnot have that project');
+            return $this->sendResponse('', 'User doesnot have that project');
         }
     }
     public function detachRole(Request $request)
@@ -253,7 +253,7 @@ class UsersController extends BaseController
             $user->roles()->detach($request->role_id);
             return $this->sendResponse('', 'Role successfully detached');
         } else {
-            return $this->sendError('', 'User doesnot have that role');
+            return $this->sendResponse('', 'User doesnot have that role');
         }
     }
 

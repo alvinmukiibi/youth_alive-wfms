@@ -173,7 +173,9 @@ export default {
         field: field,
         value: this.systemSettings[field]
       };
-      api.setHoliday(data);
+      api.setHoliday(data).then(response => {
+        this.showToast("success", "Notification", "Saved!");
+      });
     },
     toggleButton(field) {
       api.toggleButton(field).then(response => {
@@ -188,6 +190,13 @@ export default {
     loadSystemSettings() {
       api.getSystemSettings().then(response => {
         this.setSystemSettings(response.data);
+      });
+    },
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
       });
     }
   },

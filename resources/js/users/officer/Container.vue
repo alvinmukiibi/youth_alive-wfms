@@ -6,8 +6,8 @@
           <div class="col-md-12">
             <div class="card card-success card-outline mt-2">
               <div class="card-body">
-                <b-progress :value="25" variant="primary" striped :animated="animate"></b-progress>
-                <hr />
+                <!-- <b-progress :value="25" variant="primary" striped :animated="animate"></b-progress>
+                <hr />-->
                 <ul class="list-group list-group-horizontal-xl">
                   <li class="list-group-item">
                     <router-link

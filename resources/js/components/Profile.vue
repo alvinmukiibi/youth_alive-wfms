@@ -192,11 +192,11 @@
                     />
                   </div>
                 </div>
-                <div class="row" v-if="errors.length > 0">
+                <!-- <div class="row" v-if="errors.length > 0">
                   <div class="col-md-12">
                     <p class="text-danger pull-left">{{ errors }}</p>
                   </div>
-                </div>
+                </div>-->
                 <div class="row">
                   <div class="col-md-6">
                     <button @click="save" class="btn btn-primary" type="button">
@@ -247,7 +247,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setErrors: "setErrors",
+      //   setErrors: "setErrors",
       setAuthUser: "setAuthUser"
     }),
     uploadDp() {
@@ -256,18 +256,31 @@ export default {
       data.append("profile_picture", dp);
       api.saveDp(data, this.auth.id).then(response => {
         if (!response.success) {
-          this.setErrors(response.data.error);
+          //   this.setErrors(response.data.error);
+          this.showToast("danger", "Error", response.data.error);
           //   this.spinner = false;
           return;
         }
-        this.setErrors([]);
+        // this.setErrors([]);
         this.loadAuthUser();
+        this.showToast(
+          "success",
+          "Notification",
+          "Profile picture saved successfully"
+        );
         // this.spinner = false;
       });
     },
     loadAuthUser() {
       api.getAuthUser().then(response => {
         this.setAuthUser(response.data);
+      });
+    },
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
       });
     },
     save() {
@@ -278,12 +291,14 @@ export default {
       };
       api.saveProfile(data).then(response => {
         if (!response.success) {
-          this.setErrors(response.data.error);
+          //   this.setErrors(response.data.error);
+          this.showToast("danger", "Error", response.data.error);
           this.spinner = false;
           return;
         }
-        this.setErrors([]);
+        // this.setErrors([]);
         this.spinner = false;
+        this.showToast("success", "Notification", "Profile saved successfully");
       });
     }
   },
@@ -294,8 +309,8 @@ export default {
   },
   computed: {
     ...mapState({
-      auth: state => state.auth,
-      errors: state => state.errors
+      auth: state => state.auth
+      //   errors: state => state.errors
     })
   }
 };

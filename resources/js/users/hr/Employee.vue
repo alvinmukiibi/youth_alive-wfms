@@ -252,6 +252,13 @@ export default {
       setErrors: "setErrors",
       setCurrentEmployee: "setCurrentEmployee"
     }),
+    showToast(variant, title, body){
+             this.$bvToast.toast(body, {
+                title: title,
+                variant: variant,
+                solid: true
+        })
+    },
     save() {
       this.spinner = true;
       let id = this.employee.id;
@@ -269,10 +276,12 @@ export default {
         if (!response.success) {
           this.setErrors(response.data.error);
           this.spinner = false;
+          this.showToast('danger', 'Error', response.data.error)
           return;
         }
         this.setErrors([]);
         this.spinner = false;
+        this.showToasts('success', 'Notification', 'Saved!!')
         this.setCurrentEmployee(response.data);
       });
     }

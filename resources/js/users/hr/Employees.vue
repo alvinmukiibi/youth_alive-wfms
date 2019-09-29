@@ -333,8 +333,17 @@ export default {
             api.detachRole(data).then(response => {
                 this.loadUsers()
                 this.setEmployee(user_id)
+                this.showToast('primary', 'Notification', response.message)
+                
             })
         },
+        showToast(variant, title, body){
+             this.$bvToast.toast(body, {
+                title: title,
+                variant: variant,
+                solid: true
+        })
+    },
         removeProjectFromUser(user_id){
             let data = {
                 user_id: user_id,
@@ -343,6 +352,7 @@ export default {
             api.detachProject(data).then(response => {
                 this.loadUsers()
                 this.setEmployee(user_id)
+                this.showToast('primary', 'Notification', response.message)
             })
         },
         addRoleToUser(user_id){
@@ -353,6 +363,7 @@ export default {
             api.attachRole(data).then(response => {
                 this.loadUsers()
                 this.setEmployee(user_id)
+                this.showToast('primary', 'Notification', response.message)
             })
         },
         addProjectToUser(user_id){
@@ -363,6 +374,7 @@ export default {
             api.attachProject(data).then(response => {
                 this.loadUsers()
                 this.setEmployee(user_id)
+                this.showToast('primary', 'Notification', response.message)
             })
         },
         uploadFile(){
@@ -393,12 +405,14 @@ export default {
                 if(!response.success){
                     this.setErrors(response.data.error)
                     this.spinner = false
+                    this.showToast('danger', 'Error', response.data.error)
                     return;
                 }
                 this.setErrors([])
                 this.spinner = false;
                 this.loadUsers();
                 this.user = {}
+                this.showToast('success', 'Notification', response.message)
                 this.$router.push('/employees#activity')
                 // window.location.href = '/employees'
             })
@@ -411,11 +425,13 @@ export default {
         activate(id){
             api.activateUser(id).then(response => {
                 this.loadUsers()
+                this.showToast('success', 'Notification', response.message)
             })
         },
         deactivate(id){
             api.deactivateUser(id).then(response => {
                 this.loadUsers()
+                this.showToast('success', 'Notification', response.message)
             })
         },
         loadUsers(){
