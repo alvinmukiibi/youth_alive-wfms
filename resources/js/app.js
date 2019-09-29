@@ -21,6 +21,9 @@ Vue.use(VPopover, {
 import CKEditor from '@ckeditor/ckeditor5-vue';
 Vue.use(CKEditor);
 
+import vue2Dropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
@@ -37,6 +40,7 @@ import MainHeader from './components/MainHeader.vue'
 import Sidebar from './components/Sidebar.vue'
 Vue.component('main-header', MainHeader);
 Vue.component('sidebar', Sidebar);
+Vue.component('vueDropzone', vue2Dropzone);
 
 const router = new VueRouter({
     history: false,

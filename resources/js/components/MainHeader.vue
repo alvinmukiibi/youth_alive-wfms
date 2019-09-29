@@ -81,11 +81,18 @@ export default {
     }),
     logout() {
       this.spinner = true;
-      api.logout().then(response => {
-        this.spinner = false;
-        this.setErrors([]);
-        document.location.href = "/login";
-      });
+      api
+        .logout()
+        .then(response => {
+          this.spinner = false;
+          this.setErrors([]);
+          document.location.href = "/login";
+        })
+        .catch(error => {
+          this.spinner = false;
+          this.setErrors([]);
+          document.location.href = "/login";
+        });
     },
     getAuthUser() {
       api.getAuthUser().then(response => {

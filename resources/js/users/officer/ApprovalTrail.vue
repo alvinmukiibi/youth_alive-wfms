@@ -26,13 +26,6 @@
               <div class="card-body">
                 <h6>Upload Attachments</h6>
                 <div class="form-group">
-                  <!-- <b-form-file
-                    multiple
-                    v-model="attachments"
-                    placeholder="Choose a file or drop it here..."
-                    drop-placeholder="Drop file here..."
-                    accept=".jpg, .png, .gif, .doc, .docx, .xls, .xlsx, .pdf, .ppt, .pptx, .jpeg, .txt"
-                  ></b-form-file>-->
                   <div class="input-group">
                     <input
                       type="file"
@@ -58,6 +51,21 @@
                     </span>
                   </div>
                 </div>
+                <div class="card card-success card-line">
+                  <div class="card-body">
+                    <b-list-group>
+                      <b-list-group-item
+                        
+                        :href="'/storage/attachments/' + attach"
+                        v-for="attach in request.attachments"
+                        :key="attach"
+                      >{{ attach }}</b-list-group-item>
+                    </b-list-group>
+                    <a style="font-weight:500">
+                      <br />
+                    </a>
+                  </div>
+                </div>
 
                 <hr />
                 <div class="form-group row">
@@ -79,115 +87,126 @@
                   <div class="col-sm-4">{{ request.doc_completion_status | showdocs }}</div>
                 </div>
                 <hr />
-                <b-table-simple small caption-top responsive>
-                  <colgroup>
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                  </colgroup>
+                <button @click="downloadPage('tabl')" class="btn-sm btn btn-primary">
+                  <i class="fa fa-print"></i> Print
+                  <span
+                    v-if="spin1"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+                <div ref="tabl">
+                  <b-table-simple small caption-top responsive>
+                    <colgroup>
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                    </colgroup>
 
-                  <b-thead head-variant="dark">
-                    <b-tr>
-                      <b-th>Source</b-th>
-                      <b-th>Status</b-th>
-                      <b-th>Date</b-th>
-                      <b-th>Done By</b-th>
-                      <b-th colspan="3">Comments</b-th>
-                    </b-tr>
-                  </b-thead>
-                  <b-tbody>
-                    <b-tr v-if="request.trail.accountant_approval != 0">
-                      <b-td>Project Accountant</b-td>
-                      <b-td v-if="request.trail.accountant_approval == 1">
-                        <button class="btn btn-sm btn-success">
-                          <i class="fa fa-check"></i>
-                        </button>
-                      </b-td>
-                      <b-td v-else>
-                        <button class="btn btn-sm btn-danger">
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </b-td>
-                      <b-td>{{ request.trail.acc_appro_date }}</b-td>
-                      <b-td>{{ request.trail.accountant }}</b-td>
-                      <b-td>{{ request.trail.acc_comments }}</b-td>
-                    </b-tr>
-                    <b-tr v-if="request.trail.level_one_approval != 0">
-                      <b-td>Supervisor</b-td>
-                      <b-td v-if="request.trail.level_one_approval == 1">
-                        <button class="btn btn-sm btn-success">
-                          <i class="fa fa-check"></i>
-                        </button>
-                      </b-td>
-                      <b-td v-else>
-                        <button class="btn btn-sm btn-danger">
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </b-td>
-                      <b-td>{{ request.trail.level_one_date }}</b-td>
-                      <b-td>{{ request.trail.level_one_approver }}</b-td>
-                      <b-td>{{ request.trail.level_one_comments }}</b-td>
-                    </b-tr>
-                    <b-tr
-                      v-if="request.trail.finance_approval != 0 && request.trail.finance_approval != null"
-                    >
-                      <b-td>Finance Manager</b-td>
-                      <b-td v-if="request.trail.finance_approval == 1">
-                        <button class="btn btn-sm btn-success">
-                          <i class="fa fa-check"></i>
-                        </button>
-                      </b-td>
-                      <b-td v-else>
-                        <button class="btn btn-sm btn-danger">
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </b-td>
-                      <b-td>{{ request.trail.finance_approval_date }}</b-td>
-                      <b-td>{{ request.trail.finance_approver }}</b-td>
-                      <b-td>{{ request.trail.finance_appro_comments }}</b-td>
-                    </b-tr>
-                    <b-tr
-                      v-if="request.trail.level_two_approval != 0 && request.trail.level_two_approval != null"
-                    >
-                      <b-td>Line Director</b-td>
-                      <b-td v-if="request.trail.level_two_approval == 1">
-                        <button class="btn btn-sm btn-success">
-                          <i class="fa fa-check"></i>
-                        </button>
-                      </b-td>
-                      <b-td v-else>
-                        <button class="btn btn-sm btn-danger">
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </b-td>
-                      <b-td>{{ request.trail.level_two_date }}</b-td>
-                      <b-td>{{ request.trail.level_two_approver }}</b-td>
-                      <b-td>{{ request.trail.level_two_comments }}</b-td>
-                    </b-tr>
-                    <b-tr
-                      v-if="request.trail.level_three_approval != 0 && request.trail.level_three_approval != null"
-                    >
-                      <b-td>Executive Director</b-td>
-                      <b-td v-if="request.trail.level_three_approval == 1">
-                        <button class="btn btn-sm btn-success">
-                          <i class="fa fa-check"></i>
-                        </button>
-                      </b-td>
-                      <b-td v-else>
-                        <button class="btn btn-sm btn-danger">
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </b-td>
-                      <b-td>{{ request.trail.level_three_date }}</b-td>
-                      <b-td>{{ request.trail.level_three_approver }}</b-td>
-                      <b-td>{{ request.trail.level_three_comments }}</b-td>
-                    </b-tr>
-                  </b-tbody>
-                </b-table-simple>
+                    <b-thead head-variant="dark">
+                      <b-tr>
+                        <b-th>Source</b-th>
+                        <b-th>Status</b-th>
+                        <b-th>Date</b-th>
+                        <b-th>Done By</b-th>
+                        <b-th colspan="3">Comments</b-th>
+                      </b-tr>
+                    </b-thead>
+                    <b-tbody>
+                      <b-tr v-if="request.trail.accountant_approval != 0">
+                        <b-td>Project Accountant</b-td>
+                        <b-td v-if="request.trail.accountant_approval == 1">
+                          <button class="btn btn-sm btn-success">
+                            <i class="fa fa-check"></i>
+                          </button>
+                        </b-td>
+                        <b-td v-else>
+                          <button class="btn btn-sm btn-danger">
+                            <i class="fa fa-times"></i>
+                          </button>
+                        </b-td>
+                        <b-td>{{ request.trail.acc_appro_date }}</b-td>
+                        <b-td>{{ request.trail.accountant }}</b-td>
+                        <b-td>{{ request.trail.acc_comments }}</b-td>
+                      </b-tr>
+                      <b-tr v-if="request.trail.level_one_approval != 0">
+                        <b-td>Supervisor</b-td>
+                        <b-td v-if="request.trail.level_one_approval == 1">
+                          <button class="btn btn-sm btn-success">
+                            <i class="fa fa-check"></i>
+                          </button>
+                        </b-td>
+                        <b-td v-else>
+                          <button class="btn btn-sm btn-danger">
+                            <i class="fa fa-times"></i>
+                          </button>
+                        </b-td>
+                        <b-td>{{ request.trail.level_one_date }}</b-td>
+                        <b-td>{{ request.trail.level_one_approver }}</b-td>
+                        <b-td>{{ request.trail.level_one_comments }}</b-td>
+                      </b-tr>
+                      <b-tr
+                        v-if="request.trail.finance_approval != 0 && request.trail.finance_approval != null"
+                      >
+                        <b-td>Finance Manager</b-td>
+                        <b-td v-if="request.trail.finance_approval == 1">
+                          <button class="btn btn-sm btn-success">
+                            <i class="fa fa-check"></i>
+                          </button>
+                        </b-td>
+                        <b-td v-else>
+                          <button class="btn btn-sm btn-danger">
+                            <i class="fa fa-times"></i>
+                          </button>
+                        </b-td>
+                        <b-td>{{ request.trail.finance_approval_date }}</b-td>
+                        <b-td>{{ request.trail.finance_approver }}</b-td>
+                        <b-td>{{ request.trail.finance_appro_comments }}</b-td>
+                      </b-tr>
+                      <b-tr
+                        v-if="request.trail.level_two_approval != 0 && request.trail.level_two_approval != null"
+                      >
+                        <b-td>Line Director</b-td>
+                        <b-td v-if="request.trail.level_two_approval == 1">
+                          <button class="btn btn-sm btn-success">
+                            <i class="fa fa-check"></i>
+                          </button>
+                        </b-td>
+                        <b-td v-else>
+                          <button class="btn btn-sm btn-danger">
+                            <i class="fa fa-times"></i>
+                          </button>
+                        </b-td>
+                        <b-td>{{ request.trail.level_two_date }}</b-td>
+                        <b-td>{{ request.trail.level_two_approver }}</b-td>
+                        <b-td>{{ request.trail.level_two_comments }}</b-td>
+                      </b-tr>
+                      <b-tr
+                        v-if="request.trail.level_three_approval != 0 && request.trail.level_three_approval != null"
+                      >
+                        <b-td>Executive Director</b-td>
+                        <b-td v-if="request.trail.level_three_approval == 1">
+                          <button class="btn btn-sm btn-success">
+                            <i class="fa fa-check"></i>
+                          </button>
+                        </b-td>
+                        <b-td v-else>
+                          <button class="btn btn-sm btn-danger">
+                            <i class="fa fa-times"></i>
+                          </button>
+                        </b-td>
+                        <b-td>{{ request.trail.level_three_date }}</b-td>
+                        <b-td>{{ request.trail.level_three_approver }}</b-td>
+                        <b-td>{{ request.trail.level_three_comments }}</b-td>
+                      </b-tr>
+                    </b-tbody>
+                  </b-table-simple>
+                </div>
               </div>
             </div>
           </div>
@@ -200,11 +219,14 @@
 <script>
 import * as api from "../../api/api";
 import { mapState, mapMutations } from "vuex";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 export default {
   data() {
     return {
       spinner: false,
-      attachments: new FormData()
+      attachments: new FormData(),
+      spin1: false
     };
   },
   filters: {
@@ -228,6 +250,29 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setRequestAttachments: "setRequestAttachments"
+    }),
+    downloadFile(id) {
+      api.downloadAttachment(id).then(response => {
+        console.log(response);
+      });
+    },
+    downloadPage(page) {
+      this.spin1 = true;
+      var name = "";
+      const doc = new jsPDF();
+      var canvasElement = document.createElement("canvas");
+      html2canvas(this.$refs[page], { canvas: canvasElement }).then(function(
+        canvas
+      ) {
+        const img = canvas.toDataURL("image/jpeg", 0.8);
+        doc.addImage(img, "JPEG", 20, 20);
+        name = "Downloadable.pdf";
+        doc.save(name);
+      });
+      this.spin1 = false;
+    },
     uploadAttachments() {
       let files = this.$refs.att.files;
       for (let i = 0; i < files.length; i++) {
@@ -238,7 +283,13 @@ export default {
       this.spinner = true;
       this.attachments.append("request_id", this.request.id);
       api.saveAttachments(this.attachments).then(response => {
+        this.getRequestAttachments(this.request.id);
         this.spinner = false;
+      });
+    },
+    getRequestAttachments(id) {
+      api.getRequestAttachments(id).then(response => {
+        this.setRequestAttachments(response.data);
       });
     }
   },

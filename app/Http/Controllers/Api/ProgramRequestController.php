@@ -51,7 +51,11 @@ class ProgramRequestController extends BaseController
 
         if ($request->hasFile('attachments')) {
             foreach ($request->attachments as $file) {
-                $ref = Storage::disk('public')->put('attachments', $file);
+                $originalName = $file->getClientOriginalName();
+                $name = pathinfo($originalName, PATHINFO_FILENAME);
+                $replaced = \str_replace(' ', '_', $name);
+                $newName = $replaced . '_' . $this->random_strings(5) . '.' . $file->getClientOriginalExtension();
+                $ref = Storage::disk('public')->putFileAs('attachments', $file, $newName);
                 $req->attachments()->create(['reference' => $ref]);
             }
         }
@@ -601,5 +605,23 @@ class ProgramRequestController extends BaseController
         // event(new RequestUpdateEvent($req->requestor));
 
         return $this->sendResponse($trail, 'success');
+    }
+
+    public function cancelRequest(Request $request){
+
+        $req = ProgramRequest::find($request->id);
+        $req->update(['status' => 2]);
+        return $this->sendResponse($request, 'Request has been cancelled');
+
+    }
+
+    public function getRequestAttachments(Request $request){
+        $req = ProgramRequest::find($request->id);
+
+        $atts = [];
+        foreach($req->attachments as $att){
+            $atts[] = explode('/', $att->reference)[1];
+        }
+        return $this->sendResponse($atts, 'Request attachments');
     }
 }

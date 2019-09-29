@@ -9,6 +9,9 @@ use App\TravelscopeBudget;
 use App\Trail;
 class ProgramRequest extends Model
 {
+
+    protected $guarded = ['id'];
+
     public function travelscope(){
         return $this->hasOne(TravelScope::class, 'program_request_id');
     }

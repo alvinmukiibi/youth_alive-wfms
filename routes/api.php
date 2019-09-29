@@ -37,6 +37,9 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/check/token', 'ProgramRequestController@invalidateToken');
         Route::get('/accountant', 'ProgramRequestController@getProjectRequests');
         Route::get('/firstlevel', 'ProgramRequestController@getLevel1Requests');
+        Route::post('/cancel', 'ProgramRequestController@cancelRequest');
+        Route::get('/download/attachment/{attachment}', 'ProgramRequestController@downloadAttachment');
+        Route::post('/get/attachments', 'ProgramRequestController@getRequestAttachments');
         Route::get('/fmrequests', 'ProgramRequestController@getFMRequests');
         Route::get('/directorreqeuests', 'ProgramRequestController@getDirectorRequests');
         Route::get('/edrequests', 'ProgramRequestController@getEDRequests');

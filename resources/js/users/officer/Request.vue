@@ -32,7 +32,7 @@
                                         <div class="card card-primary card-outline">
                                             <div class="card-header">
                                                 <ul class="nav nav-pills">
-                                                    <li class="nav-item"><a @click="getMyRequests" class="nav-link active" href="#new" data-toggle="tab">Requests <span v-if="spin1"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a>  </li>
+                                                    <li class="nav-item"><a @click="getMyRequests" class="nav-link active" href="#new" data-toggle="tab">My Requests <span v-if="spin1"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a>  </li>
                                                     <!-- <li class="nav-item"><a class="nav-link" href="#approved" data-toggle="tab">Approval Trail</a></li> -->
                                                     <!-- <li class="nav-item"><a class="nav-link" href="#declined" data-toggle="tab">Declined</a></li> -->
                                                     <li @click="loadProjectRequests" v-if="auth.designation == 'Project Accountant'" class="nav-item"><a class="nav-link" href="#projectrequests" data-toggle="tab">Project Requests <span v-if="spin2"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></a></li>
@@ -68,8 +68,14 @@
                                                                     <b-td>{{ req.created_at }}</b-td>
                                                                     <b-td>{{ req.activity_type }}</b-td>
                                                                     <b-td>{{ req.project }}</b-td>
-                                                                    <b-td>
-
+                                                                    <b-td v-if="req.trail.accountant_approval == 0 && req.status != 2">
+                                                                        <button @click="cancelRequest(req.id)" class="btn btn-sm btn-outline-danger">Cancel</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.trail.level_three_approval == 1">
+                                                                        <button :disabled="disabled" class="btn btn-sm btn-success">Fully Approved</button>
+                                                                    </b-td>
+                                                                    <b-td v-if="req.status == 2">
+                                                                        <button :disabled="disabled"  class="btn btn-sm btn-secondary">Cancelled</button>
                                                                     </b-td>
                                                                 </b-tr>
                                                             </b-tbody>
@@ -565,6 +571,7 @@ export default {
             spin10: false,
             spin11: false,
             bucket: null,
+            disabled: true
         }
     },
     methods: {
@@ -689,6 +696,12 @@ export default {
                 
             })
         },
+         cancelRequest(id){
+            api.cancelRequest(id).then(response => {
+                this.getMyRequests()
+                 this.showToast('success', 'Notification', response.message)
+            })
+         },
          declineProjectrequest(){
             api.declineRequest(this.bag).then(response => {
                 $('#tokenModal').modal('hide');

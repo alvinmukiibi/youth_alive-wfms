@@ -220,3 +220,16 @@ export function sendToken(data) {
 export function checkAndInvalidateToken(data) {
     return axios.post(prefix + '/requests/check/token', data).then(response => response.data)
 }
+export function cancelRequest(id) {
+    return axios.post(prefix + '/requests/cancel', {
+        id: id
+    }).then(response => response.data)
+}
+export function downloadAttachment(id) {
+    return axios.get(prefix + `/requests/download/attachment/${id}`).then(response => response.data)
+}
+export function getRequestAttachments(id) {
+    return axios.post(prefix + '/requests/get/attachments', {
+        id: id
+    }).then(response => response.data)
+}

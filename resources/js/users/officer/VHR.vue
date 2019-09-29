@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="tabl">
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -24,6 +24,9 @@
             <div class="callout callout-warning">
               <h4>
                 <i class="fa fa-info">&nbsp; Complete form in its entirety</i>
+                <button @click="printPage('tabl')" class="btn-sm btn btn-primary pull-right">
+                  <i class="fa fa-print"></i>
+                </button>
               </h4>
             </div>
             <div class="card card-outline card-primary">
@@ -223,6 +226,8 @@
 import * as api from "../../api/api";
 import { mapState, mapMutations } from "vuex";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 export default {
   data() {
     return {
@@ -307,6 +312,34 @@ export default {
         this.data = this.request.vhr;
         this.bookings = this.request.vhr.bookings;
       }
+    },
+    printPage(page) {
+      let prt = document.getElementById(page);
+      let doPrint = window.open(
+        "",
+        "",
+        "left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0"
+      );
+      doPrint.document.write(prt.innerHTML);
+      doPrint.document.close();
+      doPrint.focus();
+      doPrint.print();
+      doPrint.close();
+    },
+    downloadPage(page) {
+      //   this.spin1 = true;
+      var name = "";
+      const doc = new jsPDF();
+      var canvasElement = document.createElement("canvas");
+      html2canvas(this.$refs[page], { canvas: canvasElement }).then(function(
+        canvas
+      ) {
+        const img = canvas.toDataURL("image/jpeg", 0.8);
+        doc.addImage(img, "JPEG", 20, 20);
+        name = "Downloadable.pdf";
+        doc.save(name);
+      });
+      //   this.spin1 = false;
     }
   },
   mounted() {

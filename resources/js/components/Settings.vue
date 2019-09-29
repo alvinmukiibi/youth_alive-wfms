@@ -30,6 +30,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <b-form-checkbox
+                        v-if="settings"
                         v-model="settings.receive_login_notifications"
                         name="check-button"
                         switch
@@ -199,7 +200,13 @@ export default {
   },
   mounted() {
     this.loadSettings();
-    this.loadSystemSettings();
+    if (
+      this.auth &&
+      this.auth.user_type == "manager" &&
+      this.auth.department == "Human Resource"
+    ) {
+      this.loadSystemSettings();
+    }
   }
 };
 </script>

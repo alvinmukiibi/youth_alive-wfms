@@ -8,6 +8,7 @@ use App\Http\Resources\TravelScopeResource;
 use App\Http\Resources\VehicleHotelResource;
 use App\Http\Resources\BudgetResource;
 use App\Http\Resources\TrailResource;
+use App\Http\Resources\AttachmentsResource;
 class ProgramRequestResourceExtensive extends JsonResource
 {
     /**
@@ -25,6 +26,7 @@ class ProgramRequestResourceExtensive extends JsonResource
             'documents' => $this->documents,
             'doc_completion_status' => $this->doc_completion_status,
             'id' => $this->id,
+            'status' => $this->status,
             'identity' => $this->identity,
             'requestor_type' => $this->getRequestorType(),
             'project' => Project::find($this->project_id)->name,
@@ -33,7 +35,7 @@ class ProgramRequestResourceExtensive extends JsonResource
             'vhr' => $this->vehiclehotel()->count() > 0 ? new VehicleHotelResource($this->vehiclehotel) : null,
             'bgt' => $this->travelscopebudget()->count() > 0 ? new BudgetResource($this->travelscopebudget) : null,
             'trail' => new TrailResource($this->trail),
-            'attachments' => $this->attachments,
+            'attachments' => AttachmentsResource::collection($this->attachments),
         ];
     }
 }

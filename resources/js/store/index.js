@@ -84,6 +84,9 @@ export default new Vuex.Store({
         setLeaveStats: (state, data) => {
             state.leaveStats = data
         },
+        setRequestAttachments: (state, data) => {
+            state.request.attachments = data
+        },
     },
     plugins: [createPersistedState({
         key: 'vuex',
