@@ -492,7 +492,7 @@
                                                     <div class="col-md-4">
                                                         <select name="" id="" class="form-control" v-model="project_id">
                                                             <option value="Select Project" disabled>Select Project</option>
-                                                            <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.name }}</option>
+                                                            <option v-for="project in filtered_projects" :key="project.id" :value="project.id">{{ project.name }}</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -810,6 +810,21 @@ export default {
             return {
                 date: day + "/" + month + "/" + year,
             };
+        },
+        filtered_projects(){
+            // if you are not HQ staff, you can only make a request on a project you are attached to
+            if(this.auth.duty_station.includes('Kampala') ){
+                return this.projects
+            }else{
+                let arr = []
+                this.projects.forEach(proj => {
+                    if(this.auth.projects.includes(proj.name)){
+                        arr.push(proj)
+                    }
+                })
+                return arr
+
+            }
         },
         signature(){
             return this.auth.fname + ' ' + this.auth.lname + ', ' + this.auth.staff_id + ', ' + this.auth.designation
