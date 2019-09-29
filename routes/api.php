@@ -30,7 +30,8 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
     });
     Route::group(['prefix' => 'chat'], function () {
         Route::get('/', 'MessagingController@getChats');
-    }):
+    });
+
     Route::group(['prefix' => 'requests'], function () {
         // Route::post('/', 'ProgramRequestController@addRequest');
         // Route::post('/update/{request}', 'ProgramRequestController@updateRequest');
