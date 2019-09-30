@@ -182,6 +182,7 @@ export default {
           this.leav
         )
         .then(response => {
+          this.showToast("success", "Notification", "Success");
           this.loadLeaveTypes();
         });
     },
@@ -198,7 +199,15 @@ export default {
         .get(this.prefix + `/admin/leavetypes/delete/${id}`)
         .then(response => {
           this.loadLeaveTypes();
+          this.showToast("success", "Notification", "Success");
         });
+    },
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
+      });
     },
     save() {
       if (this.leave.type == "") {
@@ -209,6 +218,7 @@ export default {
       // }
 
       api.saveLeaveType(this.leave).then(response => {
+        this.showToast("success", "Notification", "Success");
         this.loadLeaveTypes();
       });
     }
@@ -219,7 +229,7 @@ export default {
     })
   },
   mounted() {
-      this.loadLeaveTypes()
+    this.loadLeaveTypes();
   }
 };
 </script>

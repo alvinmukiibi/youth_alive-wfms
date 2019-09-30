@@ -96,60 +96,76 @@ class LeavesController extends BaseController
 
         $duration = $this->getWorkingDays($request->from, $request->to, $holidays);
 
-        $days_left = $this->total_annual_leave_days_allowed -  $user->leaves()->where('status', 3)->sum('duration');
+        $count = $user->leaves->count();
+        // if($count > 0){
+        //     $cou = $user->leaves()->where('status', 3)->count();
+        //     if($cou > 0){
+        //         $last_leave = $user->leaves()->where('status', 3)->latest()->count();
 
-        $type_days = LeaveType::find($request->leave_type_id)->days;
+        //     }
+        // }
 
-        $type = LeaveType::find($request->leave_type_id)->type;
 
-        if ($duration > $type_days) {
+        /**
+         *  check want leave type requested and check if its total days are less than requested days
+         *  compare requested days to the days left on that leave type
+         *
+         */
 
-            return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $type_days . ' days of the ' . $type . ' leave']);
+        // $days_left = $this->total_annual_leave_days_allowed -  $user->leaves()->where('status', 3)->sum('duration');
 
-        }
-        if ($duration > $days_left) {
+        // $type_days = LeaveType::find($request->leave_type_id)->days;
 
-            return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $days_left . ' days']);
+        // $type = LeaveType::find($request->leave_type_id)->type;
 
-        }
+        // if ($duration > $type_days) {
 
-        $leave = [
-            'user_id' => $user->id,
-            'leave_type_id' => $request->leave_type_id,
-            'from' => $request->from,
-            'to' => $request->to,
-            'comments' => $request->comments ? $request->comments : null,
-            'duration' => $duration,
-            'status' => 0,
-            'total_annual_days_remaining' => $this->getRemaininingDays($user)
-        ];
+        //     return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $type_days . ' days of the ' . $type . ' leave']);
 
-        $leave = Leave::create($leave);
+        // }
+        // if ($duration > $days_left) {
 
-        $leave = new LeavesResource($leave);
+        //     return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $days_left . ' days']);
+
+        // }
+
+        // $leave = [
+        //     'user_id' => $user->id,
+        //     'leave_type_id' => $request->leave_type_id,
+        //     'from' => $request->from,
+        //     'to' => $request->to,
+        //     'comments' => $request->comments ? $request->comments : null,
+        //     'duration' => $duration,
+        //     'status' => 0,
+        //     'total_annual_days_remaining' => $this->getRemaininingDays($user)
+        // ];
+
+        // $leave = Leave::create($leave);
+
+        // $leave = new LeavesResource($leave);
 
         // notify supervisor
-        $supervisor = null;
-        if ($user->user_type() == 'officer') {
-            foreach (Department::find($user->department_id)->users as $use) {
-                if ($use->user_type() == 'manager') {
-                    $supervisor = $use;
-                }
-            }
-        }
-        if ($user->user_type() == 'manager') {
-            foreach (Department::find($user->department_id)->users as $use) {
-                if ($use->user_type() == 'director') {
-                    $supervisor = $use;
-                }
-            }
-        }
-        if ($user->user_type() == 'director') {
-            $desi = Designation::where('name', 'Executive Director')->value('id');
-            $ed = User::where('designation_id', $desi)->first();
-            $supervisor = $ed;
-        }
-        event(new PendingLeaveEvent($supervisor));
+        // $supervisor = null;
+        // if ($user->user_type() == 'officer') {
+        //     foreach (Department::find($user->department_id)->users as $use) {
+        //         if ($use->user_type() == 'manager') {
+        //             $supervisor = $use;
+        //         }
+        //     }
+        // }
+        // if ($user->user_type() == 'manager') {
+        //     foreach (Department::find($user->department_id)->users as $use) {
+        //         if ($use->user_type() == 'director') {
+        //             $supervisor = $use;
+        //         }
+        //     }
+        // }
+        // if ($user->user_type() == 'director') {
+        //     $desi = Designation::where('name', 'Executive Director')->value('id');
+        //     $ed = User::where('designation_id', $desi)->first();
+        //     $supervisor = $ed;
+        // }
+        // event(new PendingLeaveEvent($supervisor));
 
         return $this->sendResponse($leave, 'Leave data');
     }

@@ -39,7 +39,42 @@
                         <h3 class="card-title">Staff Leave Statistics</h3>
                       </div>
                       <div class="card-body">
-                        <b-table
+                        <b-table-simple hover small caption-top responsive>
+                          <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                          </colgroup>
+                          <b-thead head-variant="dark">
+                            <b-tr>
+                              <b-th class="text-center">Name</b-th>
+                              <b-th class="text-center">Leaves this month</b-th>
+                              <b-th class="text-center">Cumulative Leave Total for the Year</b-th>
+                              <b-th class="text-center">Sick</b-th>
+                              <b-th class="text-center">Maternity</b-th>
+                              <b-th class="text-center">Parternity</b-th>
+                              <b-th class="text-center">Study</b-th>
+                              <b-th class="text-center">Annual</b-th>
+                              <b-th class="text-center">Others</b-th>
+                              <b-th class="text-center">Remainining Days</b-th>
+                            </b-tr>
+                          </b-thead>
+                          <b-tbody>
+                            <b-tr>
+                              <b-td>Francis Bukenya</b-td>
+                              <b-td>2</b-td>
+                              <b-td>45</b-td>
+                              <b-td>2</b-td>
+                              <b-td>34</b-td>
+                              <b-td>23</b-td>
+                              <b-td>1</b-td>
+                              <b-td>3</b-td>
+                              <b-td>4</b-td>
+                              <b-td>3</b-td>
+                            </b-tr>
+                          </b-tbody>
+                        </b-table-simple>
+                        <!-- <b-table
                           fixed
                           bordered
                           hover
@@ -49,7 +84,7 @@
                           :sort-by.sync="sortBy"
                           :sort-desc.sync="sortDesc"
                           responsive="md"
-                        ></b-table>
+                        ></b-table>-->
                       </div>
                     </div>
                   </div>

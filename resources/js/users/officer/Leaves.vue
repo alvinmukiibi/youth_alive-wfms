@@ -621,6 +621,13 @@ export default {
       setMyLeaves: "setMyLeaves",
       setLeaveTypes: "setLeaveTypes"
     }),
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
+      });
+    },
     setLeave(id) {
       this.dec.id = id;
     },
@@ -657,6 +664,7 @@ export default {
       api.askForLeave(this.leave).then(response => {
         if (!response.success) {
           this.setErrors(response.data.error);
+          this.showToast('danger', 'Error', response.data.error)
           this.loading = false;
           return;
         }

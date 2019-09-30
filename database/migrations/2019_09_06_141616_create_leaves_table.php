@@ -24,8 +24,13 @@ class CreateLeavesTable extends Migration
             $table->text('approval_comments')->nullable();
             $table->boolean('status')->default(0);
             $table->unsignedBigInteger('updated_by')->nullable();
-            $table->bigInteger('total_annual_days_remaining')->nullable();
-            $table->bigInteger('total_annual_days_allowed')->default(21);
+            $table->bigInteger('sick')->default(20);
+            $table->bigInteger('maternity')->default(60);
+            $table->bigInteger('paternity')->default(5);
+            $table->bigInteger('study')->default(90);
+            $table->bigInteger('annual')->default(22);
+            $table->bigInteger('others')->default(4);
+            $table->bigInteger('total_days_remaining')->nullable();
             $table->timestamps();
 
             $table->foreign('updated_by')->references('id')->on('users');
