@@ -190,13 +190,13 @@
                                                         <div class="col-md-12" v-if="errors.length > 0">
                                                             <p class="text-danger pull-left">{{ errors }}</p>
                                                         </div>
-                                                        
+
                                                         <div class="form-group col-md-6">
                                                             <button @click="save" class="btn btn-primary pull-right btn-block" type="button">
                                                                 <span v-if="spinner"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                                 <b> <i class="fa fa-plus"></i> ADD USER</b>
                                                             </button>
-                                                           
+
                                                         </div>
                                                 </div>
                                             </div>
@@ -340,7 +340,7 @@ export default {
                 this.loadUsers()
                 this.setEmployee(user_id)
                 this.showToast('primary', 'Notification', response.message)
-                
+
             })
         },
         showToast(variant, title, body){
@@ -478,7 +478,7 @@ export default {
             });
         },
     },
-    
+
     computed: {
         ...mapState({
             auth: state => state.auth,
@@ -492,7 +492,7 @@ export default {
             raw_projects: state => state.projects,
             employee: state => state.employee
         }),
-      
+
     },
     mounted() {
         this.autocomplete = new google.maps.places.Autocomplete((this.$refs.autocomplete),{types: ['geocode']});

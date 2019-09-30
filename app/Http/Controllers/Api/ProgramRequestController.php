@@ -45,7 +45,8 @@ class ProgramRequestController extends BaseController
         return $this->sendResponse($req, 'Request saved');
     }
 
-    public function saveAttachments(Request $request){
+    public function saveAttachments(Request $request)
+    {
 
         $req = ProgramRequest::find($request->request_id);
 
@@ -61,10 +62,10 @@ class ProgramRequestController extends BaseController
         }
 
         return $this->sendresponse('success', 'success');
-
     }
 
-    public function changedoccompletionstatus(Request $request){
+    public function changedoccompletionstatus(Request $request)
+    {
 
         $req = ProgramRequest::find($request->request_id);
         $req->doc_completion_status = $request->doc_completion_status;
@@ -78,7 +79,7 @@ class ProgramRequestController extends BaseController
 
         $req = ProgramRequest::find($request->request_id);
 
-        if(auth()->user()->id != $req->user_id){
+        if (auth()->user()->id != $req->user_id) {
             return $this->sendError('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
         }
 
@@ -104,7 +105,7 @@ class ProgramRequestController extends BaseController
 
         $req = ProgramRequest::find($request->request_id);
 
-        if(auth()->user()->id != $req->user_id){
+        if (auth()->user()->id != $req->user_id) {
             return $this->sendError('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
         }
 
@@ -140,7 +141,7 @@ class ProgramRequestController extends BaseController
 
         $req = ProgramRequest::find($request->request_id);
 
-        if(auth()->user()->id != $req->user_id){
+        if (auth()->user()->id != $req->user_id) {
             return $this->sendError('error', ['error' => 'You can\'t edit a request you didn\'t initiate, please use the notes section to add comments']);
         }
 
@@ -198,7 +199,6 @@ class ProgramRequestController extends BaseController
         $requests = ProgramRequestResourceExtensive::collection($requests);
 
         return $this->sendResponse($requests, 'All my requests');
-
     }
 
     public function getProjectRequests(Request $request)
@@ -212,32 +212,31 @@ class ProgramRequestController extends BaseController
 
         return $this->sendResponse($requests, 'Project requests for the accountant');
     }
+
     public function getLevel1Requests(Request $request)
     {
         // get requests that the accountant has approved but manager/supervisor has not yet approved and the request was instituted by an officer
 
         $user = $request->user();
         $pm = Department::where(['name' => 'Project Management'])->first();
-
-        if($user->department->id == $pm->id){
+        $reqs = collect();
+        if ($user->department->id == $pm->id) {
             $project = Project::where(['manager' => $user->id])->first();
             $reqp = $project->requests;
-            $reqs = collect();
             foreach ($reqp as $req) {
                 if ($req->getRequestorType() == 'officer' && $req->trail->accountant_approval == 1) {
                     $reqs->push($req);
                 }
             }
-
-        }else{
-            // $department = Department::find($user->department_id);
-            // $requests = $department->requests;
-            // $reqs = collect();
-            // foreach ($requests as $req) {
-            //     if ($req->getRequestorType() == 'officer' && $req->trail->accountant_approval == 1) {
-            //         $reqs->push($req);
-            //     }
-            // }
+        } else {
+            $department = Department::find($user->department_id);
+            $requests = $department->requests;
+            $reqs = collect();
+            foreach ($requests as $req) {
+                if ($req->getRequestorType() == 'officer' && $req->trail->accountant_approval == 1) {
+                    $reqs->push($req);
+                }
+            }
         }
 
         $reque = ProgramRequestResourceExtensive::collection($reqs);
@@ -288,8 +287,8 @@ class ProgramRequestController extends BaseController
 
         // requests in directors line of department
         $requests = collect();
-        foreach($user->directorate->departments as $dept){
-            foreach($dept->requests as $r){
+        foreach ($user->directorate->departments as $dept) {
+            foreach ($dept->requests as $r) {
                 $requests->push($r);
             }
         }
@@ -324,35 +323,36 @@ class ProgramRequestController extends BaseController
         return $this->sendResponse($reqs, 'Requests for directors approval');
     }
 
-    public function invalidateToken(request $request){
+    public function invalidateToken(request $request)
+    {
 
         $user = auth()->user();
 
         $token = Token::where(['initiator' => $user->id, 'request' => $request->request_id, 'type' => $request->approvalType])->latest()->first();
 
-        if($token){
-            if($token->status){
+        if ($token) {
+            if ($token->status) {
                 return $this->sendError('error', ['error' => 'Token already used']);
             }
-            if($token->token == $request->token){
-                if(date('d-M-Y H:i:s') < date('d-M-Y H:i:s', strtotime($token->expiry_date))){
+            if ($token->token == $request->token) {
+                if (date('d-M-Y H:i:s') < date('d-M-Y H:i:s', strtotime($token->expiry_date))) {
                     $token->status = true;
                     $token->save();
 
                     return $this->sendResponse('success', 'Token invalidated');
-                }else{
+                } else {
                     return $this->sendError('error', ['error' => 'Token expired, please generate another one!']);
                 }
-            }else{
+            } else {
                 return $this->sendError('error', ['error' => 'Token incorrect, please enter right token']);
             }
-        }else{
+        } else {
             return $this->sendError('error', ['error' => 'Token does not exist, please generate a token']);
         }
-
     }
 
-    public function generateToken(Request $request){
+    public function generateToken(Request $request)
+    {
 
         $user = auth()->user();
 
@@ -481,7 +481,7 @@ class ProgramRequestController extends BaseController
                 $notified = $user;
             }
         }
-        if(!$notified){
+        if (!$notified) {
             $notified = User::first();
         }
 
@@ -499,7 +499,7 @@ class ProgramRequestController extends BaseController
                 $notified = $user;
             }
         }
-        if(!$notified){
+        if (!$notified) {
             $notified = User::first();
         }
 
@@ -621,25 +621,27 @@ class ProgramRequestController extends BaseController
         return $this->sendResponse($trail, 'success');
     }
 
-    public function cancelRequest(Request $request){
+    public function cancelRequest(Request $request)
+    {
 
         $req = ProgramRequest::find($request->id);
         $req->update(['status' => 2]);
         return $this->sendResponse($request, 'Request has been cancelled');
-
     }
 
-    public function getRequestAttachments(Request $request){
+    public function getRequestAttachments(Request $request)
+    {
         $req = ProgramRequest::find($request->id);
 
         $atts = [];
-        foreach($req->attachments as $att){
+        foreach ($req->attachments as $att) {
             $atts[] = explode('/', $att->reference)[1];
         }
         return $this->sendResponse($atts, 'Request attachments');
     }
 
-    public function saveNotes(Request $request){
+    public function saveNotes(Request $request)
+    {
         $req = ProgramRequest::find($request->request_id);
 
         $req->update(['notes' => $request->notes]);
