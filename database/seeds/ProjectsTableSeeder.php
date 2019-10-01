@@ -21,7 +21,7 @@ class ProjectsTableSeeder extends Seeder
             'SRHR-U',
             'EAYIP',
         ];
-        $fullnames = [
+        $descs = [
             'Measuring Skill at Scale- Work Readiness Assessment',
             'Integrating Sexual And Reproductive Health and Work Force Development for Teenage Mothers',
             'Scaling up HIV/AIDS Responses in Hard to reach Areas of Northern Uganda',
@@ -32,7 +32,7 @@ class ProjectsTableSeeder extends Seeder
         ];
 
         for($i = 0; $i < count($names); $i++){
-            Project::create(['name' => $names[$i], 'fullname' => $fullnames[$i]]);
+            Project::create(['name' => $names[$i], 'description' => $descs[$i]]);
         }
     }
 }

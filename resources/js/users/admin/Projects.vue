@@ -32,7 +32,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Description</th>
-                                        <th>Supervisor</th>
+                                        <!-- <th>Supervisor</th> -->
                                         <th>Accountant</th>
                                         <th>Manager</th>
                                         <th style="width:100px">Action</th>
@@ -42,7 +42,7 @@
                                     <tr v-for="project in projects" :key="project.id">
                                         <td >{{ project.name }}</td>
                                         <td >{{ project.description }}</td>
-                                        <td >{{ project.supervisor }}</td>
+                                        <!-- <td >{{ project.supervisor }}</td> -->
                                         <td >{{ project.accountant }}</td>
                                         <td >{{ project.manager }}</td>
                                         <td>
@@ -71,33 +71,26 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="" class="col-form-label">Project Name <span class="text-danger">*</span></label>
+                                    <label for="" class="col-form-label">Project Acronym <span class="text-danger">*</span></label>
                                     <input type="text" v-model="project.name" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="col-form-label">Project Description</label>
+                                    <label for="" class="col-form-label">Project Description  <small class="text-danger">project full name</small> </label>
                                     <textarea name="" id="" cols="5" rows="3" v-model="project.description" class="form-control"></textarea>
                                 </div>
+                            
                                 <div class="form-group">
-                                    <label for="" class="col-form-label">Assign Supervisor</label>
-
-                                    <select name="" id="" class="form-control" v-model="project.supervisor">
-                                        <option disabled  value="">Select User</option>
-                                        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="" class="col-form-label">Assign Accountant</label>
+                                    <label for="" class="col-form-label">Assign Accountant <span class="text-danger">*</span>  </label>
                                     <select name="" id="" class="form-control" v-model="project.accountant">
                                         <option disabled  value="">Select User</option>
                                         <option v-for="account in accountants" :key="account.id" :value="account.id">{{ account.fname + ' ' + account.lname }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="col-form-label">Assign Manager</label>
+                                    <label for="" class="col-form-label">Assign Manager <span class="text-danger">*</span> </label>
                                     <select name="" id="" class="form-control" v-model="project.manager">
                                         <option disabled  value="">Select User</option>
-                                        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
+                                        <option v-for="user in managers" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
                                     </select>
                                 </div>
 
@@ -129,20 +122,20 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="" class="col-form-label">Project Name <span class="text-danger">*</span></label>
+                                    <label for="" class="col-form-label">Project Acronym <span class="text-danger">*</span></label>
                                     <input type="text" v-model="proj.name" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="col-form-label">Project Description</label>
+                                    <label for="" class="col-form-label">Project Description  <small class="text-danger">project full name</small></label>
                                     <textarea name="" id="" cols="5" rows="3" v-model="proj.description" class="form-control"></textarea>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="" class="col-form-label">Assign Supervisor  <span v-if="typeof proj.supervisor != 'number'">[ {{ proj.supervisor  }}]</span>  </label>
                                     <select name="" id="" class="form-control" v-model="proj.supervisor">
                                         <option disabled  value="">Select User</option>
                                         <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
                                     </select>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <label for="" class="col-form-label">Assign Accountant <span v-if="typeof proj.accountant != 'number'"> [ {{ proj.accountant  }}] </span></label>
                                     <select name="" id="" class="form-control" v-model="proj.accountant">
@@ -154,7 +147,7 @@
                                     <label for="" class="col-form-label">Assign Manager <span v-if="typeof proj.manager != 'number'"> [ {{ proj.manager  }}] </span></label>
                                     <select name="" id="" class="form-control" v-model="proj.manager">
                                         <option disabled  value="">Select User</option>
-                                        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
+                                        <option v-for="user in managers" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
                                     </select>
                                 </div>
 
@@ -196,11 +189,10 @@ export default {
             setUsers: "setUsers"
         }),
         saveEdit(){
-            if(this.project.name == ''){
-                return;
-            }
+           
             axios.post(this.prefix + `/admin/projects/update/${this.proj.id}`, this.proj)
             .then(response => {
+                 this.showToast('success', 'Error', 'Success')
                 this.loadProjects()
             });
         },
@@ -215,6 +207,7 @@ export default {
         deleteProject(id){
             axios.get(this.prefix + `/admin/projects/delete/${id}`)
             .then(response => {
+                this.showToast('success', 'Error', 'Success')
                 this.loadProjects()
             });
         },
@@ -224,15 +217,25 @@ export default {
             })
         },
         save(){
-            if(this.project.name == ''){
-                return;
-            }
-            axios.post(this.prefix + '/admin/projects/', this.project)
+            axios.post(this.prefix + '/admin/projects', this.project)
             .then(response => {
+                if(!response.data.success){
+                    this.showToast('danger', 'Error', response.data.data.error)
+                    return;
+                }
+                this.showToast('success', 'Notification', response.data.message)
+                $('.modal').modal('toggle')
                 this.loadProjects()
             });
         },
-        
+        showToast(variant, title, body){
+             this.$bvToast.toast(body, {
+                title: title,
+                variant: variant,
+                solid: true
+        })
+        }
+
     },
     computed: {
         ...mapState({
@@ -242,6 +245,14 @@ export default {
         accountants(){
             let role = "Project Accountant"
             return this.users.filter(user => user.designation == role)
+        },
+        managers(){
+            let role = "manager"
+            return this.users.filter(user => {
+                if(user.roles.includes(role)){
+                    return user
+                }
+            })
         }
     },
     mounted() {

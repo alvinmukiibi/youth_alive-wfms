@@ -18,10 +18,13 @@ class AdminController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required'],
-            'supervisor' => ['nullable', 'exists:users,id'],
-            'accountant' => ['nullable', 'exists:users,id'],
-            'manager' => ['nullable', 'exists:users,id'],
+            'accountant' => ['required', 'exists:users,id'],
+            'manager' => ['required', 'exists:users,id'],
             'description' => ['nullable', 'max:1000'],
+        ], [
+            'name.required' => 'Project Acronym field is required',
+            'accountant.required' => 'Please assign a project accountant. Note that the list of accountants contains all users with designation of \'Project Accountant\'',
+            'manager.required' => 'Please assign a project manager. Note that the list of managers contains all users whose list of system roles includes the role of \'manager\''
         ]);
 
         if($validator->fails()){
@@ -31,16 +34,12 @@ class AdminController extends BaseController
         $project = [
             'name' => $request->name,
             'description' => $request->description ? $request->description : null,
-            'supervisor' => $request->supervisor ? $request->supervisor : null,
             'accountant' => $request->accountant ? $request->accountant : null,
             'manager' => $request->manager ? $request->manager : null,
         ];
 
         $project = Project::create($project);
 
-        if($request->supervisor){
-            User::find($request->supervisor)->projects()->attach($project->id);
-        }
         if($request->accountant){
             User::find($request->accountant)->projects()->attach($project->id);
         }
@@ -58,27 +57,27 @@ class AdminController extends BaseController
         $project->name = $request->name;
         $project->description = $request->description;
         $project->accountant = $request->accountant ? $request->accountant : $project->accountant;
-        $project->supervisor = $request->supervisor ? $request->supervisor : $project->supervisor;
+        // $project->supervisor = $request->supervisor ? $request->supervisor : $project->supervisor;
         $project->manager = $request->manager ? $request->manager : $project->manager;
         $project->save();
 
-        $count = DB::table('project_user')->where(['user_id' => $request->supervisor, 'project_id' => $request->id])->count();
-        if($count > 0){
-            return $this->sendError('', 'Project already attached to user');
-        }else{
-            $user = User::find($request->supervisor);
-            $user->projects()->attach($request->id);
-        }
+        // $count = DB::table('project_user')->where(['user_id' => $request->supervisor, 'project_id' => $request->id])->count();
+        // if($count > 0){
+        //     return $this->sendError('', 'Project already attached to user');
+        // }else{
+        //     $user = User::find($request->supervisor);
+        //     $user->projects()->attach($request->id);
+        // }
         $count = DB::table('project_user')->where(['user_id' => $request->accountant, 'project_id' => $request->id])->count();
         if($count > 0){
-            return $this->sendError('', 'Project already attached to user');
+            return $this->sendError('error', ['error' => 'Project already attached to user']);
         }else{
             $user = User::find($request->accountant);
             $user->projects()->attach($request->id);
         }
         $count = DB::table('project_user')->where(['user_id' => $request->manager, 'project_id' => $request->id])->count();
         if($count > 0){
-            return $this->sendError('', 'Project already attached to user');
+            return $this->sendError('error', ['error' => 'Project already attached to user']);
         }else{
             $user = User::find($request->manager);
             $user->projects()->attach($request->id);

@@ -207,7 +207,7 @@ class ProgramRequestController extends BaseController
         $user = $request->user();
 
         $project_id = Project::where('accountant', $user->id)->value('id');
-        $requests = Project::find($project_id)->requests;
+        $requests = Project::find($project_id)->requests()->where('status', '!=', 2)->get();
         $requests = ProgramRequestResourceExtensive::collection($requests);
 
         return $this->sendResponse($requests, 'Project requests for the accountant');
