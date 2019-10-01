@@ -12,8 +12,11 @@ class SettingsController extends BaseController
     public function getSettings(Request $request){
 
         $user = $request->user();
+        $count = $user->settings()->count();
+        if(!$count > 0){
+            $user->settings()->create(['receive_login_notifications' => true]);
+        }
         $settings = $user->settings;
-
         return $this->sendResponse($settings, 'User preferences' );
 
     }
