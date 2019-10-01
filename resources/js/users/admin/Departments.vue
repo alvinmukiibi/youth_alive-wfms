@@ -27,27 +27,34 @@
                             <h3 class="card-title">Departments</h3>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered table-hover" >
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th style="width:100px">Acronym</th>
-                                        <th>Role</th>
-                                        <th style="width:100px">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="dept in departments" :key="dept.id">
-                                        <td >{{ dept.name }}</td>
-                                        <td >{{ dept.acronym }}</td>
-                                        <td >{{ dept.role }}</td>
-                                        <td>
+                             <b-table-simple hover  small caption-top responsive>
+                            <colgroup>
+                             
+                              <col />
+                              <col />
+                              <col style="width:100px" />
+                            </colgroup>
+                            <b-thead head-variant="dark">
+                              <b-tr>
+                                <b-th>Name</b-th>
+                                <b-th>Acronym</b-th>
+                                <b-th>Action</b-th>
+                                
+                              </b-tr>
+                            </b-thead>
+                            <b-tbody>
+                                 <b-tr v-for="dept in departments" :key="dept.id">
+                                        <b-td >{{ dept.name }}</b-td>
+                                        <b-td >{{ dept.acronym }}</b-td>
+                                       
+                                        <b-td>
                                             <!-- <button @click="deleteDept(dept.id)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button> -->
                                             <button @click="setDept(dept.id)" type="button" data-toggle="modal" data-target="#editModal" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        </b-td>
+                                    </b-tr>
+                            </b-tbody>
+                             </b-table-simple>
+                          
                         </div>
                     </div>
                 </div>
@@ -164,6 +171,7 @@ export default {
             axios.post(this.prefix + `/departments/update/${this.dept.id}`, this.dept)
             .then(response => {
                 this.loadDepartments()
+                this.showToast('success', 'Notification', 'success')
             });
         },
         setDept(id){
@@ -174,9 +182,17 @@ export default {
                 this.setDepartments(response.data)
             })
         },
+        showToast(variant, title, body) {
+            this.$bvToast.toast(body, {
+                title: title,
+                variant: variant,
+                solid: true
+            });
+        },
         deleteDept(id){
             axios.get(this.prefix + `/departments/delete/${id}`)
             .then(response => {
+                this.showToast('success', 'Notification', 'success')
                 this.loadDepartments()
             });
         },
@@ -190,6 +206,7 @@ export default {
             axios.post(this.prefix + '/departments', this.department)
             .then(response => {
                 this.loadDepartments()
+                this.showToast('success', 'Notification', 'success')
             });
         }
     },

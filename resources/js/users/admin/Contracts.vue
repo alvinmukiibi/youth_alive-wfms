@@ -42,23 +42,31 @@
                             <h3 class="card-title">Contract Types</h3>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered table-hover" >
-                                <thead>
-                                    <tr>
-                                        <th>Type</th>
-                                        <th style="width:100px">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="type in contracts" :key="type.id">
-                                        <td >{{ type.name }}</td>
-                                        <td>
+                            <b-table-simple hover small caption-top responsive>
+                            <colgroup>
+                             
+                              <col />
+                              <col style="width:100px" />
+                            </colgroup>
+                            <b-thead head-variant="dark">
+                              <b-tr>
+                                <b-th>Type</b-th>
+                             
+                                <b-th>Action</b-th>
+                                
+                              </b-tr>
+                            </b-thead>
+                            <b-tbody>
+                               <b-tr v-for="type in contracts" :key="type.id">
+                                        <b-td >{{ type.name }}</b-td>
+                                        <b-td>
                                             <button @click="deleteContract(type.id)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
                                             <button @click="setContract(type.id)" type="button" data-toggle="modal" data-target="#modal" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        </b-td>
+                                    </b-tr>
+                            </b-tbody>
+                            </b-table-simple>
+                           
                         </div>
                     </div>
                     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -118,6 +126,7 @@ export default {
             }
             axios.post(this.prefix + `/admin/contracts/update/${this.contract.id}`, {name: this.contract.name})
             .then(response => {
+                this.showToast('success', 'Notification', 'success')
                 this.loadContractTypes()
             });
         },
@@ -132,7 +141,15 @@ export default {
         deleteContract(id){
             axios.get(this.prefix + `/admin/contracts/delete/${id}`)
             .then(response => {
+                this.showToast('success', 'Notification', 'success')
                 this.loadContractTypes()
+            });
+        },
+        showToast(variant, title, body) {
+            this.$bvToast.toast(body, {
+                title: title,
+                variant: variant,
+                solid: true
             });
         },
         save(){
@@ -143,6 +160,7 @@ export default {
                 name: this.name
             }
             api.saveContract(data).then(response => {
+                this.showToast('success', 'Notification', 'success')
                 this.loadContractTypes()
             })
         },

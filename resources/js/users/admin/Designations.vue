@@ -44,17 +44,22 @@
                 <h3 class="card-title">Designation</h3>
               </div>
               <div class="card-body">
-                <table class="table table-striped table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th>Designation</th>
-                      <th style="width:100px">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="type in designations" :key="type.id">
-                      <td>{{ type.name }}</td>
-                      <td>
+                <b-table-simple hover small caption-top responsive>
+                  <colgroup>
+                    <col />
+                    <col style="width:100px" />
+                  </colgroup>
+                  <b-thead head-variant="dark">
+                    <b-tr>
+                      <b-th>Designation</b-th>
+
+                      <b-th>Action</b-th>
+                    </b-tr>
+                  </b-thead>
+                  <b-tbody>
+                    <b-tr v-for="type in designations" :key="type.id">
+                      <b-td>{{ type.name }}</b-td>
+                      <b-td>
                         <button @click="deleteDesi(type.id)" class="btn btn-sm btn-outline-danger">
                           <i class="fa fa-trash"></i>
                         </button>
@@ -67,10 +72,10 @@
                         >
                           <i class="fa fa-pencil"></i>
                         </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                      </b-td>
+                    </b-tr>
+                  </b-tbody>
+                </b-table-simple>
               </div>
             </div>
             <div
@@ -148,6 +153,7 @@ export default {
         })
         .then(response => {
           this.loadDesignations();
+          this.showToast("success", "Notification", "success");
         });
     },
     setDesi(id) {
@@ -158,9 +164,17 @@ export default {
         this.setDesignations(response.data);
       });
     },
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
+      });
+    },
     deleteDesi(id) {
       axios.get(this.prefix + `/designations/delete/${id}`).then(response => {
         this.loadDesignations();
+        this.showToast("success", "Notification", "success");
       });
     },
     save() {
@@ -172,6 +186,7 @@ export default {
       };
       api.saveDesignation(data).then(response => {
         this.loadDesignations();
+        this.showToast("success", "Notification", "success");
       });
     }
   },

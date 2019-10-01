@@ -58,19 +58,24 @@
                 <h3 class="card-title">Leave Types</h3>
               </div>
               <div class="card-body">
-                <table class="table table-striped table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th>Type</th>
-                      <th># Days</th>
-                      <th style="width:100px">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="le in leavetypes" :key="le.id">
-                      <td>{{ le.type }}</td>
-                      <td>{{ le.days }}</td>
-                      <td>
+                <b-table-simple hover small caption-top responsive>
+                  <colgroup>
+                    <col />
+                    <col />
+                    <col style="width:100px" />
+                  </colgroup>
+                  <b-thead head-variant="dark">
+                    <b-tr>
+                      <b-th>Type</b-th>
+                      <b-th># Days</b-th>
+                      <b-th>Action</b-th>
+                    </b-tr>
+                  </b-thead>
+                  <b-tbody>
+                    <b-tr v-for="le in leavetypes" :key="le.id">
+                      <b-td>{{ le.type }}</b-td>
+                      <b-td>{{ le.days }}</b-td>
+                      <b-td>
                         <button @click="deleteType(le.id)" class="btn btn-sm btn-outline-danger">
                           <i class="fa fa-trash"></i>
                         </button>
@@ -83,10 +88,10 @@
                         >
                           <i class="fa fa-pencil"></i>
                         </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                      </b-td>
+                    </b-tr>
+                  </b-tbody>
+                </b-table-simple>
               </div>
             </div>
             <div
