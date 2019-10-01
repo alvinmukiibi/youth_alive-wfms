@@ -40,6 +40,7 @@ class ProfileResource extends JsonResource
             'activity_status' => $this->activity_status,
             'availability_status' => $this->availability_status,
             'user_type' => $this->user_type(),
+            'is_accountant' => $this->isProjectAccountant(),
             'date_registered' => date('Y-M-d', strtotime($this->created_at))
         ];
     }

@@ -13,6 +13,7 @@ use App\Leave;
 use App\Setting;
 use App\Directorate;
 use App\Message;
+use App\Project;
 
 class User extends Authenticatable
 {
@@ -113,7 +114,7 @@ class User extends Authenticatable
     }
 
     public function isHQStaff(){
-        if(Str::containes($this->duty_station, 'Kampala')){
+        if(Str::contains($this->duty_station, 'Kampala')){
             return true;
         }
         return false;
@@ -126,6 +127,23 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'recipient_id');
     }
 
+    public function isProjectAccountant(){
+
+        $accountants = [];
+        $projects = Project::all();
+        foreach($projects as $proj){
+            if($proj->accountant != null){
+                $accountants[] = $proj->accountant;
+            }
+        }
+
+        if(in_array($this->id, $accountants)){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
     public function supervisor($req = null)
     {
         /**

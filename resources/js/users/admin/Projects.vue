@@ -27,31 +27,40 @@
                             <h3 class="card-title">Projects</h3>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered table-hover" >
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <!-- <th>Supervisor</th> -->
-                                        <th>Accountant</th>
-                                        <th>Manager</th>
-                                        <th style="width:100px">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="project in projects" :key="project.id">
-                                        <td >{{ project.name }}</td>
-                                        <td >{{ project.description }}</td>
-                                        <!-- <td >{{ project.supervisor }}</td> -->
-                                        <td >{{ project.accountant }}</td>
-                                        <td >{{ project.manager }}</td>
-                                        <td>
+                             <b-table-simple hover  small caption-top responsive>
+                            <colgroup>
+                              <col />
+                              <col />
+                              <col />
+                              <col />
+                              <col style="width:80px" />
+                            </colgroup>
+                            <b-thead head-variant="dark">
+                              <b-tr>
+                                <b-th>Name</b-th>
+                                <b-th>Description</b-th>
+                                <b-th>Accountant</b-th>
+                                <b-th>Manager</b-th>
+                                <b-th>Action</b-th>
+                                
+                              </b-tr>
+                            </b-thead>
+                            <b-tbody>
+                                <b-tr v-for="project in projects" :key="project.id">
+                                        <b-td >{{ project.name }}</b-td>
+                                        <b-td >{{ project.description }}</b-td>
+                                        
+                                        <b-td >{{ project.accountant }}</b-td>
+                                        <b-td >{{ project.manager }}</b-td>
+                                        <b-td>
                                             <button @click="deleteProject(project.id)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
                                             <button @click="setProject(project.id)" type="button" data-toggle="modal" data-target="#editModal" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        </b-td>
+                                    </b-tr>
+                            </b-tbody>
+                           
+                            </b-table-simple>
+
                         </div>
                     </div>
                 </div>
@@ -83,7 +92,7 @@
                                     <label for="" class="col-form-label">Assign Accountant <span class="text-danger">*</span>  </label>
                                     <select name="" id="" class="form-control" v-model="project.accountant">
                                         <option disabled  value="">Select User</option>
-                                        <option v-for="account in accountants" :key="account.id" :value="account.id">{{ account.fname + ' ' + account.lname }}</option>
+                                        <option v-for="account in users" :key="account.id" :value="account.id">{{ account.fname + ' ' + account.lname }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -100,7 +109,12 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                              <button type="button" @click="save" class="btn btn-primary">Save Project <i class="fa fa-plus"></i> </button>
+                                              <button type="button" @click="save" class="btn btn-primary">Save Project <i class="fa fa-plus"> </i>   <span
+                        v-if="spinner1"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span></button>
 
                                                </div>
                                         </div>
@@ -137,14 +151,14 @@
                                     </select>
                                 </div> -->
                                 <div class="form-group">
-                                    <label for="" class="col-form-label">Assign Accountant <span v-if="typeof proj.accountant != 'number'"> [ {{ proj.accountant  }}] </span></label>
+                                    <label for="" class="col-form-label">Assign Accountant <span class="text-primary" v-if="typeof proj.accountant != 'number'"> [ {{ proj.accountant  }}] </span></label>
                                     <select name="" id="" class="form-control" v-model="proj.accountant">
                                         <option disabled  value="">Select User</option>
-                                        <option v-for="account in accountants" :key="account.id" :value="account.id">{{ account.fname + ' ' + account.lname }}</option>
+                                        <option v-for="account in users" :key="account.id" :value="account.id">{{ account.fname + ' ' + account.lname }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="col-form-label">Assign Manager <span v-if="typeof proj.manager != 'number'"> [ {{ proj.manager  }}] </span></label>
+                                    <label for="" class="col-form-label">Assign Manager <span class="text-primary" v-if="typeof proj.manager != 'number'"> [ {{ proj.manager  }}] </span></label>
                                     <select name="" id="" class="form-control" v-model="proj.manager">
                                         <option disabled  value="">Select User</option>
                                         <option v-for="user in managers" :key="user.id" :value="user.id">{{ user.fname + ' ' + user.lname }}</option>
@@ -157,7 +171,12 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" @click="saveEdit" class="btn btn-primary">Save changes</button>
+                                            <button type="button" @click="saveEdit" class="btn btn-primary">Save changes  <span
+                        v-if="spinner2"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span></button>
                                         </div>
                                         </div>
                                     </div>
@@ -177,7 +196,8 @@ export default {
         return {
             edit:false,
             name: '',
-            // projects: [],
+            spinner1: false,
+            spinner2: false,
             prefix: process.env.MIX_API_URL,
             project: {},
             proj: []
@@ -189,10 +209,17 @@ export default {
             setUsers: "setUsers"
         }),
         saveEdit(){
-           
+            this.spinner2 = true
             axios.post(this.prefix + `/admin/projects/update/${this.proj.id}`, this.proj)
             .then(response => {
-                 this.showToast('success', 'Error', 'Success')
+                 if(!response.data.success){
+                    this.showToast('danger', 'Error', response.data.data.error)
+                    this.spinner2 = false
+                    this.loadProjects()
+                    return;
+                }
+                 this.showToast('success', 'Notification', 'Success')
+                 this.spinner2 = false
                 this.loadProjects()
             });
         },
@@ -207,7 +234,7 @@ export default {
         deleteProject(id){
             axios.get(this.prefix + `/admin/projects/delete/${id}`)
             .then(response => {
-                this.showToast('success', 'Error', 'Success')
+                this.showToast('success', 'Notification', 'Success')
                 this.loadProjects()
             });
         },
@@ -217,14 +244,17 @@ export default {
             })
         },
         save(){
+            this.spinner1 = true
             axios.post(this.prefix + '/admin/projects', this.project)
             .then(response => {
                 if(!response.data.success){
                     this.showToast('danger', 'Error', response.data.data.error)
+                    this.spinner1 = false
                     return;
                 }
                 this.showToast('success', 'Notification', response.data.message)
-                $('.modal').modal('toggle')
+                // $('.modal').modal('hide')
+                this.spinner1 = false
                 this.loadProjects()
             });
         },
@@ -242,10 +272,10 @@ export default {
             projects: state => state.projects,
             users: state => state.users
         }),
-        accountants(){
-            let role = "Project Accountant"
-            return this.users.filter(user => user.designation == role)
-        },
+        // accountants(){
+        //     let role = "Project Accountant"
+        //     return this.users.filter(user => user.designation == role)
+        // },
         managers(){
             let role = "manager"
             return this.users.filter(user => {
