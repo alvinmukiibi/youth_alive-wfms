@@ -29,33 +29,40 @@
                             <div class="card-body">
                                 <div class="tab-content">
                                     <div class="active tab-pane" id="activity">
-                                        <table
+                                         <b-table-simple hover  small caption-top responsive>
+                            <colgroup>
+                              <col />
+                              <col />
+                              <col />
+                              <col />
+                              <col />
+                              <col />
+                              <col />
+                              <col style="width:100px" />
+                            </colgroup>
+                            <b-thead head-variant="dark">
+                              <b-tr>
+                                 <b-th>Name</b-th>
+                                                    <b-th>Email</b-th>
+                                                    <b-th>Designation</b-th>
+                                                    <b-th>Dept</b-th>
+                                                    <b-th>Station</b-th>
+                                                    <b-th>Contact</b-th>
+                                                    <b-th>DP</b-th>
+                                                    <b-th>Action</b-th>
+                                
+                              </b-tr>
+                            </b-thead>
+                            <b-tbody>
+                                   <b-tr v-for="user in users" :key="user.id">
+                                                    <b-td> <router-link to="/view/employee"><span :class="available(user.availability_status)" @click="setEmployee(user.id)" ><b> {{ user.fname + ' ' + user.lname  }}</b></span></router-link></b-td>
+                                                    <b-td>{{ user.email }}</b-td>
+                                                    <b-td>{{ user.designation }}</b-td>
+                                                    <b-td>{{ user.department_acronym }}</b-td>
 
-                                            class="table table-striped table-bordered table-hover"
-
-                                        >
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Designation</th>
-                                                    <th>Dept</th>
-                                                    <th>Station</th>
-                                                    <th>Contact</th>
-                                                    <th>DP</th>
-                                                    <th style="width:100px">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="user in users" :key="user.id">
-                                                    <td> <router-link to="/view/employee"><span :class="available(user.availability_status)" @click="setEmployee(user.id)" ><b> {{ user.fname + ' ' + user.lname  }}</b></span></router-link></td>
-                                                    <td>{{ user.email }}</td>
-                                                    <td>{{ user.designation }}</td>
-                                                    <td>{{ user.department_acronym }}</td>
-
-                                                    <td>{{ user.duty_station }}</td>
-                                                    <td>{{ user.mobile_contact }}</td>
-                                                    <td>
+                                                    <b-td>{{ user.duty_station }}</b-td>
+                                                    <b-td>{{ user.mobile_contact }}</b-td>
+                                                    <b-td>
                                                         <img
                                                             v-if="user.profile_picture"
                                                             :src="'/storage/' + user.profile_picture"
@@ -71,15 +78,16 @@
                                                         <!-- <img class="profile-user-img img-fluid img-circle"
                                                             :src="'/storage/' + user.profile_picture"
                                                             alt="User profile picture"> -->
-                                                    </td>
-                                                    <td>
+                                                    </b-td>
+                                                    <b-td>
                                                         <button type="button" data-toggle="modal" @click="setEmployee(user.id)" data-target="#rolesModal" class="btn btn-sm btn-primary" title="Roles and Projects"> <i  class="fa fa-tasks"></i>  </button>
                                                         <a @click="deactivate(user.id)" title="Deactivate" v-if="user.activity_status"  :class="{'disabled': user.id == auth.id}" to="/deactivate" class="btn btn-sm btn-danger"> <i class="fa fa-times text-white"></i> </a>
                                                         <a @click="activate(user.id)" title="Activate" v-else to="/activate" class="btn btn-sm btn-success"> <i class="fa fa-check text-white"></i> </a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                                    </b-td>
+                                                </b-tr>
+                            </b-tbody>
+                                         </b-table-simple>
+                                       
                                     </div>
                                     <div class="tab-pane" id="timeline">
                                         <div class="card card-primary card-outline">
