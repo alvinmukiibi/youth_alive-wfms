@@ -690,13 +690,14 @@ export default {
             }
             api.makeReq(data).then(response => {
                 if(!response.success){
+
                     this.spinner = false
                     this.showToast('danger', 'Error', response.data.error)
                     return;
                 }
                 this.setRequest(response.data)
                 this.spinner = false
-                 this.showToast('success', 'Notification', 'Saved!! Please fill the documents on the next page')
+                 this.showToast('success', 'Notification', 'Saved! Please fill the documents on the next page')
                 this.$router.push('/request/make')
                 
             })
