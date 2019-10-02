@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
-use App\Http\Resources\ProgramRequestResource;
 use App\Http\Resources\ProgramRequestResourceExtensive;
 use App\ProgramRequest;
-
 use App\Project;
 use App\Department;
 use App\Designation;
@@ -16,12 +14,55 @@ use App\Events\RequestCreatedEvent;
 use App\Mail\ApprovalTokenMail;
 use App\Token;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
 class ProgramRequestController extends BaseController
 {
+
+    public function checkIfProjectIsRequestable($id)
+    {
+
+        $project = Project::find($id);
+
+        if ($project->accountant == null) {
+            return false;
+        }
+        if ($project->manager == null) {
+            return false;
+        }
+
+        return true;
+    }
+    public function validation($request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'activity_type' => 'required',
+            'project_id' => 'required',
+            'documents' => 'required|min:3'
+        ], [
+            'activity_type.required' => 'Please select an activity type',
+            'project_id.required' => 'Please select a project',
+            // 'documents.required' => 'Please select some documents to fill',
+            'documents.min' => 'Please select some documents to fill',
+        ]);
+
+        return $validator;
+    }
     public function store(Request $request)
     {
+        $validator = $this->validation($request);
+
+        if ($validator->fails()) {
+            return $this->sendError('error', ['error' => $validator->errors()->first()]);
+        }
+
+        $projectViable = $this->checkIfProjectIsRequestable($request->project_id);
+
+        if (!$projectViable) {
+            return $this->sendError('error', ['error' => 'You can\'t make a request on the project you have selected. The project must have a project accountant and a project manager before one can make requests on it. Please notify the administrator to attach the project accountant and project manager on the admin panel under \'Projects\'']);
+        }
 
         $user = auth()->user();
 

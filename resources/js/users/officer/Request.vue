@@ -689,6 +689,11 @@ export default {
                 activity_type: this.activity_type
             }
             api.makeReq(data).then(response => {
+                if(!response.success){
+                    this.spinner = false
+                    this.showToast('danger', 'Error', response.data.error)
+                    return;
+                }
                 this.setRequest(response.data)
                 this.spinner = false
                  this.showToast('success', 'Notification', 'Saved!! Please fill the documents on the next page')
