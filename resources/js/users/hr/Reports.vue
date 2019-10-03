@@ -39,39 +39,67 @@
                         <h3 class="card-title">Staff Leave Statistics</h3>
                       </div>
                       <div class="card-body">
-                        <b-table-simple hover small caption-top responsive>
+                        <b-table-simple hover small caption-top bordered responsive>
+                          <colgroup>
+                            <col />
+                          </colgroup>
                           <colgroup>
                             <col />
                             <col />
                             <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
                           </colgroup>
-                          <b-thead head-variant="dark">
+                          <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                          </colgroup>
+                          <colgroup>
+                            <col />
+                          </colgroup>
+                          <b-thead>
                             <b-tr>
-                              <b-th class="text-center">Name</b-th>
-                              <b-th class="text-center">Leaves this month</b-th>
-                              <b-th class="text-center">Cumulative Leave Total for the Year</b-th>
-                              <b-th class="text-center">Sick</b-th>
-                              <b-th class="text-center">Maternity</b-th>
-                              <b-th class="text-center">Parternity</b-th>
-                              <b-th class="text-center">Study</b-th>
-                              <b-th class="text-center">Annual</b-th>
-                              <b-th class="text-center">Others</b-th>
-                              <b-th class="text-center">Remainining Days</b-th>
+                              <b-th variant="dark" class="text-center">Name</b-th>
+                              <b-th
+                                variant="dark"
+                                colspan="7"
+                                class="text-center"
+                              >Leaves taken this year</b-th>
+                              <b-th
+                                variant="dark"
+                                colspan="7"
+                                class="text-center"
+                              >Leaves remaining this year</b-th>
+                              <b-th variant="dark" class="text-center">Year</b-th>
+                            </b-tr>
+                            <b-tr>
+                              <b-th></b-th>
+                              <b-th variant="primary">S</b-th>
+                              <b-th variant="primary">H</b-th>
+                              <b-th variant="primary">M</b-th>
+                              <b-th variant="primary">P</b-th>
+                              <b-th variant="primary">CO</b-th>
+                              <b-th variant="primary">ST</b-th>
+                              <b-th variant="primary">AE</b-th>
+                              <b-th variant="success">S</b-th>
+                              <b-th variant="success">H</b-th>
+                              <b-th variant="success">M</b-th>
+                              <b-th variant="success">P</b-th>
+                              <b-th variant="success">CO</b-th>
+                              <b-th variant="success">ST</b-th>
+                              <b-th variant="success">AE</b-th>
+                              <b-th></b-th>
                             </b-tr>
                           </b-thead>
                           <b-tbody>
-                            <b-tr>
-                              <b-td>Francis Bukenya</b-td>
-                              <b-td>2</b-td>
-                              <b-td>45</b-td>
-                              <b-td>2</b-td>
-                              <b-td>34</b-td>
-                              <b-td>23</b-td>
-                              <b-td>1</b-td>
-                              <b-td>3</b-td>
-                              <b-td>4</b-td>
-                              <b-td>3</b-td>
-                            </b-tr>
+                            <b-tr></b-tr>
                           </b-tbody>
                         </b-table-simple>
                         <!-- <b-table

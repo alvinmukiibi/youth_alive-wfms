@@ -14,6 +14,7 @@ use App\Setting;
 use App\Directorate;
 use App\Message;
 use App\Project;
+use App\LeaveTracker;
 
 class User extends Authenticatable
 {
@@ -125,6 +126,9 @@ class User extends Authenticatable
     }
     public function received_messages(){
         return $this->hasMany(Message::class, 'recipient_id');
+    }
+    public function trackers(){
+        return $this->hasMany(LeaveTracker::class, 'user_id');
     }
 
     public function isProjectAccountant(){
