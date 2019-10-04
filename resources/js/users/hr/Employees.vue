@@ -48,7 +48,7 @@
                                                     <b-th>Dept</b-th>
                                                     <b-th>Station</b-th>
                                                     <b-th>Contact</b-th>
-                                                    <b-th>DP</b-th>
+                                                    <b-th v-if="systemSettings.show_images_on_employees">DP</b-th>
                                                     <b-th>Action</b-th>
                                 
                               </b-tr>
@@ -62,7 +62,7 @@
 
                                                     <b-td>{{ user.duty_station }}</b-td>
                                                     <b-td>{{ user.mobile_contact }}</b-td>
-                                                    <b-td>
+                                                    <b-td v-if="systemSettings.show_images_on_employees">
                                                         <img
                                                             v-if="user.profile_picture"
                                                             :src="'/storage/' + user.profile_picture"
@@ -331,6 +331,7 @@ export default {
             setContracts: "setContracts",
             setRoles: "setRoles",
             setProjects: "setProjects",
+            setSystemSettings: "setSystemSettings"
         }),
         available(bool){
             if(bool){
@@ -432,6 +433,11 @@ export default {
             })
 
         },
+        loadSystemSettings() {
+      api.getSystemSettings().then(response => {
+        this.setSystemSettings(response.data);
+      });
+    },
         setEmployee(id){
             let user = this.users.filter(user => user.id == id)[0]
             this.setCurrentEmployee(user)
@@ -498,11 +504,13 @@ export default {
             errors: state => state.errors,
             raw_roles: state => state.roles,
             raw_projects: state => state.projects,
-            employee: state => state.employee
+            employee: state => state.employee,
+            systemSettings: state => state.systemSettings
         }),
 
     },
     mounted() {
+        this.loadSystemSettings();
         this.autocomplete = new google.maps.places.Autocomplete((this.$refs.autocomplete),{types: ['geocode']});
         this.autocomplete.addListener('place_changed', () => {
             let place = this.autocomplete.getPlace();

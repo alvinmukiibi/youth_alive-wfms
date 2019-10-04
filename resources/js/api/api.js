@@ -176,6 +176,11 @@ export function declineLeave(data) {
     }).then(response => response.data)
 }
 
+export function toggleSystemSetting(field) {
+    return axios.post(prefix + '/settings/system', {
+        field: field
+    }).then(response => response.data)
+}
 export function toggleButton(field) {
     return axios.post(prefix + '/settings/toggle', {
         field: field

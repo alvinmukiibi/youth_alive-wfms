@@ -110,6 +110,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
     Route::group(['prefix' => 'settings'], function () {
         Route::get('/', 'SettingsController@getSettings');
         Route::get('/system', 'SettingsController@getSystemSettings');
+        Route::post('/system', 'SettingsController@toggleSystemSetting');
         Route::post('/toggle', 'SettingsController@toggleSetting');
     });
     Route::group(['prefix' => 'reports'], function () {

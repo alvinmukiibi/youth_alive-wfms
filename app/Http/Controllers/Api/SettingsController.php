@@ -33,6 +33,19 @@ class SettingsController extends BaseController
         return $this->sendResponse('success', 'success');
 
     }
+    public function toggleSystemSetting(Request $request){
+
+        $settings = SystemSetting::first();
+
+        $field = $request->field;
+
+        $oldValue = $settings->value($field);
+
+        $settings->update([$field => !$oldValue]);
+
+        return $this->sendResponse('success', 'success');
+
+    }
 
     public function getSystemSettings(Request $request){
 

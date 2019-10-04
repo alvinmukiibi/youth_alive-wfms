@@ -9,6 +9,7 @@ class SystemSetting extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
+        'show_images_on_employees' => 'boolean',
         'good_friday' => 'date:Y-m-d',
         'easter_sunday' => 'date:Y-m-d',
         'easter_monday' => 'date:Y-m-d',

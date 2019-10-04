@@ -37,6 +37,15 @@
                         size="lg"
                         @change="toggleButton('receive_login_notifications')"
                       >Receive Login Notifications</b-form-checkbox>
+                      <br />
+                      <b-form-checkbox
+                        v-if="settings && auth.user_type == 'manager' && auth.department == 'Human Resource'"
+                        v-model="systemSettings.show_images_on_employees"
+                        name="check-button"
+                        switch
+                        size="lg"
+                        @change="toggleSysButton('show_images_on_employees')"
+                      >Show Photo on Employees</b-form-checkbox>
                     </div>
                   </div>
                   <div
@@ -180,6 +189,11 @@ export default {
     toggleButton(field) {
       api.toggleButton(field).then(response => {
         this.loadSettings();
+      });
+    },
+    toggleSysButton(field) {
+      api.toggleSystemSetting(field).then(response => {
+        this.loadSystemSettings();
       });
     },
     loadSettings() {
