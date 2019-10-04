@@ -148,7 +148,7 @@ class User extends Authenticatable
         }
 
     }
-    public function supervisor($req = null)
+    public function supervisor($req = null, $flag = true)
     {
         /**
          * your supervisor is the user above you in the organogram
@@ -169,21 +169,44 @@ class User extends Authenticatable
                 $response = null;
                 $pm = Department::where(['name' => 'Project Management'])->first();
 
-                if($req->requestor->department == $pm){
+                if($flag){
+                    if($req->requestor->department == $pm){
 
                         $manager = User::find(Project::find($req->project_id)->manager);
                         $response = $manager;
 
-                }else{
-                    foreach ($users as $user) {
+                    }else{
+                        foreach ($users as $user) {
 
-                        if ($user->user_type() == 'manager' && $user->department == $this->department) {
-                            $response = $user;
+                            if ($user->user_type() == 'manager' && $user->department == $this->department) {
+                                $response = $user;
+                            }
                         }
+                    }
+
+                }else{
+                    // if its not a request
+                    if($this->department == $pm){
+                        // geta project attached to and get its project manager
+                        $proj = $this->projects()->first()->manager;
+
+                        $manager = User::find($proj);
+                        $response = $manager;
+
+                    }else{
+                        foreach ($users as $user) {
+
+                            if ($user->user_type() == 'manager' && $user->department == $this->department) {
+                                $response = $user;
+                            }
+                        }
+                    }
+
 
 
                 }
-                }
+
+
 
                 return $response ? $response : $admin;
                 break;

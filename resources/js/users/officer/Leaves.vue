@@ -80,7 +80,7 @@
               <div class="card-body">
                 <div class="tab-content">
                   <div class="tab-pane active" id="myleaves">
-                    <b-table-simple hover small caption-top bordered responsive>
+                    <b-table-simple small caption-top bordered responsive>
                       <colgroup>
                         <col />
                         <col />
@@ -88,7 +88,7 @@
                         <col />
                         <col />
                         <col />
-                        <col />
+                        <col style="width:100px" />
                       </colgroup>
 
                       <b-thead head-variant="dark">
@@ -109,28 +109,9 @@
                           <b-td>{{ le.leave_type }}</b-td>
                           <b-td>{{ le.leave_first_day }}</b-td>
                           <b-td>{{ le.leave_last_day }}</b-td>
-                          <b-td>{{ le.duration_of_leave }}</b-td>
-                          <!-- <b-td>
-                            <b-button :id="'pock' + le.id" variant="primary btn-sm">
-                              <i class="fa fa-eye"></i>
-                            </b-button>
-                            <b-popover
-                              placement="top"
-                              :target="'pock' + le.id"
-                              triggers="hover focus"
-                            >
-                              <template slot="title">Comments</template>
-                              <p>{{ le.comments }}</p>
-                            </b-popover>
-                          </b-td>-->
+                          <b-td>{{ le.duration_of_leave + ' days' }}</b-td>
+
                           <b-td>
-                            <!-- <button
-                              v-if="le.status < 3"
-                              title="Not yet approved"
-                              class="btn btn-sm btn-warning"
-                            >
-                              <b>P</b>
-                            </button>-->
                             <h5>
                               <b-badge
                                 v-if="le.status < 3"
@@ -138,15 +119,7 @@
                                 title="Leave is not yet fully approved"
                               >pending</b-badge>
                             </h5>
-                            <!-- <button
-                              v-if="le.status == 3"
-                              title="Approved"
-                              class="btn btn-sm btn-success"
-                            >
-                              <b>
-                                <i class="fa fa-check"></i>
-                              </b>
-                            </button>-->
+
                             <h5>
                               <b-badge
                                 v-if="le.status == 3"
@@ -154,13 +127,7 @@
                                 title="Leave has been fully approved"
                               >approved</b-badge>
                             </h5>
-                            <!-- <button
-                              v-if="le.status == 5"
-                              title=""
-                              class="btn btn-sm btn-secondary"
-                            >
-                              <b>G</b>
-                            </button>-->
+
                             <h5>
                               <b-badge
                                 v-if="le.status == 5"
@@ -175,13 +142,7 @@
                                 title="Leave was denied"
                               >denied</b-badge>
                             </h5>
-                            <!-- <button
-                              v-if="le.status == 4"
-                              title="Leave was denied"
-                              class="btn btn-sm btn-danger"
-                            >
-                              <b>D</b>
-                            </button>-->
+
                             <h5>
                               <b-badge
                                 v-if="le.status == 6"
@@ -205,42 +166,38 @@
                     </b-table-simple>
                   </div>
                   <div class="tab-pane" id="pendingapprovals">
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Date Made</th>
+                    <b-table-simple hover small caption-top bordered responsive>
+                      <colgroup>
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col style="width:100px" />
+                      </colgroup>
+
+                      <b-thead head-variant="dark">
+                        <b-tr>
+                          <b-th>Date of Request</b-th>
                           <th>Staff</th>
-                          <th>Type</th>
-                          <th>Start Date</th>
-                          <th>End Date</th>
-                          <th>Duration</th>
-                          <th></th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="lea in pendingLeaves" :key="lea.id">
-                          <td>{{ lea.request_date }}</td>
-                          <td>{{ lea.user }}</td>
-                          <td>{{ lea.leave_type }}</td>
-                          <td>{{ lea.leave_first_day }}</td>
-                          <td>{{ lea.leave_last_day }}</td>
-                          <td>{{ lea.duration_of_leave + ' days' }}</td>
-                          <td>
-                            <b-button :id="'pocke' + lea.id" variant="primary btn-sm">
-                              <i class="fa fa-eye"></i>
-                            </b-button>
-                            <b-popover
-                              placement="top"
-                              :target="'pocke' + lea.id"
-                              triggers="hover focus"
-                            >
-                              <template slot="title">Comments</template>
-                              <p>{{ lea.comments }}</p>
-                            </b-popover>
-                          </td>
-                          <td>
+                          <b-th>Type</b-th>
+                          <b-th>Start Date</b-th>
+                          <b-th>End Date</b-th>
+                          <b-th>Duration</b-th>
+                          <b-th>Status</b-th>
+                          <b-th>Action</b-th>
+                        </b-tr>
+                      </b-thead>
+                      <b-tbody>
+                        <b-tr v-for="lea in pendingLeaves" :key="lea.id">
+                          <b-td>{{ lea.request_date }}</b-td>
+                          <b-td>{{ lea.user }}</b-td>
+                          <b-td>{{ lea.leave_type }}</b-td>
+                          <b-td>{{ lea.leave_first_day }}</b-td>
+                          <b-td>{{ lea.leave_last_day }}</b-td>
+                          <b-td>{{ lea.duration_of_leave + ' days' }}</b-td>
+                          <b-td>
                             <button
                               v-if="auth.department != 'Human Resource' && lea.status == 0"
                               title="Not yet approved"
@@ -289,8 +246,8 @@
                               <template slot="title">Reason given</template>
                               <p>{{ lea.reason }}</p>
                             </b-popover>
-                          </td>
-                          <td>
+                          </b-td>
+                          <b-td>
                             <button
                               v-if="auth.department != 'Human Resource' && lea.status == 0"
                               @click="setLeave(lea.id)"
@@ -335,27 +292,91 @@
                                 <i class="fa fa-check"></i>
                               </b>
                             </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                          </b-td>
+                          <!-- <b-td>
+
+                            <h5>
+                              <b-badge
+                                v-if="le.status < 3"
+                                variant="primary"
+                                title="Leave is not yet fully approved"
+                              >pending</b-badge>
+                            </h5>
+
+                            <h5>
+                              <b-badge
+                                v-if="le.status == 3"
+                                variant="success"
+                                title="Leave has been fully approved"
+                              >approved</b-badge>
+                            </h5>
+
+                            <h5>
+                              <b-badge
+                                v-if="le.status == 5"
+                                variant="secondary"
+                                title="Leave was taken and is past"
+                              >done</b-badge>
+                            </h5>
+                            <h5>
+                              <b-badge
+                                v-if="le.status == 4"
+                                variant="danger"
+                                title="Leave was denied"
+                              >denied</b-badge>
+                            </h5>
+
+                            <h5>
+                              <b-badge
+                                v-if="le.status == 6"
+                                variant="dark"
+                                title="You cancelled this leave"
+                              >cancelled</b-badge>
+                            </h5>
+                          </b-td>
+                          <b-td>
+                            <button
+                              v-if="le.status < 3"
+                              @click="cancel(le.id)"
+                              title="Cancel Request"
+                              class="btn btn-sm btn-secondary"
+                            >
+                              <b>cancel</b>
+                            </button>
+                          </b-td>-->
+                        </b-tr>
+                      </b-tbody>
+                    </b-table-simple>
                   </div>
+
                   <div class="tab-pane" id="pendingapprovalsdirector">
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Date Made</th>
-                          <th>Staff</th>
-                          <th>Type</th>
-                          <th>Start Date</th>
-                          <th>End Date</th>
-                          <th>Duration</th>
-                          <th></th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                    <b-table-simple small caption-top bordered responsive>
+                      <colgroup>
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col style="width:100px" />
+                      </colgroup>
+
+                      <b-thead head-variant="dark">
+                        <b-tr>
+                          <b-th>Date of Request</b-th>
+                          <b-th>Staff</b-th>
+                          <b-th>Type</b-th>
+                          <b-th>Start Date</b-th>
+                          <b-th>End Date</b-th>
+                          <b-th>Duration</b-th>
+                          <b-th>Comments</b-th>
+                          <b-th>Status</b-th>
+                          <b-th>Action</b-th>
+                        </b-tr>
+                      </b-thead>
+                      <b-tbody>
                         <tr v-for="lea in pendingLeaves" :key="lea.id">
                           <td>{{ lea.request_date }}</td>
                           <td>{{ lea.user }}</td>
@@ -409,6 +430,15 @@
                                 <i class="fa fa-check"></i>
                               </b>
                             </button>
+                            <button
+                              v-if="lea.user_type == 'manager' && lea.status == 2"
+                              title="Approved"
+                              class="btn btn-sm btn-success"
+                            >
+                              <b>
+                                <i class="fa fa-check"></i>
+                              </b>
+                            </button>
                             <b-button
                               v-if="lea.status == 4"
                               :id="'pockex' + lea.id"
@@ -440,7 +470,7 @@
                               </b>
                             </button>
                             <button
-                              v-if="lea.user_type == 'manager' && lea.status == 0"
+                              v-if="lea.user_type == 'manager' && (lea.status == 0 || lea.status == 2)"
                               @click="setLeave(lea.id)"
                               data-toggle="modal"
                               data-target="#declineModal"
@@ -462,7 +492,7 @@
                               </b>
                             </button>
                             <button
-                              v-if="lea.user_type == 'manager' && lea.status == 0"
+                              v-if="lea.user_type == 'manager' && (lea.status == 0 || lea.status == 2)"
                               @click="approve(lea.id)"
                               title="Approve Request"
                               class="btn btn-sm btn-success"
@@ -473,8 +503,8 @@
                             </button>
                           </td>
                         </tr>
-                      </tbody>
-                    </table>
+                      </b-tbody>
+                    </b-table-simple>
                   </div>
                 </div>
               </div>
@@ -499,7 +529,13 @@
                 <div class="modal-body">
                   <div class="card card-primary card-outline">
                     <div class="card-header">
-                      <h3 class="card-title">Ask for leave</h3>
+                      <!-- <h3 class="card-title">
+                        Ask for leave
+
+                      </h3>-->
+                      <small class="text-danger">
+                        <i>**please note that you must submit the leave form 1 week prior to the first day you will be absent**</i>
+                      </small>
                     </div>
                     <div class="card-body">
                       <div class="form-row">
@@ -709,11 +745,16 @@ export default {
         }
         this.setErrors([]);
         this.loading = false;
+        this.showToast(
+          "success",
+          "Notification",
+          "Your leave request has been submitted. Please wait as it gets approved!"
+        );
         // this.leave.leave_type_id = null
         // this.leave.from = null
         // this.leave.to = null
         // this.leave.comments = null
-        $(".modal").modal("hide");
+        // $(".modal").modal("hide");
         this.loadMyLeaves();
       });
     },

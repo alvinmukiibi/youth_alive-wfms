@@ -192,7 +192,7 @@ class LeavesController extends BaseController
 
         // notify supervisor
 
-        // event(new PendingLeaveEvent($supervisor));
+        event(new PendingLeaveEvent($user->supervisor(null, false)));
 
         return $this->sendResponse($leave, 'Leave data');
 
@@ -227,31 +227,68 @@ class LeavesController extends BaseController
             }
         }
         if ($user->user_type() == 'director') {
-            $ids = array();
-            $idds = array();
+
+            // the head of the directorate must give final approval for all status 2 leaves
+
             $leaves = collect();
-            $users_in_my_dept = $user->department->users()->where('id', '!=', $user->id)->get();
-            foreach ($users_in_my_dept as $off) {
-                if ($off->user_type() == 'officer') {
-                    $ids[] = $off->id;
+
+            $depts = $user->directorate->departments;
+
+            foreach($depts as $dept){
+                $users = $dept->users;
+                foreach($users as $us){
+
+                    if($us->user_type() == 'officer'){
+                        $leals = $us->leaves()->whereIn('status', [0, 2, 3])->get();
+                        if($leals->count() > 0){
+                            foreach($leals as $ls){
+                                $leaves->push($ls);
+                            }
+                        }
+                    }
+
+                    if($us->user_type() == 'manager'){
+                        $leals = $us->leaves()->whereIn('status', [0, 1, 2])->get();
+                        if($leals->count() > 0){
+                            foreach($leals as $ls){
+                                $leaves->push($ls);
+                            }
+                        }
+
+                    }
+
+
+
+
                 }
             }
-            $leav = Leave::whereIn('user_id', $ids)->whereIn('status', [2, 3, 4])->get();
-            foreach ($leav as $l) {
-                $leaves->push($l);
-            }
-            foreach ($users_in_my_dept as $man) {
-                if ($man->user_type() == 'manager') {
-                    $idds[] = $man->id;
-                }
-            }
-            $leavv = Leave::whereIn('user_id', $idds)->whereIn('status', [0, 1, 4])->get();
-            foreach ($leavv as $la) {
-                $leaves->push($la);
-            }
+
+
+            // $ids = array();
+            // $idds = array();
+            // $leaves = collect();
+            // $users_in_my_dept = $user->department->users()->where('id', '!=', $user->id)->get();
+            // foreach ($users_in_my_dept as $off) {
+            //     if ($off->user_type() == 'officer') {
+            //         $ids[] = $off->id;
+            //     }
+            // }
+            // $leav = Leave::whereIn('user_id', $ids)->whereIn('status', [2, 3, 4])->get();
+            // foreach ($leav as $l) {
+            //     $leaves->push($l);
+            // }
+            // foreach ($users_in_my_dept as $man) {
+            //     if ($man->user_type() == 'manager') {
+            //         $idds[] = $man->id;
+            //     }
+            // }
+            // $leavv = Leave::whereIn('user_id', $idds)->whereIn('status', [0, 1, 4])->get();
+            // foreach ($leavv as $la) {
+            //     $leaves->push($la);
+            // }
             // get leaves for the e.d.
 
-            if ($user->designation_id == 1) { }
+
         }
 
         $leaves = LeavesResource::collection($leaves);
@@ -289,18 +326,18 @@ class LeavesController extends BaseController
         if ($user->user_type() == 'manager' && $user->department_id == $hr) {
             $leave->status = 2;
         }
-        if ($user->user_type() == 'director' && $leave->user->user_type() == 'manager') {
+        if ($leave->status == 0 && $user->user_type() == 'director' && $leave->user->user_type() == 'manager') {
             $leave->status = 1;
         }
         if ($user->user_type() == 'director' && $leave->user->user_type() == 'officer') {
             $leave->status = 3;
-            $leave->total_annual_days_remaining = $this->getRemaininingDays($leave->user) - $leave->duration;
+            $this->updateTracker($leave);
             event(new LeaveRequestApprovedEvent($leave));
         }
         // action for the e.d.
-        if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'manager') {
+        if ($leave->status == 2 && $user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'manager') {
             $leave->status = 3;
-            $leave->total_annual_days_remaining = $this->getRemaininingDays($leave->user) - $leave->duration;
+            $this->updateTracker($leave);
             event(new LeaveRequestApprovedEvent($leave));
         }
         if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'director') {
@@ -311,6 +348,23 @@ class LeavesController extends BaseController
         $leave->save();
 
         return $this->sendResponse('success', 'success');
+    }
+
+    public function updateTracker($leave){
+
+        $year = date('Y');
+
+        $leave_type_name = \strtolower(LeaveType::find($leave->leave_type_id)->type);
+
+        $tracker = $leave->user->trackers()->whereYear('created_at', $year)->first();
+
+        $existing_value = (int)$tracker[$leave_type_name];
+
+        $newValue = $existing_value + (int)$leave->duration;
+
+        $tracker->update([$leave_type_name => $newValue]);
+
+
     }
 
     public function getWorkingDays($startDate, $endDate, $holidays)

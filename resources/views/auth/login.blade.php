@@ -19,13 +19,13 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                             </div>
-                            <input type="email" name="email" class="form-control" placeholder="Email">
+                            <input type="email" required name="email" value="{{ old('email') }}" class="form-control" placeholder="Email">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fa fa-key"></i></span>
                             </div>
-                            <input type="password" name="password" class="form-control" placeholder="Password">
+                            <input type="password" required name="password" class="form-control" placeholder="Password">
                         </div>
                         <div class="row">
                             <div class="col-12">

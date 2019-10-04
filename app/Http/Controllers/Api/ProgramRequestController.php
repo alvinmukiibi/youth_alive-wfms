@@ -423,7 +423,7 @@ class ProgramRequestController extends BaseController
         if ($field == 'accountant_approval') {
             $traceability_id = 'accountant_id';
             $traceability_date = 'accountant_approval_date';
-            event(new RequestCreatedEvent($req->requestor->supervisor($req), $req->requestor));
+            event(new RequestCreatedEvent($req->requestor->supervisor($req, true), $req->requestor));
         }
         if ($field == 'level_one_approval') {
             $traceability_id = 'level_one_approver_id';
