@@ -15,6 +15,7 @@ use App\Directorate;
 use App\Message;
 use App\Project;
 use App\LeaveTracker;
+use App\LeaveType;
 
 class User extends Authenticatable
 {
@@ -148,6 +149,38 @@ class User extends Authenticatable
         }
 
     }
+
+    public function leaves_remaining(){
+        $count = $this->trackers()->count();
+
+        $leave_types = [];
+
+        foreach(LeaveType::all() as $obj){
+            $leave_types[] = $obj['type'];
+        }
+
+        $total_days = LeaveType::all();
+
+        $days_remaining = [];
+        if($count > 0){
+            foreach($this->trackers as $tracker){
+                foreach($leave_types as $type){
+                    $days_remaining[$type] = (int)LeaveType::where('type', $type)->value('days') - (int)$tracker[\strtolower($type)];
+                    $days_remaining['year'] = $tracker->year;
+                }
+            }
+        }else{
+            foreach($leave_types as $type){
+                $days_remaining[$type] = LeaveType::where('type', $type)->value('days');
+
+            }
+        }
+
+        return $days_remaining;
+
+
+    }
+
     public function supervisor($req = null, $flag = true)
     {
         /**

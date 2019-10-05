@@ -87,19 +87,66 @@
                               <b-th variant="primary">P</b-th>
                               <b-th variant="primary">CO</b-th>
                               <b-th variant="primary">ST</b-th>
-                              <b-th variant="primary">AE</b-th>
+                              <b-th variant="primary">A</b-th>
                               <b-th variant="success">S</b-th>
                               <b-th variant="success">H</b-th>
                               <b-th variant="success">M</b-th>
                               <b-th variant="success">P</b-th>
                               <b-th variant="success">CO</b-th>
                               <b-th variant="success">ST</b-th>
-                              <b-th variant="success">AE</b-th>
+                              <b-th variant="success">A</b-th>
                               <b-th></b-th>
                             </b-tr>
                           </b-thead>
                           <b-tbody>
-                            <b-tr></b-tr>
+                            <b-tr v-for="stat in leaveStats" :key="stat.staff">
+                              <b-td>{{ stat.staff }}</b-td>
+
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Sick }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Hospitalization }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Maternity }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Paternity }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Compassionate }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Study }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Annual }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Sick }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Hospitalization }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Maternity }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Paternity }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Compassionate }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Study }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Annual }}</b-td>
+                              <b-td variant="secondary">2019</b-td>
+                              <!-- <b-td v-else>{{ '2019' }}</b-td> -->
+                            </b-tr>
                           </b-tbody>
                         </b-table-simple>
                         <!-- <b-table
@@ -168,9 +215,9 @@ export default {
     loadLeaveStats() {
       api.getLeaveStats().then(response => {
         let data = response.data.map(stat => {
-          stat.remaining_days =
-            stat.total_annual_days_allowed -
-            stat.cumulative_leave_days_this_year;
+          //   stat.remaining_days =
+          //     stat.total_annual_days_allowed -
+          //     stat.cumulative_leave_days_this_year;
           return stat;
         });
         this.setLeaveStats(data);
