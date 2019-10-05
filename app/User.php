@@ -14,6 +14,8 @@ use App\Setting;
 use App\Directorate;
 use App\Message;
 use App\Project;
+use App\LeaveTracker;
+use App\LeaveType;
 
 class User extends Authenticatable
 {
@@ -126,6 +128,9 @@ class User extends Authenticatable
     public function received_messages(){
         return $this->hasMany(Message::class, 'recipient_id');
     }
+    public function trackers(){
+        return $this->hasMany(LeaveTracker::class, 'user_id');
+    }
 
     public function isProjectAccountant(){
 
@@ -144,7 +149,39 @@ class User extends Authenticatable
         }
 
     }
-    public function supervisor($req = null)
+
+    public function leaves_remaining(){
+        $count = $this->trackers()->count();
+
+        $leave_types = [];
+
+        foreach(LeaveType::all() as $obj){
+            $leave_types[] = $obj['type'];
+        }
+
+        $total_days = LeaveType::all();
+
+        $days_remaining = [];
+        if($count > 0){
+            foreach($this->trackers as $tracker){
+                foreach($leave_types as $type){
+                    $days_remaining[$type] = (int)LeaveType::where('type', $type)->value('days') - (int)$tracker[\strtolower($type)];
+                    $days_remaining['year'] = $tracker->year;
+                }
+            }
+        }else{
+            foreach($leave_types as $type){
+                $days_remaining[$type] = LeaveType::where('type', $type)->value('days');
+
+            }
+        }
+
+        return $days_remaining;
+
+
+    }
+
+    public function supervisor($req = null, $flag = true)
     {
         /**
          * your supervisor is the user above you in the organogram
@@ -165,21 +202,44 @@ class User extends Authenticatable
                 $response = null;
                 $pm = Department::where(['name' => 'Project Management'])->first();
 
-                if($req->requestor->department == $pm){
+                if($flag){
+                    if($req->requestor->department == $pm){
 
                         $manager = User::find(Project::find($req->project_id)->manager);
                         $response = $manager;
 
-                }else{
-                    foreach ($users as $user) {
+                    }else{
+                        foreach ($users as $user) {
 
-                        if ($user->user_type() == 'manager' && $user->department == $this->department) {
-                            $response = $user;
+                            if ($user->user_type() == 'manager' && $user->department == $this->department) {
+                                $response = $user;
+                            }
                         }
+                    }
+
+                }else{
+                    // if its not a request
+                    if($this->department == $pm){
+                        // geta project attached to and get its project manager
+                        $proj = $this->projects()->first()->manager;
+
+                        $manager = User::find($proj);
+                        $response = $manager;
+
+                    }else{
+                        foreach ($users as $user) {
+
+                            if ($user->user_type() == 'manager' && $user->department == $this->department) {
+                                $response = $user;
+                            }
+                        }
+                    }
+
 
 
                 }
-                }
+
+
 
                 return $response ? $response : $admin;
                 break;

@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Http\Resources\TrackersResource;
 class LeavesReportsResource extends JsonResource
 {
     /**
@@ -20,10 +20,13 @@ class LeavesReportsResource extends JsonResource
         return [
             'staff' => $this->fname . ' ' . $this->lname,
             'availability' => $this->availability_status ? 'ON DUTY' : 'ON LEAVE',
-            'cumulative_leave_days_this_year' => $this->leaves()->where('status', 3)->sum('duration'),
-            'pending_leaves' => $this->leaves()->where('status', '<', 3)->count(),
-            'leaves_this_month' => $this->leaves()->whereYear('created_at', $currentYear)->whereMonth('created_at', $currentMonth)->where('status', 3)->sum('duration'),
-            'total_annual_days_allowed' => $this->leaves()->value('total_annual_days_allowed') == null ? $max_annual_days : $this->leaves()->value('total_annual_days_allowed'),
+            'days_taken' => new TrackersResource($this->trackers()->first()),
+            'days_remaining' => $this->leaves_remaining(),
+
+            // 'cumulative_leave_days_this_year' => $this->leaves()->where('status', 3)->sum('duration'),
+            // 'pending_leaves' => $this->leaves()->where('status', '<', 3)->count(),
+            // 'leaves_this_month' => $this->leaves()->whereYear('created_at', $currentYear)->whereMonth('created_at', $currentMonth)->where('status', 3)->sum('duration'),
+            // 'total_annual_days_allowed' => $this->leaves()->value('total_annual_days_allowed') == null ? $max_annual_days : $this->leaves()->value('total_annual_days_allowed'),
         ];
     }
 }

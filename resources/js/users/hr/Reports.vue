@@ -39,38 +39,113 @@
                         <h3 class="card-title">Staff Leave Statistics</h3>
                       </div>
                       <div class="card-body">
-                        <b-table-simple hover small caption-top responsive>
+                        <b-table-simple hover small caption-top bordered responsive>
+                          <colgroup>
+                            <col />
+                          </colgroup>
                           <colgroup>
                             <col />
                             <col />
                             <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
                           </colgroup>
-                          <b-thead head-variant="dark">
+                          <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                          </colgroup>
+                          <colgroup>
+                            <col />
+                          </colgroup>
+                          <b-thead>
                             <b-tr>
-                              <b-th class="text-center">Name</b-th>
-                              <b-th class="text-center">Leaves this month</b-th>
-                              <b-th class="text-center">Cumulative Leave Total for the Year</b-th>
-                              <b-th class="text-center">Sick</b-th>
-                              <b-th class="text-center">Maternity</b-th>
-                              <b-th class="text-center">Parternity</b-th>
-                              <b-th class="text-center">Study</b-th>
-                              <b-th class="text-center">Annual</b-th>
-                              <b-th class="text-center">Others</b-th>
-                              <b-th class="text-center">Remainining Days</b-th>
+                              <b-th variant="dark" class="text-center">Name</b-th>
+                              <b-th
+                                variant="dark"
+                                colspan="7"
+                                class="text-center"
+                              >Leaves taken this year</b-th>
+                              <b-th
+                                variant="dark"
+                                colspan="7"
+                                class="text-center"
+                              >Leaves remaining this year</b-th>
+                              <b-th variant="dark" class="text-center">Year</b-th>
+                            </b-tr>
+                            <b-tr>
+                              <b-th></b-th>
+                              <b-th variant="primary">S</b-th>
+                              <b-th variant="primary">H</b-th>
+                              <b-th variant="primary">M</b-th>
+                              <b-th variant="primary">P</b-th>
+                              <b-th variant="primary">CO</b-th>
+                              <b-th variant="primary">ST</b-th>
+                              <b-th variant="primary">A</b-th>
+                              <b-th variant="success">S</b-th>
+                              <b-th variant="success">H</b-th>
+                              <b-th variant="success">M</b-th>
+                              <b-th variant="success">P</b-th>
+                              <b-th variant="success">CO</b-th>
+                              <b-th variant="success">ST</b-th>
+                              <b-th variant="success">A</b-th>
+                              <b-th></b-th>
                             </b-tr>
                           </b-thead>
                           <b-tbody>
-                            <b-tr>
-                              <b-td>Francis Bukenya</b-td>
-                              <b-td>2</b-td>
-                              <b-td>45</b-td>
-                              <b-td>2</b-td>
-                              <b-td>34</b-td>
-                              <b-td>23</b-td>
-                              <b-td>1</b-td>
-                              <b-td>3</b-td>
-                              <b-td>4</b-td>
-                              <b-td>3</b-td>
+                            <b-tr v-for="stat in leaveStats" :key="stat.staff">
+                              <b-td>{{ stat.staff }}</b-td>
+
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Sick }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Hospitalization }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Maternity }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Paternity }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Compassionate }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Study }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td
+                                variant="danger"
+                                v-if="stat.days_taken"
+                              >{{ stat.days_taken.Annual }}</b-td>
+                              <b-td variant="danger" v-else>0</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Sick }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Hospitalization }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Maternity }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Paternity }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Compassionate }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Study }}</b-td>
+                              <b-td variant="primary">{{ stat.days_remaining.Annual }}</b-td>
+                              <b-td variant="secondary">2019</b-td>
+                              <!-- <b-td v-else>{{ '2019' }}</b-td> -->
                             </b-tr>
                           </b-tbody>
                         </b-table-simple>
@@ -140,9 +215,9 @@ export default {
     loadLeaveStats() {
       api.getLeaveStats().then(response => {
         let data = response.data.map(stat => {
-          stat.remaining_days =
-            stat.total_annual_days_allowed -
-            stat.cumulative_leave_days_this_year;
+          //   stat.remaining_days =
+          //     stat.total_annual_days_allowed -
+          //     stat.cumulative_leave_days_this_year;
           return stat;
         });
         this.setLeaveStats(data);

@@ -14,6 +14,7 @@ use App\Designation;
 use App\Events\PendingLeaveEvent;
 use App\SystemSetting;
 use App\Events\LeaveRequestApprovedEvent;
+use App\LeaveTracker;
 
 class LeavesController extends BaseController
 {
@@ -37,6 +38,7 @@ class LeavesController extends BaseController
             'to' => 'required|date|after:from',
             'comments' => 'nullable|max:200'
         ], [
+            'leave_type_id.required' => 'Please select a leave type',
             'from.after' => 'The start date of the leave must be a date later than today',
             'to.after' => 'The end date of the leave must be a date later than the start date',
         ]);
@@ -44,27 +46,28 @@ class LeavesController extends BaseController
         return $validator;
     }
 
-    public function getRemaininingDays($user){
+    public function getRemaininingDays($user)
+    {
 
         $count = $user->leaves()->where('status', 3)->count();
-        if($count > 0){
+        if ($count > 0) {
             $sum_of_leave_days_taken = $user->leaves()->where('status', 3)->sum('duration');
             $remaining_days = $this->total_annual_leave_days_allowed - $sum_of_leave_days_taken;
             return $remaining_days;
-
-        }else{
+        } else {
             return $this->total_annual_leave_days_allowed;
         }
-
     }
 
-    public function getHolidays(){
+    public function getHolidays()
+    {
 
         $year = date('Y');
-        $holidays=array($year.'-01-01', $year.'-01-26', $year.'-02-16', $year.'-03-08', $year.'-05-01', $year.'-06-03', $year.'-06-09', $year.'-10-09', $year.'-12-25', $year.'-12-26');
+        $holidays = array($year . '-01-01', $year . '-01-26', $year . '-02-16', $year . '-03-08', $year . '-05-01', $year . '-06-03', $year . '-06-09', $year . '-10-09', $year . '-12-25', $year . '-12-26');
 
         $dynamicDays = SystemSetting::select(['good_friday', 'easter_sunday', 'easter_monday', 'eid_ul_fitr', 'eid_al_adha', 'other_holiday'])->get();
-        foreach($dynamicDays as $day){
+
+        foreach ($dynamicDays as $day) {
             $holidays[] = $day['good_friday'] == null ? '' : date('Y-m-d', strtotime($day['good_friday']));
             $holidays[] = $day['easter_sunday'] == null ? '' : date('Y-m-d', strtotime($day['easter_sunday']));
             $holidays[] = $day['easter_monday'] == null ? '' : date('Y-m-d', strtotime($day['easter_monday']));
@@ -74,6 +77,64 @@ class LeavesController extends BaseController
         }
 
         return $holidays;
+    }
+
+    public function checkGender($user, $request){
+
+        $gender = $user->gender;
+
+        $paternity_id = LeaveType::where('type', 'Paternity')->value('id');
+        $maternity_id = LeaveType::where('type', 'Maternity')->value('id');
+
+        if($gender == 'M' && $request->leave_type_id == $maternity_id){
+            return true;
+        }
+
+        if($gender == 'F' && $request->leave_type_id == $paternity_id){
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public function checkType($user, $request, $duration){
+
+        $type = LeaveType::find($request->leave_type_id);
+
+        $year = date('Y');
+
+        $tracker = $user->trackers()->firstOrCreate(['year' => $year],[
+            'sick' => 0,
+            'hospitalization' => 0,
+            'maternity' => 0,
+            'maternity' => 0,
+            'study' => 0,
+            'annual' => 0,
+            'compassionate' => 0,
+            ]);
+
+        // get the maximum allowable days on leave type, and subtract days already taken on that leave type
+       $balance = (int)$type->days - (int)$tracker[\strtolower($type->type)];
+
+       if($duration > $balance){
+           return false;
+       }
+
+       return true;
+
+
+    }
+
+    public function checkMax($request, $duration){
+
+        $type = LeaveType::find($request->leave_type_id);
+
+        if($duration > $type->days){
+            return false;
+        }
+
+        return true;
 
     }
 
@@ -81,10 +142,7 @@ class LeavesController extends BaseController
     {
         $user = $request->user();
 
-        // first check if user has any leave request in process
-        if ($user->leaves()->where('status', '<', 3)->count() > 0) {
-            return $this->sendError('Patience error', ['error' => 'You already have a leave request in process, please first wait until its approved before you make another one']);
-        }
+        $year = date('Y');
 
         $validator = $this->validation($request);
 
@@ -92,82 +150,52 @@ class LeavesController extends BaseController
             return $this->sendError('Validation errors', ['error' => $validator->errors()->first()], 429);
         }
 
+        // first check if user has any leave request in process
+        if ($user->leaves()->where('status', '<', 3)->whereYear('created_at', $year)->count() > 0) {
+            return $this->sendError('Patience error', ['error' => 'You already have a leave request in process, please first wait until its approved before you make another one']);
+        }
+
+        // check for paternity and maternity in terms of male and female
+        $check = $this->checkGender($user, $request);
+
+        if($check){
+            return $this->sendError('Patience error', ['error' => 'Because of your gender, you can\'t make a leave request on this leave type']);
+        }
+
         $holidays = $this->getHolidays();
 
         $duration = $this->getWorkingDays($request->from, $request->to, $holidays);
 
-        $count = $user->leaves->count();
-        // if($count > 0){
-        //     $cou = $user->leaves()->where('status', 3)->count();
-        //     if($cou > 0){
-        //         $last_leave = $user->leaves()->where('status', 3)->latest()->count();
+        // ensure that duration requested is less than maximum allowable days
+        $checkMax = $this->checkMax($request, $duration);
 
-        //     }
-        // }
+        if(!$checkMax){
+            return $this->sendError('Error', ['error' => 'You cant request for more days on the leave type than the maximum allowed on it']);
+        }
 
+        // ensure that duration is less than balance on leave type
+        $checkType = $this->checkType($user, $request, $duration);
 
-        /**
-         *  check want leave type requested and check if its total days are less than requested days
-         *  compare requested days to the days left on that leave type
-         *
-         */
+        if(!$checkType){
+            return $this->sendError('Error', ['error' => 'You have less days left on that leave type, you cant make a request on it']);
+        }
 
-        // $days_left = $this->total_annual_leave_days_allowed -  $user->leaves()->where('status', 3)->sum('duration');
+        $leave = [
+            'leave_type_id' => $request->leave_type_id,
+            'from' => $request->from,
+            'to' => $request->to,
+            'duration' => $duration,
+            'comments' => $request->comments ? $request->comments : null,
+        ];
 
-        // $type_days = LeaveType::find($request->leave_type_id)->days;
-
-        // $type = LeaveType::find($request->leave_type_id)->type;
-
-        // if ($duration > $type_days) {
-
-        //     return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $type_days . ' days of the ' . $type . ' leave']);
-
-        // }
-        // if ($duration > $days_left) {
-
-        //     return $this->sendError('Logical error', ['error' => 'You cannot request for more than ' . $days_left . ' days']);
-
-        // }
-
-        // $leave = [
-        //     'user_id' => $user->id,
-        //     'leave_type_id' => $request->leave_type_id,
-        //     'from' => $request->from,
-        //     'to' => $request->to,
-        //     'comments' => $request->comments ? $request->comments : null,
-        //     'duration' => $duration,
-        //     'status' => 0,
-        //     'total_annual_days_remaining' => $this->getRemaininingDays($user)
-        // ];
-
-        // $leave = Leave::create($leave);
-
-        // $leave = new LeavesResource($leave);
+        $leave = $user->leaves()->create($leave);
 
         // notify supervisor
-        // $supervisor = null;
-        // if ($user->user_type() == 'officer') {
-        //     foreach (Department::find($user->department_id)->users as $use) {
-        //         if ($use->user_type() == 'manager') {
-        //             $supervisor = $use;
-        //         }
-        //     }
-        // }
-        // if ($user->user_type() == 'manager') {
-        //     foreach (Department::find($user->department_id)->users as $use) {
-        //         if ($use->user_type() == 'director') {
-        //             $supervisor = $use;
-        //         }
-        //     }
-        // }
-        // if ($user->user_type() == 'director') {
-        //     $desi = Designation::where('name', 'Executive Director')->value('id');
-        //     $ed = User::where('designation_id', $desi)->first();
-        //     $supervisor = $ed;
-        // }
-        // event(new PendingLeaveEvent($supervisor));
+
+        event(new PendingLeaveEvent($user->supervisor(null, false)));
 
         return $this->sendResponse($leave, 'Leave data');
+
     }
 
     public function getPendingLeaves(Request $request)
@@ -199,42 +227,73 @@ class LeavesController extends BaseController
             }
         }
         if ($user->user_type() == 'director') {
-            $ids = array();
-            $idds = array();
+
+            // the head of the directorate must give final approval for all status 2 leaves
+
             $leaves = collect();
-            $users_in_my_dept = $user->department->users()->where('id', '!=', $user->id)->get();
-            foreach ($users_in_my_dept as $off) {
-                if ($off->user_type() == 'officer') {
-                    $ids[] = $off->id;
+
+            $depts = $user->directorate->departments;
+
+            foreach($depts as $dept){
+                $users = $dept->users;
+                foreach($users as $us){
+
+                    if($us->user_type() == 'officer'){
+                        $leals = $us->leaves()->whereIn('status', [0, 2, 3])->get();
+                        if($leals->count() > 0){
+                            foreach($leals as $ls){
+                                $leaves->push($ls);
+                            }
+                        }
+                    }
+
+                    if($us->user_type() == 'manager'){
+                        $leals = $us->leaves()->whereIn('status', [0, 1, 2])->get();
+                        if($leals->count() > 0){
+                            foreach($leals as $ls){
+                                $leaves->push($ls);
+                            }
+                        }
+
+                    }
+
+
+
+
                 }
             }
-            $leav = Leave::whereIn('user_id', $ids)->whereIn('status', [2, 3, 4])->get();
-            foreach($leav as $l){
-                $leaves->push($l);
-            }
-            foreach ($users_in_my_dept as $man) {
-                if ($man->user_type() == 'manager') {
-                    $idds[] = $man->id;
-                }
-            }
-            $leavv = Leave::whereIn('user_id', $idds)->whereIn('status', [0, 1, 4])->get();
-            foreach($leavv as $la){
-                $leaves->push($la);
-            }
+
+
+            // $ids = array();
+            // $idds = array();
+            // $leaves = collect();
+            // $users_in_my_dept = $user->department->users()->where('id', '!=', $user->id)->get();
+            // foreach ($users_in_my_dept as $off) {
+            //     if ($off->user_type() == 'officer') {
+            //         $ids[] = $off->id;
+            //     }
+            // }
+            // $leav = Leave::whereIn('user_id', $ids)->whereIn('status', [2, 3, 4])->get();
+            // foreach ($leav as $l) {
+            //     $leaves->push($l);
+            // }
+            // foreach ($users_in_my_dept as $man) {
+            //     if ($man->user_type() == 'manager') {
+            //         $idds[] = $man->id;
+            //     }
+            // }
+            // $leavv = Leave::whereIn('user_id', $idds)->whereIn('status', [0, 1, 4])->get();
+            // foreach ($leavv as $la) {
+            //     $leaves->push($la);
+            // }
             // get leaves for the e.d.
 
-            if($user->designation_id == 1){
-
-
-
-            }
 
         }
 
         $leaves = LeavesResource::collection($leaves);
 
         return $this->sendResponse($leaves, 'Leave requests for pending');
-
     }
 
     public function cancelLeave(Leave $leave)
@@ -244,7 +303,6 @@ class LeavesController extends BaseController
         $leave->save();
 
         return $this->sendResponse('success', 'success');
-
     }
     public function declineLeave(Leave $leave, Request $request)
     {
@@ -255,7 +313,6 @@ class LeavesController extends BaseController
         $leave->save();
 
         return $this->sendResponse('success', 'success');
-
     }
     public function approveLeave(Leave $leave, Request $request)
     {
@@ -269,18 +326,18 @@ class LeavesController extends BaseController
         if ($user->user_type() == 'manager' && $user->department_id == $hr) {
             $leave->status = 2;
         }
-        if ($user->user_type() == 'director' && $leave->user->user_type() == 'manager') {
+        if ($leave->status == 0 && $user->user_type() == 'director' && $leave->user->user_type() == 'manager') {
             $leave->status = 1;
         }
         if ($user->user_type() == 'director' && $leave->user->user_type() == 'officer') {
             $leave->status = 3;
-            $leave->total_annual_days_remaining = $this->getRemaininingDays($leave->user) - $leave->duration;
+            $this->updateTracker($leave);
             event(new LeaveRequestApprovedEvent($leave));
         }
         // action for the e.d.
-        if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'manager') {
+        if ($leave->status == 2 && $user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'manager') {
             $leave->status = 3;
-            $leave->total_annual_days_remaining = $this->getRemaininingDays($leave->user) - $leave->duration;
+            $this->updateTracker($leave);
             event(new LeaveRequestApprovedEvent($leave));
         }
         if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'director') {
@@ -291,6 +348,22 @@ class LeavesController extends BaseController
         $leave->save();
 
         return $this->sendResponse('success', 'success');
+    }
+
+    public function updateTracker($leave){
+
+        $year = date('Y');
+
+        $leave_type_name = \strtolower(LeaveType::find($leave->leave_type_id)->type);
+
+        $tracker = $leave->user->trackers()->whereYear('created_at', $year)->first();
+
+        $existing_value = (int)$tracker[$leave_type_name];
+
+        $newValue = $existing_value + (int)$leave->duration;
+
+        $tracker->update([$leave_type_name => $newValue]);
+
 
     }
 
@@ -344,7 +417,8 @@ class LeavesController extends BaseController
         }
         return $workingDays;
     }
-    public function setHoliday(Request $request){
+    public function setHoliday(Request $request)
+    {
 
         SystemSetting::updateOrCreate(['id' => 1], [$request->field => $request->value]);
 
