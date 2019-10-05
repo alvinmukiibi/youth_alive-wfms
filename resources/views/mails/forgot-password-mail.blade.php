@@ -2,7 +2,7 @@
 <b>Hello! {{ $user->fname }}</b> <br/>
 You are receiving this email because we received a password reset request for your account.<br/><br/>
 
-@component('mail::button', ['url' => 'https://youthalive.controyodestiny.com/password/reset/'.$token1.'/'.$token2])
+@component('mail::button', ['url' => 'https://youthalive.controyodestiny.com/password/reset/'.$token1])
 Reset Password
 @endcomponent
 

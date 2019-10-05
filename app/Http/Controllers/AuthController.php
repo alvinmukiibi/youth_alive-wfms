@@ -96,13 +96,13 @@ class AuthController extends Controller
     public function resetPassword(Request $request){
 
         $token1 = $request->segment(3);
-        $token2 = $request->segment(4);
+        // $token2 = $request->segment(4);
 
         $email = Crypt::decrypt($token1);
 
         $dbtoken = DB::table('password_resets')->where('email', $email)->value('token');
 
-        if(Hash::check($email, $dbtoken) && Hash::check($email, Crypt::decrypt($token2))){
+        if(Hash::check($email, $dbtoken) /*&& Hash::check($email, Crypt::decrypt($token2)) */ ){
             return view('auth.reset')->with('email', $email);
         }else{
             return redirect()->to('/forgot')->with('error', 'Error, Please retry');
