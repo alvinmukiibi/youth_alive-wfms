@@ -244,3 +244,13 @@ export function saveNotes(data) {
 export function getChats(data) {
     return axios.get(prefix + '/chat', data).then(response => response.data)
 }
+
+export function sendMessage(data) {
+    return axios.post(prefix + '/chat', data).then(response => response.data)
+}
+export function loadChat(id) {
+    return axios.get(prefix + `/chat/single/${id}`).then(response => response.data)
+}
+export function checkUnreadMessage() {
+    return axios.get(prefix + '/chat/unread/count').then(response => response.data)
+}

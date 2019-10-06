@@ -81,6 +81,7 @@ export default {
     }),
     logout() {
       this.spinner = true;
+      window.localStorage.clear();
       api
         .logout()
         .then(response => {
@@ -94,26 +95,27 @@ export default {
           document.location.href = "/login";
         });
     },
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true,
+      });
+    },
     getAuthUser() {
       api.getAuthUser().then(response => {
         this.setAuthUser(response.data);
-        // if (response.data.roles.includes("director")) {
-        //   api.getProjects().then(response => {
-        //     this.setProjects(response.data);
-        //   });
-        //   api.getVendors().then(response => {
-        //     this.setVendors(response);
-        //   });
-        //   api.getDepartments().then(response => {
-        //     this.setDepartments(response.data);
-        //   });
-        //   api.getAssets().then(response => {
-        //     this.setAssets(response);
-        //   });
-        //   //   api.getMyRequests().then(response => {
-        //   //     this.setMyRequests(response.data);
-        //   //   });
-        // }
+      });
+    },
+    checkUnreadMessage() {
+      api.checkUnreadMessage().then(response => {
+        if (response.data.count > 0) {
+          this.showToast(
+            "warning",
+            "Notification",
+            "You have " + response.data.count + " unread messages"
+          );
+        }
       });
     }
   },
@@ -126,6 +128,7 @@ export default {
     }
   },
   mounted() {
+    this.checkUnreadMessage();
     this.getAuthUser();
   }
 };

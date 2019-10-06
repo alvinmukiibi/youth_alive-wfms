@@ -24,6 +24,8 @@ export default new Vuex.Store({
         settings: [],
         systemSettings: [],
         leaveStats: [],
+        chats: [],
+        chat: [],
         usersCount: '',
     },
     mutations: {
@@ -83,6 +85,12 @@ export default new Vuex.Store({
         },
         setLeaveStats: (state, data) => {
             state.leaveStats = data
+        },
+        setChats: (state, data) => {
+            state.chats = data
+        },
+        setChat: (state, data) => {
+            state.chat = data
         },
         setRequestAttachments: (state, data) => {
             state.request.attachments = data
