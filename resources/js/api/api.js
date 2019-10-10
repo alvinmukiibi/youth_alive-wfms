@@ -254,3 +254,6 @@ export function loadChat(id) {
 export function checkUnreadMessage() {
     return axios.get(prefix + '/chat/unread/count').then(response => response.data)
 }
+export function getTimesheet(data) {
+    return axios.post(prefix + '/timesheet', data).then(response => response.data)
+}

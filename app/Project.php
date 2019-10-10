@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\ProgramRequest;
+use App\TimesheetProject;
 
 class Project extends Model
 {
@@ -15,5 +16,8 @@ class Project extends Model
     }
     public function requests(){
         return $this->hasMany(ProgramRequest::class, 'project_id');
+    }
+    public function timesheetproject(){
+        return $this->belongsTo(TimesheetProject::class, 'project_id');
     }
 }

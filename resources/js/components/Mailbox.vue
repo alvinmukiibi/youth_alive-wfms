@@ -78,7 +78,7 @@
                 <h3 class="card-title">
                   Chat
                   <!-- <b-spinner v-if="spinner2" variant="primary" type="grow" label="Spinning"></b-spinner> -->
-                  <button @click="loadChat(message_id)" class="btn btn-sm btn-secondary pull-right">
+                  <button v-if="chat.length > 0" @click="loadChat(message_id)" class="btn btn-sm btn-secondary pull-right">
                     <b-spinner small v-if="spinner2" type="grow" label="Spinning"></b-spinner>
                     <small v-else>
                       <b>Refresh</b>

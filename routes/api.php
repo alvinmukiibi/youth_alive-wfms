@@ -36,8 +36,6 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
     });
 
     Route::group(['prefix' => 'requests'], function () {
-        // Route::post('/', 'ProgramRequestController@addRequest');
-        // Route::post('/update/{request}', 'ProgramRequestController@updateRequest');
         Route::get('/mine', 'ProgramRequestController@getMyRequests');
         Route::post('/send/token', 'ProgramRequestController@generateToken');
         Route::post('/check/token', 'ProgramRequestController@invalidateToken');
@@ -119,15 +117,11 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
     Route::group(['prefix' => 'reports'], function () {
         Route::get('/leaves', 'ReportsController@leaveReports');
     });
-
-
-
     Route::get('/download/file/{attachment}', function (Attachment $attachment) {
         // return Storage
         $ref = $attachment->reference;
         return response()->download(public_path() . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . $ref, 'Attachment.pdf', ['Content-Type' => 'application/pdf']);
     });
-
     Route::group(['prefix' => 'admin'], function () {
         Route::post('/contracts', function (Request $request) {
             return response()->json(Contract::create(['name' => $request->name]), 200);
@@ -179,5 +173,9 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/vendors', 'AdminController@addVendor');
         Route::post('/vendors/update/{vendor}', 'AdminController@updateVendor');
         Route::get('/vendors/delete/{vendor}', 'AdminController@deleteVendor');
+    });
+
+    Route::group(['prefix' => 'timesheet'], function () {
+        Route::post('/', 'TimesheetController@index');
     });
 });

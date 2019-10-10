@@ -23,6 +23,7 @@ import Budget from './users/officer/Budget'
 import Container from './users/officer/Container'
 import ApprovalTrail from './users/officer/ApprovalTrail'
 import Mailbox from './components/Mailbox.vue'
+import Timesheet from './components/Timesheet.vue'
 
 const routes = [{
         path: '/',
@@ -108,21 +109,28 @@ const routes = [{
         path: '/request/make',
         component: Container,
         children: [{
-            path: '/request/budget',
-            component: Budget
-        }, {
-            path: '/request/travel/scope',
-            component: TravelScope
-        }, {
-            path: '/request/concept',
-            component: ConceptNote
-        }, {
-            path: '/request/vehicle',
-            component: VehicleRequest
-        }, {
-            path: '/request/trail',
-            component: ApprovalTrail
-        }, ]
+                path: '/request/budget',
+                component: Budget
+            }, {
+                path: '/request/travel/scope',
+                component: TravelScope
+            }, {
+                path: '/request/concept',
+                component: ConceptNote
+            }, {
+                path: '/request/vehicle',
+                component: VehicleRequest
+            }, {
+                path: '/request/trail',
+                component: ApprovalTrail
+            },
+
+
+        ]
+    },
+    {
+        path: '/timesheet',
+        component: Timesheet
     },
 ]
 

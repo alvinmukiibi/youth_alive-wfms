@@ -16,6 +16,7 @@ use App\Message;
 use App\Project;
 use App\LeaveTracker;
 use App\LeaveType;
+use App\Timesheet;
 
 class User extends Authenticatable
 {
@@ -130,6 +131,9 @@ class User extends Authenticatable
     }
     public function trackers(){
         return $this->hasMany(LeaveTracker::class, 'user_id');
+    }
+    public function timesheets(){
+        return $this->hasMany(Timesheet::class, 'user_id');
     }
 
     public function isProjectAccountant(){

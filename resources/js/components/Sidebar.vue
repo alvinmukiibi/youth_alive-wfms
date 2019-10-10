@@ -173,6 +173,16 @@
           </li>
           <li class="nav-item">
             <router-link
+              to="/timesheet"
+              class="nav-link"
+              :class="{ 'active': isActive('/timesheet') }"
+            >
+              <i class="nav-icon fa fa-clock-o"></i>
+              <p>Timesheet</p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
               to="/settings"
               class="nav-link"
               :class="{ 'active': isActive('/settings') }"

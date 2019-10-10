@@ -99,7 +99,7 @@ export default {
       this.$bvToast.toast(body, {
         title: title,
         variant: variant,
-        solid: true,
+        solid: true
       });
     },
     getAuthUser() {
