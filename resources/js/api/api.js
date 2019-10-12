@@ -257,3 +257,15 @@ export function checkUnreadMessage() {
 export function getTimesheet(data) {
     return axios.post(prefix + '/timesheet', data).then(response => response.data)
 }
+export function saveTimesheet(data) {
+    return axios.post(prefix + '/timesheet/save', data).then(response => response.data)
+}
+export function saveSch(data) {
+    return axios.post(prefix + '/timesheet/save/scheduled', data).then(response => response.data)
+}
+export function saveWorkedHours(data) {
+    return axios.post(prefix + '/timesheet/save/worked', data).then(response => response.data)
+}
+export function saveOvertime(data) {
+    return axios.post(prefix + '/timesheet/save/overtime', data).then(response => response.data)
+}

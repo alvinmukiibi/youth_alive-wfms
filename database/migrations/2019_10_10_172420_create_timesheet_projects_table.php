@@ -19,7 +19,7 @@ class CreateTimesheetProjectsTable extends Migration
             $table->unsignedBigInteger('project_id');
 
             for ($i = 1; $i <= 31; $i++) {
-                $table->integer($i)->nullable();
+                $table->integer('_'.$i.'_')->nullable();
             }
 
             $table->foreign('timesheet_id')->references('id')->on('timesheets')->onDelete('cascade');

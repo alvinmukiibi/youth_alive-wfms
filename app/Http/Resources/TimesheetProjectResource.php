@@ -16,42 +16,43 @@ class TimesheetProjectResource extends JsonResource
     public function toArray($request)
     {
         $response = [];
+        $response['project_id'] = $this->project_id;
         $response['name'] = Project::find($this->project_id)->name;
-        $response['1'] = $this['1'];
-        $response['2'] = $this['2'];
-        $response['3'] = $this['3'];
-        $response['4'] = $this['4'];
-        $response['5'] = $this['5'];
-        $response['6'] = $this['6'];
-        $response['7'] = $this['7'];
-        $response['8'] = $this['8'];
-        $response['9'] = $this['9'];
-        $response['10'] = $this['10'];
-        $response['11'] = $this['11'];
-        $response['12'] = $this['12'];
-        $response['13'] = $this['13'];
-        $response['14'] = $this['14'];
-        $response['15'] = $this['15'];
-        $response['16'] = $this['16'];
-        $response['17'] = $this['17'];
-        $response['18'] = $this['18'];
-        $response['19'] = $this['19'];
-        $response['20'] = $this['20'];
-        $response['21'] = $this['21'];
-        $response['22'] = $this['22'];
-        $response['23'] = $this['23'];
-        $response['24'] = $this['24'];
-        $response['25'] = $this['25'];
-        $response['26'] = $this['26'];
-        $response['27'] = $this['27'];
-        $response['28'] = $this['28'];
-        $response['29'] = $this['29'];
-        $response['30'] = $this['30'];
-        $response['31'] = $this['31'];
+        $response['1'] = $this['_1_'];
+        $response['2'] = $this['_2_'];
+        $response['3'] = $this['_3_'];
+        $response['4'] = $this['_4_'];
+        $response['5'] = $this['_5_'];
+        $response['6'] = $this['_6_'];
+        $response['7'] = $this['_7_'];
+        $response['8'] = $this['_8_'];
+        $response['9'] = $this['_9_'];
+        $response['10'] = $this['_10_'];
+        $response['11'] = $this['_11_'];
+        $response['12'] = $this['_12_'];
+        $response['13'] = $this['_13_'];
+        $response['14'] = $this['_14_'];
+        $response['15'] = $this['_15_'];
+        $response['16'] = $this['_16_'];
+        $response['17'] = $this['_17_'];
+        $response['18'] = $this['_18_'];
+        $response['19'] = $this['_19_'];
+        $response['20'] = $this['_20_'];
+        $response['21'] = $this['_21_'];
+        $response['22'] = $this['_22_'];
+        $response['23'] = $this['_23_'];
+        $response['24'] = $this['_24_'];
+        $response['25'] = $this['_25_'];
+        $response['26'] = $this['_26_'];
+        $response['27'] = $this['_27_'];
+        $response['28'] = $this['_28_'];
+        $response['29'] = $this['_29_'];
+        $response['30'] = $this['_30_'];
+        $response['31'] = $this['_31_'];
+        $response['sub_total'] = $this->sub_total();
 
         $response['last_updated_at'] = $this->updated_at->diffForHumans();
 
         return $response;
-
     }
 }

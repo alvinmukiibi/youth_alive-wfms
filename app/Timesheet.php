@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\TimesheetProject;
+use App\TimesheetStatistic;
 
 class Timesheet extends Model
 {
@@ -15,5 +16,8 @@ class Timesheet extends Model
     }
     public function projects(){
         return $this->hasMany(TimesheetProject::class, 'timesheet_id');
+    }
+    public function statistics(){
+        return $this->hasOne(TimesheetStatistic::class, 'timesheet_id');
     }
 }

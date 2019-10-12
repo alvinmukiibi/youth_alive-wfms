@@ -19,6 +19,10 @@ class CreateTimesheetsTable extends Migration
             $table->string('year');
             $table->string('month');
 
+            for ($i = 1; $i <= 31; $i++) {
+                $table->integer('sch__'.$i)->nullable();
+            }
+
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();
