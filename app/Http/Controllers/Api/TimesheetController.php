@@ -22,20 +22,21 @@ class TimesheetController extends BaseController
         $date_sent = date('m-Y', strtotime($request->date));
         $current_date = date('m-Y');
 
-        if($current_date == $date_sent){
+        if ($current_date == $date_sent) {
             $this->populateAttachedProjects($month, $year);
         }
 
         $timesheet = $user->timesheets()->where(['year' => $year, 'month' => $month])->first();
 
-        if($timesheet){
+        if ($timesheet) {
             $timesheet = new TimesheetResource($timesheet);
         }
 
         return $this->sendResponse($timesheet, 'Timesheet data');
     }
 
-    public function populateAttachedProjects($month, $year){
+    public function populateAttachedProjects($month, $year)
+    {
 
         $user = auth()->user();
 
@@ -43,15 +44,15 @@ class TimesheetController extends BaseController
 
         $timesheet = $user->timesheets()->firstOrCreate(['month' => $month, 'year' => $year]);
 
-        foreach($projects as $project){
+        foreach ($projects as $project) {
             $timesheet->projects()->firstOrCreate(['project_id' => $project->id]);
         }
 
         return;
-
     }
 
-    public function saveScheduled(Request $request){
+    public function saveScheduled(Request $request)
+    {
 
         $timesheet = Timesheet::find($request->timesheet);
 
@@ -60,18 +61,18 @@ class TimesheetController extends BaseController
         // deserves a cron job
         $sum = 0;
         for ($i = 1; $i <= 31; $i++) {
-           if($timesheet['sch__'.$i]){
-              $sum += $timesheet['sch__'.$i];
-           }
+            if ($timesheet['sch__' . $i]) {
+                $sum += $timesheet['sch__' . $i];
+            }
         }
 
         $timesheet->statistics()->update(['scheduled_hours' => $sum]);
 
         return $this->sendResponse('success', 'success');
-
     }
 
-    public function saveWorked(Request $request){
+    public function saveWorked(Request $request)
+    {
 
         $timesheet = Timesheet::find($request->timesheet);
 
@@ -80,11 +81,14 @@ class TimesheetController extends BaseController
         $total_hours_worked = $timesheet->statistics->overtime_hours + $timesheet->statistics->worked_hours;
         $timesheet->statistics()->update(['total_hours_worked' => $total_hours_worked]);
 
-        return $this->sendResponse('success', 'success');
+        $percentage =  $total_hours_worked / $timesheet->statistics->scheduled_hours * 100;
+        $timesheet->statistics()->update(['percentage_time' => $percentage]);
 
+        return $this->sendResponse('success', 'success');
     }
 
-    public function saveOvertime(Request $request){
+    public function saveOvertime(Request $request)
+    {
 
         $timesheet = Timesheet::find($request->timesheet);
 
@@ -92,11 +96,13 @@ class TimesheetController extends BaseController
 
         $total_hours_worked = $timesheet->statistics->overtime_hours + $timesheet->statistics->worked_hours;
         $timesheet->statistics()->update(['total_hours_worked' => $total_hours_worked]);
+        $percentage =  $total_hours_worked / $timesheet->statistics->scheduled_hours * 100;
+        $timesheet->statistics()->update(['percentage_time' => $percentage]);
 
         return $this->sendResponse('success', 'success');
-
     }
-    public function saveTimesheet(Request $request){
+    public function saveTimesheet(Request $request)
+    {
 
         $user = auth()->user();
 
@@ -104,12 +110,11 @@ class TimesheetController extends BaseController
         $year = $request->year;
         $project_id = $request->project_id;
         $value = $request->value;
-        $field = '_'.$request->field.'_';
+        $field = '_' . $request->field . '_';
 
         $timesheet = $user->timesheets()->where(['year' => $year, 'month' => $month])->first();
         $timesheet->projects()->where(['project_id' => $project_id])->update([$field => $value]);
 
         return $this->sendResponse('success', 'success');
-
     }
 }

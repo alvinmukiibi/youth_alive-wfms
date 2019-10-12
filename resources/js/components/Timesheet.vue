@@ -148,8 +148,7 @@
                     </b-tr>
                   </b-tbody>
                 </b-table-simple>
-                <hr />
-                <hr />
+                <hr class="primary" style="height:20px;" />
 
                 <b-table-simple
                   v-if="timesheet && timesheet.statistics"
@@ -199,11 +198,8 @@
                     </b-tr>
                     <b-tr>
                       <b-th class="text-left" variant="dark">Percentage Time</b-th>
-
-                      <b-th
-                        colspan="2"
-                        class="text-center"
-                      >{{ timesheet.statistics.percentage_time }}</b-th>
+                      <b-th>[B + C] / A * 100</b-th>
+                      <b-th class="text-left">{{ timesheet.statistics.percentage_time.toFixed(1) }}%</b-th>
                     </b-tr>
                   </b-tbody>
                 </b-table-simple>
