@@ -65,6 +65,36 @@
               </router-link>
             </div>
           </div>
+          <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('officer')">
+            <div class="small-box bg-primary">
+              <div class="inner">
+                <h3>Mailbox</h3>
+                <p>Send messages on-system</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-envelope"></i>
+              </div>
+              <router-link to="/mailbox" class="small-box-footer">
+                More info
+                <i class="fa fa-arrow-circle-right"></i>
+              </router-link>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6" v-if="stateLoaded && auth.roles.includes('officer')">
+            <div class="small-box bg-">
+              <div class="inner">
+                <h3>Timesheet</h3>
+                <p>Manage timesheet</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-clock-o"></i>
+              </div>
+              <router-link to="/timesheet" class="small-box-footer">
+                More info
+                <i class="fa fa-arrow-circle-right"></i>
+              </router-link>
+            </div>
+          </div>
           <div
             class="col-lg-3 col-6"
             v-if="stateLoaded && auth.roles.includes('manager') && auth.department == 'Human Resource'"
