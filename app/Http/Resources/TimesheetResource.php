@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\User;
+use App\Http\Resources\TimesheetProjectResource;
 
 class TimesheetResource extends JsonResource
 {
@@ -19,6 +21,9 @@ class TimesheetResource extends JsonResource
             'user' => $this->user->fname . ' ' . $this->user->lname,
             'year' => $this->year,
             'month' => $this->month,
+            'status' => $this->status,
+            'comments' => $this->comments,
+            'approved_by' => $this->approved_by ? User::find($this->approved_by)->fname . ' ' . User::find($this->approved_by)->lname : null,
             'projects' => TimesheetProjectResource::collection($this->projects)
         ];
 
