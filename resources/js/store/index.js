@@ -26,6 +26,7 @@ export default new Vuex.Store({
         leaveStats: [],
         chats: [],
         chat: [],
+        subs: [],
         usersCount: '',
     },
     mutations: {
@@ -55,6 +56,9 @@ export default new Vuex.Store({
         },
         setRoles: (state, data) => {
             state.roles = data
+        },
+        setSubs: (state, data) => {
+            state.subs = data
         },
         setProjects: (state, data) => {
             state.projects = data

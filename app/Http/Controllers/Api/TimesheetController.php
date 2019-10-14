@@ -3,13 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\ProfileResource;
 use App\Http\Resources\TimesheetResource;
 use App\Timesheet;
+use App\User;
 use Illuminate\Http\Request;
 use App\TimesheetStatistic;
 
 class TimesheetController extends BaseController
 {
+    public function __construct()
+    {
+        $user = auth()->user();
+    }
     public function index(Request $request)
     {
 
@@ -33,6 +39,22 @@ class TimesheetController extends BaseController
         }
 
         return $this->sendResponse($timesheet, 'Timesheet data');
+    }
+
+    public function getStaffTimesheet(Request $request){
+
+        $user = User::find($request->staff);
+        $month = explode('-', $request->period)[1];
+        $year = explode('-', $request->period)[0];
+
+        $timesheet = $user->timesheets()->where(['year' => $year, 'month' => $month])->first();
+
+        if ($timesheet) {
+            $timesheet = new TimesheetResource($timesheet);
+        }
+
+        return $this->sendResponse(['timesheet' => $timesheet, 'staff' => new ProfileResource($user)], 'Timesheet data');
+
     }
 
     public function populateAttachedProjects($month, $year)
@@ -116,5 +138,35 @@ class TimesheetController extends BaseController
         $timesheet->projects()->where(['project_id' => $project_id])->update([$field => $value]);
 
         return $this->sendResponse('success', 'success');
+    }
+
+    public function getMySubs(Request $request){
+
+        $user = auth()->user();
+        $subs = [];
+        $users = User::all();
+
+        if($user->user_type() == 'manager'){
+            // subs are officers under the department i head
+            foreach($users as $us){
+                if($us->user_type() == 'officer' && $us->department == $user->department){
+                    $subs[] = $us;
+                }
+            }
+        }
+
+        if($user->user_type() == 'director'){
+            // subs are managers who head depts under the directorate i head
+            $dir = $user->directorate;
+
+            foreach($users as $use){
+                if($use->department->directorate == $dir && $use->user_type() == 'manager'){
+                    $subs[] = $use;
+                }
+            }
+        }
+
+        return $this->sendResponse($subs, 'My suboordinates');
+
     }
 }

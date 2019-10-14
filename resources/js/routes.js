@@ -24,6 +24,8 @@ import Container from './users/officer/Container'
 import ApprovalTrail from './users/officer/ApprovalTrail'
 import Mailbox from './components/Mailbox.vue'
 import Timesheet from './components/Timesheet.vue'
+import MyTimesheets from './components/MyTimesheets.vue'
+import StaffTimesheets from './components/StaffTimesheets.vue'
 
 const routes = [{
         path: '/',
@@ -130,7 +132,16 @@ const routes = [{
     },
     {
         path: '/timesheet',
-        component: Timesheet
+        component: Timesheet,
+        children: [{
+                path: '/timesheets/mine',
+                component: MyTimesheets
+            },
+            {
+                path: '/timesheet/staff',
+                component: StaffTimesheets
+            }
+        ]
     },
 ]
 

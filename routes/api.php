@@ -181,5 +181,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/save/scheduled', 'TimesheetController@saveScheduled');
         Route::post('/save/worked', 'TimesheetController@saveWorked');
         Route::post('/save/overtime', 'TimesheetController@saveOvertime');
+        Route::post('/staff', 'TimesheetController@getStaffTimesheet');
+        Route::get('/subs', 'TimesheetController@getMySubs');
     });
 });
