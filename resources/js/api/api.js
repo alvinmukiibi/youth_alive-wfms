@@ -267,7 +267,8 @@ export function saveWorkedHours(data) {
     return axios.post(prefix + '/timesheet/save/worked', data).then(response => response.data)
 }
 export function saveOvertime(data) {
-    return axios.post(prefix + '/timesheet/save/overtime', data).then(response => response.data)
+    return axios.post(prefix + '/timesheet/save/overtime', data)
+    .then(response => response.data)
 }
 export function loadTimesheet(data) {
     return axios.post(prefix + '/timesheet/staff', data).then(response => response.data)
