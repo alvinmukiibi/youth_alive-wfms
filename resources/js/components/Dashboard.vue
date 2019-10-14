@@ -249,6 +249,16 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    ...mapMutations({
+      setAuthUser: "setAuthUser"
+    }),
+    getAuthUser() {
+      api.getAuthUser().then(response => {
+        this.setAuthUser(response.data);
+      });
+    }
+  },
   computed: {
     ...mapState({
       auth: state => state.auth,
@@ -264,6 +274,9 @@ export default {
     stateLoaded() {
       return Object.keys(this.auth).length > 0 ? true : false;
     }
+  },
+  mounted() {
+    this.getAuthUser();
   }
 };
 </script>
