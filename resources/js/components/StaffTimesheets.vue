@@ -113,6 +113,11 @@
           <b-th>100%</b-th>
         </b-tr>
       </b-tbody>
+      <b-tbody v-else>
+        <b-tr>
+          <b-th class="text-center" :colspan=" 4 + month.length" variant="light">No records found!</b-th>
+        </b-tr>
+      </b-tbody>
     </b-table-simple>
     <hr class="primary" style="height:20px;" />
 
@@ -193,7 +198,7 @@ export default {
       period: null,
       timesheet: [],
       user: null,
-      month: null
+      month: []
     };
   },
   methods: {

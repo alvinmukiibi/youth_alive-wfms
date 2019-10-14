@@ -146,7 +146,7 @@ class TimesheetController extends BaseController
         $subs = [];
         $users = User::all();
 
-        if($user->user_type() == 'manager'){
+        if($user->user_type() == 'manager' && $user->department->name != 'Human Resource'){
             // subs are officers under the department i head
             foreach($users as $us){
                 if($us->user_type() == 'officer' && $us->department == $user->department){
@@ -155,12 +155,17 @@ class TimesheetController extends BaseController
             }
         }
 
+        if($user->user_type() == 'manager' && $user->department->name == 'Human Resource'){
+            // subs are officers under the department i head
+            $subs = $users;
+        }
+
         if($user->user_type() == 'director'){
             // subs are managers who head depts under the directorate i head
             $dir = $user->directorate;
 
             foreach($users as $use){
-                if($use->department->directorate == $dir && $use->user_type() == 'manager'){
+                if($use->directorate == $dir && $use->user_type() == 'manager'){
                     $subs[] = $use;
                 }
             }

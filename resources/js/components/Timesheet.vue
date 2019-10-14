@@ -56,7 +56,7 @@
 <script>
 import MyTimesheets from "./MyTimesheets";
 import StaffTimesheets from "./StaffTimesheets";
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   components: {
     MyTimesheets,
@@ -64,8 +64,8 @@ export default {
   },
   computed: {
     ...mapState({
-      auth: state => state.auth,
-    }),
+      auth: state => state.auth
+    })
   }
 };
 </script>
