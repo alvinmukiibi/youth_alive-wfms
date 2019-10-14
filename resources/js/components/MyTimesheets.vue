@@ -2,19 +2,6 @@
   
               <div >
                 <div class="form-group row">
-                  <!-- <label
-                    v-if="auth.department='Human Resource' && auth.roles.includes('manager')"
-                    for="inputPassword"
-                    class="col-sm-2 col-form-label"
-                  >Select Staff</label>
-                  <div
-                    v-if="auth.department='Human Resource' && auth.roles.includes('manager')"
-                    class="col-sm-4"
-                  >
-                    <select class="form-control">
-                      <option value></option>
-                    </select>
-                  </div>-->
                   <label for="inputPassword" class="col-sm-2 col-form-label">Select Month</label>
                   <div class="col-sm-4">
                     <vue-monthly-picker
@@ -129,7 +116,7 @@
                       <b-th
                         class="text-center"
                         :colspan=" 4 + month.length"
-                        variant="danger"
+                        variant="light"
                       >No records found!</b-th>
                     </b-tr>
                   </b-tbody>
