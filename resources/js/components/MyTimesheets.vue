@@ -182,12 +182,12 @@
                 </b-table-simple>
                 <hr />
 
-                <button
+                <!-- <button
                   v-if="currentDateIsTimesheetDate"
                   class="btn btn-primary pull-right btn-flat"
                 >
                   <b>Submit Timesheet</b>
-                </button>
+                </button> -->
               </div>
           
 </template>
@@ -393,7 +393,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 input[type="text"] {
   border: none;
   background-color: none;
