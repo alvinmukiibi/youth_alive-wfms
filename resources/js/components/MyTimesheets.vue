@@ -63,10 +63,14 @@
                       <b-th variant="dark" colspan="2">Name</b-th>
                       <b-td variant="light" colspan="12">{{ auth.fname + ' ' + auth.lname }}</b-td>
                       <b-th variant="dark" colspan="5">Designation</b-th>
-                      <b-td
+                      <b-td v-if="auth.user_type != 'director'"
                         variant="light"
                         colspan="16"
                       >{{ auth.designation + ', ' + auth.department_acronym }}</b-td>
+                      <b-td v-else
+                        variant="light"
+                        colspan="16"
+                      >{{ auth.designation + ', ' + auth.directorate }}</b-td>
                     </b-tr>
                   
                     <b-tr>
