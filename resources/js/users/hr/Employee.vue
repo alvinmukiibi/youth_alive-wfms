@@ -79,7 +79,19 @@
                 <div class="form-group row">
                   <label for="Deparmtent" class="col-sm-2 col-form-label">Staff ID</label>
                   <div class="col-md-10">
-                    <input type="text" readonly :value="employee.staff_id" class="form-control" />
+                    <input type="text" v-model="employee.staff_id" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="first_name" class="col-sm-2 col-form-label">First Name</label>
+                  <div class="col-md-10">
+                    <input type="text" v-model="employee.fname" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="last_name" class="col-sm-2 col-form-label">Last Name</label>
+                  <div class="col-md-10">
+                    <input type="text" v-model="employee.lname" class="form-control" />
                   </div>
                 </div>
                 <div class="form-group row">
@@ -252,22 +264,25 @@ export default {
       setErrors: "setErrors",
       setCurrentEmployee: "setCurrentEmployee"
     }),
-    showToast(variant, title, body){
-             this.$bvToast.toast(body, {
-                title: title,
-                variant: variant,
-                solid: true
-        })
+    showToast(variant, title, body) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
+      });
     },
     save() {
       this.spinner = true;
       let id = this.employee.id;
       let data = {
+        staff_id: this.employee.staff_id,
         department_id: this.user.department_id,
         designation_id: this.user.designation_id,
         contract_id: this.user.contract_id,
         duty_station: this.employee.duty_station,
         email: this.employee.email,
+        fname: this.employee.fname,
+        lname: this.employee.lname,
         work_contact: this.employee.work_contact,
         mobile_contact: this.employee.mobile_contact,
         address: this.employee.address
@@ -276,12 +291,12 @@ export default {
         if (!response.success) {
           this.setErrors(response.data.error);
           this.spinner = false;
-          this.showToast('danger', 'Error', response.data.error)
+          this.showToast("danger", "Error", response.data.error);
           return;
         }
         this.setErrors([]);
         this.spinner = false;
-        this.showToasts('success', 'Notification', 'Saved!!')
+        this.showToast("success", "Notification", "Saved!!");
         this.setCurrentEmployee(response.data);
       });
     }

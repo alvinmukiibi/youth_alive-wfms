@@ -71,16 +71,16 @@ class UsersController extends BaseController
     public function validation($request)
     {
         $validator = Validator::make($request->all(), [
-            // 'department_id' => 'required',
-            // 'designation_id' => 'required',
-            // 'contract_id' => 'required',
+            'fname' => 'required',
+            'lname' => 'required',
             'duty_station' => 'required',
             'mobile_contact' => 'required',
             'work_contact' => 'required',
             'address' => 'required',
             'email' => 'required | email',
         ], [
-            'duty_station.required' => 'The duty station field is required',
+            'fname.required' => 'The first name field is required',
+            'lname.required' => 'The last name field is required',
             'mobile_contact.required' => 'The mobile contact field is required',
             'work_contact.required' => 'The work contact field is required',
             // 'department_id.required' => 'Please choose a department for the user',
@@ -105,11 +105,14 @@ class UsersController extends BaseController
         $user->department_id = $request->department_id == '' ? $user->department_id : $request->department_id;
         $user->designation_id = $request->designation_id == '' ? $user->designation_id : $request->designation_id;
         $user->contract_id = $request->contract_id == '' ? $user->contract_id : $request->contract_id;
+        $user->staff_id = $request->staff_id == '' ? $user->staff_id : $request->staff_id;
         $user->duty_station = $request->duty_station;
         $user->email = $request->email;
         $user->work_contact = $request->work_contact;
         $user->mobile_contact = $request->mobile_contact;
         $user->address = $request->address;
+        $user->fname = $request->fname;
+        $user->lname = $request->lname;
 
         $user->save();
 

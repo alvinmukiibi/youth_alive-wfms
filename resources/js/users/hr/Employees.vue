@@ -100,12 +100,12 @@
                                             <div class="card-body">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
-                                                        <label for="inputEmail4">Staff ID </label>
-                                                        <input type="text" v-model="user.staff_id" class="form-control" id="inputEmail4" placeholder="Company Staff ID">
+                                                        <label for="inputEmailss">Staff ID </label>
+                                                        <input type="text" v-model="user.staff_id" class="form-control" id="inputEmaild4" placeholder="Company Staff ID">
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="inputEmail4">First Name <span class="text-danger">*</span> </label>
-                                                        <input type="text" v-model="user.fname" class="form-control" id="inputEmail4" placeholder="First Name">
+                                                        <label for="inputEmailf">First Name <span class="text-danger">*</span> </label>
+                                                        <input type="text" v-model="user.fname" class="form-control" id="inputEmailq4" placeholder="First Name">
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="inputPassword4">Last Name <span class="text-danger">*</span></label>
@@ -119,8 +119,8 @@
                                                         <input type="email" v-model="user.email" class="form-control" id="inputPassword4" placeholder="Email address">
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="inputEmail4">Mobile Contact <span class="text-danger">*</span></label>
-                                                        <input type="text" v-model="user.mobile_contact" class="form-control" id="inputEmail4" placeholder="Mobile">
+                                                        <label for="inputEmailz4">Mobile Contact <span class="text-danger">*</span></label>
+                                                        <input type="text" v-model="user.mobile_contact" class="form-control" id="inputEmailqw4" placeholder="Mobile">
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="inputPassword4">Work Contact</label>
@@ -138,7 +138,7 @@
                                                 <div class="form-row">
 
                                                     <div class="form-group col-md-3">
-                                                         <label for="inputEmail4">User is Director</label>
+                                                         <label for="inputEmailxx4">User is Director</label>
                                                         <b-form-checkbox
                                                         id="checkbox-1"
                                                         @change="userNotDirector = !userNotDirector"
@@ -147,14 +147,14 @@
                                                         </b-form-checkbox>
                                                     </div>
                                                     <div class="form-group col-md-3" v-if="userNotDirector">
-                                                        <label for="inputEmail4">Department <span class="text-danger">*</span></label>
+                                                        <label for="inputEmailqwqw4">Department <span class="text-danger">*</span></label>
                                                         <select v-model="user.department_id" name="" id="" class="form-control">
                                                             <option disabled value=""  >Select Department</option>
                                                             <option v-for="dept in departments" :value="dept.id" :key="dept.id"> {{ dept.name }}</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-3" v-else>
-                                                        <label for="inputEmail4">Directorate <span class="text-danger">*</span></label>
+                                                        <label for="inputEmailcc4">Directorate <span class="text-danger">*</span></label>
                                                         <select v-model="user.directorate_id" name="" id="" class="form-control">
                                                             <option disabled value=""  >Select Directorate</option>
                                                             <option v-for="dir in directorates" :value="dir.id" :key="dir.id"> {{ dir.name }}</option>
@@ -177,8 +177,8 @@
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-8">
-                                                        <label for="inputEmail4">Duty Station <span class="text-danger">*</span></label>
-                                                        <input type="text" ref="autocompleted" @focus="value = ''" v-model="user.duty_station" class="form-control" id="inputEmail4" placeholder="Duty Station">
+                                                        <label for="inputEmailza4">Duty Station <span class="text-danger">*</span></label>
+                                                        <input type="text" ref="autocompleted" @focus="value = ''" v-model="user.duty_station" class="form-control" id="inputEmailbg4" placeholder="Duty Station">
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="">Bio Data Form Copy</label>
