@@ -38,7 +38,7 @@ class ProgramRequest extends Model
     }
     public function getRequestorType(){
         $roles = $this->requestor->arrayOfRoles();
-        if(in_array('officer', $roles) && count($roles) == 1){
+        if(in_array('officer', $roles) && !in_array('manager', $roles) && !in_array('director', $roles)){
             return 'officer';
         }
         if(in_array('manager', $roles)){
