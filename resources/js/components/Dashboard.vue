@@ -89,7 +89,7 @@
               <div class="icon">
                 <i class="fa fa-clock-o"></i>
               </div>
-              <router-link to="/timesheet" class="small-box-footer">
+              <router-link to="/timesheet" class="small-box-footer text-dark">
                 More info
                 <i class="fa fa-arrow-circle-right"></i>
               </router-link>
@@ -221,6 +221,21 @@
               </router-link>
             </div>
           </div>-->
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3 class="text-white">Docs Manager</h3>
+                <p class="text-white">Document Management</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-file"></i>
+              </div>
+              <router-link to="/files" class="small-box-footer">
+                More info
+                <i class="fa fa-arrow-circle-right"></i>
+              </router-link>
+            </div>
+          </div>
           <div class="col-lg-3 col-6">
             <div class="small-box bg-dark">
               <div class="inner">

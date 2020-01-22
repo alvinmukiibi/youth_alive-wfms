@@ -26,6 +26,7 @@ import Mailbox from './components/Mailbox.vue'
 import Timesheet from './components/Timesheet.vue'
 import MyTimesheets from './components/MyTimesheets.vue'
 import StaffTimesheets from './components/StaffTimesheets.vue'
+import FileManager from './components/FileManager.vue'
 
 const routes = [{
         path: '/',
@@ -90,6 +91,10 @@ const routes = [{
     {
         path: '/mailbox',
         component: Mailbox
+    },
+    {
+        path: '/files',
+        component: FileManager
     },
     {
         path: '/settings',

@@ -14,9 +14,11 @@
 
         <link rel="stylesheet" href="{{ asset('adminlte/plugins/font-awesome/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('adminlte/plugins/bootstrap-table/dist/bootstrap-table.min.css') }}">
+        <!-- <link rel="stylesheet" href="{{ asset('adminlte/plugins/bootstrap-table/dist/bootstrap-table.min.css') }}"> -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
         <link rel="stylesheet" href="{{ asset('adminlte/plugins/bootstrap/css/bootstrap.min.css') }}">
-        {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
+        <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
         <script>
             window.authenticated = {{ auth()->check() ? 'true' : 'false' }};
         </script>
@@ -36,6 +38,7 @@
         <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
+        <script src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDr2QYxb1GeCfbKz4a7zR_AYtVmpRzkmLA&libraries=places&callback=initAutocomplete"
 type="text/javascript"></script>
         {{-- <script src="{{ asset('adminlte/plugins/bootstrap-table/dist/bootstrap-table.min.js') }}"></script> --}}

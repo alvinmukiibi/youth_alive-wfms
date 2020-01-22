@@ -47,6 +47,28 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
+        
+        'General' => [
+            'driver' => 'local',
+            'root' => public_path('storage/file-manager/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        'Confidential' => [
+            'driver' => 'local',
+            'root' => public_path('storage/file-manager/confidential'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        'Classified' => [
+            'driver' => 'local',
+            'root' => public_path('storage/file-manager/classified'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+         
 
         'public' => [
             'driver' => 'local',

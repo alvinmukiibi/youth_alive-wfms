@@ -50,6 +50,12 @@
               <p>My Profile</p>
             </router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/files" class="nav-link" :class="{ 'active': isActive('/files') }">
+              <i class="nav-icon fa fa-file"></i>
+              <p>File Manager</p>
+            </router-link>
+          </li>
           <li class="nav-item" v-if="stateLoaded && auth.roles.includes('officer')">
             <router-link
               to="/requests"
@@ -200,7 +206,7 @@
               <p>Reports</p>
             </router-link>
           </li>
-          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+          <!-- <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
             <a class="nav-link" @click.prevent>
               <i class="nav-icon fa fa-hand-grab-o"></i>
               <p>
@@ -271,7 +277,7 @@
                 </router-link>
               </li>
             </ul>
-          </li>
+          </li> -->
         </ul>
       </nav>
     </div>
