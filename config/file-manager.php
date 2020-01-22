@@ -86,7 +86,7 @@ return [
      *
      * [] - no restrictions
      */
-    'allowFileTypes' => ['.pdf', '.sql'],
+    'allowFileTypes' => [],
 
     /**
      * Show / Hide system files and folders
@@ -122,7 +122,7 @@ return [
      *
      * whitelist - Deny anything(access - 0 - deny), that not allowed by the ACL rules list
      */
-    'aclStrategy' => 'whitelist',
+    'aclStrategy' => 'blacklist',
 
     /**
      * ACL Rules cache
