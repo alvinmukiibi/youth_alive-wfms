@@ -16,7 +16,8 @@ class RolesTableSeeder extends Seeder
             'officer',
             'manager',
             'director',
-            'administrator'
+            'board_chairman',
+            'administrator',
         ];
 
         foreach($roles as $role){

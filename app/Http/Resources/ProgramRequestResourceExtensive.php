@@ -29,7 +29,7 @@ class ProgramRequestResourceExtensive extends JsonResource
             'status' => $this->status,
             'notes' => $this->notes,
             'identity' => $this->identity,
-            'requestor_type' => $this->getRequestorType(),
+            'requestor_type' => $this->getRequestorType() == 'board_chairman' ? 'director' :  $this->getRequestorType(),
             'project' => Project::find($this->project_id)->name,
             'created_at' => date('d-M-Y', strtotime($this->created_at)),
             'tsow' => $this->travelscope()->count() > 0 ? new TravelScopeResource($this->travelscope) : null,

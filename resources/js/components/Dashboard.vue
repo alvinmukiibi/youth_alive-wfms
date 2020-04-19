@@ -24,7 +24,7 @@
             <div class="small-box bg-primary">
               <div class="inner">
                 <h3>My Profile</h3>
-                <p>{{ auth.designation + ', ' + auth.department_acronym }}</p>
+                <p>{{ auth.designation + ', ' + after_profile }}</p>
               </div>
               <div class="icon">
                 <i class="fa fa-user"></i>
@@ -288,6 +288,13 @@ export default {
     }),
     stateLoaded() {
       return Object.keys(this.auth).length > 0 ? true : false;
+    },
+    after_profile() {
+      if (this.stateLoaded) {
+        return this.auth.department_acronym
+          ? this.auth.department_acronym
+          : this.auth.directorate;
+      }
     }
   },
   mounted() {

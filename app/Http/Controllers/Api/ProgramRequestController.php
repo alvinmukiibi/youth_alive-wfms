@@ -50,6 +50,25 @@ class ProgramRequestController extends BaseController
 
         return $validator;
     }
+    public function random_strings($length_of_string)
+    {
+        $str_result = '0123456789YOUTHALIVEUGANDA';
+        return substr(str_shuffle($str_result),  0, $length_of_string);
+    }
+    public function generateRequestIdentity($activity_type, $project_id)
+    {
+
+        $activity_type = \strtoupper($activity_type);
+        $activity = \substr($activity_type, 0, 2);
+
+        $project = Project::find($project_id)->name;
+        $project = \strtoupper($project);
+        $project = \substr($project, 0, 3);
+
+        $identity = $activity . '/' . $project . '/' . $this->random_strings(4);
+
+        return $identity;
+    }
     public function store(Request $request)
     {
         $validator = $this->validation($request);
@@ -70,7 +89,7 @@ class ProgramRequestController extends BaseController
         $req->identity = $this->generateRequestIdentity($request->activity_type, $request->project_id);
         $req->activity_type = $request->activity_type;
         $req->project_id = $request->project_id;
-        $req->department_id = $user->department->id;
+        $req->department_id = $user->department ? $user->department->id : null;
         $req->documents = $request->documents;
         $req->doc_completion_status = $request->doc_completion_status;
         $req->user_id = $user->id;
@@ -84,25 +103,6 @@ class ProgramRequestController extends BaseController
 
         $req = new ProgramRequestResourceExtensive($req);
         return $this->sendResponse($req, 'Request saved');
-    }
-
-    public function saveAttachments(Request $request)
-    {
-
-        $req = ProgramRequest::find($request->request_id);
-
-        if ($request->hasFile('attachments')) {
-            foreach ($request->attachments as $file) {
-                $originalName = $file->getClientOriginalName();
-                $name = pathinfo($originalName, PATHINFO_FILENAME);
-                $replaced = \str_replace(' ', '_', $name);
-                $newName = $replaced . '_' . $this->random_strings(5) . '.' . $file->getClientOriginalExtension();
-                $ref = Storage::disk('public')->putFileAs('attachments', $file, $newName);
-                $req->attachments()->create(['reference' => $ref]);
-            }
-        }
-
-        return $this->sendresponse('success', 'success');
     }
 
     public function changedoccompletionstatus(Request $request)
@@ -209,28 +209,7 @@ class ProgramRequestController extends BaseController
 
         return $this->sendResponse('saved', 'Travel Scope Budget Saved');
     }
-
-    public function random_strings($length_of_string)
-    {
-        $str_result = '0123456789YOUTHALIVEUGANDA';
-        return substr(str_shuffle($str_result),  0, $length_of_string);
-    }
-
-    public function generateRequestIdentity($activity_type, $project_id)
-    {
-
-        $activity_type = \strtoupper($activity_type);
-        $activity = \substr($activity_type, 0, 2);
-
-        $project = Project::find($project_id)->name;
-        $project = \strtoupper($project);
-        $project = \substr($project, 0, 3);
-
-        $identity = $activity . '/' . $project . '/' . $this->random_strings(4);
-
-        return $identity;
-    }
-
+    
     public function getMyRequests(Request $request)
     {
 
@@ -308,19 +287,17 @@ class ProgramRequestController extends BaseController
         $requests = ProgramRequestResourceExtensive::collection($requests);
         return $this->sendResponse($requests, 'Requests for finance approval');
     }
-
-
     public function getEDRequests(Request $request)
     {
-
+        $us = $request->user();
         $reqs = collect();
         $requests = ProgramRequest::all();
         foreach ($requests as $req) {
-            if ($req->trail->level_two_approval == 1) {
+            if ($req->trail->level_two_approval == 1 && !in_array($req->requestor->user_type(), ['director'])) {
                 $reqs->push($req);
             }
             // get requests made by directors, for level 2 which is the last approval
-            if ($req->getRequestorType() == 'director' && $req->trail->level_one_approval == 1 /* && $req->trail->level_two_approval == 0 */) {
+            if (($req->getRequestorType() == 'director' || $req->getRequestorType() == 'board_chairman') && $req->trail->level_one_approval == 1 && $req->requestor->id != $us->id /* && $req->trail->level_two_approval == 0 */) {
                 $reqs->push($req);
             }
         }
@@ -328,7 +305,6 @@ class ProgramRequestController extends BaseController
         $reqs = ProgramRequestResourceExtensive::collection($reqs);
         return $this->sendResponse($reqs, 'Requests for ED approval');
     }
-
     public function getDirectorRequests(Request $request)
     {
         $reqs = collect();
@@ -345,20 +321,41 @@ class ProgramRequestController extends BaseController
 
         foreach ($requests as $req) {
             // those requiring level 2 approvals i.e. officer requests
-            if ($req->trail->finance_approval == 1 && $req->getRequestorType() == 'officer') {
+            if ($req->trail->finance_approval == 1 && $req->getRequestorType() == 'officer' && !in_array('board_chairman', $user->arrayOfRoles())) {
                 $reqs->push($req);
             }
             // those requiring level 1 approvals i.e. manager requests
-            if ($req->trail->accountant_approval == 1 && $req->getRequestorType() == 'manager') {
+            if ($req->trail->accountant_approval == 1 && $req->getRequestorType() == 'manager' && !in_array('board_chairman', $user->arrayOfRoles())) {
                 $reqs->push($req);
             }
         }
 
-        // get requests from the ED for approval
-        // $all = ProgramRequest::all();
-        // foreach($all)
+        //get requests from the ED for approval
+        if(in_array('board_chairman', $user->arrayOfRoles())){
+            $all = ProgramRequest::all();
+            foreach($all as $our_req){
+                if($our_req->requestor->designation->name == 'Executive Director' && $our_req->trail->level_one_approval == 1){
+                    $reqs->push($our_req);
+                }
+            }
+        }
+        
 
         // if the director is a finance director, then get director requests for level 1 approval
+        $dept_id = Department::where('name', 'Finance and Operations')->value('id');
+        if (auth()->user()->department_id == $dept_id) {
+            $directorrequests = ProgramRequest::all();
+            foreach ($directorrequests as $re) {
+                if ($re->trail->accountant_approval == 1 && ($re->getRequestorType() == 'director' || $re->requestor->user_type() =='board_chairman')) {
+                    $reqs->push($re);
+                }
+            }
+        }
+
+        /**
+         * if the request came from ED, send it to the board chairman director for final approval
+         */
+
         $dept_id = Department::where('name', 'Finance and Operations')->value('id');
         if (auth()->user()->department_id == $dept_id) {
             $directorrequests = ProgramRequest::all();
@@ -372,7 +369,6 @@ class ProgramRequestController extends BaseController
         $reqs = ProgramRequestResourceExtensive::collection($reqs);
         return $this->sendResponse($reqs, 'Requests for directors approval');
     }
-
     public function invalidateToken(request $request)
     {
 
@@ -497,7 +493,7 @@ class ProgramRequestController extends BaseController
             }
         }
         if ($field == 'level_three_approval') {
-            if ($req->getRequestorType() == 'director') {
+            if ($req->getRequestorType() == 'director' || $req->getRequestorType() == 'board_chairman') {
                 $field = 'level_two_approval';
                 $traceability_id = 'level_two_approver_id';
                 $traceability_date = 'level_two_approval_date';
@@ -524,6 +520,8 @@ class ProgramRequestController extends BaseController
     {
 
         // send these to finance manager for approval
+        
+        $notified = null;
 
         foreach (Department::where('name', 'Finance and Operations')->first()->users as $user) {
 
@@ -678,7 +676,24 @@ class ProgramRequestController extends BaseController
         $req->update(['status' => 2]);
         return $this->sendResponse($request, 'Request has been cancelled');
     }
+    public function saveAttachments(Request $request)
+    {
 
+        $req = ProgramRequest::find($request->request_id);
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->attachments as $file) {
+                $originalName = $file->getClientOriginalName();
+                $name = pathinfo($originalName, PATHINFO_FILENAME);
+                $replaced = \str_replace(' ', '_', $name);
+                $newName = $replaced . '_' . $this->random_strings(5) . '.' . $file->getClientOriginalExtension();
+                $ref = Storage::disk('public')->putFileAs('attachments', $file, $newName);
+                $req->attachments()->create(['reference' => $ref]);
+            }
+        }
+
+        return $this->sendresponse('success', 'success');
+    }
     public function getRequestAttachments(Request $request)
     {
         $req = ProgramRequest::find($request->id);

@@ -129,7 +129,7 @@
 
                     <b-thead head-variant="dark">
                       <b-tr>
-                        <b-th>Source</b-th>
+                        <!-- <b-th>Source</b-th> -->
                         <b-th>Status</b-th>
                         <b-th>Date</b-th>
                         <b-th>Done By</b-th>
@@ -138,7 +138,7 @@
                     </b-thead>
                     <b-tbody>
                       <b-tr v-if="request.trail.accountant_approval != 0">
-                        <b-td>Project Accountant</b-td>
+                        <!-- <b-td>Project Accountant</b-td> -->
                         <b-td v-if="request.trail.accountant_approval == 1">
                           <button class="btn btn-sm btn-success">
                             <i class="fa fa-check"></i>
@@ -154,7 +154,7 @@
                         <b-td>{{ request.trail.acc_comments }}</b-td>
                       </b-tr>
                       <b-tr v-if="request.trail.level_one_approval != 0">
-                        <b-td>Supervisor</b-td>
+                        <!-- <b-td>Supervisor</b-td> -->
                         <b-td v-if="request.trail.level_one_approval == 1">
                           <button class="btn btn-sm btn-success">
                             <i class="fa fa-check"></i>
@@ -172,7 +172,7 @@
                       <b-tr
                         v-if="request.trail.finance_approval != 0 && request.trail.finance_approval != null"
                       >
-                        <b-td>Finance Manager</b-td>
+                        <!-- <b-td>Finance Manager</b-td> -->
                         <b-td v-if="request.trail.finance_approval == 1">
                           <button class="btn btn-sm btn-success">
                             <i class="fa fa-check"></i>
@@ -190,7 +190,7 @@
                       <b-tr
                         v-if="request.trail.level_two_approval != 0 && request.trail.level_two_approval != null"
                       >
-                        <b-td>Line Director</b-td>
+                        <!-- <b-td>Line Director</b-td> -->
                         <b-td v-if="request.trail.level_two_approval == 1">
                           <button class="btn btn-sm btn-success">
                             <i class="fa fa-check"></i>
@@ -208,7 +208,7 @@
                       <b-tr
                         v-if="request.trail.level_three_approval != 0 && request.trail.level_three_approval != null"
                       >
-                        <b-td>Executive Director</b-td>
+                        <!-- <b-td>Executive Director</b-td> -->
                         <b-td v-if="request.trail.level_three_approval == 1">
                           <button class="btn btn-sm btn-success">
                             <i class="fa fa-check"></i>

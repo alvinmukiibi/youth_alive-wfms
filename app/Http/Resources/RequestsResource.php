@@ -31,7 +31,7 @@ class RequestsResource extends JsonResource
             'trail' => new TrailResource($this->trail),
             'assets' => ReqAssetResource::collection($this->assets),
             'requested_by' => \ucwords(User::find($this->user_id)->fname . ' ' . User::find($this->user_id)->lname),
-            'requestor_type' => $this->getRequestorType(),
+            'requestor_type' => $this->getRequestorType() == 'board_chairman' ? 'director' : $this->getRequestorType(),
             'attachments' => $this->attachments,
         ];
     }

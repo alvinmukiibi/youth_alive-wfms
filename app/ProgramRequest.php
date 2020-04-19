@@ -44,8 +44,12 @@ class ProgramRequest extends Model
         if(in_array('manager', $roles)){
             return 'manager';
         }
+        if(in_array('board_chairman', $roles)){
+            return 'board_chairman';
+        }
         if(in_array('director', $roles)){
             return 'director';
         }
+        
     }
 }

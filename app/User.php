@@ -111,9 +111,13 @@ class User extends Authenticatable
         if (in_array('manager', $roles)) {
             return 'manager';
         }
+        if (in_array('board_chairman', $roles)) {
+            return 'board_chairman';
+        }
         if (in_array('director', $roles)) {
             return 'director';
         }
+        
     }
 
     public function isHQStaff(){
@@ -193,6 +197,8 @@ class User extends Authenticatable
          * if youre an officer in the PM dept, your supervisor is the manager of that project
          * if youre a manager, your supervisor is the director of the directorate where your dept falls
          * if youre a director, your supervisor is the executive director
+         * if your the ED, your supervisor is the director who has designation Board chairman
+         * if your the BC, you follow a normal directors approval 
          *
          *
          * */
@@ -257,7 +263,11 @@ class User extends Authenticatable
                 return $response1 ? $response1 : $admin;
                 break;
             case 'director':
-
+                // if you are the ED
+                if($this->designation->id == 1){
+                    $board_chairman = User::where('designation_id', 2)->first();
+                    return $board_chairman ? $board_chairman : $admin;
+                }
                 $designation = Designation::where('name', 'Executive Director')->value('id');
                 $executive_director = User::where('designation_id', $designation)->first();
                 return $executive_director ? $executive_director : $admin;
