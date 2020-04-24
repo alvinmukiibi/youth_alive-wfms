@@ -36,6 +36,9 @@ class ProgramRequest extends Model
     public function attachments(){
         return $this->hasMany(Attachment::class, 'request_id');
     }
+    public function notes(){
+        return $this->hasMany(Note::class, 'program_request_id');
+    }
     public function getRequestorType(){
         $roles = $this->requestor->arrayOfRoles();
         if(in_array('officer', $roles) && !in_array('manager', $roles) && !in_array('director', $roles)){

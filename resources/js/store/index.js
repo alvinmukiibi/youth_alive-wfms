@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
+import Vue from "vue";
+import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
@@ -27,81 +27,86 @@ export default new Vuex.Store({
         chats: [],
         chat: [],
         subs: [],
-        usersCount: '',
+        usersCount: ""
     },
     mutations: {
         setAuthUser: (state, data) => {
-            state.auth = data
+            state.auth = data;
         },
         setErrors: (state, data) => {
-            state.errors = data
+            state.errors = data;
         },
         setUsers: (state, data) => {
-            state.users = data
+            state.users = data;
         },
         setCurrentEmployee: (state, data) => {
-            state.employee = data
+            state.employee = data;
         },
         setDepartments: (state, data) => {
-            state.departments = data
+            state.departments = data;
         },
         setDirectorates: (state, data) => {
-            state.directorates = data
+            state.directorates = data;
         },
         setDesignations: (state, data) => {
-            state.designations = data
+            state.designations = data;
         },
         setContracts: (state, data) => {
-            state.contracts = data
+            state.contracts = data;
         },
         setRoles: (state, data) => {
-            state.roles = data
+            state.roles = data;
         },
         setSubs: (state, data) => {
-            state.subs = data
+            state.subs = data;
         },
         setProjects: (state, data) => {
-            state.projects = data
+            state.projects = data;
         },
         setUsersCount: (state, data) => {
-            state.usersCount = data
+            state.usersCount = data;
         },
         setLeaveTypes: (state, data) => {
-            state.leaveTypes = data
+            state.leaveTypes = data;
         },
         setAssets: (state, data) => {
-            state.assets = data
+            state.assets = data;
         },
         setVendors: (state, data) => {
-            state.vendors = data
+            state.vendors = data;
         },
         setMyRequests: (state, data) => {
-            state.myRequests = data
+            state.myRequests = data;
         },
         setRequest: (state, data) => {
-            state.request = data
+            state.request = data;
         },
         setSettings: (state, data) => {
-            state.settings = data
+            state.settings = data;
         },
         setSystemSettings: (state, data) => {
-            state.systemSettings = data
+            state.systemSettings = data;
         },
         setLeaveStats: (state, data) => {
-            state.leaveStats = data
+            state.leaveStats = data;
         },
         setChats: (state, data) => {
-            state.chats = data
+            state.chats = data;
         },
         setChat: (state, data) => {
-            state.chat = data
+            state.chat = data;
         },
         setRequestAttachments: (state, data) => {
-            state.request.attachments = data
+            state.request.attachments = data;
         },
+        setRequestNotes: (state, data) => {
+            state.request.notes = data;
+        }
     },
-    plugins: [createPersistedState({
-        key: 'vuex',
-        storage: window.localStorage
-    })],
-})
+    plugins: [
+        createPersistedState({
+            key: "vuex",
+            storage: window.localStorage
+        })
+    ]
+});

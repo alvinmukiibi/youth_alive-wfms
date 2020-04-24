@@ -26,14 +26,15 @@
               <div class="card-body">
                 <div class="form-row">
                   <div class="form-group col-md-12">
-                    <label>Notes</label>
-                    <ckeditor :editor="editor" v-model="request.notes" :config="editorConfig"></ckeditor>
+                    <label>Add Comments</label>
+                    <textarea class="form-control" v-model="new_note" cols="5" rows="3"></textarea>
+                    <!-- <ckeditor :editor="editor" :config="editorConfig"></ckeditor> -->
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="col-md-4">
                     <button @click="saveNotes" class="btn btn-primary btn-flat">
-                      Save Notes
+                      Save Comment
                       <span
                         v-if="spin2"
                         class="spinner-border spinner-border-sm"
@@ -43,6 +44,21 @@
                     </button>
                   </div>
                 </div>
+                <div class="card card-success card-line">
+                  <div class="card-body">
+                    <b-list-group>
+                      <b-list-group-item v-for="not in request.notes" :key="not.id">
+                        {{ not.note }}
+                        <small class="text-secondary">{{ not.user }}</small>
+                        <small class="text-secondary">{{ not.date_made }}</small>
+                      </b-list-group-item>
+                    </b-list-group>
+                    <a style="font-weight:500">
+                      <br />
+                    </a>
+                  </div>
+                </div>
+
                 <hr />
                 <h6>Upload Attachments</h6>
                 <div class="form-group">
@@ -244,6 +260,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   data() {
     return {
+      new_note: "",
       spinner: false,
       attachments: new FormData(),
       spin1: false,
@@ -305,15 +322,17 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setRequestAttachments: "setRequestAttachments"
+      setRequestAttachments: "setRequestAttachments",
+      setRequestNotes: "setRequestNotes"
     }),
     saveNotes() {
       this.spin2 = true;
       let data = {
         request_id: this.request.id,
-        notes: this.request.notes
+        notes: this.new_note
       };
       api.saveNotes(data).then(response => {
+        this.getRequestNotes(this.request.id);
         this.spin2 = false;
         this.showToast("success", "Notification", response.message);
       });
@@ -367,6 +386,11 @@ export default {
     getRequestAttachments(id) {
       api.getRequestAttachments(id).then(response => {
         this.setRequestAttachments(response.data);
+      });
+    },
+    getRequestNotes(id) {
+      api.getRequestNotes(id).then(response => {
+        this.setRequestNotes(response.data);
       });
     }
   },

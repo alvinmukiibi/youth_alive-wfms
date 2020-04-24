@@ -238,6 +238,11 @@ export function getRequestAttachments(id) {
         id: id
     }).then(response => response.data)
 }
+export function getRequestNotes(id) {
+    return axios.post(prefix + '/requests/get/notes', {
+        id: id
+    }).then(response => response.data)
+}
 export function saveNotes(data) {
     return axios.post(prefix + '/requests/save/notes', data).then(response => response.data)
 }

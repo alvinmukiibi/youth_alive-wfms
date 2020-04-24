@@ -16,6 +16,7 @@ use App\Token;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\NotesResource;
 
 class ProgramRequestController extends BaseController
 {
@@ -705,11 +706,29 @@ class ProgramRequestController extends BaseController
         return $this->sendResponse($atts, 'Request attachments');
     }
 
+    public function getRequestNotes(Request $request){
+
+        $req = ProgramRequest::find($request->id);
+
+        $notes = $req->notes()->latest()->get();
+        $notes = NotesResource::collection($notes);
+        
+        return $this->sendResponse($notes, 'Request notes');
+
+    }
     public function saveNotes(Request $request)
     {
         $req = ProgramRequest::find($request->request_id);
 
-        $req->update(['notes' => $request->notes]);
+        $note = [
+            'user_id' => $request->user()->id,
+            'note' => $request->notes
+        ];
+
+        $req->notes()->create($note);
+
+        // $notes = $req->notes()->get();
+        // $notes = NotesResource::collection($notes);
 
         return $this->sendResponse('success', 'Notes saved successfully');
     }

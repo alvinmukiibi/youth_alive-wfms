@@ -60,10 +60,15 @@
                     <b-tr v-for="type in designations" :key="type.id">
                       <b-td>{{ type.name }}</b-td>
                       <b-td>
-                        <button @click="deleteDesi(type.id)" class="btn btn-sm btn-outline-danger">
+                        <button
+                          v-if="type.id !== 1 && type.id !== 2"
+                          @click="deleteDesi(type.id)"
+                          class="btn btn-sm btn-outline-danger"
+                        >
                           <i class="fa fa-trash"></i>
                         </button>
                         <button
+                          v-if="type.id !== 1 && type.id !== 2"
                           @click="setDesi(type.id)"
                           type="button"
                           data-toggle="modal"

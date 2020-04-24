@@ -9,6 +9,8 @@ use App\Http\Resources\VehicleHotelResource;
 use App\Http\Resources\BudgetResource;
 use App\Http\Resources\TrailResource;
 use App\Http\Resources\AttachmentsResource;
+use App\Http\Resources\NotesResource;
+
 class ProgramRequestResourceExtensive extends JsonResource
 {
     /**
@@ -37,6 +39,7 @@ class ProgramRequestResourceExtensive extends JsonResource
             'bgt' => $this->travelscopebudget()->count() > 0 ? new BudgetResource($this->travelscopebudget) : null,
             'trail' => new TrailResource($this->trail),
             'attachments' => AttachmentsResource::collection($this->attachments),
+            'notes' => NotesResource::collection($this->notes()->latest()->get())
         ];
     }
 }

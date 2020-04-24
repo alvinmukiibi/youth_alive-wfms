@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/cancel', 'ProgramRequestController@cancelRequest');
         Route::get('/download/attachment/{attachment}', 'ProgramRequestController@downloadAttachment');
         Route::post('/get/attachments', 'ProgramRequestController@getRequestAttachments');
+        Route::post('/get/notes', 'ProgramRequestController@getRequestNotes');
         Route::post('/save/notes', 'ProgramRequestController@saveNotes');
         Route::get('/fmrequests', 'ProgramRequestController@getFMRequests');
         Route::get('/directorreqeuests', 'ProgramRequestController@getDirectorRequests');
