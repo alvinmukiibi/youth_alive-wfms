@@ -228,8 +228,6 @@ class LeavesController extends BaseController
         }
         if ($user->user_type() == 'director') {
 
-            // the head of the directorate must give final approval for all status 2 leaves
-
             $leaves = collect();
 
             $depts = $user->directorate->departments;
@@ -237,15 +235,18 @@ class LeavesController extends BaseController
             foreach($depts as $dept){
                 $users = $dept->users;
                 foreach($users as $us){
+                    /**
+                     * I am commenting because officer leave requests should no longer be seen  by the director
+                     */
 
-                    if($us->user_type() == 'officer'){
-                        $leals = $us->leaves()->whereIn('status', [0, 2, 3])->get();
-                        if($leals->count() > 0){
-                            foreach($leals as $ls){
-                                $leaves->push($ls);
-                            }
-                        }
-                    }
+                    // if($us->user_type() == 'officer'){
+                    //     $leals = $us->leaves()->whereIn('status', [0, 2, 3])->get();
+                    //     if($leals->count() > 0){
+                    //         foreach($leals as $ls){
+                    //             $leaves->push($ls);
+                    //         }
+                    //     }
+                    // }
 
                     if($us->user_type() == 'manager'){
                         $leals = $us->leaves()->whereIn('status', [0, 1, 2])->get();
@@ -264,15 +265,39 @@ class LeavesController extends BaseController
             }
 
 
-            // $ids = array();
-            // $idds = array();
-            // $leaves = collect();
-            // $users_in_my_dept = $user->department->users()->where('id', '!=', $user->id)->get();
-            // foreach ($users_in_my_dept as $off) {
-            //     if ($off->user_type() == 'officer') {
-            //         $ids[] = $off->id;
-            //     }
-            // }
+
+            // get leaves for the E.D from the directors
+            
+
+            if($user->designation_id == 1){
+                $ids = array();
+                $all_users = User::where('id', '!=', $user->id)->get();
+                foreach ($all_users as $use) {
+                    if ($use->user_type() == 'director') {
+                        $ids[] = $use->id;
+                    }
+                }
+
+                $all = Leave::whereIn('user_id', $ids)->whereIn('status', [0, 1, 2, 4])->get();
+                foreach($all as $l){
+                    $leaves->push($l);
+                }
+            }else{
+
+                // user is director but not the E.D i.e. get E.D requests for them to give 1 approval
+
+                $ed = User::where('designation_id', 1)->first();
+                if($ed){
+                    $leav = Leave::where(['user_id' => $ed->id])->whereIn('status', [0,1,2,4])->get();
+                    foreach($leav as $f){
+                        $leaves->push($f);
+                    }
+                }
+                
+            }
+
+            
+
             // $leav = Leave::whereIn('user_id', $ids)->whereIn('status', [2, 3, 4])->get();
             // foreach ($leav as $l) {
             //     $leaves->push($l);
@@ -316,36 +341,69 @@ class LeavesController extends BaseController
     }
     public function approveLeave(Leave $leave, Request $request)
     {
+        /**
+         * The supervisor gives the first approval i.e. 1
+         * The HRM gives the final approval i.e. 2
+         * For users in the HR dept where the supervisor is the HRM, they get 2 direct
+         */
         $user = $request->user();
 
         $hr = Department::where('name', 'Human Resource')->value('id');
 
         if ($user->user_type() == 'manager' && $user->department_id != $hr) {
+            // this is the supervisor giving approval to officer requests
             $leave->status = 1;
+            $leave->updated_by = $user->id;
+            $leave->save();
         }
         if ($user->user_type() == 'manager' && $user->department_id == $hr) {
-            $leave->status = 2;
+            // this is the HRM give their approval
+            if($leave->user->user_type() == 'manager' && $leave->user->department_id !=  $hr){
+                // request if from a manager, HR gives it final approval
+                $leave->status = 2;
+                // $leave->updated_by = $user->id;
+                $leave->save();
+                $this->updateTracker($leave);
+                event(new LeaveRequestApprovedEvent($leave));
+            }
+            if($leave->user->user_type() == 'director'){
+                // request if from a director, HR gives it final approval
+                $leave->status = 2;
+                // $leave->updated_by = $user->id;
+                $leave->save();
+                $this->updateTracker($leave);
+                event(new LeaveRequestApprovedEvent($leave));
+            }
+            if($leave->user->user_type() == 'officer'){
+                // officer request gets final approval
+                $leave->status = 2;
+                // $leave->updated_by = $user->id;
+                $leave->save();
+                $this->updateTracker($leave);
+                event(new LeaveRequestApprovedEvent($leave));
+            }
+            
         }
         if ($leave->status == 0 && $user->user_type() == 'director' && $leave->user->user_type() == 'manager') {
+            // supervisor gives approval to manager requests
             $leave->status = 1;
+            $leave->updated_by = $user->id;
+            $leave->save();
         }
-        if ($user->user_type() == 'director' && $leave->user->user_type() == 'officer') {
-            $leave->status = 3;
-            $this->updateTracker($leave);
-            event(new LeaveRequestApprovedEvent($leave));
-        }
+        
         // action for the e.d.
-        if ($leave->status == 2 && $user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'manager') {
-            $leave->status = 3;
-            $this->updateTracker($leave);
-            event(new LeaveRequestApprovedEvent($leave));
-        }
-        if ($user->user_type() == 'director' && $user->designation_id == 1 && $leave->user->user_type() == 'director') {
+        if ($user->designation_id == 1 && $leave->user->user_type() == 'director') {
             $leave->status = 1;
+            $leave->updated_by = $user->id;
+            $leave->save();
+        }
+        if ($user->user_type() == 'director' && $leave->user->designation_id == 1) {
+            $leave->status = 1;
+            $leave->updated_by = $user->id;
+            $leave->save();
         }
 
-        $leave->updated_by = $user->id;
-        $leave->save();
+        
 
         return $this->sendResponse('success', 'success');
     }
