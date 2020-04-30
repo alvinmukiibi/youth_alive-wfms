@@ -149,6 +149,16 @@
               <p>Designations</p>
             </router-link>
           </li>
+          <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
+            <router-link
+              to="/programs"
+              class="nav-link"
+              :class="{ 'active': isActive('/programs') }"
+            >
+              <i class="nav-icon fa fa-user"></i>
+              <p>Programs</p>
+            </router-link>
+          </li>
           <!-- <li class="nav-item" v-if="stateLoaded && auth.roles.includes('administrator')">
             <router-link to="/assets" class="nav-link" :class="{ 'active': isActive('/assets') }">
               <i class="nav-icon fa fa-user"></i>
@@ -277,7 +287,7 @@
                 </router-link>
               </li>
             </ul>
-          </li> -->
+          </li>-->
         </ul>
       </nav>
     </div>

@@ -100,6 +100,12 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/update/{designation}', 'DesignationsController@update');
         Route::get('/delete/{designation}', 'DesignationsController@delete');
     });
+    Route::group(['prefix' => 'programs'], function () {
+        Route::get('/', 'ProgramsController@getPrograms');
+        Route::post('/', 'ProgramsController@store');
+        Route::post('/update/{program}', 'ProgramsController@update');
+        Route::get('/delete/{program}', 'ProgramsController@delete');
+    });
     Route::group(['prefix' => 'contracts'], function () {
         Route::get('/', 'ContractsController@getContracts');
     });

@@ -1035,12 +1035,12 @@ export default {
       documents: [],
       activity_type: "",
       project_id: null,
-      programs: [
-        { text: "Meeting", value: "Meeting" },
-        { text: "Workshop", value: "Workshop" },
-        { text: "Training", value: "Training" },
-        { text: "Talkshow", value: "Talkshow" }
-      ],
+      // programs: [
+      //   { text: "Meeting", value: "Meeting" },
+      //   { text: "Workshop", value: "Workshop" },
+      //   { text: "Training", value: "Training" },
+      //   { text: "Talkshow", value: "Talkshow" }
+      // ],
       spinner: false,
       spin1: false,
       spin2: false,
@@ -1062,7 +1062,8 @@ export default {
       setRequest: "setRequest",
       setMyRequests: "setMyRequests",
       setErrors: "setErrors",
-      setProjects: "setProjects"
+      setProjects: "setProjects",
+      setPrograms: "setPrograms"
     }),
     confirm() {
       api.checkAndInvalidateToken(this.approvalBag).then(response => {
@@ -1289,6 +1290,11 @@ export default {
       api.getProjects().then(response => {
         this.setProjects(response.data);
       });
+    },
+    getPrograms() {
+      api.getPrograms().then(response => {
+        this.setPrograms(response.data);
+      });
     }
   },
   computed: {
@@ -1296,7 +1302,8 @@ export default {
       auth: state => state.auth,
       myRequests: state => state.myRequests,
       projects: state => state.projects,
-      errors: state => state.errors
+      errors: state => state.errors,
+      programs: state => state.programs
     }),
     currentDate() {
       let currentDate = new Date();
@@ -1337,6 +1344,7 @@ export default {
     }
   },
   mounted() {
+    this.getPrograms();
     this.getMyRequests();
     this.getProjects();
   },

@@ -1,153 +1,163 @@
-import Dashboard from './components/Dashboard.vue'
-import Profile from './components/Profile.vue'
-import Employees from './users/hr/Employees.vue'
-import Employee from './users/hr/Employee.vue'
-import Contracts from './users/admin/Contracts.vue'
-import Departments from './users/admin/Departments.vue'
-import Designations from './users/admin/Designations.vue'
-import Assets from './users/admin/Assets.vue'
-import Projects from './users/admin/Projects.vue'
-import LeaveTypes from './users/admin/LeaveTypes.vue'
-import Vendors from './users/admin/Vendors.vue'
-import Request from './users/officer/Request.vue'
-import RequestView from './users/officer/RequestView.vue'
-import Leaves from './users/officer/Leaves.vue'
-import Settings from './components/Settings.vue'
-import Reports from './users/hr/Reports.vue'
-import ActivityReport from './users/officer/ActivityReport'
-import VehicleRequest from './users/officer/VHR'
-import ConceptNote from './users/officer/ConceptNote'
-import TravelScope from './users/officer/TravelScope'
-import TravelReport from './users/officer/TravelReport'
-import Budget from './users/officer/Budget'
-import Container from './users/officer/Container'
-import ApprovalTrail from './users/officer/ApprovalTrail'
-import Mailbox from './components/Mailbox.vue'
-import Timesheet from './components/Timesheet.vue'
-import MyTimesheets from './components/MyTimesheets.vue'
-import StaffTimesheets from './components/StaffTimesheets.vue'
-import FileManager from './components/FileManager.vue'
+import Dashboard from "./components/Dashboard.vue";
+import Profile from "./components/Profile.vue";
+import Employees from "./users/hr/Employees.vue";
+import Employee from "./users/hr/Employee.vue";
+import Contracts from "./users/admin/Contracts.vue";
+import Departments from "./users/admin/Departments.vue";
+import Designations from "./users/admin/Designations.vue";
+import Programs from "./users/admin/Programs.vue";
+import Assets from "./users/admin/Assets.vue";
+import Projects from "./users/admin/Projects.vue";
+import LeaveTypes from "./users/admin/LeaveTypes.vue";
+import Vendors from "./users/admin/Vendors.vue";
+import Request from "./users/officer/Request.vue";
+import RequestView from "./users/officer/RequestView.vue";
+import Leaves from "./users/officer/Leaves.vue";
+import Settings from "./components/Settings.vue";
+import Reports from "./users/hr/Reports.vue";
+import ActivityReport from "./users/officer/ActivityReport";
+import VehicleRequest from "./users/officer/VHR";
+import ConceptNote from "./users/officer/ConceptNote";
+import TravelScope from "./users/officer/TravelScope";
+import TravelReport from "./users/officer/TravelReport";
+import Budget from "./users/officer/Budget";
+import Container from "./users/officer/Container";
+import ApprovalTrail from "./users/officer/ApprovalTrail";
+import Mailbox from "./components/Mailbox.vue";
+import Timesheet from "./components/Timesheet.vue";
+import MyTimesheets from "./components/MyTimesheets.vue";
+import StaffTimesheets from "./components/StaffTimesheets.vue";
+import FileManager from "./components/FileManager.vue";
 
-const routes = [{
-        path: '/',
+const routes = [
+    {
+        path: "/",
         component: Dashboard
     },
     {
-        path: '/home',
+        path: "/home",
         component: Dashboard
     },
     {
-        path: '/profile',
+        path: "/profile",
         component: Profile
     },
     {
-        path: '/employees',
+        path: "/employees",
         component: Employees
     },
     {
-        path: '/view/employee',
+        path: "/view/employee",
         component: Employee
     },
     {
-        path: '/contracts',
+        path: "/contracts",
         component: Contracts
     },
     {
-        path: '/departments',
+        path: "/departments",
         component: Departments
     },
     {
-        path: '/designations',
+        path: "/designations",
         component: Designations
     },
     {
-        path: '/assets',
+        path: "/programs",
+        component: Programs
+    },
+    {
+        path: "/assets",
         component: Assets
     },
     {
-        path: '/projects',
+        path: "/projects",
         component: Projects
     },
     {
-        path: '/leavetypes',
+        path: "/leavetypes",
         component: LeaveTypes
     },
     {
-        path: '/vendors',
+        path: "/vendors",
         component: Vendors
     },
     {
-        path: '/requests',
+        path: "/requests",
         component: Request
     },
     {
-        path: '/view/request',
+        path: "/view/request",
         component: RequestView
     },
     {
-        path: '/leave',
+        path: "/leave",
         component: Leaves
     },
     {
-        path: '/mailbox',
+        path: "/mailbox",
         component: Mailbox
     },
     {
-        path: '/files',
+        path: "/files",
         component: FileManager
     },
     {
-        path: '/settings',
+        path: "/settings",
         component: Settings
     },
     {
-        path: '/reports',
+        path: "/reports",
         component: Reports
     },
     {
-        path: '/request/activity/report',
+        path: "/request/activity/report",
         component: ActivityReport
     },
     {
-        path: '/request/travel/report',
+        path: "/request/travel/report",
         component: TravelReport
     },
     {
-        path: '/request/make',
+        path: "/request/make",
         component: Container,
-        children: [{
-                path: '/request/budget',
+        children: [
+            {
+                path: "/request/budget",
                 component: Budget
-            }, {
-                path: '/request/travel/scope',
-                component: TravelScope
-            }, {
-                path: '/request/concept',
-                component: ConceptNote
-            }, {
-                path: '/request/vehicle',
-                component: VehicleRequest
-            }, {
-                path: '/request/trail',
-                component: ApprovalTrail
-            },
-
-
-        ]
-    },
-    {
-        path: '/timesheet',
-        component: Timesheet,
-        children: [{
-                path: '/timesheets/mine',
-                component: MyTimesheets
             },
             {
-                path: '/timesheet/staff',
-                component: StaffTimesheets
+                path: "/request/travel/scope",
+                component: TravelScope
+            },
+            {
+                path: "/request/concept",
+                component: ConceptNote
+            },
+            {
+                path: "/request/vehicle",
+                component: VehicleRequest
+            },
+            {
+                path: "/request/trail",
+                component: ApprovalTrail
             }
         ]
     },
-]
+    {
+        path: "/timesheet",
+        component: Timesheet,
+        children: [
+            {
+                path: "/timesheets/mine",
+                component: MyTimesheets
+            },
+            {
+                path: "/timesheet/staff",
+                component: StaffTimesheets
+            }
+        ]
+    }
+];
 
 export default routes;
