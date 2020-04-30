@@ -37,6 +37,6 @@ class LoggedInJobs implements ShouldQueue
         $notification->user = $this->user;
         $notification->ip = $this->ip;
 
-        Notification::send($this->user, $notification);
+        //Notification::send($this->user, $notification);
     }
 }

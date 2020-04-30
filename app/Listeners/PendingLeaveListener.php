@@ -30,6 +30,6 @@ class PendingLeaveListener
     {
         $notification = new PendingLeaveNotification;
         $notification->user = $event->user;
-        Notification::send($event->user, $notification);
+        // Notification::send($event->user, $notification);
     }
 }
