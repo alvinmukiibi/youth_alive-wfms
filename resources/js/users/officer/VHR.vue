@@ -102,7 +102,11 @@
                               </b-tr>
                             </b-thead>
                             <b-tbody>
-                              <b-tr v-for="booking in bookings" :key="booking.d">
+                              <b-tr
+                                style="padding-bottom: 100px"
+                                v-for="booking in bookings"
+                                :key="booking.d"
+                              >
                                 <b-td>
                                   <input
                                     type="text"
@@ -235,7 +239,7 @@ export default {
       spinner: false,
       only_date: true,
       date: "",
-      position: "top",
+      position: "bottom",
       label: "Select Date",
       editor: ClassicEditor,
       date_format: "YYYY-MM-DD",
