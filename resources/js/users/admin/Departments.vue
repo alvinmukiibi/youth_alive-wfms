@@ -40,11 +40,13 @@
                   <colgroup>
                     <col />
                     <col />
+                    <col />
                     <col style="width:100px" />
                   </colgroup>
                   <b-thead head-variant="dark">
                     <b-tr>
                       <b-th>Name</b-th>
+                      <b-th>Directorate</b-th>
                       <b-th>Acronym</b-th>
                       <b-th>Action</b-th>
                     </b-tr>
@@ -52,8 +54,8 @@
                   <b-tbody>
                     <b-tr v-for="dept in departments" :key="dept.id">
                       <b-td>{{ dept.name }}</b-td>
+                      <b-td>{{ dept.directorate }}</b-td>
                       <b-td>{{ dept.acronym }}</b-td>
-
                       <b-td>
                         <!-- <button @click="deleteDept(dept.id)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button> -->
                         <button
@@ -95,6 +97,16 @@
                       <h3 class="card-title">Add Department</h3>
                     </div>
                     <div class="card-body">
+                      <div class="form-group">
+                        <label for class="col-form-label">
+                          Parent Directorate
+                          <span class="text-danger">*</span>
+                        </label>
+                        <select v-model="department.directorate_id" class="form-control">
+                          <option disabled>Select Directorate</option>
+                          <option v-for="dir in directorates" :value="dir.id" :key="dir.id" >{{ dir.name }}</option\>
+                        </select>
+                      </div>
                       <div class="form-group">
                         <label for class="col-form-label">
                           Department Name
@@ -152,6 +164,16 @@
                       <h3 class="card-title">Edit Department</h3>
                     </div>
                     <div class="card-body">
+                      <div class="form-group">
+                        <label for class="col-form-label">
+                          Parent Directorate
+                          <span class="text-danger">*</span>
+                        </label>
+                        <select v-model="dept.directorate_id" class="form-control">
+                          <option disabled>Select Directorate</option>
+                          <option v-for="dir in directorates" :value="dir.id" :key="dir.id" >{{ dir.name }}</option\>
+                        </select>
+                      </div>
                       <div class="form-group">
                         <label for class="col-form-label">
                           Department Name
@@ -249,6 +271,9 @@ export default {
       if (this.department.acronym == "") {
         return;
       }
+      if (this.department.directorate_id == "") {
+        return;
+      }
       axios
         .post(this.prefix + "/departments", this.department)
         .then(response => {
@@ -260,6 +285,7 @@ export default {
   computed: {
     ...mapState({
       departments: state => state.departments,
+      directorates: state => state.directorates,
       users: state => state.users
     })
   },

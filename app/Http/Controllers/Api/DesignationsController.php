@@ -9,7 +9,7 @@ use App\Designation;
 class DesignationsController extends BaseController
 {
     public function getDesignations(Request $request){
-        $designations = Designation::all();
+        $designations = Designation::orderBy('name', 'asc')->get();
         return $this->sendResponse($designations, 'All designations');
     }
 

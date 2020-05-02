@@ -104,6 +104,7 @@ class UsersController extends BaseController
 
         $user->department_id = $request->department_id == '' ? $user->department_id : $request->department_id;
         $user->designation_id = $request->designation_id == '' ? $user->designation_id : $request->designation_id;
+        $user->directorate_id = $request->directorate_id == '' ? $user->directorate_id : $request->directorate_id;
         $user->contract_id = $request->contract_id == '' ? $user->contract_id : $request->contract_id;
         $user->staff_id = $request->staff_id == '' ? $user->staff_id : $request->staff_id;
         $user->duty_station = $request->duty_station;
