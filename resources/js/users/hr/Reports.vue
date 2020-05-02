@@ -144,7 +144,7 @@
                               <b-td variant="primary">{{ stat.days_remaining.Compassionate }}</b-td>
                               <b-td variant="primary">{{ stat.days_remaining.Study }}</b-td>
                               <b-td variant="primary">{{ stat.days_remaining.Annual }}</b-td>
-                              <b-td variant="secondary">2019</b-td>
+                              <b-td variant="secondary">2020</b-td>
                               <!-- <b-td v-else>{{ '2019' }}</b-td> -->
                             </b-tr>
                           </b-tbody>
