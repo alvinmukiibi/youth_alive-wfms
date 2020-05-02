@@ -1027,10 +1027,10 @@ export default {
       },
       selected: null,
       options: [
-        { text: "Programs", value: "1" },
-        { text: "Human Resource", value: "2" },
-        { text: "Supplies", value: "3" }
+        { text: "Programs", value: "1" }
       ],
+      // { text: "Human Resource", value: "2" },
+      // { text: "Supplies", value: "3" }
       checked: true,
       documents: [],
       activity_type: "",
