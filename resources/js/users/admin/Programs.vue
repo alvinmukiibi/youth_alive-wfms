@@ -153,7 +153,12 @@ export default {
         })
         .then(response => {
           this.loadPrograms();
-          this.showToast("success", "Notification", "success");
+          if(response.success){
+              this.showToast("success", "Notification", "success");
+          }else{
+              this.showToast("danger", "Error", response.data.error);
+          }
+
         });
     },
     setProg(id) {
