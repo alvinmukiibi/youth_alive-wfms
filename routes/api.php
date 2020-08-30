@@ -100,7 +100,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api',], function () {
         Route::post('/update/{designation}', 'DesignationsController@update');
         Route::get('/delete/{designation}', 'DesignationsController@delete');
     });
-    Route::group(['prefix' => 'programs'], function () {
+    Route::group(['prefix' => 'program_types'], function () {
         Route::get('/', 'ProgramsController@getPrograms');
         Route::post('/', 'ProgramsController@store');
         Route::post('/update/{program}', 'ProgramsController@update');

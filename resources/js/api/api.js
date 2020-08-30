@@ -41,7 +41,7 @@ export function getDesignations() {
     return axios.get(prefix + "/designations").then(response => response.data);
 }
 export function getPrograms() {
-    return axios.get(prefix + "/programs").then(response => response.data);
+    return axios.get(prefix + "/program_types").then(response => response.data);
 }
 export function getContracts() {
     return axios.get(prefix + "/contracts").then(response => response.data);
@@ -103,7 +103,7 @@ export function saveDesignation(data) {
 }
 export function saveProgram(data) {
     return axios
-        .post(prefix + "/programs", data)
+        .post(prefix + "/program_types", data)
         .then(response => response.data);
 }
 export function saveLeaveType(data) {

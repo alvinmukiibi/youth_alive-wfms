@@ -148,7 +148,7 @@ export default {
         return;
       }
       axios
-        .post(this.prefix + `/programs/update/${this.program.id}`, {
+        .post(this.prefix + `/program_types/update/${this.program.id}`, {
           text: this.program.text
         })
         .then(response => {
@@ -177,7 +177,7 @@ export default {
       });
     },
     deleteProg(id) {
-      axios.get(this.prefix + `/programs/delete/${id}`).then(response => {
+      axios.get(this.prefix + `/program_types/delete/${id}`).then(response => {
         this.loadPrograms();
         this.showToast("success", "Notification", "success");
       });
