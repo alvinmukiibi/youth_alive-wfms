@@ -153,10 +153,10 @@ export default {
         })
         .then(response => {
           this.loadPrograms();
-          if(response.success){
+          if(response.data.success){
               this.showToast("success", "Notification", "success");
           }else{
-              this.showToast("danger", "Error", response.data.error);
+              this.showToast("danger", " Error", response.data.data.error);
           }
 
         });
@@ -191,7 +191,11 @@ export default {
       };
       api.saveProgram(data).then(response => {
         this.loadPrograms();
-        this.showToast("success", "Notification", "success");
+        if(response.success){
+            this.showToast("success", "Notification", "success");
+        }else{
+            this.showToast("danger", " Error", response.data.error);
+        }
       });
     }
   },
