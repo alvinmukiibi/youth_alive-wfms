@@ -31,6 +31,6 @@ class LeaveRequestApprovedListener
         $notification = new LeaveRequestApprovedNotification;
         $notification->user = $event->leave->user;
         $notification->leave = $event->leave;
-        //Notification::send($event->leave->user, $notification);
+        Notification::send($event->leave->user, $notification);
     }
 }
