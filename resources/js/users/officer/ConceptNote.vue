@@ -82,7 +82,8 @@
                     <b-tr>
                       <b-th rowspan="3">Section B</b-th>
                       <b-td colspan="2">
-                        <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                          <textarea v-model="editorData" class="form-control"></textarea>
+                        <!-- <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor> -->
                       </b-td>
                     </b-tr>
                     <b-tr>

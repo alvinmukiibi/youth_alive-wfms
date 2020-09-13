@@ -28,6 +28,7 @@
               <div class="card-body">
                 <b-table-simple hover small caption-top responsive>
                   <caption>TSoW Budget</caption>
+                  <caption v-if="data.id"><a class="btn btn-sm btn-primary" :href="`budget/${data.id}/print`"  >PRINT</a></caption>
                   <colgroup>
                     <col />
                     <col />
@@ -65,7 +66,8 @@
                     <b-tr>
                       <b-th variant="secondary" class="text-right">Purpose</b-th>
                       <b-td colspan="6">
-                        <ckeditor :editor="editor" v-model="data.purpose" :config="editorConfig"></ckeditor>
+                          <textarea v-model="data.purpose" class="form-control"></textarea>
+                        <!-- <ckeditor :editor="editor" v-model="data.purpose" :config="editorConfig"></ckeditor> -->
                       </b-td>
                     </b-tr>
                     <b-tr>
@@ -138,7 +140,8 @@
                     <b-tr>
                       <b-th variant="secondary" class="text-center">Comment</b-th>
                       <b-td colspan="6">
-                        <ckeditor :editor="editor" v-model="data.comments" :config="editorConfig"></ckeditor>
+                          <textarea v-model="data.comments" class="form-control"></textarea>
+                        <!-- <ckeditor :editor="editor" v-model="data.comments" :config="editorConfig"></ckeditor> -->
                       </b-td>
                     </b-tr>
                     <b-tr>
@@ -289,7 +292,8 @@ export default {
         this.data = {};
         this.items = [];
         this.contacts = [];
-        this.$parent.$emit("formSubmitted", "bgt");
+        this.$router.push('/request/trail')
+        // this.$parent.$emit("formSubmitted", "bgt");
       });
     },
     showToast(variant, title, body) {

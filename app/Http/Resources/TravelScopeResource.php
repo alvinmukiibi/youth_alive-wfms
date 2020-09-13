@@ -15,6 +15,7 @@ class TravelScopeResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'travellers' => $this->travellers,
             'date_of_activity' => $this->date_of_activity,
             'destination' => $this->destination,

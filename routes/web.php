@@ -26,6 +26,11 @@ Route::group(['middleware' => 'guest'], function () {
 
 });
 
+Route::get('/request/budget/{id}/print', 'Api\ProgramRequestController@printBudget');
+Route::get('/request/travel/scope/{id}/print', 'Api\ProgramRequestController@printTsow');
+Route::get('/request/vehicle/{id}/print', 'Api\ProgramRequestController@printVhr');
+Route::get('/request/trail/{id}/print', 'Api\ProgramRequestController@printRequest');
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', function () {
         Auth::logout();

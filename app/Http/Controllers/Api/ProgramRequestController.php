@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ProgramRequestResourceExtensive;
 use App\ProgramRequest;
+use App\TravelscopeBudget;
+use App\TravelScope;
 use App\Project;
 use App\Department;
 use App\Designation;
@@ -170,12 +172,40 @@ class ProgramRequestController extends BaseController
             $hot = $req->vehiclehotel()->updateOrCreate(['program_request_id' => $request->request_id], $hot);
 
             foreach ($request->bookings as $booking) {
-
-                $hot->hotelbooking()->create($booking);
+                if(isset($booking['id'])){
+                    $hot->hotelbooking()->where('id', $booking['id'])->update($booking);
+                }else{
+                    $hot->hotelbooking()->create($booking);
+                }
             }
         }
 
         return $this->sendResponse('saved', 'Vehicle hotel request data');
+    }
+
+    public function printBudget($id){
+
+        $data = TravelscopeBudget::find($id);
+
+        return view('printer.budget', compact('data'));
+    }
+    public function printTsow($id){
+
+        $data = TravelScope::find($id);
+
+        return view('printer.tsow', compact('data'));
+    }
+    public function printVhr($id){
+
+        $data = ProgramRequest::find($id);
+
+        return view('printer.vhr', compact('data'));
+    }
+    public function printRequest($id){
+
+        $data = ProgramRequest::find($id);
+
+        return view('printer.request', compact('data'));
     }
 
     public function savebudget(Request $request)
@@ -192,25 +222,34 @@ class ProgramRequestController extends BaseController
             'date' => $request->date,
             'destination' => $request->destination,
             'purpose' => $request->purpose,
-            'total' => $request->total,
+            'total' => str_replace( ',', '', $request->total),
             'comments' => $request->comments,
         ];
         $bgt = $req->travelscopebudget()->updateOrCreate(['program_request_id' => $request->request_id], $bgt);
 
         if (count($request->items) > 0) {
             foreach ($request->items as $item) {
-                $bgt->travelscopebudgetitem()->create($item);
+                if(isset($item['id'])){
+                    $bgt->travelscopebudgetitem()->where('id', $item['id'])->update($item);
+                }else{
+                    $bgt->travelscopebudgetitem()->create($item);
+                }
             }
         }
         if (count($request->contacts) > 0) {
             foreach ($request->contacts as $contact) {
-                $bgt->travelscopebudgetcontact()->create($contact);
+                $contact['amount'] = str_replace( ',', '', $contact['amount']);
+                if(isset($contact['id'])){
+                    $bgt->travelscopebudgetcontact()->where('id', $contact['id'])->update($contact);
+                }else{
+                    $bgt->travelscopebudgetcontact()->create($contact);
+                }
             }
         }
 
         return $this->sendResponse('saved', 'Travel Scope Budget Saved');
     }
-    
+
     public function getMyRequests(Request $request)
     {
 
@@ -230,7 +269,7 @@ class ProgramRequestController extends BaseController
         $requests = collect();
 
         $projects = Project::where('accountant', $user->id)->get();
-        
+
         foreach($projects as $project){
             $req = Project::find($project->id)->requests()->where('status', '!=', 2)->get();
             foreach($req as $r){
@@ -340,7 +379,7 @@ class ProgramRequestController extends BaseController
                 }
             }
         }
-        
+
 
         // if the director is a finance director, then get director requests for level 1 approval
         $dept_id = Department::where('name', 'Finance and Operations')->value('id');
@@ -521,7 +560,7 @@ class ProgramRequestController extends BaseController
     {
 
         // send these to finance manager for approval
-        
+
         $notified = null;
 
         foreach (Department::where('name', 'Finance and Operations')->first()->users as $user) {
@@ -712,7 +751,7 @@ class ProgramRequestController extends BaseController
 
         $notes = $req->notes()->latest()->get();
         $notes = NotesResource::collection($notes);
-        
+
         return $this->sendResponse($notes, 'Request notes');
 
     }

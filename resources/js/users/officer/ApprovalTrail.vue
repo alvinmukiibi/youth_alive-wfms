@@ -122,15 +122,10 @@
                   <div class="col-sm-4">{{ request.doc_completion_status | showdocs }}</div>
                 </div>
                 <hr />
-                <button @click="downloadPage('tabl')" class="btn-sm btn btn-primary">
-                  <i class="fa fa-print"></i> Print
-                  <span
-                    v-if="spin1"
-                    class="spinner-border spinner-border-sm"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                </button>
+                <a :href="`/request/trail/${request.id}/print`" class="btn-sm btn btn-primary">
+                  <i class="fa fa-print"></i>
+                 PRINT
+                </a>
                 <div ref="tabl">
                   <b-table-simple small caption-top responsive>
                     <colgroup>

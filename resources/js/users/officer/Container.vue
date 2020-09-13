@@ -114,6 +114,8 @@ export default {
               ];
               this.$router.push(r);
               return;
+            }else{
+                this.router.push('/request/trail')
             }
           });
         });

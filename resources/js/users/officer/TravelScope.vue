@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Travel Scope of Work</h1>
+            <h1 class="m-0 text-dark">Travel Scope of Work</h1> <a v-if="data.id" class="btn btn-sm btn-primary" :href="`scope/${data.id}/print`"  >PRINT</a>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -31,7 +31,8 @@
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label>Name of Traveller(s)</label>
-                    <ckeditor :editor="editor" v-model="data.travellers" :config="editorConfig"></ckeditor>
+                    <textarea v-model="data.travellers" class="form-control"></textarea>
+                    <!-- <ckeditor :editor="editor" v-model="data.travellers" :config="editorConfig"></ckeditor> -->
                   </div>
                 </div>
                 <div class="form-row">
@@ -87,7 +88,8 @@
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label>Travel Objectives</label>
-                    <ckeditor :editor="editor" v-model="data.objectives" :config="editorConfig"></ckeditor>
+                    <textarea v-model="data.objectives" class="form-control"></textarea>
+                    <!-- <ckeditor :editor="editor" v-model="data.objectives" :config="editorConfig"></ckeditor> -->
                   </div>
                 </div>
                 <div class="form-row">
@@ -98,7 +100,8 @@
                         <i>state which activities will contribute to the achievement of the identified trip objectives above</i>
                       </small>
                     </label>
-                    <ckeditor :editor="editor" v-model="data.activities" :config="editorConfig"></ckeditor>
+                    <textarea v-model="data.activities" class="form-control"></textarea>
+                    <!-- <ckeditor :editor="editor" v-model="data.activities" :config="editorConfig"></ckeditor> -->
                   </div>
                 </div>
                 <div class="form-row">
@@ -109,21 +112,23 @@
                         <i>State the key people/individuals who you will engage or interact with to achieve the stated trip objectives</i>
                       </small>
                     </label>
-                    <ckeditor
+                    <textarea v-model="data.key_people_to_be_met" class="form-control"></textarea>
+                    <!-- <ckeditor
                       :editor="editor"
                       v-model="data.key_people_to_be_met"
                       :config="editorConfig"
-                    ></ckeditor>
+                    ></ckeditor> -->
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label>Expected Deliverables</label>
-                    <ckeditor
+                    <textarea v-model="data.expected_deliverables" class="form-control"></textarea>
+                    <!-- <ckeditor
                       :editor="editor"
                       v-model="data.expected_deliverables"
                       :config="editorConfig"
-                    ></ckeditor>
+                    ></ckeditor> -->
                   </div>
                 </div>
                 <button @click="save" class="btn btn-primary btn-flat pull-right">
@@ -205,7 +210,8 @@ export default {
 
         this.spinner = false;
         this.data = {};
-        this.$parent.$emit("formSubmitted", "tsw");
+        this.$router.push('/request/trail')
+        // this.$parent.$emit("formSubmitted", "tsw");
       });
     },
     showToast(variant, title, body) {

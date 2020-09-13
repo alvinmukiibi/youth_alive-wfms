@@ -24,12 +24,11 @@
             <div class="callout callout-warning">
               <h4>
                 <i class="fa fa-info">&nbsp; Complete form in its entirety</i>
-                <button @click="printPage('tabl')" class="btn-sm btn btn-primary pull-right">
-                  <i class="fa fa-print"></i>
-                </button>
+                <a v-if="request.id" class="btn btn-sm btn-primary" :href="`/request/vehicle/${request.id}/print`">PRINT</a>
               </h4>
             </div>
             <div class="card card-outline card-primary">
+
               <div class="card-body">
                 <div class="form-group row">
                   <label class="col-sm-2">Requestor’s Name :</label>
@@ -138,11 +137,12 @@
                             <div class="col-md-12">
                               <div class="form-group">
                                 <label for="exampleFormControlInput1">Purpose</label>
-                                <ckeditor
+                                <textarea v-model="data.purpose" class="form-control"></textarea>
+                                <!-- <ckeditor
                                   :editor="editor"
                                   v-model="data.purpose"
                                   :config="editorConfig"
-                                ></ckeditor>
+                                ></ckeditor> -->
                               </div>
                             </div>
                           </div>
@@ -181,11 +181,12 @@
                           <div class="form-row">
                             <div class="form-group col-md-12">
                               <label>Reason</label>
-                              <ckeditor
+                              <textarea v-model="data.reason" class="form-control"></textarea>
+                              <!-- <ckeditor
                                 :editor="editor"
                                 v-model="data.reason"
                                 :config="editorConfig"
-                              ></ckeditor>
+                              ></ckeditor> -->
                             </div>
                           </div>
                           <div class="form-row">
@@ -196,11 +197,12 @@
                                   <i>you may list the people</i>
                                 </small>
                               </label>
-                              <ckeditor
+                              <textarea v-model="data.name_of_passengers" class="form-control"></textarea>
+                              <!-- <ckeditor
                                 :editor="editor"
                                 v-model="data.name_of_passengers"
                                 :config="editorConfig"
-                              ></ckeditor>
+                              ></ckeditor> -->
                             </div>
                           </div>
                         </div>
@@ -301,7 +303,8 @@ export default {
         }
         this.spinner = false;
         this.data = {};
-        this.$parent.$emit("formSubmitted", "vhr");
+        this.$router.push('/request/trail')
+        // this.$parent.$emit("formSubmitted", "vhr");
       });
     },
     showToast(variant, title, body) {
