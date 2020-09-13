@@ -70,7 +70,26 @@
             </div>
             <div class="row">
                 <div class="col-md-3"><b>Documents Filled</b></div>
-                {{-- <div class="col-md-9">{{ $data->identity }}</div> --}}
+                <div class="col-md-9"> [
+                    @foreach (json_decode($data->documents) as $each)
+
+                        @if ($each == "bgt")
+                            TSoW Budget,
+                        @endif
+                        @if ($each == "tsw")
+                            Travel Scope of Work,
+                        @endif
+                        @if ($each == "vhr")
+                            Vehicle & Hotel Request Form,
+                        @endif
+                        @if ($each == "cpt")
+                            Concept Note,
+                        @endif
+
+
+                    @endforeach
+                ]
+                </div>
             </div>
             <div class="row">
             <div class="col-md-12">
