@@ -117,7 +117,11 @@ class User extends Authenticatable
         if (in_array('director', $roles)) {
             return 'director';
         }
-        
+
+    }
+
+    public function fullname(){
+        return $this->fname . ' ' . $this->lname;
     }
 
     public function isHQStaff(){
@@ -198,7 +202,7 @@ class User extends Authenticatable
          * if youre a manager, your supervisor is the director of the directorate where your dept falls
          * if youre a director, your supervisor is the executive director
          * if your the ED, your supervisor is the director who has designation Board chairman
-         * if your the BC, you follow a normal directors approval 
+         * if your the BC, you follow a normal directors approval
          *
          *
          * */

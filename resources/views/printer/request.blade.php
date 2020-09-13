@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Budget</title>
+    <title>Program Request</title>
     <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
@@ -120,10 +120,9 @@
                               </td>
                             @endif
 
-
-                          <td>{{ $data->trail->acc_appro_date }}</td>
-                          <td>{{ $data->trail->accountant }}</td>
-                          <td>{{ $data->trail->acc_comments }}</td>
+                          <td>{{ App\User::find($data->trail->accountant_id)->fullname() }}</td>
+                          <td>{{ $data->trail->accountant_approval_date }}</td>
+                          <td>{{ $data->trail->accountant_comments }}</td>
                         </tr>
                         @endif
                         @if ($data->trail->level_one_approval != 0)
@@ -143,9 +142,13 @@
                             @endif
 
 
-                          <td>{{ $data->trail->level_one_date }}</td>
+                          <td>{{ App\User::find($data->trail->level_one_approver_id)->fullname() }}</td>
+                          <td>{{ $data->trail->level_one_approval_date }}</td>
+                          <td>{{ $data->trail->level_one_approver_comments }}</td>
+
+                          {{-- <td>{{ $data->trail->level_one_date }}</td>
                           <td>{{ $data->trail->level_one_approver }}</td>
-                          <td>{{ $data->trail->level_one_comments }}</td>
+                          <td>{{ $data->trail->level_one_comments }}</td> --}}
                         </tr>
                         @endif
                         @if ($data->trail->finance_approval != 0 && $data->trail->finance_approval != null)
@@ -167,9 +170,13 @@
                             @endif
 
 
+                          <td>{{ App\User::find($data->trail->finance_approver_id)->fullname() }}</td>
                           <td>{{ $data->trail->finance_approval_date }}</td>
+                          <td>{{ $data->trail->finance_approver_comments }}</td>
+
+                          {{-- <td>{{ $data->trail->finance_approval_date }}</td>
                           <td>{{ $data->trail->finance_approver }}</td>
-                          <td>{{ $data->trail->finance_appro_comments }}</td>
+                          <td>{{ $data->trail->finance_appro_comments }}</td> --}}
                         </tr>
                         @endif
                         @if ($data->trail->level_two_approval != 0 && $data->trail->level_two_approval != null)
@@ -192,9 +199,13 @@
 
 
 
-                          <td>{{ $Data->trail->level_two_date }}</td>
+                        <td>{{ App\User::find($data->trail->level_two_approver_id)->fullname() }}</td>
+                        <td>{{ $data->trail->level_two_approval_date }}</td>
+                        <td>{{ $data->trail->level_two_approver_comments }}</td>
+
+                          {{-- <td>{{ $Data->trail->level_two_date }}</td>
                           <td>{{ $Data->trail->level_two_approver }}</td>
-                          <td>{{ $Data->trail->level_two_comments }}</td>
+                          <td>{{ $Data->trail->level_two_comments }}</td> --}}
                         </tr>
                         @endif
                         @if ($data->trail->level_three_approval != 0 && $data->trail->level_three_approval != null)
@@ -216,10 +227,13 @@
                           </td>
                         @endif
 
+                        <td>{{ App\User::find($data->trail->level_three_approver_id)->fullname() }}</td>
+                        <td>{{ $data->trail->level_three_approval_date }}</td>
+                        <td>{{ $data->trail->level_three_approver_comments }}</td>
 
-                          <td>{{ $data->trail->level_three_date }}</td>
+                          {{-- <td>{{ $data->trail->level_three_date }}</td>
                           <td>{{ $data->trail->level_three_approver }}</td>
-                          <td>{{ $data->trail->level_three_comments }}</td>
+                          <td>{{ $data->trail->level_three_comments }}</td> --}}
                         </tr>
                         @endif
                       </tbody>
