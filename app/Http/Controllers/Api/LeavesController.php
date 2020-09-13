@@ -203,8 +203,10 @@ class LeavesController extends BaseController
 
         $user = $request->user();
 
+        $leaves = collect();
+
         if ($user->user_type() == 'manager') {
-            $leaves = collect();
+
             $ids = array();
             $users_in_my_dept = $user->department->users()->where('id', '!=', $user->id)->get();
             foreach ($users_in_my_dept as $off) {
@@ -227,8 +229,6 @@ class LeavesController extends BaseController
             }
         }
         if ($user->user_type() == 'director') {
-
-            $leaves = collect();
 
             $depts = $user->directorate->departments;
 
@@ -267,7 +267,7 @@ class LeavesController extends BaseController
 
 
             // get leaves for the E.D from the directors
-            
+
 
             if($user->designation_id == 1){
                 $ids = array();
@@ -293,10 +293,10 @@ class LeavesController extends BaseController
                         $leaves->push($f);
                     }
                 }
-                
+
             }
 
-            
+
 
             // $leav = Leave::whereIn('user_id', $ids)->whereIn('status', [2, 3, 4])->get();
             // foreach ($leav as $l) {
@@ -382,7 +382,7 @@ class LeavesController extends BaseController
                 $this->updateTracker($leave);
                 event(new LeaveRequestApprovedEvent($leave));
             }
-            
+
         }
         if ($leave->status == 0 && $user->user_type() == 'director' && $leave->user->user_type() == 'manager') {
             // supervisor gives approval to manager requests
@@ -390,7 +390,7 @@ class LeavesController extends BaseController
             $leave->updated_by = $user->id;
             $leave->save();
         }
-        
+
         // action for the e.d.
         if ($user->designation_id == 1 && $leave->user->user_type() == 'director') {
             $leave->status = 1;
@@ -403,7 +403,7 @@ class LeavesController extends BaseController
             $leave->save();
         }
 
-        
+
 
         return $this->sendResponse('success', 'success');
     }
