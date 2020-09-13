@@ -32,25 +32,25 @@
               <div class="card-body">
                 <div class="form-group row">
                   <label class="col-sm-2">Requestor’s Name :</label>
-                  <div class="col-sm-4">{{ auth.fname + ' ' + auth.lname }}</div>
+                  <div class="col-sm-4">{{ request.user }}</div>
                   <label class="col-sm-2">Designation :</label>
-                  <div class="col-sm-4">{{ auth.designation }}</div>
+                  <div class="col-sm-4">{{ request.requestor.designation }}</div>
                 </div>
                 <div class="form-group row">
                   <label class="col-sm-2">Directorate :</label>
-                  <div class="col-sm-4">{{ auth.directorate }}</div>
+                  <div class="col-sm-4">{{ request.requestor.directorate }}</div>
                   <label class="col-sm-2">Department :</label>
-                  <div class="col-sm-4">{{ auth.department }}</div>
+                  <div class="col-sm-4">{{ request.requestor.department }}</div>
                 </div>
                 <div class="form-group row">
                   <label class="col-sm-2">Staff ID No :</label>
-                  <div class="col-sm-4">{{ auth.staff_id }}</div>
+                  <div class="col-sm-4">{{ request.requestor.staff_id }}</div>
                   <label class="col-sm-2">Phone No :</label>
-                  <div class="col-sm-4">{{ auth.mobile_contact }}</div>
+                  <div class="col-sm-4">{{ request.requestor.mobile_contact }}</div>
                 </div>
                 <div class="form-group row">
                   <label class="col-sm-2">Email Address :</label>
-                  <div class="col-sm-4">{{ auth.email }}</div>
+                  <div class="col-sm-4">{{ request.requestor.email }}</div>
                   <label class="col-sm-2">Signature :</label>
                   <div class="col-sm-4"></div>
                 </div>

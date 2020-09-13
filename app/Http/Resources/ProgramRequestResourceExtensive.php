@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\TravelScopeResource;
 use App\Http\Resources\VehicleHotelResource;
 use App\Http\Resources\BudgetResource;
+use App\Http\Resources\ProfileResource;
 use App\Http\Resources\TrailResource;
 use App\Http\Resources\AttachmentsResource;
 use App\Http\Resources\NotesResource;
@@ -24,6 +25,7 @@ class ProgramRequestResourceExtensive extends JsonResource
         return [
             'id' => $this->id,
             'user' => User::find($this->user_id)->fname . ' ' . User::find($this->user_id)->lname,
+            'requestor' => new ProfileResource(User::find($this->user_id)),
             'activity_type' => $this->activity_type,
             'documents' => $this->documents,
             'doc_completion_status' => $this->doc_completion_status,
