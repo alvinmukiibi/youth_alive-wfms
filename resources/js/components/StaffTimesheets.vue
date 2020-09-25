@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="form-row">
+    <div class="form-row d-print-none" >
       <div class="form-group col-md-6">
         <label for="inputEmail4">Select Staff</label>
         <select v-model="staff" class="form-control">
@@ -21,7 +21,7 @@
         ></vue-monthly-picker>
       </div>
     </div>
-    <div class="form-row">
+    <div class="form-row d-print-none">
       <button @click="loadTimesheet" class="btn btn-primary btn-flat btn-block">
         <b>Load</b>
       </button>
@@ -169,6 +169,7 @@
         </b-tr>
       </b-tbody>
     </b-table-simple>
+    <button @click="print()" class="btn btn-sm btn-primary d-print-none">PRINT</button>
     <hr />
   </div>
 </template>
@@ -213,6 +214,9 @@ export default {
       }
       let percentage = value.toFixed(1);
       return percentage;
+    },
+    print(){
+        window.print()
     },
     onlyNumber ($event) {
         let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
@@ -320,5 +324,17 @@ export default {
 };
 </script>
 
-<style lang="">
+<style scoped>
+input[type="text"] {
+  border: none;
+  background-color: none;
+  outline: 0;
+  width: 25px;
+}
+
+input[type="text"]:focus {
+  border: none;
+  background-color: none;
+  outline: 0;
+}
 </style>

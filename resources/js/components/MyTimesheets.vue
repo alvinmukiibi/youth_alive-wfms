@@ -186,6 +186,7 @@
                     </b-tr>
                   </b-tbody>
                 </b-table-simple>
+                <button @click="print()" class="btn btn-sm btn-primary d-print-none">PRINT</button>
                 <hr />
 
                 <!-- <button
@@ -242,6 +243,9 @@ export default {
         });
       }
       return sum;
+    },
+    print(){
+        window.print()
     },
     getPercentage(project) {
       let value = (project.sub_total / this.total) * 100;

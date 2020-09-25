@@ -23,7 +23,7 @@
           <div class="col-md-12">
             <div class="card card-outline card-primary">
               <div class="card-header">
-                <ul class="nav nav-pills">
+                <ul class="nav nav-pills d-print-none">
                   <li class="nav-item">
                     <a class="nav-link active" href="#mine" data-toggle="tab">My Timesheets</a>
                   </li>
