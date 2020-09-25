@@ -123,8 +123,10 @@ class TimesheetController extends BaseController
         $total_hours_worked = $timesheet->statistics->overtime_hours + $timesheet->statistics->worked_hours;
         $timesheet->statistics()->update(['total_hours_worked' => $total_hours_worked]);
 
-        $percentage =  $total_hours_worked / $timesheet->statistics->scheduled_hours * 100;
-        $timesheet->statistics()->update(['percentage_time' => $percentage]);
+        if($timesheet->statistics->scheduled_hours > 0){
+            $percentage =  $total_hours_worked / $timesheet->statistics->scheduled_hours * 100;
+            $timesheet->statistics()->update(['percentage_time' => $percentage]);
+        }
 
         return $this->sendResponse('success', 'success');
     }
@@ -138,8 +140,11 @@ class TimesheetController extends BaseController
 
         $total_hours_worked = $timesheet->statistics->overtime_hours + $timesheet->statistics->worked_hours;
         $timesheet->statistics()->update(['total_hours_worked' => $total_hours_worked]);
-        $percentage =  $total_hours_worked / $timesheet->statistics->scheduled_hours * 100;
-        $timesheet->statistics()->update(['percentage_time' => $percentage]);
+
+        if($timesheet->statistics->scheduled_hours > 0){
+            $percentage =  $total_hours_worked / $timesheet->statistics->scheduled_hours * 100;
+            $timesheet->statistics()->update(['percentage_time' => $percentage]);
+        }
 
         return $this->sendResponse('success', 'success');
     }
