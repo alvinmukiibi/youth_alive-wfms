@@ -9,6 +9,7 @@ use App\Timesheet;
 use App\User;
 use Illuminate\Http\Request;
 use App\TimesheetStatistic;
+use Illuminate\Support\Facades\Validator;
 
 class TimesheetController extends BaseController
 {
@@ -73,8 +74,27 @@ class TimesheetController extends BaseController
         return;
     }
 
+    public function validate_max_8($request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'value' => 'required|numeric|max:8',
+        ], [
+            'value.required' => 'Please select a value',
+            'value.max' => 'Value cannot be greater than 8 hours',
+        ]);
+
+        return $validator;
+    }
+
     public function saveScheduled(Request $request)
     {
+
+        $validator = $this->validate_max_8($request);
+
+        if ($validator->fails()) {
+            return $this->sendError('error', ['error' => $validator->errors()->first()]);
+        }
 
         $timesheet = Timesheet::find($request->timesheet);
 
@@ -127,6 +147,12 @@ class TimesheetController extends BaseController
     {
 
         $user = auth()->user();
+
+        $validator = $this->validate_max_8($request);
+
+        if ($validator->fails()) {
+            return $this->sendError('error', ['error' => $validator->errors()->first()]);
+        }
 
         $month = $request->month;
         $year = $request->year;

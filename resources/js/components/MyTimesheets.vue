@@ -1,5 +1,5 @@
 <template>
-  
+
               <div >
                 <div class="form-group row">
                   <label for="inputPassword" class="col-sm-2 col-form-label">Select Month</label>
@@ -72,9 +72,9 @@
                         colspan="16"
                       >{{ auth.designation + ', ' + auth.directorate }}</b-td>
                     </b-tr>
-                  
+
                     <b-tr>
-                     
+
                       <b-th colspan="2">Project</b-th>
                       <b-td variant="dark" v-for="day in month" :key="day + 300">{{ day }}</b-td>
                       <b-th>Total</b-th>
@@ -88,6 +88,9 @@
                           @change="saveSch(day, timesheet.scheduled['sch__' + day])"
                           v-model="timesheet.scheduled['sch__' + day]"
                           class="center"
+                          @keypress="onlyNumber"
+                          maxlength = 1
+
                         />
                       </b-td>
                       <b-th>{{ timesheet.statistics.scheduled_hours }}</b-th>
@@ -103,6 +106,8 @@
                           @change="save(day, project[day], project.project_id)"
                           v-model="project[day]"
                           class="center"
+                          @keypress="onlyNumber"
+                          maxlength = 1
                         />
                       </b-td>
                       <b-td>{{ project.sub_total ? project.sub_total : 0 }}</b-td>
@@ -165,6 +170,7 @@
                           @change="saveOvertime"
                           v-model="timesheet.statistics.overtime_hours"
                           class="center"
+                          @keypress="onlyNumber"
                         />
                       </b-td>
                     </b-tr>
@@ -189,7 +195,7 @@
                   <b>Submit Timesheet</b>
                 </button> -->
               </div>
-          
+
 </template>
 
 <script>
@@ -268,9 +274,22 @@ export default {
         timesheet: this.timesheet.id
       };
       api.saveSch(data).then(response => {
-        this.loadValues(this.period.format("YYYY-MM"));
-        this.showToast("primary", "Notification", "Saved!");
+
+        if(response.success){
+            this.showToast("primary", "Notification", "Saved!");
+            this.loadValues(this.period.format("YYYY-MM"));
+        }else{
+            this.showToast("warning", "Error", response.data.error);
+        }
+
+
       });
+    },
+    onlyNumber ($event) {
+        let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+        if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
+            $event.preventDefault();
+        }
     },
     save(field, value, project) {
       if (!value) {
@@ -292,8 +311,14 @@ export default {
         field: field
       };
       api.saveTimesheet(data).then(response => {
-        this.loadValues(this.period.format("YYYY-MM"));
-        this.showToast("success", "Notification", "Saved");
+
+        if(response.success){
+            this.showToast("success", "Notification", "Saverd");
+            this.loadValues(this.period.format("YYYY-MM"));
+        }else{
+            this.showToast("warning", "Error", response.data.error);
+        }
+
       });
     },
     showToast(variant, title, body) {
@@ -336,6 +361,9 @@ export default {
     currentDate() {
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
+      if(month < 10){
+          month = "0" + month;
+      }
       return year + "-" + month;
     },
     currentDateIsTimesheetDate() {

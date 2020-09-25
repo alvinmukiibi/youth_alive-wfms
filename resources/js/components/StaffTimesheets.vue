@@ -91,7 +91,7 @@
         <b-tr v-if="timesheet">
           <b-th colspan="2" variant="secondary">Scheduled Hours</b-th>
           <b-td v-for="day in month" :key="day + 140">
-            <input type="text" readonly v-model="timesheet.scheduled['sch__' + day]" class="center" />
+            <input type="text" @keypress="onlyNumber" readonly v-model="timesheet.scheduled['sch__' + day]" class="center" />
           </b-td>
           <b-th>{{ timesheet.statistics.scheduled_hours }}</b-th>
           <b-th></b-th>
@@ -101,7 +101,7 @@
         <b-tr v-for="project in timesheet.projects" :key="project.project_id">
           <b-td colspan="2">{{ project.name }}</b-td>
           <b-td v-for="day in month" :key="day">
-            <input type="text" readonly v-model="project[day]" class="center" />
+            <input type="text" @keypress="onlyNumber" readonly v-model="project[day]" class="center" />
           </b-td>
           <b-td>{{ project.sub_total ? project.sub_total : 0 }}</b-td>
           <b-th>{{ getPercentage(project) }}%</b-th>
@@ -150,6 +150,7 @@
           <b-td>
             <input
               type="text"
+              @keypress="onlyNumber"
               readonly
               v-model="timesheet.statistics.overtime_hours"
               class="center"
@@ -212,6 +213,12 @@ export default {
       }
       let percentage = value.toFixed(1);
       return percentage;
+    },
+    onlyNumber ($event) {
+        let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+        if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
+            $event.preventDefault();
+        }
     },
     sumOfDay(day) {
       let sum = 0;
