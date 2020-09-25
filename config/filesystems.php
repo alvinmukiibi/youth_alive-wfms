@@ -47,7 +47,13 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
-        
+
+        'Personal' => [
+            'driver' => 'local',
+            'root' => public_path('storage/file-manager/personal'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
         'General' => [
             'driver' => 'local',
             'root' => public_path('storage/file-manager/public'),
@@ -68,7 +74,7 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-         
+
 
         'public' => [
             'driver' => 'local',

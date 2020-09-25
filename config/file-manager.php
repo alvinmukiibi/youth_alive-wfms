@@ -19,7 +19,7 @@ return [
      *
      * Default - ConfigACLRepository (see rules in - aclRules)
      */
-    'aclRepository' => ConfigACLRepository::class,
+    'aclRepository' => CustomACLRepository::class,
 
     //********* Default configuration for DefaultConfigRepository **************
 
@@ -27,7 +27,7 @@ return [
      * List of disk names that you want to use
      * (from config/filesystems)
      */
-    'diskList' => ['General', 'Confidential', 'Classified'],
+    'diskList' => ['Personal','General', 'Confidential', 'Classified'],
 
     /**
      * Default disk for left manager
@@ -79,7 +79,7 @@ return [
      *
      * null - no restrictions
      */
-    'maxUploadFileSize' => '10000',
+    'maxUploadFileSize' => '100000',
 
     /**
      * File upload - Allow these file types
@@ -106,7 +106,7 @@ return [
      *
      * default - false(OFF)
      */
-    'acl' => false,
+    'acl' => true,
 
     /**
      * Hide files and folders from file-manager if user doesn't have access
@@ -122,7 +122,7 @@ return [
      *
      * whitelist - Deny anything(access - 0 - deny), that not allowed by the ACL rules list
      */
-    'aclStrategy' => 'blacklist',
+    'aclStrategy' => 'whitelist',
 
     /**
      * ACL Rules cache

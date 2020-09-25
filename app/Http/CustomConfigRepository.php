@@ -7,7 +7,7 @@ use Alexusmai\LaravelFileManager\Services\ConfigService\DefaultConfigRepository;
 class CustomConfigRepository extends DefaultConfigRepository
 {
     // implement all methods from interface
-    
+
     /**
      * Get disk list
      *
@@ -17,19 +17,25 @@ class CustomConfigRepository extends DefaultConfigRepository
      */
     public function getDiskList(): array
     {
-        $types = ['General'];
+        $types = ['Personal', 'General'];
 
         if (auth()->user()->user_type() == 'manager') {
             $types[] = 'Confidential';
         }
-        
+
         if (auth()->user()->user_type() == 'director') {
-            $types[] = 'Confidential';
             $types[] = 'Classified';
         }
-        
+
         return $types;
     }
+
+    public function getLeftDisk(): ?string
+    {
+
+        return 'General';
+    }
+
 }
 
 ?>
