@@ -23,7 +23,7 @@ class BudgetResource extends JsonResource
             'destination' => $this->destination,
             'purpose' => $this->purpose,
             'comments' => $this->comments,
-            'total' => \number_format($this->total),
+            'total' => $this->total,
             'items' => BudgetItemsResource::collection($this->travelscopebudgetitem),
             'contacts' => BudgetContactsResource::collection($this->travelscopebudgetcontact)
         ];

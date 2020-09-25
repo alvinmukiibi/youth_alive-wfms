@@ -89,13 +89,14 @@
                     </b-tr>
                     <b-tr v-for="item in items" :key="item.m">
                       <b-th class="text-center">
-                        <input type="number" min="0" v-model="item.no" class="form-control" />
+                        <input type="number" @keypress="onlyNumber"  min="0" v-model="item.no" class="form-control" />
                       </b-th>
                       <b-th class="text-center" colspan="2">
                         <input type="text" v-model="item.item" class="form-control" />
                       </b-th>
                       <b-th class="text-center">
                         <input
+                          @keypress="onlyNumber"
                           type="number"
                           min="0"
                           @change="calculateSubTotal(item)"
@@ -105,6 +106,7 @@
                       </b-th>
                       <b-th class="text-center">
                         <input
+                          @keypress="onlyNumber"
                           type="number"
                           min="0"
                           @change="calculateSubTotal(item)"
@@ -114,6 +116,7 @@
                       </b-th>
                       <b-th class="text-center">
                         <input
+                          @keypress="onlyNumber"
                           type="number"
                           min="0"
                           @change="calculateSubTotal(item)"
@@ -123,6 +126,7 @@
                       </b-th>
                       <b-th class="text-center">
                         <input
+                          @keypress="onlyNumber"
                           type="number"
                           min="0"
                           readonly
@@ -170,7 +174,7 @@
                         <input type="text" v-model="cont.position" class="form-control" />
                       </b-td>
                       <b-td colspan="1" class="text-center">
-                        <input type="text" v-model="cont.amount" class="form-control" />
+                        <input type="number"  @keypress="onlyNumber"  v-model="cont.amount" class="form-control" />
                       </b-td>
                     </b-tr>
                   </b-tbody>
@@ -276,6 +280,13 @@ export default {
     };
   },
   methods: {
+      onlyNumber ($event) {
+    //console.log($event.keyCode); //keyCodes value
+    let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+    if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
+        $event.preventDefault();
+    }
+    },
     save() {
       this.spinner = true;
       this.data.items = this.items;

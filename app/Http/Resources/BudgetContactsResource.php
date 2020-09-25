@@ -19,7 +19,7 @@ class BudgetContactsResource extends JsonResource
             'name' => $this->name,
             'contact' => $this->contact,
             'position' => $this->position,
-            'amount' => \number_format($this->amount)
+            'amount' => $this->amount
         ];
     }
 }
