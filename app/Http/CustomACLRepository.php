@@ -53,7 +53,7 @@
                 $result[] = ['disk' => 'Confidential', 'path' => '*', 'access' => 2];
             }
             if (Auth::user()->user_type() == 'director') {
-                $$result[] = ['disk' => 'Classified', 'path' => '*', 'access' => 2];
+                $result[] = ['disk' => 'Classified', 'path' => '*', 'access' => 2];
             }
 
             return $result;

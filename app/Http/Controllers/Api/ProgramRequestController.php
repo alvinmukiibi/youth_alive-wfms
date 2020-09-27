@@ -370,15 +370,7 @@ class ProgramRequestController extends BaseController
             }
         }
 
-        //get requests from the ED for approval
-        if(in_array('board_chairman', $user->arrayOfRoles())){
-            $all = ProgramRequest::all();
-            foreach($all as $our_req){
-                if($our_req->requestor->designation->name == 'Executive Director' && $our_req->trail->level_one_approval == 1){
-                    $reqs->push($our_req);
-                }
-            }
-        }
+
 
 
         // if the director is a finance director, then get director requests for level 1 approval
@@ -386,25 +378,22 @@ class ProgramRequestController extends BaseController
         if (auth()->user()->department_id == $dept_id) {
             $directorrequests = ProgramRequest::all();
             foreach ($directorrequests as $re) {
-                if ($re->trail->accountant_approval == 1 && ($re->getRequestorType() == 'director' || $re->requestor->user_type() =='board_chairman')) {
+                if ($re->trail->accountant_approval == 1 && ($re->getRequestorType() == 'director' /*|| $re->requestor->user_type() =='board_chairman'*/)) {
                     $reqs->push($re);
                 }
             }
         }
 
-        /**
-         * if the request came from ED, send it to the board chairman director for final approval
-         */
+         //get requests from the ED for  last approval
+        // if($user->designation->id == 2){ // if it is the board chairman
+        //     $all = ProgramRequest::all();
+        //     foreach($all as $our_req){
+        //         if($our_req->requestor->designation->id == 1 && $our_req->trail->level_one_approval == 1){
+        //             $reqs->push($our_req);
+        //         }
+        //     }
+        // }
 
-        $dept_id = Department::where('name', 'Finance and Operations')->value('id');
-        if (auth()->user()->department_id == $dept_id) {
-            $directorrequests = ProgramRequest::all();
-            foreach ($directorrequests as $re) {
-                if ($re->trail->accountant_approval == 1 && $re->getRequestorType() == 'director') {
-                    $reqs->push($re);
-                }
-            }
-        }
 
         $reqs = ProgramRequestResourceExtensive::collection($reqs);
         return $this->sendResponse($reqs, 'Requests for directors approval');
@@ -414,7 +403,7 @@ class ProgramRequestController extends BaseController
 
         $user = auth()->user();
 
-        $token = Token::where(['initiator' => $user->id, 'request' => $request->request_id, 'type' => $request->approvalType])->latest()->first();
+        $token = Token::where(['initiator' => $user->id, 'request' => $request->request_id, 'type' => $request->approvalType, 'token' => $request->token])->latest()->first();
 
         if ($token) {
             if ($token->status) {
@@ -474,7 +463,19 @@ class ProgramRequestController extends BaseController
             $traceability_id = 'level_one_approver_id';
             $traceability_date = 'level_one_approval_date';
             // for an officer
-            $this->notifyFinanceManager($req);
+            if($req->getRequestorType() != 'director')
+            {
+                $this->notifyFinanceManager($req);
+            }else{
+                if ($req->requestor->designation_id == 1) {
+                    /**
+                     * Also give level 2 approval
+                     */
+                    $this->giveSecondApprovalAtOnce($req, $request);
+                }
+
+                // notify executive director if its a normal director's request
+            }
         }
 
         if ($field == 'level_two_approval') {
@@ -500,6 +501,7 @@ class ProgramRequestController extends BaseController
 
                 // if requestor is the ED himself
                 if ($req->requestor->designation_id == 1) {
+
                     // notify all other directors
                     $directors = [];
                     $all_users = User::all();
@@ -556,6 +558,23 @@ class ProgramRequestController extends BaseController
 
         return $this->sendResponse('success', 'success');
     }
+    public function giveSecondApprovalAtOnce($req, $request){
+
+        $field = 'level_two_approval';
+        $traceability_id = 'level_two_approver_id';
+        $traceability_date = 'level_two_approval_date';
+
+        $trail = $req->trail;
+        $trail[$field] = true;
+        $trail[$traceability_id] = $request->user()->id;
+        $trail[$traceability_date] = date('d-M-Y H:i');
+        $trail->save();
+
+        return;
+
+
+
+    }
     public function notifyFinanceManager($request)
     {
 
@@ -570,7 +589,7 @@ class ProgramRequestController extends BaseController
             }
         }
         if (!$notified) {
-            $notified = User::first();
+            $notified = User::getAdministrator();
         }
 
         event(new RequestCreatedEvent($notified, $request->requestor));
@@ -581,14 +600,14 @@ class ProgramRequestController extends BaseController
 
         // get the director that heads the directorate where the dept of the requestor belongs
         $directorate_id = $request->requestor->department->directorate->id;
-        $users = User::where(['department_id' => null, 'directorate_id' => $directorate_id])->get();
+        $users = User::where(['directorate_id' => $directorate_id])->get();
         foreach ($users as $user) {
             if (in_array('director', $user->arrayOfRoles())) {
                 $notified = $user;
             }
         }
         if (!$notified) {
-            $notified = User::first();
+            $notified = User::getAdministrator();
         }
 
         event(new RequestCreatedEvent($notified, $request->requestor));

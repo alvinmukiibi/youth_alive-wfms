@@ -120,6 +120,16 @@ class User extends Authenticatable
 
     }
 
+    public function getAdministrator(){
+
+        foreach(User::all() as $user){
+            if(in_array('administrator', $this->arrayOfRoles())){
+                return $user;
+            }
+        }
+        return User::first();
+    }
+
     public function fullname(){
         return $this->fname . ' ' . $this->lname;
     }
@@ -208,7 +218,7 @@ class User extends Authenticatable
          * */
         $post = $this->user_type();
         $users = User::all();
-        $admin = User::first();
+        $admin = User::getAdministrator();
 
 
         switch ($post) {

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Department;
 use App\Directorate;
-use App\http\Resources\Departmentsresource;
+use App\Http\Resources\DepartmentsResource;
 
 class DepartmentsController extends BaseController
 {
