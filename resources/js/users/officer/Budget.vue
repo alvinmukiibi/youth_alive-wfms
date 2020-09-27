@@ -303,7 +303,7 @@ export default {
         this.items = [];
         this.contacts = [];
         this.$router.push('/request/trail')
-        // this.$parent.$emit("formSubmitted", "bgt");
+        this.$parent.$emit("formSubmitted", "bgt");
       });
     },
     showToast(variant, title, body) {

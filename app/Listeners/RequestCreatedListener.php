@@ -31,10 +31,10 @@ class RequestCreatedListener implements ShouldQueue
     public function handle(RequestCreatedEvent $event)
     {
         $notification = new RequestCreatedNotification;
-        $notification2 = new RequestUpdatedNotification;
+        // $notification2 = new RequestUpdatedNotification;
         $notification->user = $event->user;
-        $notification2->user = $event->requestor;
+        // $notification2->user = $event->requestor;
         Notification::send($event->user, $notification);
-        Notification::send($event->requestor, $notification2);
+        // Notification::send($event->requestor, $notification2);
     }
 }

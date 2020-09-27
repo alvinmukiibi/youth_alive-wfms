@@ -107,17 +107,17 @@ export default {
         })
         .then(response => {
           this.setRequest(response.data);
-          JSON.parse(this.request.doc_completion_status).forEach(mydoc => {
-            if (!mydoc.status) {
-              let r = this.documents.filter(d => d.acr == mydoc.doc)[0][
-                "route"
-              ];
-              this.$router.push(r);
-              return;
-            }else{
-                this.router.push('/request/trail')
-            }
-          });
+        //   JSON.parse(this.request.doc_completion_status).forEach(mydoc => {
+        //     if (!mydoc.status) {
+        //       let r = this.documents.filter(d => d.acr == mydoc.doc)[0][
+        //         "route"
+        //       ];
+        //       this.$router.push(r);
+        //       return;
+        //     }else{
+        //         this.router.push('/request/trail')
+        //     }
+        //   });
         });
     }
   },

@@ -211,7 +211,7 @@ export default {
         this.spinner = false;
         this.data = {};
         this.$router.push('/request/trail')
-        // this.$parent.$emit("formSubmitted", "tsw");
+        this.$parent.$emit("formSubmitted", "tsw");
       });
     },
     showToast(variant, title, body) {

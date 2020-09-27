@@ -317,7 +317,7 @@ export default {
       api.saveTimesheet(data).then(response => {
 
         if(response.success){
-            this.showToast("success", "Notification", "Saverd");
+            this.showToast("success", "Notification", "Saved");
             this.loadValues(this.period.format("YYYY-MM"));
         }else{
             this.showToast("warning", "Error", response.data.error);

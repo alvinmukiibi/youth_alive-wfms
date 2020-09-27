@@ -304,7 +304,7 @@ export default {
         this.spinner = false;
         this.data = {};
         this.$router.push('/request/trail')
-        // this.$parent.$emit("formSubmitted", "vhr");
+        this.$parent.$emit("formSubmitted", "vhr");
       });
     },
     showToast(variant, title, body) {
