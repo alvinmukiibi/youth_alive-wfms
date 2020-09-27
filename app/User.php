@@ -278,10 +278,10 @@ class User extends Authenticatable
                 break;
             case 'director':
                 // if you are the ED
-                if($this->designation->id == 1){
-                    $board_chairman = User::where('designation_id', 2)->first();
-                    return $board_chairman ? $board_chairman : $admin;
-                }
+                // if($this->designation->id == 1){
+                //     $board_chairman = User::where('designation_id', 2)->first();
+                //     return $board_chairman ? $board_chairman : $admin;
+                // }
                 $designation = Designation::where('name', 'Executive Director')->value('id');
                 $executive_director = User::where('designation_id', $designation)->first();
                 return $executive_director ? $executive_director : $admin;

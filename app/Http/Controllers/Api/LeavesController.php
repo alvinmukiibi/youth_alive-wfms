@@ -366,6 +366,14 @@ class LeavesController extends BaseController
                 $this->updateTracker($leave);
                 event(new LeaveRequestApprovedEvent($leave));
             }
+            if($leave->user->user_type() == 'manager' && $leave->user->department_id ==  $hr){
+                // request if from a manager, HR gives it final approval
+                $leave->status = 2;
+                // $leave->updated_by = $user->id;
+                $leave->save();
+                $this->updateTracker($leave);
+                event(new LeaveRequestApprovedEvent($leave));
+            }
             if($leave->user->user_type() == 'director'){
                 // request if from a director, HR gives it final approval
                 $leave->status = 2;
