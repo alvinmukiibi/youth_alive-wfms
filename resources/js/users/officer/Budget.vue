@@ -240,7 +240,7 @@ export default {
       total: 0,
       spinner: false,
       only_date: true,
-      position: "top",
+      position: "bottom",
       date_format: "YYYY-MM-DD",
       label: "Select Date",
       editor: ClassicEditor,
