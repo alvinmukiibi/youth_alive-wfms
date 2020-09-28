@@ -291,12 +291,15 @@ class ProgramRequestController extends BaseController
         $reqs = collect();
         if ($user->department->id == $pm->id) {
             $project = Project::where(['manager' => $user->id])->first();
-            $reqp = $project->requests;
-            foreach ($reqp as $req) {
-                if ($req->getRequestorType() == 'officer' && $req->trail->accountant_approval == 1) {
-                    $reqs->push($req);
+            if($project){
+                $reqp = $project->requests;
+                foreach ($reqp as $req) {
+                    if ($req->getRequestorType() == 'officer' && $req->trail->accountant_approval == 1) {
+                        $reqs->push($req);
+                    }
                 }
             }
+
         } else {
             $department = Department::find($user->department_id);
             $requests = $department->requests;
