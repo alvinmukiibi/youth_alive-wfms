@@ -11,8 +11,6 @@ Project Start: 19th August, 2019
 
 ETA: 3 Months
 
-Client: Youth Alive Uganda, Kamwokya, Kampala, Uganda
-
 Developers: Backend - Alvin Mukiibi Kelly
           : Frontend - Alvin Mukiibi Kelly
 
