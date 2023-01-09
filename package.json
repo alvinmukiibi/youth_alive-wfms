@@ -31,7 +31,7 @@
         "html2canvas": "^1.0.0-rc.5",
         "jspdf": "^1.5.3",
         "laravel-file-manager": "^2.4.10",
-        "luxon": "^1.18.0",
+        "luxon": "^2.5.2",
         "mdbvue": "^5.8.1",
         "moment": "^2.24.0",
         "v-money": "^0.8.1",
